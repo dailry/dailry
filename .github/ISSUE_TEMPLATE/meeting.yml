@@ -1,0 +1,21 @@
+name: 👏 Meeting
+description: 팀원들과 논의할 내용이 있나요?
+body:
+  - type: textarea
+    attributes:
+      label: 👏 회의 안건
+      description: 회의 주제에 대한 설명을 작성해주세요.
+      placeholder: ㅇㅇ에 대해서 이야기 해 봅시다.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ✅ 할 일
+      description: 해야할 일들을 적어주세요.
+      placeholder: 체크박스를 이용해주세요
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 🥨 기타
+      description: 더 하고싶은 말 및 자료를 첨부해주세요.

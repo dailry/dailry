@@ -1,0 +1,21 @@
+name: 🪄 Refactor
+description: 리팩터링을 해야할 부분이 있나요?
+body:
+  - type: textarea
+    attributes:
+      label: 🪄 리팩터링 내용
+      description: 왜, 어떻게 리팩터링을 할지 설명해 주세요.
+      placeholder: A의 어떤거를 이러한 이유로 바꿉시다.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ✅ 할 일
+      description: 해야할 일들을 적어주세요.
+      placeholder: 체크박스를 이용해주세요
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 🥨 기타
+      description: 더 하고싶은 말 및 자료를 첨부해주세요.
