@@ -1,21 +1,21 @@
-name: 💫 Feature
+name: 🌱 Feature
 description: 새로운 기능이 있나요?
 body:
   - type: textarea
     attributes:
-      label: 💫 Describe
+      label: 🌱 기능 설명
       description: 새로운 기능에 대한 설명을 작성해 주세요.
       placeholder: 이런 기능이 필요합니다
     validations:
       required: true
   - type: textarea
     attributes:
-      label: ✅ Todos
+      label: ✅ 할 일
       description: 해야할 일들을 적어주세요.
       placeholder: 체크박스를 이용해주세요
     validations:
       required: true
   - type: textarea
     attributes:
-      label: 🛎️ More
+      label: 🥨 기타
       description: 더 하고싶은 말 및 자료를 첨부해주세요.
