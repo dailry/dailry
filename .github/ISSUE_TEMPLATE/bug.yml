@@ -1,5 +1,5 @@
 name: 🐞 Bug
-description: "버그가 발생했나요?"
+description: 버그가 발생했나요?
 body:
   - type: textarea
     attributes:
@@ -10,7 +10,7 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: Environment
+      label: 🌏 Environment
       description: 재현 방법 및 버그발생 환경에 대해 알려주세요.
       placeholder: |
         OS: macOS 12.2.1
@@ -26,6 +26,6 @@ body:
       required: false
   - type: textarea
     attributes:
-      label: More
+      label: 🛎️ More
       description: 더 하고싶은 말 및 자료를 첨부해주세요.
       placeholder: 해결방법 제안도 좋습니다:)

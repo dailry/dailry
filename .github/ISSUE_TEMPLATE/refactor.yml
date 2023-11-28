@@ -10,11 +10,12 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: Todos
+      label: ✅ Todos
       description: 해야할 일들을 적어주세요.
+      placeholder: 체크박스를 이용해주세요
     validations:
       required: true
   - type: textarea
     attributes:
-      label: More
+      label: 🛎️ More
       description: 더 하고싶은 말 및 자료를 첨부해주세요.
