@@ -1,0 +1,31 @@
+name: 🐞 Bug
+description: "버그가 발생했나요?"
+body:
+  - type: textarea
+    attributes:
+      label: 🐞 Describe
+      description: 버그에 대한 설명을 작성해 주세요.
+      placeholder: A로 작동을 예상했는데 B로 작동합니다.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Environment
+      description: 재현 방법 및 버그발생 환경에 대해 알려주세요.
+      placeholder: |
+        OS: macOS 12.2.1
+        버튼이 먹통입니다.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 📄 Logs
+      description: 로그 있으면 복붙해 주세요.
+      render: shell
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: More
+      description: 더 하고싶은 말 및 자료를 첨부해주세요.
+      placeholder: 해결방법 제안도 좋습니다:)
