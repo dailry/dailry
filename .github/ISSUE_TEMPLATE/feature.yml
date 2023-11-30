@@ -1,4 +1,6 @@
 name: 🌱 Feature
+labels:
+  - 🌱 신규 기능
 description: 새로운 기능이 있나요?
 body:
   - type: textarea

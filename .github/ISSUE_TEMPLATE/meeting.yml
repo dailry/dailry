@@ -1,4 +1,6 @@
 name: 👏 Meeting
+labels:
+  - 👏 회의
 description: 팀원들과 논의할 내용이 있나요?
 body:
   - type: textarea

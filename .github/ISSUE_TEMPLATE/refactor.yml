@@ -1,4 +1,6 @@
 name: 🪄 Refactor
+labels:
+  - 🪄 리팩터링
 description: 리팩터링을 해야할 부분이 있나요?
 body:
   - type: textarea
