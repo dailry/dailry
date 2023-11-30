@@ -1,4 +1,6 @@
 name: 👏 Meeting
+projects:
+  - 다일리 일정관리
 labels:
   - 👏 회의
 description: 팀원들과 논의할 내용이 있나요?
