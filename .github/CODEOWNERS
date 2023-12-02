@@ -1,0 +1,8 @@
+# Automatically set front-end reviewers when front-end files are changed
+/frontend/ @puranium235 @kwoncha
+
+# Automatically set back-end reviewers when back-end files are changed
+/backend/ @gomudayya @SSUHYUNKIM
+
+# Default (None of above two)
+@puranium235 @kwoncha @gomudayya @SSUHYUNKIM

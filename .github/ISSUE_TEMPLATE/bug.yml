@@ -1,4 +1,8 @@
 name: 🐞 Bug
+projects:
+  - 다일리 일정관리
+labels:
+  - 🐞 버그
 description: 버그가 발생했나요?
 body:
   - type: textarea
