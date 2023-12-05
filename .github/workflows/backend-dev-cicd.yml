@@ -9,6 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
+        #Github Action Runner 환경에서 빌드
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set up JDK 17
@@ -20,4 +21,13 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build
 
-        # aws S3에 전달
+        # AWS S3에 빌드파일 배포
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+      - name: Forward to S3
+        run: aws s3 sync ./build/. s3://da-ily-bucket
+
