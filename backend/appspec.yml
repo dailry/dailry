@@ -1,0 +1,21 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /home/ubuntu/app
+permissions:
+  - object: /home/ubuntu/app/scripts
+    pattern: "*.sh"
+    mode: 777
+    type:
+      - file
+  - object: /home/ssm-user/app/build/libs
+    pattern: "*.jar"
+    mode: 777
+    type:
+      - file
+hooks:
+  AfterInstall:
+    - location: scripts/deploy.sh
+      timeout: 180
