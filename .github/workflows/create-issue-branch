@@ -1,0 +1,28 @@
+# 이슈가 Open될 때 라벨정보를 바탕으로 브랜치를 생성
+name: create branch based on issue
+
+on:
+  issues:
+    types:
+      - opened
+      
+jobs:
+  create-branch:
+    if: contains(github.event.issue.labels.*.name, '🌱 신규 기능')
+    runs-on: ubuntu-latest
+    env:
+      ISSUE_NUMBER: ${{ github.event.issue.number }}
+      GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+
+    #branch name : feat/[be] or [fe]/#[issue number]
+    steps:
+      - name: Set up dynamic value about branch name (1)
+        if: contains(github.event.issue.labels.*.name, 'BE')
+        run: echo "BRNACH_NAME_SECOND_TOKEN=be" >> $GITHUB_ENV
+      - name: Set up dynamic value about branch name (2)
+        if: contains(github.event.issue.labels.*.name, 'fe')
+        run: echo "BRNACH_NAME_SECOND_TOKEN=fe" >> $GITHUB_ENV
+      - name: Create Branch
+        uses: peterjgrainger/action-create-branch@v2.3.0
+        with:
+          branch: refs/heads/feat/${{ env.BRNACH_NAME_SECOND_TOKEN }}/#${{ env.ISSUE_NUMBER }}
