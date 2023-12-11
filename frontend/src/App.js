@@ -16,7 +16,6 @@ const App = () => {
       <Route path={PATH_NAME.Login} element={<LoginPage />} />
       <Route path={PATH_NAME.Register} element={<RegisterPage />} />
       <Route path={PATH_NAME.Daily} element={<DailyPage />} />
-      <Route path={PATH_NAME.MyPage} element={<DailyPage />} />
       <Route path={PATH_NAME.MyPage} element={<MyPage />} />
       <Route path={PATH_NAME.Community} element={<CommunityPage />} />
       <Route path={PATH_NAME.AdminMembers} element={<AdminMembersPage />} />
