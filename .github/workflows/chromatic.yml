@@ -5,18 +5,20 @@ name: 'Chromatic Deployment'
 # Event for the workflow
 on:
   pull_request:
-    branches: [ 'develop' ]
+    branches: 
+      - develop
     paths: 
-      - 'frontend/**'
+      - frontend/**
+
+defaults:
+  run:
+    working-directory: frontend
 
 # List of jobs
 jobs:
   test:
     # Operating System
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
     
     # Job steps
     steps:
