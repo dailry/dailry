@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyles = createGlobalStyle`
     *, *::before, *::after {
         box-sizing: border-box;
         margin: 0;
@@ -32,4 +32,4 @@ const GlobalStyle = createGlobalStyle`
         cursor: not-allowed;
     }
 `;
-export default GlobalStyle;
+export default GlobalStyles;
