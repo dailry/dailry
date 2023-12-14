@@ -4,9 +4,10 @@ name: 'Chromatic Deployment'
 
 # Event for the workflow
 on:
-  push:
-    branches:
-      - 'develop'
+  pull_request:
+    branches: [ 'develop' ]
+    paths: 
+      - 'frontend/**'
 
 # List of jobs
 jobs:
