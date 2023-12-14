@@ -3,13 +3,20 @@
 name: 'Chromatic Deployment'
 
 # Event for the workflow
-on: push
+on:
+  push:
+    branches:
+      - develop
 
 # List of jobs
 jobs:
   test:
     # Operating System
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    
     # Job steps
     steps:
       - uses: actions/checkout@v1
