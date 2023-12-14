@@ -54,8 +54,8 @@
     "@storybook/addon-essentials": "^7.5.3",
     "@storybook/addon-interactions": "^7.5.3",
     "@storybook/addon-links": "^7.5.3",
-    "@storybook/addon-themes": "^7.6.4",
     "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/addon-themes": "^7.6.4",
     "@storybook/blocks": "^7.5.3",
     "@storybook/preset-create-react-app": "^7.5.3",
     "@storybook/react": "^7.5.3",
@@ -64,6 +64,7 @@
     "@storybook/test": "^7.6.4",
     "@storybook/testing-library": "^0.2.2",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "chromatic": "^10.1.0",
     "eslint": "^8.54.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.0.0",
@@ -77,5 +78,7 @@
     "react-scripts": "5.0.1",
     "storybook": "^7.5.3",
     "webpack": "^5.89.0"
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "da-ily@0.1.0"
 }
