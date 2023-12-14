@@ -15,21 +15,10 @@ const sizes = {
     font-size: 16px;
   `,
 };
-const themes = {
-  normal: css`
-    background-color: ${FORM.button};
-  `,
-  disabled: css`
-    background-color: ${FORM.buttonDisabled};
-  `,
-};
 export const Container = styled.button`
   color: ${TEXT.white};
   text-align: center;
-  ${({ size = 'lg' }) => {
-    return sizes[size];
-  }}
-  ${({ theme = 'normal' }) => {
-    return themes[theme];
-  }}
+  background-color: ${({ disabled = false }) =>
+    disabled ? FORM.buttonDisabled : FORM.button};
+  ${({ size = 'lg' }) => sizes[size]};
 `;
