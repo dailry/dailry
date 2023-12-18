@@ -6,6 +6,7 @@ import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.exception.DuplicatedNicknameException;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
 import com.daily.daily.member.repository.MemberRepository;
+import com.fasterxml.jackson.core.PrettyPrinter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,18 @@ public class MemberService {
         return MemberInfoDTO.from(member);
     }
 
+    public boolean existsByUsername(String username) {
+        return memberRepository.existsByUsername(username);
+    }
+
+    public boolean existsByNickname(String nickname) {
+        return memberRepository.existsByNickname(nickname);
+    }
+
+    public boolean existsByEmail(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
     private void validateJoinMember(Member member) {
         if (existsByUsername(member.getUsername())) {
             throw new DuplicatedUsernameException();
@@ -40,11 +53,4 @@ public class MemberService {
         }
     }
 
-    public boolean existsByUsername(String username) {
-        return memberRepository.existsByUsername(username);
-    }
-
-    public boolean existsByNickname(String nickname) {
-        return memberRepository.existsByNickname(nickname);
-    }
 }

@@ -2,8 +2,10 @@ package com.daily.daily.member.controller;
 
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.dto.DuplicateResponseDTO;
+import com.daily.daily.member.dto.EmailDTO;
 import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
+import com.daily.daily.member.dto.NicknameDTO;
 import com.daily.daily.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,5 +61,24 @@ public class MemberController {
         }
 
         return new DuplicateResponseDTO(false);
+    }
+
+    @Secured(value = "ROLE_MEMBER")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/check-email")
+    public DuplicateResponseDTO checkDuplicatedEmail(@Valid EmailDTO emailDTO) {
+        if (memberService.existsByEmail(emailDTO.getEmail())) {
+            return new DuplicateResponseDTO(true);
+        }
+
+        return new DuplicateResponseDTO(false);
+    }
+
+//    @Secured(value = "ROLE_MEMBER")
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/nickname")
+    public MemberInfoDTO updateNickname(@RequestBody @Valid NicknameDTO nicknameDTO) {
+
+        return null;
     }
 }
