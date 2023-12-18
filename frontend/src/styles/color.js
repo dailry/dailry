@@ -20,7 +20,7 @@ export const HOME = Object.freeze({
 
 export const FORM = Object.freeze({
   input: '#9d9d9d',
-  inputClick: '#616161',
+  inputFocused: '#616161',
   inputDisabled: '#c0c0c0',
   button: '#87a5eb',
   buttonClick: '#87a5eb',
