@@ -1,3 +1,5 @@
 spring:
   config:
-    import: optional:file:/home/ubuntu/config/real-application.yml
+    import:
+      - optional:file:/home/ubuntu/config/application-dev.yml
+      - optional:application-local.yml   #로컬 환경에서 개발할 때 각자 local.yml 파일을 작성해서 사용. *local.yml 파일은 깃에 올라가지 않음(gitignore)
