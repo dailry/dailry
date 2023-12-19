@@ -9,7 +9,7 @@ const OnesideTemplate = ({ children }) => {
   );
 };
 
-OnesideTemplate.PropTypes = {
+OnesideTemplate.propTypes = {
   children: PropTypes.elementType,
 };
 
