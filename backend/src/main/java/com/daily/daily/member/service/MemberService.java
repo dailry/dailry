@@ -6,13 +6,14 @@ import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.exception.DuplicatedNicknameException;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
 import com.daily.daily.member.repository.MemberRepository;
-import com.fasterxml.jackson.core.PrettyPrinter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MemberService {
 
     private final PasswordEncoder passwordEncoder;
@@ -28,6 +29,13 @@ public class MemberService {
 
         member.initializeNickname();
 
+        return MemberInfoDTO.from(member);
+    }
+
+    public MemberInfoDTO updateNickname(Member member, String nickname) {
+        validateDuplicatedNickname(nickname);
+
+        member.updateNickname(nickname);
         return MemberInfoDTO.from(member);
     }
 
@@ -48,9 +56,12 @@ public class MemberService {
             throw new DuplicatedUsernameException();
         }
         if (member.getNickname() == null) return;
-        if (existsByNickname(member.getNickname())) {
+        validateDuplicatedNickname(member.getNickname());
+    }
+
+    private void validateDuplicatedNickname(String nickname) {
+        if (existsByNickname(nickname)) {
             throw new DuplicatedNicknameException();
         }
     }
-
 }

@@ -74,11 +74,13 @@ public class MemberController {
         return new DuplicateResponseDTO(false);
     }
 
-//    @Secured(value = "ROLE_MEMBER")
+    @Secured(value = "ROLE_MEMBER")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/nickname")
-    public MemberInfoDTO updateNickname(@RequestBody @Valid NicknameDTO nicknameDTO) {
-
-        return null;
+    public MemberInfoDTO updateNickname(
+            @RequestBody @Valid NicknameDTO nicknameDTO,
+            @AuthenticationPrincipal Member member
+    ) {
+        return memberService.updateNickname(member, nicknameDTO.getNickname());
     }
 }
