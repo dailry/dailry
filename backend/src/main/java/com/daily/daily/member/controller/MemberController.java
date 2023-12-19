@@ -7,7 +7,7 @@ import com.daily.daily.member.dto.EmailDTO;
 import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.NicknameDTO;
-import com.daily.daily.member.dto.PasswordDTO;
+import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -82,14 +82,11 @@ public class MemberController {
     ) {
         return memberService.updateNickname(member, nicknameDTO.getNickname());
     }
-
     @Secured(value = "ROLE_MEMBER")
-    @PostMapping("/password-verify")
-    public ResponseEntity<CommonResponseDTO> verifyPassword(@RequestBody PasswordDTO passwordDTO, @AuthenticationPrincipal Member member) {
-        if (memberService.verifyPassword(passwordDTO.getPassword(), member.getPassword())) {
-            return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()),HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(new CommonResponseDTO(false, HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
+    @PatchMapping("/password")
+    @ResponseStatus(HttpStatus.OK)
+    public CommonResponseDTO updatePassword(@RequestBody @Valid PasswordUpdateDTO passwordUpdateDTO, @AuthenticationPrincipal Member member) {
+        memberService.updatePassword(passwordUpdateDTO, member);
+        return new CommonResponseDTO(true, HttpStatus.OK.value());
     }
 }

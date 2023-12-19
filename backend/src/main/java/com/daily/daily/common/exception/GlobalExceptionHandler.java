@@ -3,6 +3,7 @@ package com.daily.daily.common.exception;
 import com.daily.daily.common.dto.ExceptionResponseDTO;
 import com.daily.daily.member.exception.DuplicatedNicknameException;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
+import com.daily.daily.member.exception.PasswordUnmatchedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({DuplicatedUsernameException.class,
             DuplicatedNicknameException.class})
-    public ResponseEntity<ExceptionResponseDTO> handleDuplicatedDateException(IllegalArgumentException e) {
+    public ResponseEntity<ExceptionResponseDTO> handleDuplicatedException(IllegalArgumentException e) {
         return new ResponseEntity<>(new ExceptionResponseDTO(e.getMessage(), HttpStatus.CONFLICT.value()), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler({
+            PasswordUnmatchedException.class
+    })
+    public ResponseEntity<ExceptionResponseDTO> handlePasswordUnmatchedException(IllegalArgumentException e) {
+        return new ResponseEntity<>(new ExceptionResponseDTO(e.getMessage(), HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
     }
 }
