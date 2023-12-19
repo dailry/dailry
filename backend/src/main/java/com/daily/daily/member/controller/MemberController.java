@@ -88,5 +88,6 @@ public class MemberController {
     public CommonResponseDTO updatePassword(@RequestBody @Valid PasswordUpdateDTO passwordUpdateDTO, @AuthenticationPrincipal Member member) {
         memberService.updatePassword(passwordUpdateDTO, member);
         return new CommonResponseDTO(true, HttpStatus.OK.value());
+
     }
 }

@@ -14,7 +14,6 @@ import java.util.regex.Matcher;
 @Getter
 @Setter
 public class JoinDTO {
-
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "특수문자를 제외한 문자만 입력하세요.")
     @Length(min = 4, max = 15)
     @NotBlank

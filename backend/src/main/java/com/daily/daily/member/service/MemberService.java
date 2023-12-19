@@ -82,7 +82,7 @@ public class MemberService {
         }
         return false;
     }
-
+    
     public boolean existsByUsername(String username) {
         return memberRepository.existsByUsername(username);
     }
@@ -94,6 +94,4 @@ public class MemberService {
     public boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);
     }
-
-
 }

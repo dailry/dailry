@@ -30,7 +30,6 @@ public class Member extends BaseTimeEntity implements UserDetails {
     private String password;
     private String nickname;
     private String email;
-
     @Enumerated(EnumType.STRING)
     private MemberRole role = MemberRole.ROLE_MEMBER;
 
@@ -77,5 +76,4 @@ public class Member extends BaseTimeEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }
