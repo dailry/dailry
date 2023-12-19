@@ -10,7 +10,7 @@ const OnesideTemplate = ({ children }) => {
 };
 
 OnesideTemplate.propTypes = {
-  children: PropTypes.elementType,
+  children: PropTypes.node,
 };
 
 export default OnesideTemplate;
