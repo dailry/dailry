@@ -29,7 +29,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
     private String username;
     private String password;
     private String nickname;
-
+    private String email;
     @Enumerated(EnumType.STRING)
     private MemberRole role = MemberRole.ROLE_MEMBER;
 
@@ -45,7 +45,13 @@ public class Member extends BaseTimeEntity implements UserDetails {
             nickname = String.format("다일리%d", id);
         }
     }
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
+    public void updatePassword(String password) {
+        this.password = password;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> role.name());
