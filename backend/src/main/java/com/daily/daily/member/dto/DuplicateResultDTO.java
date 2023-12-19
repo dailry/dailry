@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class DuplicateResponseDTO {
+public class DuplicateResultDTO {
     private boolean isDuplicated;
 }

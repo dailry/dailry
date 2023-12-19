@@ -1,11 +1,13 @@
 package com.daily.daily.member.controller;
 
+import com.daily.daily.common.dto.CommonResponseDTO;
 import com.daily.daily.member.domain.Member;
-import com.daily.daily.member.dto.DuplicateResponseDTO;
+import com.daily.daily.member.dto.DuplicateResultDTO;
 import com.daily.daily.member.dto.EmailDTO;
 import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.NicknameDTO;
+import com.daily.daily.member.dto.PasswordDTO;
 import com.daily.daily.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +20,8 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/member")
@@ -44,34 +43,34 @@ public class MemberController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/check-username")
-    public DuplicateResponseDTO checkDuplicatedUsername(String username) {
+    public DuplicateResultDTO checkDuplicatedUsername(String username) {
         System.out.println(username);
         if (memberService.existsByUsername(username)) {
-            return new DuplicateResponseDTO(true);
+            return new DuplicateResultDTO(true);
         }
 
-        return new DuplicateResponseDTO(false);
+        return new DuplicateResultDTO(false);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/check-nickname")
-    public DuplicateResponseDTO checkDuplicatedNickname(String nickname) {
+    public DuplicateResultDTO checkDuplicatedNickname(String nickname) {
         if (memberService.existsByNickname(nickname)) {
-            return new DuplicateResponseDTO(true);
+            return new DuplicateResultDTO(true);
         }
 
-        return new DuplicateResponseDTO(false);
+        return new DuplicateResultDTO(false);
     }
 
     @Secured(value = "ROLE_MEMBER")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/check-email")
-    public DuplicateResponseDTO checkDuplicatedEmail(@Valid EmailDTO emailDTO) {
+    public DuplicateResultDTO checkDuplicatedEmail(@Valid EmailDTO emailDTO) {
         if (memberService.existsByEmail(emailDTO.getEmail())) {
-            return new DuplicateResponseDTO(true);
+            return new DuplicateResultDTO(true);
         }
 
-        return new DuplicateResponseDTO(false);
+        return new DuplicateResultDTO(false);
     }
 
     @Secured(value = "ROLE_MEMBER")
@@ -82,5 +81,15 @@ public class MemberController {
             @AuthenticationPrincipal Member member
     ) {
         return memberService.updateNickname(member, nicknameDTO.getNickname());
+    }
+
+    @Secured(value = "ROLE_MEMBER")
+    @PostMapping("/password-verify")
+    public ResponseEntity<CommonResponseDTO> verifyPassword(@RequestBody PasswordDTO passwordDTO, @AuthenticationPrincipal Member member) {
+        if (memberService.verifyPassword(passwordDTO.getPassword(), member.getPassword())) {
+            return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()),HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(new CommonResponseDTO(false, HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
     }
 }

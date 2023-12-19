@@ -64,4 +64,11 @@ public class MemberService {
             throw new DuplicatedNicknameException();
         }
     }
+
+    public boolean verifyPassword(String inputPassword, String memberPassword) {
+        if (passwordEncoder.matches(inputPassword, memberPassword)) {
+            return true;
+        }
+        return false;
+    }
 }
