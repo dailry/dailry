@@ -2,7 +2,7 @@ branchName: '${issue.number}'
 branches:
   - label: '👏 회의'
     skip: true
-  - label: '🪄 리팩터링'
+  - label: '✨ 리팩터링'
     prefix: refactor/
   - label: '🐞 버그'
     prefix: bugfix/

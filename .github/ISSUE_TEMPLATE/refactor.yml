@@ -1,13 +1,13 @@
-name: 🪄 Refactor
+name: ✨ Refactor
 projects:
   - 다일리 일정관리
 labels:
-  - 🪄 리팩터링
+  - ✨ 리팩터링
 description: 리팩터링을 해야할 부분이 있나요?
 body:
   - type: textarea
     attributes:
-      label: 🪄 리팩터링 내용
+      label: ✨ 리팩터링 내용
       description: 왜, 어떻게 리팩터링을 할지 설명해 주세요.
       placeholder: A의 어떤거를 이러한 이유로 바꿉시다.
     validations:
