@@ -29,6 +29,7 @@ export const InputContainer = styled.div`
 `;
 
 export const InputArea = styled.input`
+  flex: 1;
   border: none;
 
   &:focus {
