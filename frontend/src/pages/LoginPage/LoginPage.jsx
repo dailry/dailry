@@ -1,5 +1,4 @@
 // Login, FindId, SentId, SentPasswordReset
-import PropTypes from 'prop-types';
 import * as S from './LoginPage.styled';
 import OnesideTemplate from '../Template/OnesideTemplate';
 import Text from '../../components/common/Text/Text';
