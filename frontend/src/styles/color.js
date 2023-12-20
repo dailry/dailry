@@ -14,6 +14,8 @@ export const TEXT = Object.freeze({
   disabled: '#616161',
   error: '#f85555',
   valid: '#4db15d',
+  line: '#c0c0c0',
+  googleLogin: 'rgba(0, 0, 0, 0.54)',
 });
 
 export const HOME = Object.freeze({
@@ -43,4 +45,11 @@ export const MENU = Object.freeze({
   boxMouseOver: 'rgba(0, 0, 0, 0.1)',
   boxCurrent: '#ffffff',
   tool: '#74abd9',
+});
+
+export const LOGIN = Object.freeze({
+  googleText: '#888888',
+  googleBorder: '#c0c0c0',
+  kakaoText: 'rgba(0, 0, 0, 0.85)',
+  kakaoBackground: '#fee500',
 });

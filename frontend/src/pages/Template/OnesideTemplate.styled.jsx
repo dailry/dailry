@@ -23,4 +23,5 @@ export const Container = styled.div`
 
   border-radius: 8px;
   background-color: ${BACKGROUND.bright};
+  box-shadow: 0 4px 4px #00000040;
 `;
