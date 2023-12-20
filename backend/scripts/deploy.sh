@@ -3,6 +3,7 @@
 APP_PATH=/home/ubuntu/app
 JAR_PATH=$APP_PATH/build/libs/*.jar
 JAR_NAME=$(basename $JAR_PATH)
+CONFIG_PATH=/home/ubuntu/config/application-dev.yml
 
 OLD_VERSION_PID="$(pgrep -f $JAR_NAME)"
 LOG_PATH=/home/ubuntu/app-log
@@ -14,12 +15,16 @@ else
 fi
 
 #new version start
-nohup java -jar -Dserver.port=$DEPLOY_PORT $JAR_PATH ${JAR_PATH} 1>>$LOG_PATH/app-log.out 2>>$LOG_PATH/err-log.out &
+nohup java -jar -Dserver.port=$DEPLOY_PORT -Dspring.config.location=$CONFIG_PATH $JAR_PATH ${JAR_PATH} 1>>$LOG_PATH/app-log.out 2>>$LOG_PATH/err-log.out &
+sleep 20
 
 #health check...
-
-
-
+if [ -n "$(netstat -nlpt | grep ${DEPLOY_PORT})" ]; then
+  echo "new version deploy is completed"
+else
+  echo "new version is not running"
+  exit 1
+fi
 
 #if health check is successful, kill old version
 sleep 10
