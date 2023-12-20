@@ -1,16 +1,19 @@
 name: backend-dev-ci-cd
-
 on:
   push:
     branches:
       - 'develop'
+    paths:
+      - 'backend/**'
+      - '.github/**'
 
 jobs:
   build:
     runs-on: ubuntu-22.04
+
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17 for x64
