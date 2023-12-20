@@ -1,5 +1,12 @@
+# CI 환경에서 컴파일을하기 위한 위한 임시 jwt 정보입니다.
+jwt:
+  secret-key: tempdaily1212312dailyakgpweogkawepofkdsplkfapokawegwaejhiawjhoiawehjoiawebjklsdjvlzsjdvklzsjdvmaweggaweawegsdgbdfbmfgh
+  expiration: 18000000 #300분    #밀리세컨드 단위
+  refresh-token:
+    expiration: 604800000 # 7 days
+
+
 spring:
   config:
     import:
-      - optional:file:/home/ubuntu/config/application-dev.yml
       - optional:application-local.yml   #로컬 환경에서 개발할 때 각자 local.yml 파일을 작성해서 사용. *local.yml 파일은 깃에 올라가지 않음(gitignore)
