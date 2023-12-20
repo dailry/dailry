@@ -2,16 +2,14 @@ package com.daily.daily.member.domain;
 
 import com.daily.daily.common.domain.BaseTimeEntity;
 import com.daily.daily.member.constant.MemberRole;
+import com.daily.daily.oauth.constant.SocialType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -21,6 +19,8 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Member extends BaseTimeEntity implements UserDetails {
 
     @Id
@@ -31,14 +31,10 @@ public class Member extends BaseTimeEntity implements UserDetails {
     private String nickname;
     private String email;
     @Enumerated(EnumType.STRING)
-    private MemberRole role = MemberRole.ROLE_MEMBER;
-
-    @Builder
-    public Member(String username, String password, String nickname) {
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-    }
+    private MemberRole role = MemberRole.MEMBER;
+    private String socialId;
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
 
     public void initializeNickname() {
         if (nickname == null) {
