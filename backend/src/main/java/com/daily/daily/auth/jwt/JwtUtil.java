@@ -1,5 +1,8 @@
 package com.daily.daily.auth.jwt;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.daily.daily.member.repository.MemberRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -8,6 +11,9 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,16 +26,29 @@ import java.util.Date;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
+@Getter
 public class JwtUtil {
+    private final MemberRepository memberRepository;
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String USERNAME_CLAIM = "username";
+    private static final String ACCESS_TOKEN = "AccessToken";
+    private static final String REFRESH_TOKEN = "RefreshToken";
 
     @Value("${jwt.expiration}")
     private long expiration;
+    @Value("${jwt.refresh.expiration}")
+    private Long refreshTokenExpirationPeriod;
 
     @Value("${jwt.secret-key}")
     private String secret;
     private SecretKey secretKey;
+
+    @Value("${jwt.access.header}")
+    private String accessHeader;
+
+    @Value("${jwt.refresh.header}")
+    private String refreshHeader;
 
     @PostConstruct
     public void init() {
@@ -82,5 +101,30 @@ public class JwtUtil {
                 .getPayload();
 
         return payload.get(USERNAME_CLAIM, String.class);
+    }
+
+    public String createRefreshToken() {
+        Date now = new Date();
+        return JWT.create()
+                .withSubject(REFRESH_TOKEN)
+                .withExpiresAt(new Date(now.getTime() + refreshTokenExpirationPeriod))
+                .sign(Algorithm.HMAC512(secret));
+    }
+
+    public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
+        response.setStatus(HttpServletResponse.SC_OK);
+
+        setAccessTokenHeader(response, accessToken);
+        setRefreshTokenHeader(response, refreshToken);
+        log.info("Access Token, Refresh Token 헤더 설정 완료");
+    }
+
+
+    public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
+        response.setHeader(accessHeader, accessToken);
+    }
+
+    public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
+        response.setHeader(refreshHeader, refreshToken);
     }
 }

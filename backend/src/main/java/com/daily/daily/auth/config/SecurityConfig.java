@@ -1,8 +1,11 @@
-package com.daily.daily.auth;
+package com.daily.daily.auth.config;
 
 import com.daily.daily.auth.jwt.JwtAuthorizationFilter;
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.auth.service.MemberDetailsService;
+import com.daily.daily.oauth.handler.OAuth2FailureHandler;
+import com.daily.daily.oauth.handler.OAuth2SuccessHandler;
+import com.daily.daily.oauth.service.CustomOAuth2UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +37,12 @@ public class SecurityConfig {
     private final MemberDetailsService memberDetailsService;
 
     private final ObjectMapper objectMapper;
+
+    private final CustomOAuth2UserService principalOauth2UserService;
+
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+
+    private final OAuth2FailureHandler oAuth2FailureHandler;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.addFilter(corsFilter());
@@ -45,6 +54,13 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
         );
         http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.oauth2Login(configurer -> configurer
+                .successHandler(oAuth2SuccessHandler)
+                .failureHandler(oAuth2FailureHandler)
+                .userInfoEndpoint(endpointConfig -> endpointConfig
+                        .userService(principalOauth2UserService))
+        );
+
         return http.build();
     }
     @Bean
