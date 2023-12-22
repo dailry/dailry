@@ -35,7 +35,7 @@ public class JwtUtil {
     private static final String ACCESS_TOKEN = "AccessToken";
     private static final String REFRESH_TOKEN = "RefreshToken";
 
-    @Value("${jwt.expiration}")
+    @Value("${jwt.access.expiration}")
     private long expiration;
     @Value("${jwt.refresh.expiration}")
     private Long refreshTokenExpirationPeriod;
