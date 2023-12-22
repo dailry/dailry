@@ -45,6 +45,14 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+task copySubmoduleYml(type: Copy) {
+	copy {
+		from './submodule'
+		include "*.yml"
+		into 'src/main/resources'
+	}
+}
+
 jar {
 	enabled = false
 }
