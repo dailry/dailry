@@ -1,6 +1,7 @@
 package com.daily.daily.member.dto;
 
 
+import com.daily.daily.member.constant.MemberRole;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.validator.Nickname;
 import jakarta.annotation.Nullable;
@@ -37,6 +38,7 @@ public class JoinDTO {
                 .username(username)
                 .password(password)
                 .nickname(nickname)
+                .role(MemberRole.ROLE_MEMBER)
                 .build();
     }
 }
