@@ -31,7 +31,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
     private String nickname;
     private String email;
     @Enumerated(EnumType.STRING)
-    private MemberRole role = MemberRole.MEMBER;
+    private MemberRole role = MemberRole.ROLE_MEMBER;
     private String socialId;
     @Enumerated(EnumType.STRING)
     private SocialType socialType;

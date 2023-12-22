@@ -34,7 +34,7 @@ class MemberRepositoryTest {
                 .username(TEST_USERNAME)
                 .nickname(TEST_NICKNAME)
                 .email(TEST_EMAIL)
-                .role(MemberRole.MEMBER)
+                .role(MemberRole.ROLE_MEMBER)
                 .build();
 
         memberRepository.save(testMember);
@@ -46,7 +46,8 @@ class MemberRepositoryTest {
 
         assertThat(findMember.getUsername()).isEqualTo(TEST_USERNAME);
         assertThat(findMember.getNickname()).isEqualTo(TEST_NICKNAME);
-        assertThat(findMember.getRole()).isEqualTo(MemberRole.MEMBER);    }
+        assertThat(findMember.getRole()).isEqualTo(MemberRole.ROLE_MEMBER);
+    }
 
     @Test
     void existsByUsername() {
@@ -70,7 +71,7 @@ class MemberRepositoryTest {
     void existsByEmail() {
         boolean isExist = memberRepository.existsByEmail(TEST_EMAIL);
         boolean isNotExist = memberRepository.existsByEmail("존재하지 않는 email");
-        
+
         assertThat(isExist).isTrue();
         assertThat(isNotExist).isFalse();
     }
