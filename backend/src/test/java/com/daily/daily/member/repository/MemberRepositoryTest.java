@@ -44,14 +44,9 @@ class MemberRepositoryTest {
         Member findMember = memberRepository.findByUsername(TEST_USERNAME)
                 .orElseThrow(NoSuchElementException::new);
 
-        assertFromFindMember(findMember);
-    }
-
-    private static void assertFromFindMember(Member findMember) {
         assertThat(findMember.getUsername()).isEqualTo(TEST_USERNAME);
         assertThat(findMember.getNickname()).isEqualTo(TEST_NICKNAME);
-        assertThat(findMember.getRole()).isEqualTo(MemberRole.MEMBER);
-    }
+        assertThat(findMember.getRole()).isEqualTo(MemberRole.MEMBER);    }
 
     @Test
     void existsByUsername() {
@@ -75,6 +70,7 @@ class MemberRepositoryTest {
     void existsByEmail() {
         boolean isExist = memberRepository.existsByEmail(TEST_EMAIL);
         boolean isNotExist = memberRepository.existsByEmail("존재하지 않는 email");
+        
         assertThat(isExist).isTrue();
         assertThat(isNotExist).isFalse();
     }
