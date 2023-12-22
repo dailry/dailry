@@ -1,4 +1,10 @@
-export const BACKGROUND = Object.freeze({});
+export const BACKGROUND = Object.freeze({
+  gradient:
+    'linear-gradient(180deg, rgb(100, 164, 214) 0%, rgb(199, 130, 194) 99.88%);',
+  darkGradient:
+    'linear-gradient(180deg, rgb(168.29, 86.39, 162.35) 0%, rgb(58.51, 117.75, 164.04) 100%)',
+  bright: '#ffffff',
+});
 
 export const TEXT = Object.freeze({
   black: '#000000',
@@ -8,6 +14,8 @@ export const TEXT = Object.freeze({
   disabled: '#616161',
   error: '#f85555',
   valid: '#4db15d',
+  line: '#c0c0c0',
+  googleLogin: 'rgba(0, 0, 0, 0.54)',
 });
 
 export const HOME = Object.freeze({
@@ -20,7 +28,7 @@ export const HOME = Object.freeze({
 
 export const FORM = Object.freeze({
   input: '#9d9d9d',
-  inputClick: '#616161',
+  inputFocused: '#616161',
   inputDisabled: '#c0c0c0',
   button: '#87a5eb',
   buttonClick: '#87a5eb',
@@ -37,4 +45,11 @@ export const MENU = Object.freeze({
   boxMouseOver: 'rgba(0, 0, 0, 0.1)',
   boxCurrent: '#ffffff',
   tool: '#74abd9',
+});
+
+export const LOGIN = Object.freeze({
+  googleText: '#888888',
+  googleBorder: '#c0c0c0',
+  kakaoText: 'rgba(0, 0, 0, 0.85)',
+  kakaoBackground: '#fee500',
 });
