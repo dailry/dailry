@@ -97,24 +97,41 @@ class MemberServiceTest {
     @Test
     @DisplayName("비밀번호를 변경할 때, 현재 입력된 비밀번호가 올바르지 않으면 PasswordUnmatchedException이 발생한다.")
     void updatePassword1() {
-         //given
-        Member member = Member.builder()
-                .id(1L)
-                .username("username1")
-                .nickname("nickname")
-                .password(new BCryptPasswordEncoder().encode("myPassword123"))
-                .build();
+        //given
+        Member testMember = createTestMember("myPassword123");
 
         PasswordUpdateDTO wrongPasswordDTO = new PasswordUpdateDTO("wrongPassword", "updatePassword");
-        PasswordUpdateDTO correctPasswordDTO = new PasswordUpdateDTO("myPassword123", "updatePassword");
-        when(memberRepository.findById(1L)).thenReturn(Optional.of(member));
+        when(memberRepository.findById(1L)).thenReturn(Optional.of(testMember));
 
         MemberService testMemberService = new MemberService(new BCryptPasswordEncoder(), memberRepository); // 실제 BCrypt인코더 주입, memberRepository는 Mock객체
 
         //when, then
-        assertThatThrownBy(() -> testMemberService.updatePassword(wrongPasswordDTO, member))
+        assertThatThrownBy(() -> testMemberService.updatePassword(wrongPasswordDTO, testMember))
                 .isInstanceOf(PasswordUnmatchedException.class); // wrong case
 
-        testMemberService.updatePassword(correctPasswordDTO, member); // correct case. no exception
+    }
+
+    @Test
+    @DisplayName("비밀번호를 변경할 때, 현재 입력된 비밀번호가 올바르면 예외가 발생하지 않는다.")
+    void updatePassword2() {
+        //given
+        Member testMember = createTestMember("myPassword123");
+
+        PasswordUpdateDTO correctPasswordDTO = new PasswordUpdateDTO("myPassword123", "updatePassword");
+        when(memberRepository.findById(1L)).thenReturn(Optional.of(testMember));
+
+        MemberService testMemberService = new MemberService(new BCryptPasswordEncoder(), memberRepository); // 실제 BCrypt인코더 주입, memberRepository는 Mock객체
+
+        //when, then
+        testMemberService.updatePassword(correctPasswordDTO, testMember); // correct case. no exception
+    }
+
+    private Member createTestMember(String password) {
+        return Member.builder()
+                .id(1L)
+                .username("username1")
+                .nickname("nickname")
+                .password(new BCryptPasswordEncoder().encode(password))
+                .build();
     }
 }
