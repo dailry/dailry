@@ -27,7 +27,10 @@ public class AuthServiceTest {
 
     @BeforeEach
     void join() {
-        JoinDTO joinDTO = new JoinDTO("testtset", "test1234", "난폭한사자");
+        JoinDTO joinDTO = new JoinDTO();
+        joinDTO.setUsername("testtset");
+        joinDTO.setPassword("test1234");
+        joinDTO.setNickname("난폭한사자");
         memberController.join(joinDTO);
         System.out.println("join");
     }
