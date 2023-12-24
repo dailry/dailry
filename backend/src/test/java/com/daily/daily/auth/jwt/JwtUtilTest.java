@@ -29,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-@RunWith(SpringRunner.class)
 public class JwtUtilTest {
 
     @Autowired
