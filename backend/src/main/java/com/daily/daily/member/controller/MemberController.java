@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,7 +44,7 @@ public class MemberController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/check-username")
-    public DuplicateResultDTO checkDuplicatedUsername(String username) {
+    public DuplicateResultDTO checkDuplicatedUsername(@RequestParam("username") String username) {
         System.out.println(username);
         if (memberService.existsByUsername(username)) {
             return new DuplicateResultDTO(true);
@@ -54,7 +55,7 @@ public class MemberController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/check-nickname")
-    public DuplicateResultDTO checkDuplicatedNickname(String nickname) {
+    public DuplicateResultDTO checkDuplicatedNickname(@RequestParam("nickname") String nickname) {
         if (memberService.existsByNickname(nickname)) {
             return new DuplicateResultDTO(true);
         }
@@ -88,6 +89,5 @@ public class MemberController {
     public CommonResponseDTO updatePassword(@RequestBody @Valid PasswordUpdateDTO passwordUpdateDTO, @AuthenticationPrincipal Member member) {
         memberService.updatePassword(passwordUpdateDTO, member);
         return new CommonResponseDTO(true, HttpStatus.OK.value());
-
     }
 }
