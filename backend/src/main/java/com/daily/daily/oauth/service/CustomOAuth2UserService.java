@@ -37,7 +37,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String registrationId = oAuth2UserRequest.getClientRegistration().getRegistrationId();
         SocialType socialType = getSocialType(registrationId);
         String userNameAttributeName = oAuth2UserRequest.getClientRegistration()
-                .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName(); // OAuth2 로그인 시 키(PK)가 되는 값
+                .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
         OAuthAttributes extractAttributes = OAuthAttributes.of(socialType, userNameAttributeName, attributes);
