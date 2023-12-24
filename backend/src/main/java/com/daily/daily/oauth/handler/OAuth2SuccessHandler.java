@@ -32,7 +32,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         try {
             OAuth2CustomUser oAuth2User = (OAuth2CustomUser) authentication.getPrincipal();
 
-            if(oAuth2User.getMemberRole() == MemberRole.MEMBER) {
+            if(oAuth2User.getMemberRole() == MemberRole.ROLE_MEMBER) {
                 String accessToken = jwtUtil.generateToken(oAuth2User.getUsername());
                 response.addHeader(jwtUtil.getAccessHeader(), accessToken);
                 response.sendRedirect("/"); // 프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
