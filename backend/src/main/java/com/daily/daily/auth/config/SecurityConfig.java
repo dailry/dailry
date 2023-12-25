@@ -31,21 +31,15 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
-
-    private final JwtUtil jwtUtil;
-
-    private final MemberDetailsService memberDetailsService;
-
-    private final ObjectMapper objectMapper;
-
+    private final CorsFilter corsFilter;
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
     private final CustomOAuth2UserService principalOauth2UserService;
-
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
-
     private final OAuth2FailureHandler oAuth2FailureHandler;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.addFilter(corsFilter());
+        http.addFilter(corsFilter);
         http.csrf(CsrfConfigurer::disable);
         http.sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.httpBasic(AbstractHttpConfigurer::disable);
@@ -53,7 +47,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(registry -> registry
                 .anyRequest().permitAll()
         );
-        http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
         http.oauth2Login(configurer -> configurer
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler)
@@ -63,32 +57,15 @@ public class SecurityConfig {
 
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/api/**", config);
-
-        return new CorsFilter(source);
-    }
-
-    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
-    }
-
-    @Bean
-    public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(jwtUtil, memberDetailsService, objectMapper);
     }
 }

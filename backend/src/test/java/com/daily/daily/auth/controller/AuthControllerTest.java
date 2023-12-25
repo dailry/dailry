@@ -11,13 +11,13 @@ import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -99,16 +99,21 @@ class AuthControllerTest {
     @Test
     @DisplayName("정상적으로 응답 후 토큰값이 리턴되었는지 확인한다.")
     void loginReturn() throws Exception  {
-
         String url = "http://localhost:8080/api/login";
+
 
         String username = "testtest";
         String password = "12341234";
         LoginDto loginDto = new LoginDto();
+        JoinDTO joinDTO = new JoinDTO();
+        joinDTO.setUsername(username);
+        joinDTO.setPassword(password);
+        memberController.join(joinDTO);
+
         loginDto.setUsername(username);
         loginDto.setPassword(password);
 
-        mockMvc.perform(post(url)
+        mockMvc.perform(post("/api/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(loginDto)))
                 .andExpect(status().isOk())
@@ -117,6 +122,7 @@ class AuthControllerTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("정상적으로 로그인이 되는지 테스트합니다.")
     public void shouldAuthenticate() throws Exception {
         String username = "testtest";
@@ -152,6 +158,7 @@ class AuthControllerTest {
     }
 
     @DisplayName("로그인을 테스트합니다.(2)")
+    @WithMockUser
     @Test
     void loginTest2() throws Exception {
         JSONObject jsonObject = new JSONObject();

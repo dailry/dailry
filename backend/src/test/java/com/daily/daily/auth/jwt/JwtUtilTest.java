@@ -7,7 +7,6 @@ import com.daily.daily.auth.dto.LoginDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,7 +19,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,7 +62,6 @@ public class JwtUtilTest {
     @Test
     @DisplayName("생성된 토큰을 검증합니다.")
     void verifyJwt() throws Exception {
-
         //given
         String jwtToken = "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsInVzZXJuYW1lIjoidGVzdHRlc3QiLCJleHAiOjE3MDMzNjU2MTd9.3hJKelQmVWoLS0OoEtRayCazqsr9cV6fM7Awk7KlbDybuhPG4N5ejeUacRhcyXj-NqRTAz5E1iTo8SIFx_h41Q";
 
@@ -139,7 +136,6 @@ public class JwtUtilTest {
         System.out.println("테스트 : " + jwtToken);
 
         resultActions.andExpect(status().isOk());
-        assertNotNull(jwtToken);
         assertTrue(jwtToken.startsWith(JwtUtil.BEARER_PREFIX));
     }
 

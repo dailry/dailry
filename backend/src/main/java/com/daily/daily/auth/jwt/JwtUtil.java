@@ -3,12 +3,14 @@ package com.daily.daily.auth.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.daily.daily.member.repository.MemberRepository;
+import com.nimbusds.jwt.JWTClaimNames;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SecurityException;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,6 +25,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -58,21 +61,12 @@ public class JwtUtil {
     public String generateToken(String username) {
         return BEARER_PREFIX + Jwts.builder()
                 .issuer("https://daily.com")
+                .claim(JWTClaimNames.SUBJECT, username)
                 .claim(USERNAME_CLAIM, username)
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(secretKey, Jwts.SIG.HS512)
                 .compact();
     }
-
-    public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            return bearerToken.substring(BEARER_PREFIX.length());
-        }
-        return null;
-    }
-
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
