@@ -24,54 +24,33 @@ import java.util.Map;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberRepository memberRepository;
-    private static final String NAVER = "naver";
-    private static final String KAKAO = "kakao";
+
+    OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         log.info("CustomOAuth2UserService.loadUser() 실행 - OAuth2 로그인 요청 진입");
 
-        OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = oAuth2UserService.loadUser(oAuth2UserRequest);
-
+        Map<String, Object> attributes = oAuth2User.getAttributes();
         String registrationId = oAuth2UserRequest.getClientRegistration().getRegistrationId();
-        SocialType socialType = getSocialType(registrationId);
+        SocialType socialType = SocialType.getSocialType(registrationId);
         String userNameAttributeName = oAuth2UserRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-        Map<String, Object> attributes = oAuth2User.getAttributes();
-
-        OAuthAttributes extractAttributes = OAuthAttributes.of(socialType, userNameAttributeName, attributes);
-
-        Member createdMember = getMember(extractAttributes, socialType);
+        OAuthAttributes extractAttributes = OAuthAttributes.of(socialType, userNameAttributeName, oAuth2User.getAttributes());
+        Member member = memberRepository.findBySocialTypeAndSocialId(socialType, extractAttributes.getOauth2UserInfo().getId())
+                .orElseGet(() -> saveMember(extractAttributes, socialType));
 
         return new OAuth2CustomUser(
-                Collections.singleton(new SimpleGrantedAuthority(createdMember.getRole().name())),
+                Collections.singleton(new SimpleGrantedAuthority(member.getRole().name())),
                 attributes,
                 extractAttributes.getNameAttributeKey(),
-                createdMember.getEmail(),
-                createdMember.getUsername(),
-                createdMember.getRole()
+                member
         );
     }
 
-    private SocialType getSocialType(String registrationId) {
-        if(KAKAO.equals(registrationId)) {
-            return SocialType.KAKAO;
-        }
-        return SocialType.GOOGLE;
-    }
-
-    private Member getMember(OAuthAttributes attributes, SocialType socialType) {
-        Member findMember = memberRepository.findBySocialTypeAndSocialId(socialType,
-                attributes.getOauth2UserInfo().getId()).orElse(null);
-
-        if(findMember == null) {
-            return saveMember(attributes, socialType);
-        }
-        return findMember;
-    }
-
     private Member saveMember(OAuthAttributes attributes, SocialType socialType) {
+        System.out.println("save: " + attributes);
         Member createdUser = attributes.toEntity(socialType, attributes.getOauth2UserInfo());
         return memberRepository.save(createdUser);
     }

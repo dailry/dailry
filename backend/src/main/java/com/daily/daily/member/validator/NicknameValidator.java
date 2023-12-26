@@ -3,7 +3,6 @@ package com.daily.daily.member.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
 public class NicknameValidator implements ConstraintValidator<Nickname, String> {
@@ -44,8 +43,7 @@ public class NicknameValidator implements ConstraintValidator<Nickname, String> 
             }
         }
 
-        if (size > MAX_SIZE) return false;
-        return true;
+        return size <= MAX_SIZE;
     }
 
     private boolean isAlphabeticOrNumber(char c) {

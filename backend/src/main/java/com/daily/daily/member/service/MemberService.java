@@ -1,6 +1,5 @@
 package com.daily.daily.member.service;
 
-import com.daily.daily.common.dto.CommonResponseDTO;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
@@ -14,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -86,10 +83,7 @@ public class MemberService {
     }
 
     private boolean verifyPassword(String inputPassword, String memberPassword) {
-        if (passwordEncoder.matches(inputPassword, memberPassword)) {
-            return true;
-        }
-        return false;
+        return passwordEncoder.matches(inputPassword, memberPassword);
     }
 
     public boolean existsByUsername(String username) {
