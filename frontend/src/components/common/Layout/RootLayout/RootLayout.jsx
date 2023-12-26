@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { Outlet } from 'react-router-dom';
 import {
   Background,
@@ -5,14 +7,24 @@ import {
   PageContainer,
 } from './RootLayout.styled';
 
-const RootLayout = () => {
+const RootLayout = (props) => {
+  const { navigation: Navigation, pageTemplate: PageTemplate } = props;
   return (
     <Background>
-      <NavigationContainer></NavigationContainer>
+      <NavigationContainer>
+        <Navigation />
+      </NavigationContainer>
       <PageContainer>
-        <Outlet />
+        <PageTemplate>
+          <Outlet />
+        </PageTemplate>
       </PageContainer>
     </Background>
   );
 };
 export default RootLayout;
+
+RootLayout.propTypes = {
+  navigation: PropTypes.elementType,
+  pageTemplate: PropTypes.elementType,
+};
