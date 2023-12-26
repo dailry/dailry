@@ -33,7 +33,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             OAuth2CustomUser oAuth2User = (OAuth2CustomUser) authentication.getPrincipal();
 
             if(oAuth2User.getMemberRole() == MemberRole.ROLE_MEMBER) {
-                String accessToken = jwtUtil.generateToken(oAuth2User.getUsername());
+                /**
+                 * Jwt 토큰 생성시 MemberId와 Role을 넣어주세요!!
+                 * oAuth2User.getMemberId() , oAuth2User.getMemberRole()
+                 * ex)jwtUtil.generateToken(oAuth2User.gettMemberId(), oAuth2User.getMemberRole())
+                 */
+                
+                String accessToken = jwtUtil.generateToken(1L, MemberRole.ROLE_MEMBER);
+//                jwtUtil.generateToken(oAuth2User.getUsername())
                 response.addHeader(jwtUtil.getAccessHeader(), accessToken);
                 response.sendRedirect("/"); // 프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
 
@@ -46,7 +53,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         }
     }
     private void loginSuccess(HttpServletResponse response, OAuth2CustomUser oAuth2User) throws IOException {
-        String accessToken = jwtUtil.generateToken(oAuth2User.getUsername());
+        String accessToken = jwtUtil.generateToken(1L, MemberRole.ROLE_MEMBER);
         String refreshToken = jwtUtil.createRefreshToken();
         response.addHeader(jwtUtil.getAccessHeader(), "Bearer " + accessToken);
         response.addHeader(jwtUtil.getRefreshHeader(), "Bearer " + refreshToken);

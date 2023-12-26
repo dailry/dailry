@@ -1,6 +1,7 @@
 package com.daily.daily.auth.controller;
 
-import com.daily.daily.auth.dto.LoginDto;
+import com.daily.daily.auth.dto.JwtClaimDTO;
+import com.daily.daily.auth.dto.LoginDTO;
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.auth.service.AuthService;
 import com.daily.daily.common.dto.ExceptionResponseDTO;
@@ -18,17 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-
     private final JwtUtil jwtUtil;
-    @PostMapping("/login")
-    public ResponseEntity<ExceptionResponseDTO> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
-        try {
-            authService.login(loginDto);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new ExceptionResponseDTO(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
-        }
 
-        response.setHeader("Authorization", jwtUtil.generateToken(loginDto.getUsername()));
+    @PostMapping("/login")
+    public ResponseEntity<ExceptionResponseDTO> login(@RequestBody LoginDTO loginDto, HttpServletResponse response) {
+        JwtClaimDTO claimDTO = authService.login(loginDto);
+
+        response.setHeader("Authorization", jwtUtil.generateToken(claimDTO.getMemberId(), claimDTO.getRole()));
         return ResponseEntity.ok().body(new ExceptionResponseDTO("로그인 성공", HttpStatus.OK.value()));
     }
 }

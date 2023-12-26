@@ -1,25 +1,24 @@
 package com.daily.daily.member.controller;
 
-import com.daily.daily.common.dto.ExceptionResponseDTO;
+import com.daily.daily.auth.jwt.JwtAuthorizationFilter;
+import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.NicknameDTO;
 import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
 import com.daily.daily.member.service.MemberService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -36,7 +35,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(MemberController.class)
+@WebMvcTest(value = MemberController.class, excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtAuthorizationFilter.class),
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtUtil.class),
+})
 @MockBean(JpaMetamodelMappingContext.class)
 class MemberControllerTest {
     @Autowired
@@ -96,16 +98,29 @@ class MemberControllerTest {
                 .andExpect(jsonPath("$.statusCode").value(409));
     }
 
-    /**
-     * 얘는 Authnetication Principal 리팩토링 하고 작성하는게 좋을듯
-     */
     @Test
     @WithMockUser
-    void getMemberByAccessToken() {
+    void getMemberByAccessToken() throws Exception {
+        //given
+        MemberInfoDTO expected = new MemberInfoDTO(1L, "geonwoo123", "난폭한사자");
+        given(memberService.findById(Mockito.any())).willReturn(expected);
         String token = "testJwtToken";
-        MemberInfoDTO expected = new MemberInfoDTO(1L, "geonwoo123", "미친고양이");
 
-        
+        //when
+        ResultActions actions = mockMvc.perform(get("/api/member")
+                .header("Authorization", token)
+                .with(csrf())
+        );
+
+        //then
+        String content = actions.andExpect(status().isOk())
+                .andDo(print())
+                .andReturn()
+                .getResponse()
+                .getContentAsString(StandardCharsets.UTF_8);
+
+        MemberInfoDTO actual = objectMapper.readValue(content, MemberInfoDTO.class);
+        assertThat(actual).isEqualTo(expected);
     }
     @WithMockUser
     @Test
@@ -179,11 +194,6 @@ class MemberControllerTest {
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$.duplicated").value(false));
     }
-
-    @Test
-    void checkDuplicatedEmail() {
-    }
-
     @WithMockUser
     @Test
     void updateNickname() throws Exception {

@@ -1,6 +1,6 @@
 package com.daily.daily.auth.service;
 
-import com.daily.daily.auth.dto.LoginDto;
+import com.daily.daily.auth.dto.LoginDTO;
 import com.daily.daily.member.controller.MemberController;
 import com.daily.daily.member.dto.JoinDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +44,7 @@ public class AuthServiceTest {
         String password = "test1234";
 
         //when
-        LoginDto loginDto = new LoginDto();
+        LoginDTO loginDto = new LoginDTO();
         loginDto.setUsername(username);
         loginDto.setPassword(password);
 

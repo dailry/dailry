@@ -90,7 +90,7 @@ class MemberServiceTest {
         when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
 
         //when, then
-        assertThatThrownBy(() -> memberService.updateNickname(member, "바꾸고 싶은 닉네임"))
+        assertThatThrownBy(() -> memberService.updateNickname(1L, "바꾸고 싶은 닉네임"))
                 .isInstanceOf(DuplicatedNicknameException.class);
     }
 
@@ -106,7 +106,7 @@ class MemberServiceTest {
         MemberService testMemberService = new MemberService(new BCryptPasswordEncoder(), memberRepository); // 실제 BCrypt인코더 주입, memberRepository는 Mock객체
 
         //when, then
-        assertThatThrownBy(() -> testMemberService.updatePassword(wrongPasswordDTO, testMember))
+        assertThatThrownBy(() -> testMemberService.updatePassword(wrongPasswordDTO, 1L))
                 .isInstanceOf(PasswordUnmatchedException.class); // wrong case
 
     }
@@ -123,7 +123,7 @@ class MemberServiceTest {
         MemberService testMemberService = new MemberService(new BCryptPasswordEncoder(), memberRepository); // 실제 BCrypt인코더 주입, memberRepository는 Mock객체
 
         //when, then
-        testMemberService.updatePassword(correctPasswordDTO, testMember); // correct case. no exception
+        testMemberService.updatePassword(correctPasswordDTO, 1L); // correct case. no exception
     }
 
     private Member createTestMember(String password) {

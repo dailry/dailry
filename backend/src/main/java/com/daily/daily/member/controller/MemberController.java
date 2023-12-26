@@ -38,8 +38,8 @@ public class MemberController {
     @Secured(value = "ROLE_MEMBER")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public MemberInfoDTO getMemberByAccessToken(@AuthenticationPrincipal Member member) {
-        return MemberInfoDTO.from(member);
+    public MemberInfoDTO getMemberByAccessToken(@AuthenticationPrincipal Long id) {
+        return memberService.findById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -79,15 +79,15 @@ public class MemberController {
     @PatchMapping("/nickname")
     public MemberInfoDTO updateNickname(
             @RequestBody @Valid NicknameDTO nicknameDTO,
-            @AuthenticationPrincipal Member member
+            @AuthenticationPrincipal Long id
     ) {
-        return memberService.updateNickname(member, nicknameDTO.getNickname());
+        return memberService.updateNickname(id, nicknameDTO.getNickname());
     }
     @Secured(value = "ROLE_MEMBER")
     @PatchMapping("/password")
     @ResponseStatus(HttpStatus.OK)
-    public CommonResponseDTO updatePassword(@RequestBody @Valid PasswordUpdateDTO passwordUpdateDTO, @AuthenticationPrincipal Member member) {
-        memberService.updatePassword(passwordUpdateDTO, member);
+    public CommonResponseDTO updatePassword(@RequestBody @Valid PasswordUpdateDTO passwordUpdateDTO, @AuthenticationPrincipal Long id) {
+        memberService.updatePassword(passwordUpdateDTO, id);
         return new CommonResponseDTO(true, HttpStatus.OK.value());
     }
 }

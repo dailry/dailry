@@ -1,6 +1,8 @@
 package com.daily.daily.auth.jwt;
 
+import com.daily.daily.auth.dto.JwtClaimDTO;
 import com.daily.daily.common.dto.ExceptionResponseDTO;
+import com.daily.daily.member.constant.MemberRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.FilterChain;
@@ -8,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -62,11 +65,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private void setAuthInSecurityContext(String accessToken) {
-        String username = jwtUtil.extractUsername(accessToken);
+        JwtClaimDTO claimDTO = jwtUtil.extractClaims(accessToken);
+
+        Long memberId = claimDTO.getMemberId();
+        MemberRole role = claimDTO.getRole();
+
         Authentication authentication =
-                new UsernamePasswordAuthenticationToken(username, null, List.of(() -> "ROLE_USER"));
+                new UsernamePasswordAuthenticationToken(memberId, null, List.of(role::name));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
-
 }

@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -36,6 +38,13 @@ public class MemberService {
         return MemberInfoDTO.from(member);
     }
 
+    public MemberInfoDTO findById(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(MemberNotFoundException::new);
+
+        return MemberInfoDTO.from(member);
+    }
+
     private void validateJoinMember(Member member) {
         if (existsByUsername(member.getUsername())) {
             throw new DuplicatedUsernameException();
@@ -50,8 +59,8 @@ public class MemberService {
         }
     }
 
-    public MemberInfoDTO updateNickname(Member member, String nickname) {
-        Member findMember = memberRepository.findById(member.getId())
+    public MemberInfoDTO updateNickname(Long id, String nickname) {
+        Member findMember = memberRepository.findById(id)
                 .orElseThrow(MemberNotFoundException::new);
 
         validateDuplicatedNickname(nickname);
@@ -61,8 +70,8 @@ public class MemberService {
     }
 
 
-    public void updatePassword(PasswordUpdateDTO passwordUpdateDTO, Member member) {
-        Member findMember = memberRepository.findById(member.getId())
+    public void updatePassword(PasswordUpdateDTO passwordUpdateDTO, Long id) {
+        Member findMember = memberRepository.findById(id)
                 .orElseThrow(MemberNotFoundException::new);
 
         String presentPassword = passwordUpdateDTO.getPresentPassword();
@@ -82,7 +91,7 @@ public class MemberService {
         }
         return false;
     }
-    
+
     public boolean existsByUsername(String username) {
         return memberRepository.existsByUsername(username);
     }

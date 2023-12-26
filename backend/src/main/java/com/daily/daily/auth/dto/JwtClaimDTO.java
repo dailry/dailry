@@ -8,7 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ClaimDTO {
+public class JwtClaimDTO {
     private Long memberId;
     private MemberRole role;
 }

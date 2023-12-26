@@ -1,24 +1,32 @@
 package com.daily.daily.auth.service;
 
-import com.daily.daily.auth.dto.LoginDto;
+import com.daily.daily.auth.dto.JwtClaimDTO;
+import com.daily.daily.auth.dto.LoginDTO;
+import com.daily.daily.auth.exception.LoginFailureException;
+import com.daily.daily.member.domain.Member;
+import com.daily.daily.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final AuthenticationManager authenticationManager;
+    private final MemberRepository memberRepository;
 
-    public void login(LoginDto loginDto) {
+    private final PasswordEncoder passwordEncoder;
+    public JwtClaimDTO login(LoginDTO loginDto) {
         String username = loginDto.getUsername();
         String password = loginDto.getPassword();
 
-        UsernamePasswordAuthenticationToken authRequest =
-                UsernamePasswordAuthenticationToken.unauthenticated(username, password);
+        Member findMember = memberRepository.findByUsername(username)
+                .orElseThrow(LoginFailureException::new);
 
-        authenticationManager.authenticate(authRequest);
+        if (!passwordEncoder.matches(password, findMember.getPassword())) {
+            throw new LoginFailureException();
+        }
+
+        return new JwtClaimDTO(findMember.getId(), findMember.getRole());
     }
 }

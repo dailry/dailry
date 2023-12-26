@@ -1,5 +1,6 @@
 package com.daily.daily.common.exception;
 
+import com.daily.daily.auth.exception.LoginFailureException;
 import com.daily.daily.common.dto.ExceptionResponseDTO;
 import com.daily.daily.member.exception.DuplicatedNicknameException;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
@@ -30,10 +31,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ExceptionResponseDTO(e.getMessage(), HttpStatus.CONFLICT.value()), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler({
-            PasswordUnmatchedException.class
-    })
+    @ExceptionHandler(PasswordUnmatchedException.class)
     public ResponseEntity<ExceptionResponseDTO> handlePasswordUnmatchedException(IllegalArgumentException e) {
         return new ResponseEntity<>(new ExceptionResponseDTO(e.getMessage(), HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(LoginFailureException.class)
+    public ResponseEntity<ExceptionResponseDTO> handleLoginFailureException(RuntimeException e) {
+        return new ResponseEntity<>(new ExceptionResponseDTO(e.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
     }
 }
