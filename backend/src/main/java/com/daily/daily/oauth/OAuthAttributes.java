@@ -8,16 +8,14 @@ import com.daily.daily.oauth.provider.KakaoUserInfo;
 import com.daily.daily.oauth.provider.OAuth2UserInfo;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.util.Map;
 
 @Getter
-@ToString
 public class OAuthAttributes {
 
-    private String nameAttributeKey;     // OAuth2 반환하는 유저 정보
-    private OAuth2UserInfo oauth2UserInfo;
+    private final String nameAttributeKey;
+    private final OAuth2UserInfo oauth2UserInfo;
 
     @Builder
     private OAuthAttributes(String nameAttributeKey, OAuth2UserInfo oauth2UserInfo) {
@@ -35,17 +33,11 @@ public class OAuthAttributes {
     }
 
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
-        return OAuthAttributes.builder()
-                .nameAttributeKey(userNameAttributeName)
-                .oauth2UserInfo(new KakaoUserInfo(attributes))
-                .build();
+        return new OAuthAttributes(userNameAttributeName, new KakaoUserInfo(attributes));
     }
 
     public static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
-        return OAuthAttributes.builder()
-                .nameAttributeKey(userNameAttributeName)
-                .oauth2UserInfo(new GoogleUserInfo(attributes))
-                .build();
+        return new OAuthAttributes(userNameAttributeName, new GoogleUserInfo(attributes));
     }
 
     public Member toEntity(SocialType socialType, OAuth2UserInfo oauth2UserInfo) {
