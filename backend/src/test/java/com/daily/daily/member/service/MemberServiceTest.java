@@ -8,33 +8,28 @@ import com.daily.daily.member.exception.DuplicatedNicknameException;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
 import com.daily.daily.member.exception.PasswordUnmatchedException;
 import com.daily.daily.member.repository.MemberRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
     @Mock
     MemberRepository memberRepository;
-    @Mock
-    PasswordEncoder passwordEncoder;
+    @Spy
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @InjectMocks
     MemberService memberService;
 
@@ -103,10 +98,8 @@ class MemberServiceTest {
         PasswordUpdateDTO wrongPasswordDTO = new PasswordUpdateDTO("wrongPassword", "updatePassword");
         when(memberRepository.findById(1L)).thenReturn(Optional.of(testMember));
 
-        MemberService testMemberService = new MemberService(new BCryptPasswordEncoder(), memberRepository); // 실제 BCrypt인코더 주입, memberRepository는 Mock객체
-
         //when, then
-        assertThatThrownBy(() -> testMemberService.updatePassword(wrongPasswordDTO, 1L))
+        assertThatThrownBy(() -> memberService.updatePassword(wrongPasswordDTO, 1L))
                 .isInstanceOf(PasswordUnmatchedException.class); // wrong case
 
     }
@@ -120,10 +113,8 @@ class MemberServiceTest {
         PasswordUpdateDTO correctPasswordDTO = new PasswordUpdateDTO("myPassword123", "updatePassword");
         when(memberRepository.findById(1L)).thenReturn(Optional.of(testMember));
 
-        MemberService testMemberService = new MemberService(new BCryptPasswordEncoder(), memberRepository); // 실제 BCrypt인코더 주입, memberRepository는 Mock객체
-
         //when, then
-        testMemberService.updatePassword(correctPasswordDTO, 1L); // correct case. no exception
+        memberService.updatePassword(correctPasswordDTO, 1L); // correct case. no exception
     }
 
     private Member createTestMember(String password) {
