@@ -8,6 +8,7 @@ import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.NicknameDTO;
 import com.daily.daily.member.dto.PasswordUpdateDTO;
+import com.daily.daily.member.service.MemberEmailService;
 import com.daily.daily.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final MemberEmailService memberEmailService;
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.CREATED)
     public MemberInfoDTO join(@RequestBody @Valid JoinDTO joinDTO) {
@@ -89,5 +91,12 @@ public class MemberController {
     public CommonResponseDTO updatePassword(@RequestBody @Valid PasswordUpdateDTO passwordUpdateDTO, @AuthenticationPrincipal Long id) {
         memberService.updatePassword(passwordUpdateDTO, id);
         return new CommonResponseDTO(true, HttpStatus.OK.value());
+    }
+
+    @Secured(value = "ROLE_MEMBER")
+    @PostMapping("/email-verification/request")
+    public ResponseEntity<CommonResponseDTO> sendCertificationNumber(@RequestBody @Valid EmailDTO emailDTO) {
+        memberEmailService.sendCertificationNumber(emailDTO.getEmail());
+        return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
     }
 }

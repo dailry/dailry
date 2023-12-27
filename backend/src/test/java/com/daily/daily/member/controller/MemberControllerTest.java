@@ -2,6 +2,7 @@ package com.daily.daily.member.controller;
 
 import com.daily.daily.auth.jwt.JwtAuthorizationFilter;
 import com.daily.daily.auth.jwt.JwtUtil;
+import com.daily.daily.member.dto.EmailDTO;
 import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.NicknameDTO;
@@ -62,7 +63,7 @@ class MemberControllerTest {
         //when
         ResultActions joinActions = mockMvc.perform(post("/api/member/join")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(joinDTO))
+                .content(objectMapper.writeValueAsString(joinDTO))
                 .with(csrf())
         );
         //then
@@ -88,7 +89,7 @@ class MemberControllerTest {
         //when
         ResultActions joinActions = mockMvc.perform(post("/api/member/join")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(joinDTO))
+                .content(objectMapper.writeValueAsString(joinDTO))
                 .with(csrf())
 
         );
@@ -122,6 +123,7 @@ class MemberControllerTest {
         MemberInfoDTO actual = objectMapper.readValue(content, MemberInfoDTO.class);
         assertThat(actual).isEqualTo(expected);
     }
+
     @WithMockUser
     @Test
     @DisplayName("중복된 username이 있을경우 응답을 검사한다.")
@@ -162,7 +164,7 @@ class MemberControllerTest {
     @WithMockUser
     @Test
     @DisplayName("중복된 nickname이 있는경우 반환값을 검사한다.")
-    void checkDuplicatedNicknameCase() throws Exception{
+    void checkDuplicatedNicknameCase() throws Exception {
         //given
         String testNickname = "nickname";
         given(memberService.existsByNickname(testNickname)).willReturn(true);
@@ -180,7 +182,7 @@ class MemberControllerTest {
     @WithMockUser
     @Test
     @DisplayName("중복된 nickname이 없는경우 반환값을 검사한다.")
-    void checkNoneDuplicatedNicknameCase() throws Exception{
+    void checkNoneDuplicatedNicknameCase() throws Exception {
         //given
         String testNickname = "nickname";
         given(memberService.existsByNickname(testNickname)).willReturn(false);
@@ -194,6 +196,7 @@ class MemberControllerTest {
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$.duplicated").value(false));
     }
+
     @WithMockUser
     @Test
     void updateNickname() throws Exception {
@@ -205,7 +208,7 @@ class MemberControllerTest {
         //when
         ResultActions perform = mockMvc.perform(patch("/api/member/nickname")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(nicknameDTO))
+                .content(objectMapper.writeValueAsString(nicknameDTO))
                 .with(csrf())
         );
         //then
@@ -221,14 +224,32 @@ class MemberControllerTest {
 
     @WithMockUser
     @Test
-    void updatePassword() throws Exception{
+    void updatePassword() throws Exception {
         //given
-        PasswordUpdateDTO passwordUpdateDTO = new PasswordUpdateDTO("12345678","23456789");
+        PasswordUpdateDTO passwordUpdateDTO = new PasswordUpdateDTO("12345678", "23456789");
 
         //when
         ResultActions perform = mockMvc.perform(patch("/api/member/password")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(passwordUpdateDTO))
+                .content(objectMapper.writeValueAsString(passwordUpdateDTO))
+                .with(csrf())
+        );
+        //then
+        perform.andExpect(status().isOk())
+                .andExpect(jsonPath("$.successful").value(true))
+                .andExpect(jsonPath("$.statusCode").value(200));
+    }
+
+    @WithMockUser
+    @Test
+    void sendCertificationNumber() throws Exception {
+        //given
+        EmailDTO emailDTO = new EmailDTO("qkrrjsdn123@naver.com");
+
+        //when
+        ResultActions perform = mockMvc.perform(post("/api/member/email-verification/request")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(emailDTO))
                 .with(csrf())
         );
         //then
