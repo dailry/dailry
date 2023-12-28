@@ -3,6 +3,7 @@ package com.daily.daily.member.controller;
 import com.daily.daily.auth.jwt.JwtAuthorizationFilter;
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.member.dto.EmailDTO;
+import com.daily.daily.member.dto.EmailVerifyDTO;
 import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.NicknameDTO;
@@ -61,7 +62,11 @@ class MemberControllerTest {
     void joinSuccessCase() throws Exception {
         //given
         JoinDTO joinDTO = new JoinDTO("geonwoo123", "pass1234", null);
-        MemberInfoDTO expected = new MemberInfoDTO(1L, "geonwoo123", "난폭한사자");
+
+        MemberInfoDTO expected = new MemberInfoDTO();
+        expected.setId(1L);
+        expected.setUsername("geonwoo123");
+        expected.setNickname("난폭한사자");
 
         given(memberService.join(Mockito.any())).willReturn(expected);
         //when
@@ -107,7 +112,11 @@ class MemberControllerTest {
     @WithMockUser
     void getMemberByAccessToken() throws Exception {
         //given
-        MemberInfoDTO expected = new MemberInfoDTO(1L, "geonwoo123", "난폭한사자");
+        MemberInfoDTO expected = new MemberInfoDTO();
+        expected.setId(1L);
+        expected.setUsername("geonwoo123");
+        expected.setNickname("난폭한사자");
+
         given(memberService.findById(Mockito.any())).willReturn(expected);
         String token = "testJwtToken";
 
@@ -206,7 +215,11 @@ class MemberControllerTest {
     void updateNickname() throws Exception {
         //given
         NicknameDTO nicknameDTO = new NicknameDTO("mynickname");
-        MemberInfoDTO expected = new MemberInfoDTO(1L, "geonwoo123", "난폭한사자");
+
+        MemberInfoDTO expected = new MemberInfoDTO();
+        expected.setId(1L);
+        expected.setUsername("geonwoo123");
+        expected.setNickname("난폭한사자");
 
         given(memberService.updateNickname(Mockito.any(), Mockito.any())).willReturn(expected);
         //when
@@ -255,6 +268,25 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(post("/api/member/email-verification/request")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emailDTO))
+                .with(csrf())
+        );
+        //then
+        perform.andExpect(status().isOk())
+                .andExpect(jsonPath("$.successful").value(true))
+                .andExpect(jsonPath("$.statusCode").value(200));
+    }
+
+    @WithMockUser
+    @Test
+    @DisplayName("사용자가 입력한 이메일 인증번호가 일치했을 때 응답값을 테스트한다.")
+    void verifyEmailAndRegister() throws Exception {
+        //given
+        EmailVerifyDTO emailVerifyDTO = new EmailVerifyDTO("qkrrjsdn123@naver.com", "315162");
+
+        //when
+        ResultActions perform = mockMvc.perform(post("/api/member/email-verification/confirm")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(emailVerifyDTO))
                 .with(csrf())
         );
         //then

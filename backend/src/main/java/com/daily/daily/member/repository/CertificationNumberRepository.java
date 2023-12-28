@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.time.Duration;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -14,12 +15,18 @@ public class CertificationNumberRepository {
     private static final Duration CERTIFICATION_NUMBER_EXP = Duration.ofMinutes(10);
     private static final String PREFIX = "CERT_NUM:";
 
-    public void saveCertificationNumber(String email, int number) {
+    public void saveCertificationNumber(String email, String number) {
         redisTemplate.opsForValue()
-                .set(getKey(email), String.valueOf(number), CERTIFICATION_NUMBER_EXP);
+                .set(getKey(email), number, CERTIFICATION_NUMBER_EXP);
+    }
+
+    public Optional<String> getCertificationNumber(String email) {
+        return Optional.ofNullable(redisTemplate.opsForValue()
+                .get(getKey(email)));
     }
 
     private String getKey(String email) {
         return PREFIX + email;
     }
+
 }

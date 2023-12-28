@@ -41,6 +41,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
             nickname = String.format("다일리%d", id);
         }
     }
+
     public void updateNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -48,6 +49,11 @@ public class Member extends BaseTimeEntity implements UserDetails {
     public void updatePassword(String password) {
         this.password = password;
     }
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> role.name());

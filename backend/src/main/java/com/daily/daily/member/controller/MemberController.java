@@ -4,6 +4,7 @@ import com.daily.daily.common.dto.CommonResponseDTO;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.dto.DuplicateResultDTO;
 import com.daily.daily.member.dto.EmailDTO;
+import com.daily.daily.member.dto.EmailVerifyDTO;
 import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.NicknameDTO;
@@ -97,6 +98,16 @@ public class MemberController {
     @PostMapping("/email-verification/request")
     public ResponseEntity<CommonResponseDTO> sendCertificationNumber(@RequestBody @Valid EmailDTO emailDTO) {
         memberEmailService.sendCertificationNumber(emailDTO.getEmail());
+        return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+    }
+
+    @Secured(value = "ROLE_MEMBER")
+    @PostMapping("/email-verification/confirm")
+    public ResponseEntity<CommonResponseDTO> verifyEmailAndRegister(
+            @RequestBody @Valid EmailVerifyDTO emailVerifyDTO,
+            @AuthenticationPrincipal Long id
+    ) {
+        memberEmailService.verifyEmailAndRegister(id, emailVerifyDTO);
         return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
     }
 }
