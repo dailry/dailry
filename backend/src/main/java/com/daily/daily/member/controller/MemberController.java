@@ -110,4 +110,12 @@ public class MemberController {
         memberEmailService.verifyEmailAndRegister(id, emailVerifyDTO);
         return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
     }
+
+    @PostMapping("/recover-username")
+    public ResponseEntity<CommonResponseDTO> recoverUsername(@RequestBody @Valid EmailDTO emailDTO) {
+        memberEmailService.sendUsername(emailDTO.getEmail());
+        return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+    }
+
+
 }

@@ -294,4 +294,24 @@ class MemberControllerTest {
                 .andExpect(jsonPath("$.successful").value(true))
                 .andExpect(jsonPath("$.statusCode").value(200));
     }
+
+    @WithMockUser
+    @Test
+    @DisplayName("사용자가 이메일과 함꼐 아이디 찾기를 요청했을 때, 올바른 이메일일 경우 응답값을 테스트한다.")
+    void recoverUsername() throws Exception {
+        //given
+        EmailDTO emailDTO = new EmailDTO("qkrrjsdn123@naver.com");
+
+        //when
+        ResultActions perform = mockMvc.perform(post("/api/member/recover-username")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(emailDTO))
+                .with(csrf())
+        );
+
+        //then
+        perform.andExpect(status().isOk())
+                .andExpect(jsonPath("$.successful").value(true))
+                .andExpect(jsonPath("$.statusCode").value(200));
+    }
 }

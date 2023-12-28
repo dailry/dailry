@@ -54,6 +54,10 @@ public class Member extends BaseTimeEntity implements UserDetails {
         this.email = email;
     }
 
+    public boolean isSocialLoginUser() {
+        return socialType != SocialType.NONE;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> role.name());
