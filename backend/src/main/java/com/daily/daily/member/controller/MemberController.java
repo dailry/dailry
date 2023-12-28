@@ -1,7 +1,6 @@
 package com.daily.daily.member.controller;
 
 import com.daily.daily.common.dto.CommonResponseDTO;
-import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.dto.DuplicateResultDTO;
 import com.daily.daily.member.dto.EmailDTO;
 import com.daily.daily.member.dto.EmailVerifyDTO;
@@ -111,6 +110,7 @@ public class MemberController {
 
     @PostMapping("/recover-password")
     public ResponseEntity<CommonResponseDTO> recoverPassword(@RequestBody @Valid PasswordRecoverDTO passwordRecoverDTO) {
+        memberEmailService.recoverPassword(passwordRecoverDTO.getUsername(), passwordRecoverDTO.getEmail());
         return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
     }
 }

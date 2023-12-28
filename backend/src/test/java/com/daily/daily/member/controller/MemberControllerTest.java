@@ -7,6 +7,7 @@ import com.daily.daily.member.dto.EmailVerifyDTO;
 import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.NicknameDTO;
+import com.daily.daily.member.dto.PasswordRecoverDTO;
 import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
 import com.daily.daily.member.service.MemberEmailService;
@@ -29,6 +30,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.setMaxStackTraceElementsDisplayed;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -306,6 +308,28 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(post("/api/member/recover-username")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emailDTO))
+                .with(csrf())
+        );
+
+        //then
+        perform.andExpect(status().isOk())
+                .andExpect(jsonPath("$.successful").value(true))
+                .andExpect(jsonPath("$.statusCode").value(200));
+    }
+
+    @WithMockUser
+    @Test
+    @DisplayName("사용자가 패스워드 초기화 요청을 했을 때, username과 이메일이 올바를 경우 응답값을 테스트 한다.")
+    void recoverPassword() throws Exception {
+        //given
+        PasswordRecoverDTO passwordRecoverDTO = new PasswordRecoverDTO();
+        passwordRecoverDTO.setEmail("qkrrjsdn123@naver.com");
+        passwordRecoverDTO.setUsername("rjsdn123");
+
+        //when
+        ResultActions perform = mockMvc.perform(post("/api/member/recover-password")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(passwordRecoverDTO))
                 .with(csrf())
         );
 

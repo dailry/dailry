@@ -54,10 +54,13 @@ public class Member extends BaseTimeEntity implements UserDetails {
         this.email = email;
     }
 
-    public boolean isSocialLoginUser() {
-        return socialType != SocialType.NONE;
+    public boolean isNotSocialLoginMember() {
+        return socialType == SocialType.NONE;
     }
 
+    public boolean hasSameUsername(String otherUsername) {
+        return username.equals(otherUsername);
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> role.name());

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,20 +32,20 @@ public class MemberEmailService {
 
     private final MemberRepository memberRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     private void validateDuplicatedEmail(String email) {
         if (memberRepository.existsByEmail(email)) {
             throw new DuplicatedEmailException();
         }
     }
+
     public void sendCertificationNumber(String recipientEmail) {
         validateDuplicatedEmail(recipientEmail);
 
         int certificationNumber = ThreadLocalRandom.current().nextInt(100000, 1000000); // 6자리 인증 번호 생성
 
-        SimpleMailMessage mail = new SimpleMailMessage();
-
-        mail.setFrom(SENDER_EMAIL);
-        mail.setTo(recipientEmail);
+        SimpleMailMessage mail = createSimpleMail(recipientEmail);
         mail.setSubject("[다일리] 이메일 인증번호 입니다.");
         mail.setText(String.format("이메일 인증번호는 %d 입니다.", certificationNumber));
 
@@ -67,6 +68,7 @@ public class MemberEmailService {
 
         updateMemberEmail(memberId, email);
     }
+
     private void updateMemberEmail(Long memberId, String email) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
@@ -75,20 +77,45 @@ public class MemberEmailService {
     }
 
     public void sendUsername(String recipientEmail) {
-        Member member = memberRepository.findByEmail(recipientEmail)
+        Member findMember = memberRepository.findByEmail(recipientEmail)
+                .filter(Member::isNotSocialLoginMember)
                 .orElseThrow(EmailNotFoundException::new);
 
-        if (member.isSocialLoginUser()) {
-            throw new EmailNotFoundException("소셜 로그인 사용자는 아이디가 존재하지 않습니다.");
-        }
+        SimpleMailMessage mail = createSimpleMail(recipientEmail);
+        mail.setSubject("[다일리] 회원님의 아이디를 보내드립니다.");
+        mail.setText(String.format("회원님이 가입한 아이디는 %s 입니다.", findMember.getUsername()));
 
+        mailSender.send(mail);
+    }
+
+    public void recoverPassword(String username, String email) {
+        Member findMember = memberRepository.findByEmail(email)
+                .filter(member -> member.hasSameUsername(username))
+                .orElseThrow(MemberNotFoundException::new);
+
+        String tempPassword = generateTempPassword();
+
+        SimpleMailMessage mail = createSimpleMail(email);
+        mail.setSubject("[다일리] 회원님의 임시 비밀번호 입니다.");
+        String mailBody = """
+                회원님의 계정 %s의 임시 비밀번호는 %s 입니다.
+                로그인 한 이후에 마이페이지에서 비밀번호를 재설정하여 주세요.
+                """.formatted(username, tempPassword);
+        mail.setText(mailBody);
+
+        mailSender.send(mail);
+        findMember.updatePassword(passwordEncoder.encode(tempPassword));
+    }
+
+    private static String generateTempPassword() {
+        return String.valueOf(ThreadLocalRandom.current().nextInt(10000000, 100000000));  // 8자리 임시 비밀번호 생성
+    }
+
+    private SimpleMailMessage createSimpleMail(String recipientEmail) {
         SimpleMailMessage mail = new SimpleMailMessage();
 
         mail.setFrom(SENDER_EMAIL);
         mail.setTo(recipientEmail);
-        mail.setSubject("[다일리] 회원님의 아이디를 보내드립니다.");
-        mail.setText(String.format("회원님이 가입한 아이디는 %s 입니다.", member.getUsername()));
-
-        mailSender.send(mail);
+        return mail;
     }
 }
