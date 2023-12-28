@@ -1,4 +1,3 @@
-
 # Workflow name
 name: 'Chromatic Deployment'
 
@@ -19,6 +18,8 @@ jobs:
     # Job steps
     steps:
       - uses: actions/checkout@v1
+      - name: Install Storybook
+        run: yarn global add storybook
       - run: yarn install
         #👇 Adds Chromatic as a step in the workflow
       - uses: chromaui/action@latest
