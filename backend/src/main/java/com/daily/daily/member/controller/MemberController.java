@@ -8,6 +8,7 @@ import com.daily.daily.member.dto.EmailVerifyDTO;
 import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.NicknameDTO;
+import com.daily.daily.member.dto.PasswordRecoverDTO;
 import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.service.MemberEmailService;
 import com.daily.daily.member.service.MemberService;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
     private final MemberEmailService memberEmailService;
+
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.CREATED)
     public MemberInfoDTO join(@RequestBody @Valid JoinDTO joinDTO) {
@@ -68,17 +70,6 @@ public class MemberController {
 
     @Secured(value = "ROLE_MEMBER")
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/check-email")
-    public DuplicateResultDTO checkDuplicatedEmail(@Valid EmailDTO emailDTO) {
-        if (memberService.existsByEmail(emailDTO.getEmail())) {
-            return new DuplicateResultDTO(true);
-        }
-
-        return new DuplicateResultDTO(false);
-    }
-
-    @Secured(value = "ROLE_MEMBER")
-    @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/nickname")
     public MemberInfoDTO updateNickname(
             @RequestBody @Valid NicknameDTO nicknameDTO,
@@ -86,6 +77,7 @@ public class MemberController {
     ) {
         return memberService.updateNickname(id, nicknameDTO.getNickname());
     }
+
     @Secured(value = "ROLE_MEMBER")
     @PatchMapping("/password")
     @ResponseStatus(HttpStatus.OK)
@@ -117,5 +109,8 @@ public class MemberController {
         return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
     }
 
-
+    @PostMapping("/recover-password")
+    public ResponseEntity<CommonResponseDTO> recoverPassword(@RequestBody @Valid PasswordRecoverDTO passwordRecoverDTO) {
+        return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+    }
 }

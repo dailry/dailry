@@ -93,8 +93,4 @@ public class MemberService {
     public boolean existsByNickname(String nickname) {
         return memberRepository.existsByNickname(nickname);
     }
-
-    public boolean existsByEmail(String email) {
-        return memberRepository.existsByEmail(email);
-    }
 }
