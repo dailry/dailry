@@ -8,6 +8,7 @@ import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.NicknameDTO;
 import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
+import com.daily.daily.member.service.MemberEmailService;
 import com.daily.daily.member.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -47,6 +48,9 @@ class MemberControllerTest {
 
     @MockBean
     MemberService memberService;
+
+    @MockBean
+    MemberEmailService memberEmailService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -242,6 +246,7 @@ class MemberControllerTest {
 
     @WithMockUser
     @Test
+    @DisplayName("이메일 인증번호를 성공적으로 전송했을 때 응답값을 테스트한다.")
     void sendCertificationNumber() throws Exception {
         //given
         EmailDTO emailDTO = new EmailDTO("qkrrjsdn123@naver.com");
