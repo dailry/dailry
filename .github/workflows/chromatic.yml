@@ -5,25 +5,21 @@ name: 'Chromatic Deployment'
 # Event for the workflow
 on:
   pull_request:
-    branches: 
+    branches:
       - develop
-    paths: 
+    paths:
       - frontend/**
-
-defaults:
-  run:
-    working-directory: frontend
 
 # List of jobs
 jobs:
   test:
     # Operating System
     runs-on: ubuntu-latest
-    
+
     # Job steps
     steps:
       - uses: actions/checkout@v1
-      - run: yarn
+      - run: cd frontend && yarn
         #👇 Adds Chromatic as a step in the workflow
       - uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
