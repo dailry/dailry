@@ -3,7 +3,6 @@ package com.daily.daily.member.service;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
-import com.daily.daily.member.dto.PasswordTokenDTO;
 import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.exception.DuplicatedNicknameException;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
@@ -89,7 +88,7 @@ public class MemberService {
         return passwordEncoder.matches(inputPassword, memberPassword);
     }
 
-    public void updatePasswordByPasswordResetToken(String passwordResetToken, String updatePassword) {
+    public void updatePasswordByResetToken(String passwordResetToken, String updatePassword) {
         Long memberId = passwordResetTokenRepository.getMemberIdByToken(passwordResetToken)
                 .orElseThrow(InvalidPasswordResetTokenException::new);
 

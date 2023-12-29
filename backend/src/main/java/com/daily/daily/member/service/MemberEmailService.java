@@ -91,6 +91,7 @@ public class MemberEmailService {
     public void recoverPassword(String username, String email) {
         Member findMember = memberRepository.findByEmail(email)
                 .filter(member -> member.hasSameUsername(username))
+                .filter(Member::isNotSocialLoginMember)
                 .orElseThrow(MemberNotFoundException::new);
 
         String randomToken = passwordResetTokenRepository.createRandomToken();

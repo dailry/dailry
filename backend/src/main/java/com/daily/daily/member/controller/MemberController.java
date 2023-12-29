@@ -116,8 +116,8 @@ public class MemberController {
     }
 
     @PatchMapping("/recover-password")
-    public ResponseEntity<CommonResponseDTO> updatePasswordByPasswordResetToken(@RequestBody @Valid PasswordTokenDTO passwordTokenDTO) {
-        memberService.updatePasswordByPasswordResetToken(passwordTokenDTO.getPasswordResetToken(), passwordTokenDTO.getPassword());
+    public ResponseEntity<CommonResponseDTO> updatePasswordByResetToken(@RequestBody @Valid PasswordTokenDTO passwordTokenDTO) {
+        memberService.updatePasswordByResetToken(passwordTokenDTO.getPasswordResetToken(), passwordTokenDTO.getPassword());
         return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
     }
 }

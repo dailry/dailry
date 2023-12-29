@@ -343,7 +343,7 @@ class MemberControllerTest {
     @WithMockUser
     @Test
     @DisplayName("사용자가 유효한 비밀번호 변경 토큰과 함께 비밀번호 변경 요청을 했을 때 응답값을 테스트 한다.")
-    void updatePasswordByPasswordResetToken() throws Exception {
+    void updatePasswordByResetToken() throws Exception {
         //given
         PasswordTokenDTO passwordTokenDTO = new PasswordTokenDTO();
         passwordTokenDTO.setPasswordResetToken("유효한 토큰");

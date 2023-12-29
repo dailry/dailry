@@ -6,28 +6,24 @@ import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.exception.DuplicatedNicknameException;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
+import com.daily.daily.member.exception.InvalidPasswordResetTokenException;
 import com.daily.daily.member.exception.PasswordUnmatchedException;
 import com.daily.daily.member.repository.MemberRepository;
-import org.assertj.core.api.Assertions;
+import com.daily.daily.member.repository.PasswordResetTokenRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,6 +32,8 @@ class MemberServiceTest {
     MemberRepository memberRepository;
     @Spy
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Mock
+    PasswordResetTokenRepository passwordResetTokenRepository;
     @InjectMocks
     MemberService memberService;
 
@@ -129,5 +127,18 @@ class MemberServiceTest {
                 .nickname("nickname")
                 .password(new BCryptPasswordEncoder().encode(password))
                 .build();
+    }
+
+    @Test
+    @DisplayName("비밀번호 재설정 토큰을 이용해서 비밀번호를 변경할 때, 토큰이 유효하지 않으면 InvalidPasswordResetTokenException이 발생한다.")
+    void updatePasswordByPasswordResetToken() {
+        //given
+        String passwordResetToken = "유효하지 않은 토큰";
+        String updatePassword = "12345678";
+
+        when(passwordResetTokenRepository.getMemberIdByToken(passwordResetToken)).thenReturn(Optional.empty());
+        //when, then
+        assertThatThrownBy(() -> memberService.updatePasswordByResetToken(passwordResetToken, updatePassword))
+                .isInstanceOf(InvalidPasswordResetTokenException.class);
     }
 }
