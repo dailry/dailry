@@ -50,7 +50,7 @@ public class MemberEmailService {
         mail.setText(String.format("이메일 인증번호는 %d 입니다.", certificationNumber));
 
         mailSender.send(mail);
-        certificationRepository.saveCertificationNumber(recipientEmail, String.valueOf(certificationNumber));
+        certificationRepository.save(recipientEmail, String.valueOf(certificationNumber));
     }
 
     public void verifyEmailAndRegister(Long memberId, EmailVerifyDTO emailVerifyDTO) {
@@ -59,7 +59,7 @@ public class MemberEmailService {
         validateDuplicatedEmail(email);
 
         String submittedCertificationNumber = emailVerifyDTO.getCertificationNumber();
-        String findCertificationNumber = certificationRepository.getCertificationNumber(email)
+        String findCertificationNumber = certificationRepository.getCertificationNumberByEmail(email)
                 .orElseThrow(CertificationNumberExpirationException::new);
 
         if (!submittedCertificationNumber.equals(findCertificationNumber)) {
@@ -95,7 +95,7 @@ public class MemberEmailService {
                 .orElseThrow(MemberNotFoundException::new);
 
         String randomToken = passwordResetTokenRepository.createRandomToken();
-        passwordResetTokenRepository.saveRandomTokenWithMemberId(randomToken, findMember.getId());
+        passwordResetTokenRepository.save(randomToken, findMember.getId());
 
         SimpleMailMessage mail = createSimpleMail(email);
 

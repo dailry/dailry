@@ -8,27 +8,21 @@ import com.daily.daily.member.repository.CertificationNumberRepository;
 import com.daily.daily.member.repository.MemberRepository;
 import com.daily.daily.member.repository.PasswordResetTokenRepository;
 import com.daily.daily.oauth.constant.SocialType;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -59,7 +53,7 @@ class MemberEmailServiceTest {
 
         //then
         verify(mailSender, times(1)).send(any(SimpleMailMessage.class));
-        verify(certificationRepository, times(1)).saveCertificationNumber(anyString(), anyString());
+        verify(certificationRepository, times(1)).save(anyString(), anyString());
     }
 
     @Test
@@ -131,6 +125,7 @@ class MemberEmailServiceTest {
                 .id(1L)
                 .email("test@example.com")
                 .username("test")
+                .socialType(SocialType.NONE)
                 .build();
 
         when(memberRepository.findByEmail(email)).thenReturn(Optional.of(mockMember));

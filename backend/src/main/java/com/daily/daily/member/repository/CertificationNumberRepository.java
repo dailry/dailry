@@ -15,12 +15,12 @@ public class CertificationNumberRepository {
     private static final Duration CERTIFICATION_NUMBER_EXPIRATION = Duration.ofMinutes(10);
     private static final String PREFIX = "CERT_NUM:";
 
-    public void saveCertificationNumber(String email, String number) {
+    public void save(String email, String number) {
         redisTemplate.opsForValue()
                 .set(getKey(email), number, CERTIFICATION_NUMBER_EXPIRATION);
     }
 
-    public Optional<String> getCertificationNumber(String email) {
+    public Optional<String> getCertificationNumberByEmail(String email) {
         return Optional.ofNullable(redisTemplate.opsForValue()
                 .get(getKey(email)));
     }

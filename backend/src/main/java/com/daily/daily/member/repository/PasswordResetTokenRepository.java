@@ -20,7 +20,7 @@ public class PasswordResetTokenRepository {
     private static final Duration TOKEN_EXPIRATION = Duration.ofMinutes(30);
     private static final String PREFIX = "PASSWORD_RESET_TOKEN:";
 
-    public void saveRandomTokenWithMemberId(String token, Long memberId) {
+    public void save(String token, Long memberId) {
         redisTemplate.opsForValue()
                 .set(getKey(token), memberId, TOKEN_EXPIRATION);
     }
