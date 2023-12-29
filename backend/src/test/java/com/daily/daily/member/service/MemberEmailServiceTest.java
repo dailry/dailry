@@ -118,7 +118,7 @@ class MemberEmailServiceTest {
     }
 
     @Test
-    @DisplayName("유저가 입력한 이메일과 아이디가 유효하면 비밀번호 초기화 메일을 전송한다.")
+    @DisplayName("유저가 입력한 이메일과 아이디가 유효하면 비밀번호 재설정 메일을 전송하고, 임시 인증값을 저장한다.")
     void recoverPassword_success() {
         //given
         String username = "test";

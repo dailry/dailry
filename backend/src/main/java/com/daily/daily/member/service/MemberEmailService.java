@@ -9,14 +9,18 @@ import com.daily.daily.member.exception.EmailNotFoundException;
 import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.repository.CertificationNumberRepository;
 import com.daily.daily.member.repository.MemberRepository;
+import com.daily.daily.member.repository.PasswordResetTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriBuilder;
 
+import java.net.URI;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -30,9 +34,9 @@ public class MemberEmailService {
 
     private final CertificationNumberRepository certificationRepository;
 
-    private final MemberRepository memberRepository;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
 
-    private final PasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository;
 
     private void validateDuplicatedEmail(String email) {
         if (memberRepository.existsByEmail(email)) {
@@ -93,22 +97,22 @@ public class MemberEmailService {
                 .filter(member -> member.hasSameUsername(username))
                 .orElseThrow(MemberNotFoundException::new);
 
-        String tempPassword = generateTempPassword();
+        String randomToken = passwordResetTokenRepository.createRandomToken();
+        passwordResetTokenRepository.saveRandomTokenWithMemberId(randomToken, findMember.getId());
 
         SimpleMailMessage mail = createSimpleMail(email);
-        mail.setSubject("[다일리] 회원님의 임시 비밀번호 입니다.");
+
+        mail.setSubject("[다일리] 비밀번호 재설정을 위한 안내 메일 입니다.");
+        String link = "https://da-ily.com/resetPasswordByEmail?passwordResetToken=" + randomToken;
         String mailBody = """
-                회원님의 계정 %s의 임시 비밀번호는 %s 입니다.
-                로그인 한 이후에 마이페이지에서 비밀번호를 재설정하여 주세요.
-                """.formatted(username, tempPassword);
+                안녕하세요 다일리입니다.
+                비밀번호 재설정을 위한링크를 보내드립니다.
+                [비밀번호 재설정 링크] : %s
+                해당 링크는 발송후 30분 동안만 유효합니다.
+                """.formatted(link);
         mail.setText(mailBody);
 
         mailSender.send(mail);
-        findMember.updatePassword(passwordEncoder.encode(tempPassword));
-    }
-
-    private static String generateTempPassword() {
-        return String.valueOf(ThreadLocalRandom.current().nextInt(10000000, 100000000));  // 8자리 임시 비밀번호 생성
     }
 
     private SimpleMailMessage createSimpleMail(String recipientEmail) {

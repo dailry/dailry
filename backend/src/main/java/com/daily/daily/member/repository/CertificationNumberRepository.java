@@ -12,12 +12,12 @@ import java.util.Optional;
 public class CertificationNumberRepository {
 
     private final StringRedisTemplate redisTemplate;
-    private static final Duration CERTIFICATION_NUMBER_EXP = Duration.ofMinutes(10);
+    private static final Duration CERTIFICATION_NUMBER_EXPIRATION = Duration.ofMinutes(10);
     private static final String PREFIX = "CERT_NUM:";
 
     public void saveCertificationNumber(String email, String number) {
         redisTemplate.opsForValue()
-                .set(getKey(email), number, CERTIFICATION_NUMBER_EXP);
+                .set(getKey(email), number, CERTIFICATION_NUMBER_EXPIRATION);
     }
 
     public Optional<String> getCertificationNumber(String email) {
