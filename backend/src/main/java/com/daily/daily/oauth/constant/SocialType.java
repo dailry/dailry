@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public enum SocialType {
-    KAKAO("kakao"), NAVER("naver"), GOOGLE("google");
+    KAKAO("kakao"), NAVER("naver"), GOOGLE("google"), NONE("");
 
     private final String id;
 

@@ -4,6 +4,7 @@ package com.daily.daily.member.dto;
 import com.daily.daily.member.constant.MemberRole;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.validator.Nickname;
+import com.daily.daily.oauth.constant.SocialType;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Null;
@@ -39,6 +40,7 @@ public class JoinDTO {
                 .password(password)
                 .nickname(nickname)
                 .role(MemberRole.ROLE_MEMBER)
+                .socialType(SocialType.NONE)
                 .build();
     }
 }
