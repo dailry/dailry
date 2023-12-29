@@ -24,6 +24,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
+    private final NicknameGenerator nicknameGenerator;
 
     public MemberInfoDTO join(JoinDTO joinDTO) {
         String password = joinDTO.getPassword();
@@ -49,7 +50,9 @@ public class MemberService {
         if (existsByUsername(member.getUsername())) {
             throw new DuplicatedUsernameException();
         }
-        if (member.getNickname() == null) return;
+        if (member.getNickname() == null) {
+            member.updateNickname(nicknameGenerator.generateRandomNickname());
+        }
         validateDuplicatedNickname(member.getNickname());
     }
 

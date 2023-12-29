@@ -2,6 +2,7 @@ package com.daily.daily.oauth.service;
 
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.repository.MemberRepository;
+import com.daily.daily.member.service.NicknameGenerator;
 import com.daily.daily.oauth.OAuth2CustomUser;
 import com.daily.daily.oauth.OAuthAttributes;
 import com.daily.daily.oauth.constant.SocialType;
@@ -24,6 +25,7 @@ import java.util.Map;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberRepository memberRepository;
+    private final NicknameGenerator nicknameGenerator;
 
     OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
 
@@ -50,8 +52,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private Member saveMember(OAuthAttributes attributes, SocialType socialType) {
-        System.out.println("save: " + attributes);
         Member createdUser = attributes.toEntity(socialType, attributes.getOauth2UserInfo());
+        createdUser.updateNickname(nicknameGenerator.generateRandomNickname());
         return memberRepository.save(createdUser);
     }
 }
