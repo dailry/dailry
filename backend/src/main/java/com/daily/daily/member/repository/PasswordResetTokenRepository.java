@@ -1,7 +1,7 @@
 package com.daily.daily.member.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.time.Duration;
@@ -16,13 +16,20 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PasswordResetTokenRepository {
 
-    private final StringRedisTemplate redisTemplate;
+    private final RedisTemplate<String, Long> redisTemplate;
     private static final Duration TOKEN_EXPIRATION = Duration.ofMinutes(30);
     private static final String PREFIX = "PASSWORD_RESET_TOKEN:";
 
     public void saveRandomTokenWithMemberId(String token, Long memberId) {
         redisTemplate.opsForValue()
-                .set(getKey(token), String.valueOf(memberId), TOKEN_EXPIRATION);
+                .set(getKey(token), memberId, TOKEN_EXPIRATION);
+    }
+
+    public Optional<Long> getMemberIdByToken(String token) {
+        Long memberId = redisTemplate.opsForValue()
+                .get(getKey(token));
+
+        return Optional.ofNullable(memberId);
     }
 
     public String createRandomToken() {

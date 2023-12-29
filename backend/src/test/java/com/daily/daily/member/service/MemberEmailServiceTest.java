@@ -6,6 +6,7 @@ import com.daily.daily.member.exception.EmailNotFoundException;
 import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.repository.CertificationNumberRepository;
 import com.daily.daily.member.repository.MemberRepository;
+import com.daily.daily.member.repository.PasswordResetTokenRepository;
 import com.daily.daily.oauth.constant.SocialType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +42,8 @@ class MemberEmailServiceTest {
     @Mock
     private MemberRepository memberRepository;
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private PasswordResetTokenRepository passwordResetTokenRepository;
+
     @InjectMocks
     private MemberEmailService memberEmailService;
 

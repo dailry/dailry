@@ -8,6 +8,7 @@ import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.NicknameDTO;
 import com.daily.daily.member.dto.PasswordRecoverDTO;
+import com.daily.daily.member.dto.PasswordTokenDTO;
 import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
 import com.daily.daily.member.service.MemberEmailService;
@@ -319,7 +320,7 @@ class MemberControllerTest {
 
     @WithMockUser
     @Test
-    @DisplayName("사용자가 패스워드 초기화 요청을 했을 때, username과 이메일이 올바를 경우 응답값을 테스트 한다.")
+    @DisplayName("사용자가 비밀번호 초기화 요청을 했을 때, username과 이메일이 올바를 경우 응답값을 테스트 한다.")
     void recoverPassword() throws Exception {
         //given
         PasswordRecoverDTO passwordRecoverDTO = new PasswordRecoverDTO();
@@ -330,6 +331,28 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(post("/api/member/recover-password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(passwordRecoverDTO))
+                .with(csrf())
+        );
+
+        //then
+        perform.andExpect(status().isOk())
+                .andExpect(jsonPath("$.successful").value(true))
+                .andExpect(jsonPath("$.statusCode").value(200));
+    }
+
+    @WithMockUser
+    @Test
+    @DisplayName("사용자가 유효한 비밀번호 변경 토큰과 함께 비밀번호 변경 요청을 했을 때 응답값을 테스트 한다.")
+    void updatePasswordByPasswordResetToken() throws Exception {
+        //given
+        PasswordTokenDTO passwordTokenDTO = new PasswordTokenDTO();
+        passwordTokenDTO.setPasswordResetToken("유효한 토큰");
+        passwordTokenDTO.setPassword("12345678");
+
+        //when
+        ResultActions perform = mockMvc.perform(patch("/api/member/recover-password")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(passwordTokenDTO))
                 .with(csrf())
         );
 

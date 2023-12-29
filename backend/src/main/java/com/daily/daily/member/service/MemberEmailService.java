@@ -16,11 +16,7 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.util.DefaultUriBuilderFactory;
-import org.springframework.web.util.UriBuilder;
 
-import java.net.URI;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service

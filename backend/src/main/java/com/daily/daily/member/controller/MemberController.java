@@ -8,6 +8,7 @@ import com.daily.daily.member.dto.JoinDTO;
 import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.NicknameDTO;
 import com.daily.daily.member.dto.PasswordRecoverDTO;
+import com.daily.daily.member.dto.PasswordTokenDTO;
 import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.service.MemberEmailService;
 import com.daily.daily.member.service.MemberService;
@@ -111,6 +112,12 @@ public class MemberController {
     @PostMapping("/recover-password")
     public ResponseEntity<CommonResponseDTO> recoverPassword(@RequestBody @Valid PasswordRecoverDTO passwordRecoverDTO) {
         memberEmailService.recoverPassword(passwordRecoverDTO.getUsername(), passwordRecoverDTO.getEmail());
+        return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+    }
+
+    @PatchMapping("/recover-password")
+    public ResponseEntity<CommonResponseDTO> updatePasswordByPasswordResetToken(@RequestBody @Valid PasswordTokenDTO passwordTokenDTO) {
+        memberService.updatePasswordByPasswordResetToken(passwordTokenDTO.getPasswordResetToken(), passwordTokenDTO.getPassword());
         return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
     }
 }
