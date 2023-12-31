@@ -1,0 +1,45 @@
+= 다일리 API 문서
+
+== 인증 & 인가
+
+== 회원
+
+=== 회원가입
+
+
+
+==== 요청
+
+include::{snippets}/회원가입/http-request.adoc[]
+include::{snippets}/회원가입/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/회원가입/http-response.adoc[]
+include::{snippets}/회원가입/response-fields.adoc[]
+
+
+=== 회원정보 조회
+
+=== 아이디 중복 확인
+
+=== 닉네임 중복 확인
+
+=== 닉네임 수정
+
+=== 이메일 인증번호 전송
+
+=== 이메일 인증번호 검증 & 이메일 등록
+
+=== 아이디 찾기
+
+=== 비밀번호 변경 (마이페이지)
+
+=== 비밀번호 변경 (비밀번호 찾기)
+
+
+// include::{snippets}/register/http-request.adoc[]
+// include::{snippets}/register/http-response.adoc[]
+// include::{snippets}/register/httpie-request.adoc[]
+// include::{snippets}/register/request-body.adoc[]
+// include::{snippets}/register/response-body.adoc[]

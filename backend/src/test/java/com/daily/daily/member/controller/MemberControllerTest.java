@@ -13,25 +13,33 @@ import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
 import com.daily.daily.member.service.MemberEmailService;
 import com.daily.daily.member.service.MemberService;
+import com.daily.daily.testutil.document.RestDocsUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.nio.charset.StandardCharsets;
 
+import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -45,7 +53,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtUtil.class),
 })
 @MockBean(JpaMetamodelMappingContext.class)
-
+@AutoConfigureRestDocs
 class MemberControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -64,12 +72,12 @@ class MemberControllerTest {
     @DisplayName("회원가입이 성공한 경우의 응답을 검사한다.")
     void joinSuccessCase() throws Exception {
         //given
-        JoinDTO joinDTO = new JoinDTO("geonwoo123", "pass1234", null);
+        JoinDTO joinDTO = new JoinDTO("geonwoo123", "pass1234", "사모예드");
 
         MemberInfoDTO expected = new MemberInfoDTO();
         expected.setId(1L);
         expected.setUsername("geonwoo123");
-        expected.setNickname("난폭한사자");
+        expected.setNickname("사모예드");
 
         given(memberService.join(Mockito.any())).willReturn(expected);
         //when
@@ -80,13 +88,27 @@ class MemberControllerTest {
         );
         //then
         String content = joinActions.andExpect(status().isCreated())
-                .andDo(print())
                 .andReturn()
                 .getResponse()
                 .getContentAsString(StandardCharsets.UTF_8);
 
         MemberInfoDTO actual = objectMapper.readValue(content, MemberInfoDTO.class);
         assertThat(actual).isEqualTo(expected);
+
+        //restdocs
+        joinActions
+                .andDo(document("회원가입",
+                        requestFields(
+                        fieldWithPath("username").type(STRING).description("아이디"),
+                        fieldWithPath("password").type(STRING).description("비밀번호"),
+                        fieldWithPath("nickname").type(STRING).description("닉네임").optional()
+                ),
+                        responseFields(
+                        fieldWithPath("id").type(NUMBER).description("회원 식별 id"),
+                        fieldWithPath("username").type(STRING).description("아이디"),
+                        fieldWithPath("nickname").type(STRING).description("닉네임"),
+                        fieldWithPath("email").type(STRING).description("이메일").optional()
+                )));
     }
 
     @Test

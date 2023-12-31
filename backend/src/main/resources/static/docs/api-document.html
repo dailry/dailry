@@ -446,14 +446,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_회원가입">회원가입</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/member/join?_csrf=7VTLqkaF8t0yF_mciXWheOAghfvdNs7XiLLMsqBsSPKD6kqo2zWvnn-1x-4fc5ip6FiVHYNEqJm4Avf67oav0JYKK8Ln332f' -i -X POST \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/member/join?_csrf=1XPTJkC9ZzFS7qoOMh0tdmTv1bYZ4TKa2isg7Cmnq5U2b3Tc4EW3RyWMAlJ_1p5tVjAZE1aK-I4uhAa340pBiBCUmvZUDBHl' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -d '{"username":"geonwoo123","password":"pass1234","nickname":null}'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/member/join?_csrf=7VTLqkaF8t0yF_mciXWheOAghfvdNs7XiLLMsqBsSPKD6kqo2zWvnn-1x-4fc5ip6FiVHYNEqJm4Avf67oav0JYKK8Ln332f HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/member/join?_csrf=1XPTJkC9ZzFS7qoOMh0tdmTv1bYZ4TKa2isg7Cmnq5U2b3Tc4EW3RyWMAlJ_1p5tVjAZE1aK-I4uhAa340pBiBCUmvZUDBHl HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 63
 Host: localhost:8080
@@ -481,7 +481,7 @@ Content-Length: 74
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ echo '{"username":"geonwoo123","password":"pass1234","nickname":null}' | http POST 'http://localhost:8080/api/member/join?_csrf=7VTLqkaF8t0yF_mciXWheOAghfvdNs7XiLLMsqBsSPKD6kqo2zWvnn-1x-4fc5ip6FiVHYNEqJm4Avf67oav0JYKK8Ln332f' \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ echo '{"username":"geonwoo123","password":"pass1234","nickname":null}' | http POST 'http://localhost:8080/api/member/join?_csrf=1XPTJkC9ZzFS7qoOMh0tdmTv1bYZ4TKa2isg7Cmnq5U2b3Tc4EW3RyWMAlJ_1p5tVjAZE1aK-I4uhAa340pBiBCUmvZUDBHl' \
     'Content-Type:application/json;charset=UTF-8'</code></pre>
 </div>
 </div>
