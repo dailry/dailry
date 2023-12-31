@@ -21,6 +21,7 @@ public class RestDocsUtil {
         return preprocessRequest(
                 modifyHeaders()
                         .remove("Content-Length")
+                        .remove("X-CSRF-TOKEN")
                         .remove("Host"),
                 prettyPrint());
     }
@@ -43,13 +44,6 @@ public class RestDocsUtil {
                 customRequestPreprocessor(),
                 customResponsePreprocessor(),
                 snippets);
-    }
-
-    public static ResponseFieldsSnippet commonSuccessResponseFields() {
-        return responseFields(
-                fieldWithPath("successful").type(BOOLEAN).description("성공 여부"),
-                fieldWithPath("statusCode").type(NUMBER).description("상태 코드")
-        );
     }
 }
 

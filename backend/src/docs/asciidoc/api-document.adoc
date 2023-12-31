@@ -1,4 +1,30 @@
+:toc: left
+:source-highlighter: highlightjs
+
+
 = 다일리 API 문서
+
+// === 예외 케이스 응답
+
+// [source]
+// ----
+// {
+//     "successful": false
+//     "msg": 예외 메시지
+//     "statusCode": 상태코드
+// }
+// ----
+//
+// 예시
+//
+// [source]
+// ----
+// {
+//     "successful": false
+//     "msg": 해당 회원을 찾을 수 없습니다.
+//     "statusCode": 404
+// }
+// ----
 
 == 인증 & 인가
 
@@ -29,7 +55,6 @@ include::{snippets}/회원가입/request-fields.adoc[]
 include::{snippets}/회원가입/http-response.adoc[]
 include::{snippets}/회원가입/response-fields.adoc[]
 
-
 === 회원정보 조회
 
 ==== 요청
@@ -49,6 +74,10 @@ include::{snippets}/아이디중복검사/http-request.adoc[]
 include::{snippets}/아이디중복검사/query-parameters.adoc[]
 
 ==== 응답
+
+include::{snippets}/아이디중복검사/http-response.adoc[]
+include::{snippets}/아이디중복검사/response-fields.adoc[]
+
 
 === 닉네임 중복 검사
 
@@ -84,7 +113,6 @@ include::{snippets}/이메일인증번호전송/request-fields.adoc[]
 ==== 응답
 
 include::{snippets}/이메일인증번호전송/http-response.adoc[]
-include::{snippets}/이메일인증번호전송/response-fields.adoc[]
 
 === 이메일 인증번호 검증 & 이메일 등록
 
@@ -96,7 +124,6 @@ include::{snippets}/이메일인증번호검증및등록/request-fields.adoc[]
 ==== 응답
 
 include::{snippets}/이메일인증번호검증및등록/http-response.adoc[]
-include::{snippets}/이메일인증번호검증및등록/response-fields.adoc[]
 
 === 아이디 찾기
 
@@ -110,7 +137,6 @@ include::{snippets}/회원비밀번호변경/request-fields.adoc[]
 ==== 응답
 
 include::{snippets}/회원비밀번호변경/http-response.adoc[]
-include::{snippets}/회원비밀번호변경/response-fields.adoc[]
 
 === 비밀번호 변경 (비밀번호 찾기)
 
@@ -122,7 +148,6 @@ include::{snippets}/회원비밀번호변경_비밀번호찾기/request-fields.a
 ==== 응답
 
 include::{snippets}/회원비밀번호변경_비밀번호찾기/http-response.adoc[]
-include::{snippets}/회원비밀번호변경_비밀번호찾기/response-fields.adoc[]
 
 
 

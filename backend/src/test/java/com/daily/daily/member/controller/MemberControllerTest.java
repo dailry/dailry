@@ -13,6 +13,8 @@ import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
 import com.daily.daily.member.service.MemberEmailService;
 import com.daily.daily.member.service.MemberService;
+import com.daily.daily.testutil.mockmvc.MockMvcConstant;
+import com.daily.daily.testutil.mockmvc.MockMvcTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,10 +34,11 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.nio.charset.StandardCharsets;
 
-import static com.daily.daily.testutil.document.RestDocsUtil.commonSuccessResponseFields;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
+import static com.daily.daily.testutil.mockmvc.MockMvcConstant.AccessToken;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
@@ -49,6 +53,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
+
 @WebMvcTest(value = MemberController.class, excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtAuthorizationFilter.class),
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtUtil.class),
@@ -56,17 +62,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
 class MemberControllerTest {
+
     @Autowired
     MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @MockBean
     MemberService memberService;
 
     @MockBean
     MemberEmailService memberEmailService;
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @Test
     @WithMockUser
@@ -85,7 +92,7 @@ class MemberControllerTest {
         ResultActions joinActions = mockMvc.perform(post("/api/member/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(joinDTO))
-                .with(csrf())
+                .with(csrf().asHeader())
         );
         //then
         String content = joinActions.andExpect(status().isCreated())
@@ -125,8 +132,7 @@ class MemberControllerTest {
         ResultActions joinActions = mockMvc.perform(post("/api/member/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(joinDTO))
-                .with(csrf())
-
+                .with(csrf().asHeader())
         );
 
         //then
@@ -144,12 +150,11 @@ class MemberControllerTest {
         expected.setNickname("난폭한사자");
 
         given(memberService.findById(Mockito.any())).willReturn(expected);
-        String token = "JwtAccessToken";
 
         //when
         ResultActions actions = mockMvc.perform(get("/api/member")
-                .header("Authorization", token)
-                .with(csrf())
+                .header(AUTHORIZATION, AccessToken)
+                .with(csrf().asHeader())
         );
 
         //then
@@ -281,7 +286,8 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(patch("/api/member/nickname")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(nicknameDTO))
-                .with(csrf())
+                .header(AUTHORIZATION, AccessToken)
+                .with(csrf().asHeader())
         );
         //then
         String content = perform.andExpect(status().isOk())
@@ -317,7 +323,8 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(patch("/api/member/password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(passwordUpdateDTO))
-                .with(csrf())
+                .header(AUTHORIZATION, AccessToken)
+                .with(csrf().asHeader())
         );
         //then
         perform.andExpect(status().isOk())
@@ -329,8 +336,7 @@ class MemberControllerTest {
                 requestFields(
                         fieldWithPath("presentPassword").type(STRING).description("현재 비밀번호"),
                         fieldWithPath("updatePassword").type(STRING).description("변경할 비밀번호")
-                ),
-                commonSuccessResponseFields()
+                )
         ));
     }
 
@@ -345,7 +351,8 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(post("/api/member/email-verification/request")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emailDTO))
-                .with(csrf())
+                .header(AUTHORIZATION, AccessToken)
+                .with(csrf().asHeader())
         );
         //then
         perform.andExpect(status().isOk())
@@ -356,8 +363,7 @@ class MemberControllerTest {
         perform.andDo(document("이메일인증번호전송",
                 requestFields(
                         fieldWithPath("email").type(STRING).description("이메일")
-                ),
-                commonSuccessResponseFields()
+                )
         ));
     }
 
@@ -372,7 +378,8 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(post("/api/member/email-verification/confirm")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emailVerifyDTO))
-                .with(csrf())
+                .header(AUTHORIZATION, AccessToken)
+                .with(csrf().asHeader())
         );
         //then
         perform.andExpect(status().isOk())
@@ -384,8 +391,7 @@ class MemberControllerTest {
                 requestFields(
                         fieldWithPath("email").type(STRING).description("인증번호 요청한 이메일"),
                         fieldWithPath("certificationNumber").type(STRING).description("인증번호")
-                ),
-                commonSuccessResponseFields()
+                )
         ));
     }
 
@@ -400,7 +406,7 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(post("/api/member/recover-username")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emailDTO))
-                .with(csrf())
+                .with(csrf().asHeader())
         );
 
         //then
@@ -412,8 +418,7 @@ class MemberControllerTest {
         perform.andDo(document("아이디찾기",
                 requestFields(
                         fieldWithPath("email").type(STRING).description("이메일")
-                ),
-                commonSuccessResponseFields()
+                )
         ));
     }
 
@@ -430,7 +435,7 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(post("/api/member/recover-password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(passwordRecoverDTO))
-                .with(csrf())
+                .with(csrf().asHeader())
         );
 
         //then
@@ -443,8 +448,7 @@ class MemberControllerTest {
                 requestFields(
                         fieldWithPath("username").type(STRING).description("회원 아이디"),
                         fieldWithPath("email").type(STRING).description("이메일")
-                ),
-                commonSuccessResponseFields()
+                )
         ));
     }
 
@@ -461,7 +465,7 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(patch("/api/member/recover-password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(passwordTokenDTO))
-                .with(csrf())
+                .with(csrf().asHeader())
         );
 
         //then
@@ -474,8 +478,7 @@ class MemberControllerTest {
                 requestFields(
                         fieldWithPath("passwordResetToken").type(STRING).description("비밀번호 변경 토큰"),
                         fieldWithPath("password").type(STRING).description("변경할 비밀번호")
-                ),
-                commonSuccessResponseFields()
+                )
         ));
     }
 }
