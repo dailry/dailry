@@ -4,22 +4,28 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
+import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.restdocs.snippet.Snippet;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyHeaders;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 
-public interface RestDocsUtil {
-    static OperationRequestPreprocessor customRequestPreprocessor() {
-        return preprocessRequest(modifyHeaders()
-                .remove("Content-Length")
-                .remove("Host"),
+public class RestDocsUtil {
+    private static OperationRequestPreprocessor customRequestPreprocessor() {
+        return preprocessRequest(
+                modifyHeaders()
+                        .remove("Content-Length")
+                        .remove("Host"),
                 prettyPrint());
     }
 
-    static OperationResponsePreprocessor customResponsePreprocessor() {
+    private static OperationResponsePreprocessor customResponsePreprocessor() {
         return preprocessResponse(modifyHeaders().remove("Vary")
                         .remove("Content-Length")
                         .remove("X-Content-Type-Options")
@@ -31,12 +37,19 @@ public interface RestDocsUtil {
                 prettyPrint());
     }
 
-    static RestDocumentationResultHandler document(String identifier, Snippet... snippets) {
+    public static RestDocumentationResultHandler document(String identifier, Snippet... snippets) {
         return MockMvcRestDocumentation.document(
                 identifier,
                 customRequestPreprocessor(),
                 customResponsePreprocessor(),
                 snippets);
+    }
+
+    public static ResponseFieldsSnippet commonSuccessResponseFields() {
+        return responseFields(
+                fieldWithPath("successful").type(BOOLEAN).description("성공 여부"),
+                fieldWithPath("statusCode").type(NUMBER).description("상태 코드")
+        );
     }
 }
 

@@ -13,7 +13,6 @@ import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
 import com.daily.daily.member.service.MemberEmailService;
 import com.daily.daily.member.service.MemberService;
-import com.daily.daily.testutil.document.RestDocsUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,13 +25,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.nio.charset.StandardCharsets;
 
+import static com.daily.daily.testutil.document.RestDocsUtil.commonSuccessResponseFields;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -40,6 +39,8 @@ import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -96,19 +97,19 @@ class MemberControllerTest {
         assertThat(actual).isEqualTo(expected);
 
         //restdocs
-        joinActions
-                .andDo(document("회원가입",
-                        requestFields(
+        joinActions.andDo(document("회원가입",
+                requestFields(
                         fieldWithPath("username").type(STRING).description("아이디"),
                         fieldWithPath("password").type(STRING).description("비밀번호"),
                         fieldWithPath("nickname").type(STRING).description("닉네임").optional()
                 ),
-                        responseFields(
+                responseFields(
                         fieldWithPath("id").type(NUMBER).description("회원 식별 id"),
                         fieldWithPath("username").type(STRING).description("아이디"),
                         fieldWithPath("nickname").type(STRING).description("닉네임"),
                         fieldWithPath("email").type(STRING).description("이메일").optional()
-                )));
+                )
+        ));
     }
 
     @Test
@@ -143,7 +144,7 @@ class MemberControllerTest {
         expected.setNickname("난폭한사자");
 
         given(memberService.findById(Mockito.any())).willReturn(expected);
-        String token = "testJwtToken";
+        String token = "JwtAccessToken";
 
         //when
         ResultActions actions = mockMvc.perform(get("/api/member")
@@ -160,6 +161,16 @@ class MemberControllerTest {
 
         MemberInfoDTO actual = objectMapper.readValue(content, MemberInfoDTO.class);
         assertThat(actual).isEqualTo(expected);
+
+        //restdocs
+        actions.andDo(document("회원정보조회",
+                responseFields(
+                        fieldWithPath("id").type(NUMBER).description("회원 식별 id"),
+                        fieldWithPath("username").type(STRING).description("아이디"),
+                        fieldWithPath("nickname").type(STRING).description("닉네임"),
+                        fieldWithPath("email").type(STRING).description("이메일").optional()
+                )
+        ));
     }
 
     @WithMockUser
@@ -171,13 +182,23 @@ class MemberControllerTest {
         given(memberService.existsByUsername(testUsername)).willReturn(true);
 
         //when
-        ResultActions perform = mockMvc.perform(get("/api/member/check-username")
+        ResultActions actions = mockMvc.perform(get("/api/member/check-username")
                 .param("username", testUsername)
         );
 
         //then
-        perform.andExpect(status().isOk())
+        actions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.duplicated").value(true));
+
+        //restDocs
+        actions.andDo(document("아이디중복검사",
+                queryParameters(
+                        parameterWithName("username").description("중복검사를 요청할 아이디")
+                ),
+                responseFields(
+                        fieldWithPath("duplicated").description("중복 여부")
+                )
+        ));
     }
 
     @WithMockUser
@@ -196,7 +217,6 @@ class MemberControllerTest {
         //then
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$.duplicated").value(false));
-
     }
 
     @WithMockUser
@@ -215,6 +235,16 @@ class MemberControllerTest {
         //then
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$.duplicated").value(true));
+
+        //restdocs
+        perform.andDo(document("닉네임중복검사",
+                queryParameters(
+                        parameterWithName("nickname").description("중복검사를 요청할 닉네임")
+                ),
+                responseFields(
+                        fieldWithPath("duplicated").description("중복 여부")
+                )
+        ));
     }
 
     @WithMockUser
@@ -262,6 +292,19 @@ class MemberControllerTest {
 
         MemberInfoDTO actual = objectMapper.readValue(content, MemberInfoDTO.class);
         assertThat(actual).isEqualTo(expected);
+
+        //restdocs
+        perform.andDo(document("회원닉네임변경",
+                requestFields(
+                        fieldWithPath("nickname").type(STRING).description("변경을 요청할 닉네임")
+                ),
+                responseFields(
+                        fieldWithPath("id").type(NUMBER).description("회원 식별 id"),
+                        fieldWithPath("username").type(STRING).description("아이디"),
+                        fieldWithPath("nickname").type(STRING).description("닉네임"),
+                        fieldWithPath("email").type(STRING).description("이메일").optional()
+                )
+        ));
     }
 
     @WithMockUser
@@ -280,6 +323,15 @@ class MemberControllerTest {
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$.successful").value(true))
                 .andExpect(jsonPath("$.statusCode").value(200));
+
+        //restdocs
+        perform.andDo(document("회원비밀번호변경",
+                requestFields(
+                        fieldWithPath("presentPassword").type(STRING).description("현재 비밀번호"),
+                        fieldWithPath("updatePassword").type(STRING).description("변경할 비밀번호")
+                ),
+                commonSuccessResponseFields()
+        ));
     }
 
     @WithMockUser
@@ -299,6 +351,14 @@ class MemberControllerTest {
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$.successful").value(true))
                 .andExpect(jsonPath("$.statusCode").value(200));
+
+        //restdocs
+        perform.andDo(document("이메일인증번호전송",
+                requestFields(
+                        fieldWithPath("email").type(STRING).description("이메일")
+                ),
+                commonSuccessResponseFields()
+        ));
     }
 
     @WithMockUser
@@ -318,6 +378,15 @@ class MemberControllerTest {
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$.successful").value(true))
                 .andExpect(jsonPath("$.statusCode").value(200));
+
+        //restdocs
+        perform.andDo(document("이메일인증번호검증및등록",
+                requestFields(
+                        fieldWithPath("email").type(STRING).description("인증번호 요청한 이메일"),
+                        fieldWithPath("certificationNumber").type(STRING).description("인증번호")
+                ),
+                commonSuccessResponseFields()
+        ));
     }
 
     @WithMockUser
@@ -338,6 +407,14 @@ class MemberControllerTest {
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$.successful").value(true))
                 .andExpect(jsonPath("$.statusCode").value(200));
+
+        //restdocs
+        perform.andDo(document("아이디찾기",
+                requestFields(
+                        fieldWithPath("email").type(STRING).description("이메일")
+                ),
+                commonSuccessResponseFields()
+        ));
     }
 
     @WithMockUser
@@ -360,6 +437,15 @@ class MemberControllerTest {
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$.successful").value(true))
                 .andExpect(jsonPath("$.statusCode").value(200));
+
+        //restdocs
+        perform.andDo(document("비밀번호찾기",
+                requestFields(
+                        fieldWithPath("username").type(STRING).description("회원 아이디"),
+                        fieldWithPath("email").type(STRING).description("이메일")
+                ),
+                commonSuccessResponseFields()
+        ));
     }
 
     @WithMockUser
@@ -382,5 +468,14 @@ class MemberControllerTest {
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$.successful").value(true))
                 .andExpect(jsonPath("$.statusCode").value(200));
+
+        //restdocs
+        perform.andDo(document("회원비밀번호변경_비밀번호찾기",
+                requestFields(
+                        fieldWithPath("passwordResetToken").type(STRING).description("비밀번호 변경 토큰"),
+                        fieldWithPath("password").type(STRING).description("변경할 비밀번호")
+                ),
+                commonSuccessResponseFields()
+        ));
     }
 }
