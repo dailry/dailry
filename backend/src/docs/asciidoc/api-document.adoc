@@ -4,27 +4,27 @@
 
 = 다일리 API 문서
 
-// === 예외 케이스 응답
+=== 예외 케이스 공통 응답
 
-// [source]
-// ----
-// {
-//     "successful": false
-//     "msg": 예외 메시지
-//     "statusCode": 상태코드
-// }
-// ----
-//
-// 예시
-//
-// [source]
-// ----
-// {
-//     "successful": false
-//     "msg": 해당 회원을 찾을 수 없습니다.
-//     "statusCode": 404
-// }
-// ----
+[source,json]
+----
+{
+    "successful": false,
+    "msg": "예외 메시지",
+    "statusCode": 상태코드
+}
+----
+
+==== 예시
+
+[source, json]
+----
+{
+    "successful": false,
+    "msg": "해당 회원을 찾을 수 없습니다.",
+    "statusCode": 404
+}
+----
 
 == 인증 & 인가
 

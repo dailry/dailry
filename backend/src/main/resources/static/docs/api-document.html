@@ -445,7 +445,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
+<ul class="sectlevel2">
+<li><a href="#_예외_케이스_공통_응답">예외 케이스 공통 응답</a></li>
 <li><a href="#_인증_인가">인증 &amp; 인가</a>
 <ul class="sectlevel2">
 <li><a href="#_로그인">로그인</a></li>
@@ -472,6 +473,30 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div id="content">
+<div class="sect2">
+<h3 id="_예외_케이스_공통_응답">예외 케이스 공통 응답</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "successful": false,
+    "msg": "예외 메시지",
+    "statusCode": 상태코드
+}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_예시">예시</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "successful": false,
+    "msg": "해당 회원을 찾을 수 없습니다.",
+    "statusCode": 404
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_인증_인가">인증 &amp; 인가</h2>
 <div class="sectionbody">
@@ -1169,7 +1194,7 @@ Content-Type: application/json;charset=UTF-8
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-01 01:10:52 +0900
+Last updated 2024-01-01 02:42:33 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
