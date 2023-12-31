@@ -6,8 +6,10 @@ import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.exception.DuplicatedNicknameException;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
+import com.daily.daily.member.exception.InvalidPasswordResetTokenException;
 import com.daily.daily.member.exception.PasswordUnmatchedException;
 import com.daily.daily.member.repository.MemberRepository;
+import com.daily.daily.member.repository.PasswordResetTokenRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +32,8 @@ class MemberServiceTest {
     MemberRepository memberRepository;
     @Spy
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Mock
+    PasswordResetTokenRepository passwordResetTokenRepository;
     @InjectMocks
     MemberService memberService;
 
@@ -101,7 +105,6 @@ class MemberServiceTest {
         //when, then
         assertThatThrownBy(() -> memberService.updatePassword(wrongPasswordDTO, 1L))
                 .isInstanceOf(PasswordUnmatchedException.class); // wrong case
-
     }
 
     @Test
@@ -124,5 +127,18 @@ class MemberServiceTest {
                 .nickname("nickname")
                 .password(new BCryptPasswordEncoder().encode(password))
                 .build();
+    }
+
+    @Test
+    @DisplayName("비밀번호 재설정 토큰을 이용해서 비밀번호를 변경할 때, 토큰이 유효하지 않으면 InvalidPasswordResetTokenException이 발생한다.")
+    void updatePasswordByPasswordResetToken() {
+        //given
+        String passwordResetToken = "유효하지 않은 토큰";
+        String updatePassword = "12345678";
+
+        when(passwordResetTokenRepository.getMemberIdByToken(passwordResetToken)).thenReturn(Optional.empty());
+        //when, then
+        assertThatThrownBy(() -> memberService.updatePasswordByResetToken(passwordResetToken, updatePassword))
+                .isInstanceOf(InvalidPasswordResetTokenException.class);
     }
 }
