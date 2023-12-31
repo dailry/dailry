@@ -1,25 +1,25 @@
 package com.daily.daily.testutil.document;
 
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
+import org.springframework.restdocs.snippet.Snippet;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyHeaders;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyUris;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
-public interface ApiDocumentUtils {
-    static OperationRequestPreprocessor getDocumentRequest() {
-        return preprocessRequest(
-                modifyUris()
-                        .scheme("https")
-                        .host("docs.api.com")
-                        .removePort(),
+public interface RestDocsUtil {
+    static OperationRequestPreprocessor customRequestPreprocessor() {
+        return preprocessRequest(modifyHeaders()
+                .remove("Content-Length")
+                .remove("Host"),
                 prettyPrint());
     }
 
-    static OperationResponsePreprocessor getDocumentResponse() {
+    static OperationResponsePreprocessor customResponsePreprocessor() {
         return preprocessResponse(modifyHeaders().remove("Vary")
                         .remove("Content-Length")
                         .remove("X-Content-Type-Options")
@@ -29,7 +29,16 @@ public interface ApiDocumentUtils {
                         .remove("Expires")
                         .remove("X-Frame-Options"),
                 prettyPrint());
-    }}
+    }
+
+    static RestDocumentationResultHandler document(String identifier, Snippet... snippets) {
+        return MockMvcRestDocumentation.document(
+                identifier,
+                customRequestPreprocessor(),
+                customResponsePreprocessor(),
+                snippets);
+    }
+}
 
 //HTTP/1.1 201 Created
 //Vary: Origin
