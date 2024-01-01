@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { BACKGROUND } from '../../styles/color';
+import { BACKGROUND } from '../../../../styles/color';
 
 export const Background = styled.div`
   display: flex;
@@ -12,16 +12,14 @@ export const Background = styled.div`
   background: ${BACKGROUND.gradient};
 `;
 
-export const Container = styled.div`
-  flex-basis: 70%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+export const NavigationContainer = styled.div`
+  flex-basis: 30%;
   height: calc(100dvh - 20px);
   margin: 10px;
+`;
 
-  border-radius: 8px;
-  background-color: ${BACKGROUND.bright};
-  box-shadow: 0 4px 4px #00000040;
+export const PageContainer = styled.div`
+  flex-basis: 70%;
+  height: calc(100dvh - 20px);
+  margin: 10px;
 `;

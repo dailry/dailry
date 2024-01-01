@@ -41,12 +41,25 @@ public class Member extends BaseTimeEntity implements UserDetails {
             nickname = String.format("다일리%d", id);
         }
     }
+
     public void updateNickname(String nickname) {
         this.nickname = nickname;
     }
 
     public void updatePassword(String password) {
         this.password = password;
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isNotSocialLoginMember() {
+        return socialType == SocialType.NONE;
+    }
+
+    public boolean hasSameUsername(String otherUsername) {
+        return username.equals(otherUsername);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

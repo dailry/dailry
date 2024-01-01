@@ -24,20 +24,4 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(new ExceptionResponseDTO(defaultMessage, HttpStatus.BAD_REQUEST.value()));
     }
-
-    @ExceptionHandler({DuplicatedUsernameException.class,
-            DuplicatedNicknameException.class})
-    public ResponseEntity<ExceptionResponseDTO> handleDuplicatedException(IllegalArgumentException e) {
-        return new ResponseEntity<>(new ExceptionResponseDTO(e.getMessage(), HttpStatus.CONFLICT.value()), HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(PasswordUnmatchedException.class)
-    public ResponseEntity<ExceptionResponseDTO> handlePasswordUnmatchedException(IllegalArgumentException e) {
-        return new ResponseEntity<>(new ExceptionResponseDTO(e.getMessage(), HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(LoginFailureException.class)
-    public ResponseEntity<ExceptionResponseDTO> handleLoginFailureException(RuntimeException e) {
-        return new ResponseEntity<>(new ExceptionResponseDTO(e.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
-    }
 }

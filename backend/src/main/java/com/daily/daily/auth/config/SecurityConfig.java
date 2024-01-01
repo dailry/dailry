@@ -37,6 +37,7 @@ public class SecurityConfig {
         http.sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.httpBasic(AbstractHttpConfigurer::disable);
         http.formLogin(AbstractHttpConfigurer::disable);
+        http.logout(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(registry -> registry
                 .anyRequest().permitAll()
         );

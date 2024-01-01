@@ -17,8 +17,9 @@ public class MemberInfoDTO {
     private Long id;
     private String username;
     private String nickname;
+    private String email;
 
     public static MemberInfoDTO from(Member member) {
-        return new MemberInfoDTO(member.getId(), member.getUsername(), member.getNickname());
+        return new MemberInfoDTO(member.getId(), member.getUsername(), member.getNickname(), member.getEmail());
     }
 }

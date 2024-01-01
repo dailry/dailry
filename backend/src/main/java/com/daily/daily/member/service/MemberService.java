@@ -6,9 +6,11 @@ import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.exception.DuplicatedNicknameException;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
+import com.daily.daily.member.exception.InvalidPasswordResetTokenException;
 import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.exception.PasswordUnmatchedException;
 import com.daily.daily.member.repository.MemberRepository;
+import com.daily.daily.member.repository.PasswordResetTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -81,12 +83,21 @@ public class MemberService {
             throw new PasswordUnmatchedException();
         }
 
-        String encodedPassword = passwordEncoder.encode(updatePassword);
-        findMember.updatePassword(encodedPassword);
+        findMember.updatePassword(passwordEncoder.encode(updatePassword));
     }
 
     private boolean verifyPassword(String inputPassword, String memberPassword) {
         return passwordEncoder.matches(inputPassword, memberPassword);
+    }
+
+    public void updatePasswordByResetToken(String passwordResetToken, String updatePassword) {
+        Long memberId = passwordResetTokenRepository.getMemberIdByToken(passwordResetToken)
+                .orElseThrow(InvalidPasswordResetTokenException::new);
+
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
+
+        findMember.updatePassword(passwordEncoder.encode(updatePassword));
     }
 
     public boolean existsByUsername(String username) {
@@ -97,7 +108,4 @@ public class MemberService {
         return memberRepository.existsByNickname(nickname);
     }
 
-    public boolean existsByEmail(String email) {
-        return memberRepository.existsByEmail(email);
-    }
 }

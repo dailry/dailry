@@ -4,15 +4,15 @@ const config = {
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-onboarding',
     '@storybook/addon-interactions',
   ],
   framework: {
-    name: '@storybook/react-vite',
+    name: '@storybook/react-webpack5',
     options: {},
   },
   docs: {
     autodocs: 'tag',
   },
+  staticDirs: ['../public'],
 };
 export default config;
