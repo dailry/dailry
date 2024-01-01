@@ -1,8 +1,5 @@
 package com.daily.daily.auth.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.daily.daily.auth.dto.JwtClaimDTO;
 import com.daily.daily.auth.dto.LoginDTO;
 import com.daily.daily.member.constant.MemberRole;
@@ -12,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -52,7 +48,7 @@ public class JwtUtilTest {
         Long id = 15L;
         MemberRole role = MemberRole.ROLE_MEMBER;
         //when
-        String jwtToken = jwtUtil.generateToken(id, role);
+        String jwtToken = jwtUtil.generateAccessToken(id, role);
         System.out.println("jwtToken: " + jwtToken);
 
         //then
@@ -64,7 +60,7 @@ public class JwtUtilTest {
     void checkTokenHeader() {
         MockHttpServletResponse mockHttpServletResponse = new MockHttpServletResponse();
 
-        String accessToken = jwtUtil.generateToken(3L, MemberRole.ROLE_MEMBER);
+        String accessToken = jwtUtil.generateAccessToken(3L, MemberRole.ROLE_MEMBER);
         String refreshToken = jwtUtil.createRefreshToken();
 
         jwtUtil.setAccessTokenHeader(mockHttpServletResponse, accessToken);
@@ -82,7 +78,7 @@ public class JwtUtilTest {
         MemberRole role = MemberRole.ROLE_MEMBER;
 
         //when
-        String accessToken = jwtUtil.generateToken(memberId, role);
+        String accessToken = jwtUtil.generateAccessToken(memberId, role);
         accessToken = accessToken.substring(JwtUtil.BEARER_PREFIX.length());
 
         JwtClaimDTO jwtClaimDTO = jwtUtil.extractClaims(accessToken);
