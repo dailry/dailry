@@ -24,6 +24,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final NicknameGenerator nicknameGenerator;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
 
     public MemberInfoDTO join(JoinDTO joinDTO) {
         String password = joinDTO.getPassword();
