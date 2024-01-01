@@ -23,8 +23,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         try {
             OAuth2CustomUser oAuth2User = (OAuth2CustomUser) authentication.getPrincipal();
-            String accessToken = jwtUtil.generateToken(oAuth2User.getMember().getId(),oAuth2User.getMember().getRole());
+            String accessToken = jwtUtil.generateAccessToken(oAuth2User.getMember().getId(),oAuth2User.getMember().getRole());
+            String refreshToken = jwtUtil.generateRefreshToken(oAuth2User.getMember().getId());
             response.addHeader(jwtUtil.getAccessHeader(), accessToken);
+            response.addHeader(jwtUtil.getRefreshHeader(), refreshToken);
             response.sendRedirect("/");
             jwtUtil.sendAccessAndRefreshToken(response, accessToken, null);
         } catch (Exception e) {

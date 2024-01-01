@@ -23,7 +23,6 @@ public class MemberService {
 
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
-    private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final NicknameGenerator nicknameGenerator;
 
     public MemberInfoDTO join(JoinDTO joinDTO) {

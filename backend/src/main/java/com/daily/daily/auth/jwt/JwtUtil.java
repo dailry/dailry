@@ -4,11 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.daily.daily.auth.dto.JwtClaimDTO;
 import com.daily.daily.member.constant.MemberRole;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
 import jakarta.annotation.PostConstruct;
@@ -54,7 +50,8 @@ public class JwtUtil {
         secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(Long memberId, MemberRole role) {
+    public String generateAccessToken(Long memberId, MemberRole role) {
+
         return BEARER_PREFIX + Jwts.builder()
                 .issuer("https://daily.com")
                 .claim(MEMBER_ID_CLAIM, memberId)
@@ -63,6 +60,20 @@ public class JwtUtil {
                 .signWith(secretKey, Jwts.SIG.HS512)
                 .compact();
     }
+
+    public String generateRefreshToken(Long memberId) {
+        Date now = new Date();
+        Date expireDate = new Date(now.getTime() + refreshTokenExpirationPeriod);
+
+        return BEARER_PREFIX + Jwts.builder()
+                .claim(MEMBER_ID_CLAIM, memberId)
+                .issuedAt(now)
+                .expiration(expireDate)
+                .signWith(secretKey, Jwts.SIG.HS512)
+                .compact();
+    }
+
+
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
@@ -119,4 +130,5 @@ public class JwtUtil {
     public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
         response.setHeader(refreshHeader, refreshToken);
     }
+
 }

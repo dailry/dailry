@@ -32,8 +32,10 @@ class MemberServiceTest {
     MemberRepository memberRepository;
     @Spy
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+  
     @Mock
     PasswordResetTokenRepository passwordResetTokenRepository;
+
     @InjectMocks
     MemberService memberService;
 
