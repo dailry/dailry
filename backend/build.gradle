@@ -83,7 +83,12 @@ bootJar {
 	}
 }
 
+build {
+	dependsOn 'copySubmoduleYml'
+}
+
 tasks.register('copySubmoduleYml', Copy) {
+	dependsOn test
 	copy {
 		from './submodule'
 		include "*.yml"
