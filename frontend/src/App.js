@@ -9,14 +9,18 @@ import MyPage from './pages/MyPage/MyPage';
 import CommunityPage from './pages/CommunityPage/CommunityPage';
 import AdminMembersPage from './pages/AdminMembersPage/AdminMembersPage';
 import DefaultLayout from './components/common/Layout/DefaultLayout';
+import RootLayout from './components/common/Layout/RootLayout/RootLayout';
+import { BrightColoredPageTemplate } from './components/common/PageTemplate/PageTemplate.styled';
 
 const App = () => {
   return (
     <Routes>
-      <Route element={<DefaultLayout />}>
-        <Route path={PATH_NAME.Home} element={<HomePage />} />
+      <Route element={<RootLayout pageTemplate={BrightColoredPageTemplate} />}>
         <Route path={PATH_NAME.Login} element={<LoginPage />} />
         <Route path={PATH_NAME.Register} element={<RegisterPage />} />
+      </Route>
+      <Route element={<DefaultLayout />}>
+        <Route path={PATH_NAME.Home} element={<HomePage />} />
         <Route path={PATH_NAME.Daily} element={<DailyPage />} />
         <Route path={PATH_NAME.MyPage} element={<MyPage />} />
         <Route path={PATH_NAME.Community} element={<CommunityPage />} />
