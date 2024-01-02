@@ -1,7 +1,9 @@
+import PropTypes from 'prop-types';
 import * as S from '../LoginPage/LoginPage.styled';
 import AuthButton from '../../components/common/AuthButton/AuthButton';
+import Text from '../../components/common/Text/Text';
 
-const RegisterDonePage = (props) => {
+const RegisterDone = (props) => {
   const { nickname } = props;
   return (
     <S.LoginContainer>
@@ -12,3 +14,9 @@ const RegisterDonePage = (props) => {
     </S.LoginContainer>
   );
 };
+
+RegisterDone.propTypes = {
+  nickname: PropTypes.string.isRequired,
+};
+
+export default RegisterDone;
