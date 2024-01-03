@@ -59,23 +59,24 @@ tasks.named('test') {
 }
 
 asciidoctor {
+//	outputDir = file('build/docs/asciidoc')
 	inputs.dir snippetsDir
 	configurations 'asciidoctorExt'
 	dependsOn test
 }
 
-asciidoctor.doFirst {
-	delete file('src/main/resources/static/docs')
-}
-
-asciidoctor.doLast {
-	copy {
-		from './build/docs/asciidoc'
-		include "*.html"
-		into 'build/resources/main/static/docs'
-		into 'src/main/resources/static/docs'
-	}
-}
+//asciidoctor.doFirst {
+//	delete file('src/main/resources/static/docs')
+//}
+//
+//asciidoctor.doLast {
+//	copy {
+//		from './build/docs/asciidoc'
+//		include "*.html"
+//		into 'build/resources/main/static/docs'
+//		into 'src/main/resources/static/docs'
+//	}
+//}
 
 bootJar {
 	dependsOn asciidoctor
