@@ -2,6 +2,7 @@
 import * as S from './HomePage.styled';
 import Text from '../../components/common/Text/Text';
 import { TEXT } from '../../styles/color';
+import { PATH_NAME } from '../../constants/routes';
 
 const HomePage = () => {
   return (
@@ -19,16 +20,16 @@ const HomePage = () => {
           </Text>
         </S.FrontCover>
         <S.BackCover />
-        <S.BookMark to={'/login'} css={S.BookMark1}>
+        <S.BookMark to={PATH_NAME.Login} css={S.BookMark1}>
           로그인
         </S.BookMark>
-        <S.BookMark to={'/community'} css={S.BookMark2}>
+        <S.BookMark to={PATH_NAME.Community} css={S.BookMark2}>
           공개 다일리
         </S.BookMark>
-        <S.BookMark to={'/daily'} css={S.BookMark3}>
+        <S.BookMark to={PATH_NAME.Daily} css={S.BookMark3}>
           다일리 만들기
         </S.BookMark>
-        <S.BookMark to={'/'} css={S.BookMark4}>
+        <S.BookMark to={PATH_NAME.Home} css={S.BookMark4}>
           팀 다일리
         </S.BookMark>
       </S.HomeWrapper>
