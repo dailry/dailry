@@ -16,13 +16,13 @@ import FindIdPage from './pages/LoginPage/FindIdPage';
 const App = () => {
   return (
     <Routes>
+      <Route path={PATH_NAME.Home} element={<HomePage />} />
       <Route element={<RootLayout pageTemplate={BrightColoredPageTemplate} />}>
         <Route path={PATH_NAME.Login} element={<LoginPage />} />
         <Route path={PATH_NAME.FindId} element={<FindIdPage />} />
         <Route path={PATH_NAME.Register} element={<RegisterPage />} />
       </Route>
       <Route element={<DefaultLayout />}>
-        <Route path={PATH_NAME.Home} element={<HomePage />} />
         <Route path={PATH_NAME.Daily} element={<DailyPage />} />
         <Route path={PATH_NAME.MyPage} element={<MyPage />} />
         <Route path={PATH_NAME.Community} element={<CommunityPage />} />
