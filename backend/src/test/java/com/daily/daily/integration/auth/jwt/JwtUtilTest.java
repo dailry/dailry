@@ -1,7 +1,8 @@
-package com.daily.daily.auth.jwt;
+package com.daily.daily.integration.auth.jwt;
 
 import com.daily.daily.auth.dto.JwtClaimDTO;
 import com.daily.daily.auth.dto.LoginDTO;
+import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.member.constant.MemberRole;
 import com.daily.daily.member.controller.MemberController;
 import com.daily.daily.member.dto.JoinDTO;
