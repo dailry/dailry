@@ -103,6 +103,17 @@ include::{snippets}/회원닉네임변경/request-fields.adoc[]
 include::{snippets}/회원닉네임변경/http-response.adoc[]
 include::{snippets}/회원닉네임변경/response-fields.adoc[]
 
+=== 비밀번호 변경 (마이페이지)
+
+==== 요청
+
+include::{snippets}/회원비밀번호변경/http-request.adoc[]
+include::{snippets}/회원비밀번호변경/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/회원비밀번호변경/http-response.adoc[]
+
 === 이메일 인증번호 전송
 
 ==== 요청
@@ -127,16 +138,25 @@ include::{snippets}/이메일인증번호검증및등록/http-response.adoc[]
 
 === 아이디 찾기
 
-=== 비밀번호 변경 (마이페이지)
-
 ==== 요청
 
-include::{snippets}/회원비밀번호변경/http-request.adoc[]
-include::{snippets}/회원비밀번호변경/request-fields.adoc[]
+include::{snippets}/아이디찾기/http-request.adoc[]
+include::{snippets}/아이디찾기/request-fields.adoc[]
 
 ==== 응답
 
-include::{snippets}/회원비밀번호변경/http-response.adoc[]
+include::{snippets}/아이디찾기/http-response.adoc[]
+
+=== 비밀번호 변경링크 전송
+
+==== 요청
+
+include::{snippets}/비밀번호찾기_변경링크전송/http-request.adoc[]
+include::{snippets}/비밀번호찾기_변경링크전송/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/비밀번호찾기_변경링크전송/http-response.adoc[]
 
 === 비밀번호 변경 (비밀번호 찾기)
 

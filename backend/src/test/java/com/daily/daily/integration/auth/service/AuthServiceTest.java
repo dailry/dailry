@@ -1,6 +1,7 @@
-package com.daily.daily.auth.service;
+package com.daily.daily.integration.auth.service;
 
 import com.daily.daily.auth.dto.LoginDTO;
+import com.daily.daily.auth.service.AuthService;
 import com.daily.daily.member.controller.MemberController;
 import com.daily.daily.member.dto.JoinDTO;
 import org.junit.jupiter.api.BeforeEach;

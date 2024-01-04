@@ -1,4 +1,4 @@
-package com.daily.daily.auth.controller;
+package com.daily.daily.integration.auth.controller;
 
 import com.daily.daily.auth.dto.LoginDTO;
 import com.daily.daily.auth.exception.LoginFailureException;

@@ -1,4 +1,4 @@
-package com.daily.daily.oauth.controller;
+package com.daily.daily.integration.oauth.controller;
 
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;

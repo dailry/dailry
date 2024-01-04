@@ -444,7 +444,7 @@ class MemberControllerTest {
                 .andExpect(jsonPath("$.statusCode").value(200));
 
         //restdocs
-        perform.andDo(document("비밀번호찾기",
+        perform.andDo(document("비밀번호찾기_변경링크전송",
                 requestFields(
                         fieldWithPath("username").type(STRING).description("회원 아이디"),
                         fieldWithPath("email").type(STRING).description("이메일")

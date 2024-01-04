@@ -33,7 +33,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-
+	testImplementation 'org.testcontainers:testcontainers'
 	//jwt library
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -79,6 +79,7 @@ asciidoctor.doLast {
 
 bootJar {
 	dependsOn asciidoctor
+
 	from ("${asciidoctor.outputDir}/html5") { // 왜인지 모르겠지만 동작을 하지 않음 하.... Gradle 이 이상해요
 		into 'static/docs'
 	}
