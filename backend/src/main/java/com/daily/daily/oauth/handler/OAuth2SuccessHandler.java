@@ -27,7 +27,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             String refreshToken = jwtUtil.generateRefreshToken(oAuth2User.getMember().getId());
             response.addHeader(jwtUtil.getAccessHeader(), accessToken);
             response.addHeader(jwtUtil.getRefreshHeader(), refreshToken);
-            response.sendRedirect("/");
+            response.sendRedirect("http://localhost:3000");
             jwtUtil.sendAccessAndRefreshToken(response, accessToken, null);
         } catch (Exception e) {
             log.error("OAuth2 Login 성공 후 예외 발생", e);
