@@ -32,7 +32,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.addFilter(corsFilter);
+        //http.addFilter(corsFilter);
+        http.cors(AbstractHttpConfigurer::disable);
         http.csrf(CsrfConfigurer::disable);
         http.sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.httpBasic(AbstractHttpConfigurer::disable);
@@ -47,6 +48,7 @@ public class SecurityConfig {
                 .failureHandler(oAuth2FailureHandler)
                 .userInfoEndpoint(endpointConfig -> endpointConfig
                         .userService(principalOauth2UserService))
+                .defaultSuccessUrl("http://localhost:3000/")
         );
 
         return http.build();
