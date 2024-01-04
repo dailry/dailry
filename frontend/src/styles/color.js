@@ -1,6 +1,6 @@
 export const BACKGROUND = Object.freeze({
   gradient:
-    'linear-gradient(180deg, rgb(100, 164, 214) 0%, rgb(199, 130, 194) 99.88%);',
+    'linear-gradient(180deg, rgb(199, 130, 194) 0%, rgb(100, 164, 214) 99.88%);',
   darkGradient:
     'linear-gradient(180deg, rgb(168.29, 86.39, 162.35) 0%, rgb(58.51, 117.75, 164.04) 100%)',
   bright: '#ffffff',
@@ -19,7 +19,7 @@ export const TEXT = Object.freeze({
 });
 
 export const HOME = Object.freeze({
-  ring: '#d9d9d9',
+  backGround: '#f6f4ff',
   menu1: '#ffb3ea',
   menu2: '#fdbf9c',
   menu3: '#ffdba4',
