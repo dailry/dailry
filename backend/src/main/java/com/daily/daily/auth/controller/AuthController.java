@@ -7,7 +7,6 @@ import com.daily.daily.auth.jwt.RefreshToken;
 import com.daily.daily.auth.service.AuthService;
 import com.daily.daily.auth.service.TokenService;
 import com.daily.daily.common.dto.CommonResponseDTO;
-import com.daily.daily.common.dto.ExceptionResponseDTO;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    public String getToken(@RequestBody RefreshToken refreshToken) {
-        return tokenService.createAccessToken(refreshToken);
+    public TokenDTO getToken(@RequestBody RefreshToken refreshToken) {
+        return new TokenDTO(tokenService.createAccessToken(refreshToken), refreshToken.getRefreshToken());
     }
 }
