@@ -7,9 +7,11 @@ const RootLayout = (props) => {
   const { navigation: Navigation, pageTemplate: PageTemplate } = props;
   return (
     <S.Background>
-      <S.NavigationContainer>
-        <Navigation />
-      </S.NavigationContainer>
+      {Navigation && (
+        <S.NavigationContainer>
+          <Navigation />
+        </S.NavigationContainer>
+      )}
       <S.PageContainer>
         <PageTemplate>
           <Outlet />
