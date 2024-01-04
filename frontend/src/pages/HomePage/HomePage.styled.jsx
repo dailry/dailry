@@ -122,6 +122,8 @@ export const BookMark = styled(Link)`
   font-size: 25px;
   color: ${TEXT.black};
 
+  box-shadow: 0 4px 4px #00000040;
+
   && {
     ${(props) => props.css}
   }
