@@ -30,9 +30,29 @@
 
 === 로그인
 
+==== 요청
+
+include::{snippets}/로그인/http-request.adoc[]
+include::{snippets}/로그인/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/로그인/http-response.adoc[]
+include::{snippets}/로그인/response-headers.adoc[]
+
 === 로그아웃
 
+=== access token 갱신
 
+==== 요청
+
+include::{snippets}/accesstoken갱신/http-request.adoc[]
+include::{snippets}/accesstoken갱신/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/accesstoken갱신/http-response.adoc[]
+include::{snippets}/accesstoken갱신/response-fields.adoc[]
 
 
 

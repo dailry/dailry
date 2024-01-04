@@ -1,6 +1,7 @@
 package com.daily.daily.auth.controller;
 
 import com.daily.daily.auth.dto.LoginDTO;
+import com.daily.daily.auth.dto.TokenDTO;
 import com.daily.daily.auth.exception.LoginFailureException;
 import com.daily.daily.auth.service.AuthService;
 import com.daily.daily.member.controller.MemberController;
@@ -13,11 +14,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -28,7 +28,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
+import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@AutoConfigureRestDocs
 class AuthControllerTest {
 
     @Autowired
@@ -52,7 +58,7 @@ class AuthControllerTest {
 
     @BeforeEach
     void join() {
-        JoinDTO joinDTO1 = new JoinDTO("geonwoo123", "pass1234", "잠자는하마");
+        JoinDTO joinDTO1 = new JoinDTO("geonwoo1234", "pass1234", "잠자는하마");
         JoinDTO joinDTO2 = new JoinDTO("testtest", "12341234", "잠자는사자");
         memberController.join(joinDTO1);
         memberController.join(joinDTO2);
@@ -62,8 +68,8 @@ class AuthControllerTest {
     @DisplayName("일치하는 username과 password가 있다면 로그인에 성공한다.")
     void loinSuccess() {
 
-        String username = "geonwoo123";
-        String password = "pass1234";
+        String username = "testtest";
+        String password = "12341234";
         LoginDTO loginDto = new LoginDTO();
         loginDto.setUsername(username);
         loginDto.setPassword(password);
@@ -79,8 +85,8 @@ class AuthControllerTest {
     @Test
     @DisplayName("일치하는 username과 password가 없다면 로그인에 실패한다.")
     void loinFailure() {
-        String username = "geonwoo123";
-        String password = "pass12345";
+        String username = "testtest12";
+        String password = "12341234";
         LoginDTO loginDto = new LoginDTO();
         loginDto.setUsername(username);
         loginDto.setPassword(password);
@@ -93,6 +99,7 @@ class AuthControllerTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("정상적으로 응답 후 토큰값이 리턴되었는지 확인한다.")
     void loginReturn() throws Exception  {
         String username = "testtest";
@@ -101,12 +108,26 @@ class AuthControllerTest {
         loginDto.setUsername(username);
         loginDto.setPassword(password);
 
-        mockMvc.perform(post("/api/login")
+        ResultActions resultActions =  mockMvc.perform(post("/api/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginDto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.statusCode").value(200))
                 .andExpect(header().exists("Authorization"));
+
+        resultActions.andDo(document("로그인",
+                requestFields(
+                        fieldWithPath("username").type(STRING).description("아이디"),
+                        fieldWithPath("password").type(STRING).description("비밀번호")
+                ),
+                responseHeaders(
+                        headerWithName("Authorization").description("accessToken"),
+                        headerWithName("Authorization-refresh").description("refreshToken")
+                ),
+                responseFields(
+                        fieldWithPath("statusCode").type(NUMBER).description("상태코드"),
+                        fieldWithPath("successful").type(BOOLEAN).description("성공여부")
+                )));
     }
 
     @Test
@@ -163,4 +184,35 @@ class AuthControllerTest {
 
         System.out.println(mvcResult.getResponse().getContentAsString());
     }
+
+    @Test
+    @WithMockUser
+    @DisplayName("refreshToken을 이용해서 acceessToken을 갱신한다")
+    void renewAccessToken() throws Exception  {
+        String username = "testtest";
+        String password = "12341234";
+        LoginDTO loginDto = new LoginDTO();
+        loginDto.setUsername(username);
+        loginDto.setPassword(password);
+        TokenDTO tokenDto = authService.login(loginDto);
+
+        String refreshToken = tokenDto.getRefreshToken();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("refreshToken", refreshToken);
+
+        ResultActions resultActions =  mockMvc.perform(post("/api/token")
+                        .content(objectMapper.writeValueAsString(jsonObject))
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        resultActions.andDo(document("accesstoken갱신",
+                requestFields(
+                        fieldWithPath("refreshToken").type(STRING).description("refreshToken")
+                ),
+                responseFields(
+                        fieldWithPath("accessToken").type(STRING).description("accessToken"),
+                        fieldWithPath("refreshToken").type(STRING).description("refreshToken")
+                )));
+    }
+
+
 }
