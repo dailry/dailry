@@ -25,7 +25,6 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
-//    private final CorsFilter corsFilter;
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
     private final CustomOAuth2UserService principalOauth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
@@ -49,7 +48,6 @@ public class SecurityConfig {
                 .failureHandler(oAuth2FailureHandler)
                 .userInfoEndpoint(endpointConfig -> endpointConfig
                         .userService(principalOauth2UserService))
-                .defaultSuccessUrl("http://localhost:3000/")
         );
 
         return http.build();
