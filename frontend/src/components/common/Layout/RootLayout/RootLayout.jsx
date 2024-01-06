@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
-
 import { Outlet } from 'react-router-dom';
+import ToolBar from '../../../ToolBar';
 import * as S from './RootLayout.styled';
 
 const RootLayout = (props) => {
   const { navigation: Navigation, pageTemplate: PageTemplate } = props;
+
   return (
     <S.Background>
       {Navigation && (
@@ -17,6 +18,7 @@ const RootLayout = (props) => {
           <Outlet />
         </PageTemplate>
       </S.PageContainer>
+      <ToolBar />
     </S.Background>
   );
 };
