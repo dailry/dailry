@@ -42,6 +42,9 @@ include::{snippets}/로그인/response-headers.adoc[]
 
 === 로그아웃
 
+include::{snippets}/로그아웃/request-headers.adoc[]
+include::{snippets}/로그아웃/http-response.adoc[]
+
 === access token 갱신
 
 ==== 요청

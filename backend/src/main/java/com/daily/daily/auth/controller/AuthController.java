@@ -11,10 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -29,6 +26,14 @@ public class AuthController {
         TokenDTO tokenDto = authService.login(loginDto);
         response.setHeader(jwtUtil.getAccessHeader(), tokenDto.getAccessToken());
         response.setHeader(jwtUtil.getRefreshHeader(), tokenDto.getRefreshToken());
+        return ResponseEntity.ok().body(new CommonResponseDTO(true, HttpStatus.OK.value()));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<CommonResponseDTO> logout(@RequestHeader("Authorization") String accessToken,
+                       @RequestHeader("Authorization-refresh") String refreshToken) {
+
+        authService.logout(TokenDTO.of(accessToken, refreshToken));
         return ResponseEntity.ok().body(new CommonResponseDTO(true, HttpStatus.OK.value()));
     }
 
