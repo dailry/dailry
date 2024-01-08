@@ -20,6 +20,8 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
+
 
 @Component
 @Slf4j
@@ -120,19 +122,18 @@ public class JwtUtil {
     }
 
     public void setTokensInCookie(HttpServletResponse response, String accessToken, String refreshToken) {
-        ResponseCookie accessCookie = ResponseCookie.from(ACCESS_TOKEN, accessToken)
+        ResponseCookie accessCookie = createTokenCookie(ACCESS_TOKEN, accessToken);
+        ResponseCookie refreshCookie = createTokenCookie(REFRESH_TOKEN, refreshToken);
+
+        response.addHeader(SET_COOKIE, accessCookie.toString());
+        response.addHeader(SET_COOKIE, refreshCookie.toString());
+    }
+
+    private ResponseCookie createTokenCookie(String cookieName, String token) {
+        return ResponseCookie.from(cookieName, token)
                 .path("/")
                 .secure(true)
                 .httpOnly(false)
                 .build();
-
-        ResponseCookie refreshCookie = ResponseCookie.from(REFRESH_TOKEN, refreshToken)
-                .path("/")
-                .secure(true)
-                .httpOnly(false)
-                .build();
-
-        response.addHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());
-        response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
     }
 }
