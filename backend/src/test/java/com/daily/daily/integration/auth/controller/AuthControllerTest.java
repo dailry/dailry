@@ -31,6 +31,7 @@ import java.util.Map;
 
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -113,16 +114,13 @@ class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(loginDto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.statusCode").value(200))
-                .andExpect(header().exists("Authorization"));
+                .andExpect(cookie().exists("AccessToken"))
+                .andExpect(cookie().exists("RefreshToken"));
 
         resultActions.andDo(document("로그인",
                 requestFields(
                         fieldWithPath("username").type(STRING).description("아이디"),
                         fieldWithPath("password").type(STRING).description("비밀번호")
-                ),
-                responseHeaders(
-                        headerWithName("Authorization").description("accessToken"),
-                        headerWithName("Authorization-refresh").description("refreshToken")
                 ),
                 responseFields(
                         fieldWithPath("statusCode").type(NUMBER).description("상태코드"),

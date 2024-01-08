@@ -24,14 +24,15 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<CommonResponseDTO> login(@RequestBody LoginDTO loginDto, HttpServletResponse response) {
         TokenDTO tokenDto = authService.login(loginDto);
-        response.setHeader(jwtUtil.getAccessHeader(), tokenDto.getAccessToken());
-        response.setHeader(jwtUtil.getRefreshHeader(), tokenDto.getRefreshToken());
+
+        jwtUtil.setTokensInCookie(response, tokenDto.getAccessToken(), tokenDto.getRefreshToken());
+
         return ResponseEntity.ok().body(new CommonResponseDTO(true, HttpStatus.OK.value()));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<CommonResponseDTO> logout(@RequestHeader("Authorization") String accessToken,
-                       @RequestHeader("Authorization-refresh") String refreshToken) {
+    public ResponseEntity<CommonResponseDTO> logout(@RequestHeader(JwtUtil.ACCESS_HEADER) String accessToken,
+                       @RequestHeader(JwtUtil.REFRESH_HEADER) String refreshToken) {
 
         authService.logout(TokenDTO.of(accessToken, refreshToken));
         return ResponseEntity.ok().body(new CommonResponseDTO(true, HttpStatus.OK.value()));
