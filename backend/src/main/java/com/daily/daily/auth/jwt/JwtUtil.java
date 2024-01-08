@@ -33,7 +33,7 @@ public class JwtUtil {
     //claim
     private static final String ROLE_CLAIM = "role";
     private static final String MEMBER_ID_CLAIM = "memberId";
-    //subject, cookie Key
+    //subject, cookie name
     private static final String ACCESS_TOKEN = "AccessToken";
     private static final String REFRESH_TOKEN = "RefreshToken";
 
@@ -73,7 +73,6 @@ public class JwtUtil {
                 .compact();
     }
 
-
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
@@ -105,13 +104,6 @@ public class JwtUtil {
         MemberRole memberRole = MemberRole.valueOf(payload.get(ROLE_CLAIM, String.class));
 
         return new JwtClaimDTO(memberId, memberRole);
-    }
-
-    public String createRefreshToken() {
-        return JWT.create()
-                .withSubject(REFRESH_TOKEN)
-                .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpiration))
-                .sign(Algorithm.HMAC512(secretCode));
     }
 
     public void setTokensInCookie(HttpServletResponse response, String accessToken, String refreshToken) {

@@ -49,7 +49,7 @@ public class JwtUtilTest {
         MockHttpServletResponse mockResponse = new MockHttpServletResponse();
 
         String accessToken = jwtUtil.generateAccessToken(3L, MemberRole.ROLE_MEMBER);
-        String refreshToken = jwtUtil.createRefreshToken();
+        String refreshToken = jwtUtil.generateRefreshToken(3L);
 
         jwtUtil.setTokensInCookie(mockResponse, accessToken, refreshToken);
 
