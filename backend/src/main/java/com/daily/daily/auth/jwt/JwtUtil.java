@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
@@ -39,23 +38,17 @@ public class JwtUtil {
     private static final String REFRESH_TOKEN = "RefreshToken";
 
     @Value("${jwt.access.expiration}")
-    private long expiration;
+    private long accessTokenExpiration;
     @Value("${jwt.refresh.expiration}")
-    private long refreshTokenExpirationPeriod;
+    private long refreshTokenExpiration;
 
     @Value("${jwt.secret-key}")
-    private String secret;
+    private String secretCode;
     private SecretKey secretKey;
-
-    @Value("${jwt.access.header}")
-    private String accessHeader;
-
-    @Value("${jwt.refresh.header}")
-    private String refreshHeader;
 
     @PostConstruct
     public void init() {
-        secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        secretKey = Keys.hmacShaKeyFor(secretCode.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateAccessToken(Long memberId, MemberRole role) {
@@ -63,14 +56,14 @@ public class JwtUtil {
                 .issuer("https://daily.com")
                 .claim(MEMBER_ID_CLAIM, memberId)
                 .claim(ROLE_CLAIM, role.name())
-                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .expiration(new Date(System.currentTimeMillis() + accessTokenExpiration))
                 .signWith(secretKey, Jwts.SIG.HS512)
                 .compact();
     }
 
     public String generateRefreshToken(Long memberId) {
         Date now = new Date();
-        Date expireDate = new Date(now.getTime() + refreshTokenExpirationPeriod);
+        Date expireDate = new Date(now.getTime() + refreshTokenExpiration);
 
         return Jwts.builder()
                 .claim(MEMBER_ID_CLAIM, memberId)
@@ -117,8 +110,8 @@ public class JwtUtil {
     public String createRefreshToken() {
         return JWT.create()
                 .withSubject(REFRESH_TOKEN)
-                .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpirationPeriod))
-                .sign(Algorithm.HMAC512(secret));
+                .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+                .sign(Algorithm.HMAC512(secretCode));
     }
 
     public void setTokensInCookie(HttpServletResponse response, String accessToken, String refreshToken) {
