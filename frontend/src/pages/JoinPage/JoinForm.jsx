@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import useForm from '../../hooks/useForm';
-import { postJoinMember } from '../../apis/memberApi';
+import { getCheckUserName, postJoinMember } from '../../apis/memberApi';
 import Input from '../../components/common/Input/Input';
 import AuthButton from '../../components/common/AuthButton/AuthButton';
 import Text from '../../components/common/Text/Text';
@@ -15,11 +15,12 @@ const JoinForm = (props) => {
     nickname: '',
   });
   const [checkPassword, setCheckPassword] = useState('');
+  const [isUserNameDuplicated, setIsUserNameDuplicated] = useState(undefined);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (checkPassword !== form.password) return;
+    if (checkPassword !== form.password || isUserNameDuplicated) return;
 
     await postJoinMember(form);
     setJoinCompletedMember({ nickname: form.nickname });
@@ -33,7 +34,14 @@ const JoinForm = (props) => {
           placeholder={'아이디'}
           onChange={handleChangeFormValue}
         >
-          <AuthButton size={'sm'} onClick={() => alert('중복확인 되었습니다!')}>
+          <AuthButton
+            size={'sm'}
+            type="button"
+            onClick={async () => {
+              const result = await getCheckUserName(form.username);
+              setIsUserNameDuplicated(result);
+            }}
+          >
             중복확인
           </AuthButton>
         </Input>
