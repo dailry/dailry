@@ -1,6 +1,6 @@
 import customAxios from './customAxios';
 
-const joinMember = async (memberInformation) => {
+export const postJoinMember = async (memberInformation) => {
   try {
     const { username, password, nickname } = memberInformation;
 
@@ -18,7 +18,7 @@ const joinMember = async (memberInformation) => {
   }
 };
 
-const getMember = async () => {
+export const getMember = async () => {
   try {
     const member = await customAxios.get('/member');
 
@@ -29,5 +29,3 @@ const getMember = async () => {
     return e.response.data;
   }
 };
-
-export { joinMember, getMember };

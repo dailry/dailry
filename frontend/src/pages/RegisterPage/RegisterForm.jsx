@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import useForm from '../../hooks/useForm';
-import { joinMember } from '../../apis/memberApi';
+import { postJoinMember } from '../../apis/memberApi';
 import Input from '../../components/common/Input/Input';
 import AuthButton from '../../components/common/AuthButton/AuthButton';
 import Text from '../../components/common/Text/Text';
 import { TEXT } from '../../styles/color';
 
-const RegisterForm = ({ setRegisterCompletedMember }) => {
+const RegisterForm = (props) => {
+  const { setRegisterCompletedMember } = props;
   const [form, handleChangeFormValue] = useForm({
     username: '',
     password: '',
@@ -20,7 +21,7 @@ const RegisterForm = ({ setRegisterCompletedMember }) => {
 
     if (checkPassword !== form.password) return;
 
-    await joinMember(form);
+    await postJoinMember(form);
     setRegisterCompletedMember({ nickname: form.nickname });
   };
 
