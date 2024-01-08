@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-export const RegisterWrapper = styled.div`
+export const JoinWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

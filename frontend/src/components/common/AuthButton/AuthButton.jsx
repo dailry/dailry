@@ -4,9 +4,9 @@ import PropTypes, { oneOf } from 'prop-types';
 import * as S from './AuthButton.styled';
 
 const AuthButton = (props) => {
-  const { size, disabled, children, onClick } = props;
+  const { size, disabled, children, onClick, type = 'button' } = props;
   return (
-    <S.Container size={size} disabled={disabled} onClick={onClick}>
+    <S.Container size={size} disabled={disabled} onClick={onClick} type={type}>
       {children}
     </S.Container>
   );
@@ -17,6 +17,7 @@ AuthButton.propTypes = {
   disabled: PropTypes.bool,
   children: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  type: oneOf(['submit', 'button']),
 };
 
 export default AuthButton;
