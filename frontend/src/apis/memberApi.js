@@ -29,3 +29,17 @@ export const getMember = async () => {
     return e.response.data;
   }
 };
+
+export const getCheckUserName = async (userName) => {
+  try {
+    const isUserNameDuplicated = await customAxios.get(
+      `/member/check-username?username=${userName}`,
+    );
+
+    return isUserNameDuplicated.data.duplicated;
+  } catch (e) {
+    console.error(e);
+
+    return e.response.data;
+  }
+};
