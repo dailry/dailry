@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -24,9 +26,13 @@ import java.util.Date;
 @Getter
 public class JwtUtil {
     public static final String BEARER_PREFIX = "Bearer ";
-    public static final String ROLE_CLAIM = "role";
-    public static final String MEMBER_ID_CLAIM = "memberId";
-
+    //request header
+    public static final String ACCESS_HEADER = "Authorization";
+    public static final String REFRESH_HEADER = "Authorization-refresh";
+    //claim
+    private static final String ROLE_CLAIM = "role";
+    private static final String MEMBER_ID_CLAIM = "memberId";
+    //subject, cookie Key
     private static final String ACCESS_TOKEN = "AccessToken";
     private static final String REFRESH_TOKEN = "RefreshToken";
 
@@ -51,8 +57,7 @@ public class JwtUtil {
     }
 
     public String generateAccessToken(Long memberId, MemberRole role) {
-
-        return BEARER_PREFIX + Jwts.builder()
+        return Jwts.builder()
                 .issuer("https://daily.com")
                 .claim(MEMBER_ID_CLAIM, memberId)
                 .claim(ROLE_CLAIM, role.name())
@@ -65,7 +70,7 @@ public class JwtUtil {
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + refreshTokenExpirationPeriod);
 
-        return BEARER_PREFIX + Jwts.builder()
+        return Jwts.builder()
                 .claim(MEMBER_ID_CLAIM, memberId)
                 .issuedAt(now)
                 .expiration(expireDate)
@@ -114,21 +119,20 @@ public class JwtUtil {
                 .sign(Algorithm.HMAC512(secret));
     }
 
-    public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
-        response.setStatus(HttpServletResponse.SC_OK);
+    public void setTokensInCookie(HttpServletResponse response, String accessToken, String refreshToken) {
+        ResponseCookie accessCookie = ResponseCookie.from(ACCESS_TOKEN, accessToken)
+                .path("/")
+                .secure(true)
+                .httpOnly(false)
+                .build();
 
-        setAccessTokenHeader(response, accessToken);
-        setRefreshTokenHeader(response, refreshToken);
-        log.info("Access Token, Refresh Token 헤더 설정 완료");
+        ResponseCookie refreshCookie = ResponseCookie.from(REFRESH_TOKEN, refreshToken)
+                .path("/")
+                .secure(true)
+                .httpOnly(false)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
     }
-
-
-    public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
-        response.setHeader(accessHeader, accessToken);
-    }
-
-    public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
-        response.setHeader(refreshHeader, refreshToken);
-    }
-
 }
