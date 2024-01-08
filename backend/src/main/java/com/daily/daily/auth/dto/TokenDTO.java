@@ -10,4 +10,11 @@ import lombok.Data;
 public class TokenDTO {
     private String accessToken;
     private String refreshToken;
+
+    public static TokenDTO of(String accessToken, String refreshToken) {
+        return TokenDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
 }

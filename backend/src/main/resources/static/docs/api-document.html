@@ -553,8 +553,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA0MzY3NDQzfQ.nLnzEA1H7OcYeue_BnjxI3rwI324TklRY4K_tBjA6mezjIj-XA43DB3maS5fQ20UooXe0vmBS8gEhTP87Q1bNA
-Authorization-refresh: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNDM2Mzg0MywiZXhwIjoxNzA1NTczNDQzfQ.hL_GEV7dtbMr6PK9NUUnWbBRb__g2siDW3DVfXlnTXUGqdjE8AkAIkNYypEEd1F1KiH_84axy6Ke-HcnodNEfw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxNCwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA0NjM5MTkyfQ.G6xEFKrsCRyDj0MjsyM5hydA0mY8-yTB-Hi_OE1UZIqPl7onO2CSvleOHjx1S0cenWlw5aMKQ7uijU3z1FoJdA
+Authorization-refresh: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTQsImlhdCI6MTcwNDYzNTU5MiwiZXhwIjoxNzA1ODQ1MTkyfQ.trsGVQTq49cN54t8jcDmP_fx8cuzZSM3LbRF6R_0mBp99PAV2m0TR76ZPtqauxNfCv4xrqBzsT_hG4ruMV-vdw
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -589,7 +589,28 @@ Content-Type: application/json;charset=UTF-8
 </div>
 <div class="sect2">
 <h3 id="_로그아웃">로그아웃</h3>
-
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">accessToken</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization-refresh</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">refreshToken</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_access_token_갱신">access token 갱신</h3>
@@ -601,7 +622,7 @@ Content-Type: application/json;charset=UTF-8
 Content-Type: application/json;charset=UTF-8
 
 {
-  "refreshToken" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NiwiaWF0IjoxNzA0MzYzODQyLCJleHAiOjE3MDU1NzM0NDJ9.JY3Ro_LYNi3HfvZzuUJ8zf-dy_5aow_PCljDpP1WKWT40jGVvwjWpNRHSRMzbL1Q7kGS0LrjsVObpPOansZsUA"
+  "refreshToken" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6OCwiaWF0IjoxNzA0NjM1NTkxLCJleHAiOjE3MDU4NDUxOTF9.IwZYLxpjaNr0EasGugki2fsMjPC9ecWXOwgkTv9vhnlKNx6CwUMeNaLYmPyIJFRMrmq5bA17T1VXdmUJ_EM4cA"
 }</code></pre>
 </div>
 </div>
@@ -638,8 +659,8 @@ Content-Type: application/json;charset=UTF-8
 Content-Type: application/json;charset=UTF-8
 
 {
-  "accessToken" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo2LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDQzNjc0NDJ9.PuX4221qMSEeU8xezGztJztCYZnJI2dWozBtMxaIhD_5jEEVqmDpHlEkEZZ0rMT39UUnvEA6YP1_v42d-nwqlw",
-  "refreshToken" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NiwiaWF0IjoxNzA0MzYzODQyLCJleHAiOjE3MDU1NzM0NDJ9.JY3Ro_LYNi3HfvZzuUJ8zf-dy_5aow_PCljDpP1WKWT40jGVvwjWpNRHSRMzbL1Q7kGS0LrjsVObpPOansZsUA"
+  "accessToken" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo4LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDQ2MzkxOTF9.ERE_YF6ec2ZafQyXCtAm6bsMoqByXsJAmKCp2yh8m7q1Z1bth7loHgoAcGIv-x9eoPx5kWXfRxZszqvREpxh8w",
+  "refreshToken" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6OCwiaWF0IjoxNzA0NjM1NTkxLCJleHAiOjE3MDU4NDUxOTF9.IwZYLxpjaNr0EasGugki2fsMjPC9ecWXOwgkTv9vhnlKNx6CwUMeNaLYmPyIJFRMrmq5bA17T1VXdmUJ_EM4cA"
 }</code></pre>
 </div>
 </div>
@@ -1472,7 +1493,7 @@ Content-Type: application/json;charset=UTF-8
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-04 19:22:21 +0900
+Last updated 2024-01-07 22:48:40 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

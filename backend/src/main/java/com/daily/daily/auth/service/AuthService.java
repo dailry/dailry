@@ -1,9 +1,9 @@
 package com.daily.daily.auth.service;
 
 import com.daily.daily.auth.dto.LoginDTO;
+import com.daily.daily.auth.dto.TokenDTO;
 import com.daily.daily.auth.exception.LoginFailureException;
 import com.daily.daily.auth.jwt.JwtUtil;
-import com.daily.daily.auth.dto.TokenDTO;
 import com.daily.daily.auth.jwt.RefreshToken;
 import com.daily.daily.auth.jwt.RefreshTokenRepository;
 import com.daily.daily.member.domain.Member;
@@ -42,5 +42,9 @@ public class AuthService {
                 accessToken,
                 refreshToken
         );
+    }
+
+    public void logout(TokenDTO tokenDto) {
+        refreshTokenRepository.deleteById(tokenDto.getRefreshToken());
     }
 }

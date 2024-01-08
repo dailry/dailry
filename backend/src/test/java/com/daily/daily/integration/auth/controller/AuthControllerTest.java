@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,8 +31,7 @@ import java.util.Map;
 
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -214,5 +214,34 @@ class AuthControllerTest {
                 )));
     }
 
+    @Test
+    @WithMockUser
+    @DisplayName("로그아웃을 실행합니다.")
+    void logoutSuccess() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        String username = "testtest";
+        String password = "12341234";
+        LoginDTO loginDto = new LoginDTO();
+        loginDto.setUsername(username);
+        loginDto.setPassword(password);
+        TokenDTO tokenDto = authService.login(loginDto);
 
+        String refreshToken = tokenDto.getRefreshToken();
+        String accessToken = tokenDto.getAccessToken();
+
+        ResultActions resultActions = mockMvc.perform(post("/api/logout")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", accessToken)
+                .header("Authorization-refresh", refreshToken));
+
+        resultActions.andDo(document("로그아웃",
+                requestHeaders(
+                        headerWithName("Authorization").description("accessToken"),
+                        headerWithName("Authorization-refresh").description("refreshToken")
+                ),
+                responseFields(
+                        fieldWithPath("statusCode").type(NUMBER).description("상태코드"),
+                        fieldWithPath("successful").type(BOOLEAN).description("성공여부")
+                )));
+    }
 }
