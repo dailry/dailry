@@ -3,7 +3,7 @@ import * as S from '../LoginPage/LoginPage.styled';
 import AuthButton from '../../components/common/AuthButton/AuthButton';
 import Text from '../../components/common/Text/Text';
 
-const RegisterDone = (props) => {
+const JoinDone = (props) => {
   const { nickname } = props;
   return (
     <S.LoginContainer>
@@ -15,8 +15,8 @@ const RegisterDone = (props) => {
   );
 };
 
-RegisterDone.propTypes = {
+JoinDone.propTypes = {
   nickname: PropTypes.string.isRequired,
 };
 
-export default RegisterDone;
+export default JoinDone;

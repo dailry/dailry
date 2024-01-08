@@ -2,7 +2,7 @@ export const PATH_NAME = {
   Home: '/',
   Login: '/login',
   FindId: '/findId',
-  Register: '/register',
+  Join: '/join',
   Daily: '/daily',
   MyPage: '/mypage',
   AdminMembers: '/admin/members',

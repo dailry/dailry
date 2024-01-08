@@ -7,8 +7,8 @@ import AuthButton from '../../components/common/AuthButton/AuthButton';
 import Text from '../../components/common/Text/Text';
 import { TEXT } from '../../styles/color';
 
-const RegisterForm = (props) => {
-  const { setRegisterCompletedMember } = props;
+const JoinForm = (props) => {
+  const { setJoinCompletedMember } = props;
   const [form, handleChangeFormValue] = useForm({
     username: '',
     password: '',
@@ -22,7 +22,7 @@ const RegisterForm = (props) => {
     if (checkPassword !== form.password) return;
 
     await postJoinMember(form);
-    setRegisterCompletedMember({ nickname: form.nickname });
+    setJoinCompletedMember({ nickname: form.nickname });
   };
 
   return (
@@ -74,8 +74,8 @@ const RegisterForm = (props) => {
   );
 };
 
-RegisterForm.propTypes = {
-  setRegisterCompletedMember: PropTypes.func,
+JoinForm.propTypes = {
+  setJoinCompletedMember: PropTypes.func,
 };
 
-export default RegisterForm;
+export default JoinForm;

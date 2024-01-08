@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { PATH_NAME } from './constants/routes';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
+import JoinPage from './pages/JoinPage/JoinPage';
 import DailyPage from './pages/DailyPage/DailyPage';
 import MyPage from './pages/MyPage/MyPage';
 import CommunityPage from './pages/CommunityPage/CommunityPage';
@@ -20,7 +20,7 @@ const App = () => {
       <Route element={<RootLayout pageTemplate={BrightColoredPageTemplate} />}>
         <Route path={PATH_NAME.Login} element={<LoginPage />} />
         <Route path={PATH_NAME.FindId} element={<FindIdPage />} />
-        <Route path={PATH_NAME.Register} element={<RegisterPage />} />
+        <Route path={PATH_NAME.Join} element={<JoinPage />} />
       </Route>
       <Route element={<DefaultLayout />}>
         <Route path={PATH_NAME.Daily} element={<DailyPage />} />
