@@ -1,12 +1,22 @@
-import { useState } from 'react';
+import { useFormik } from 'formik';
 
-const useForm = (initialForm) => {
-  const [form, setForm] = useState(initialForm);
-  const handleChangeFormValue = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+const useForm = (formikOptions) => {
+  const { initialValues, handleSubmit, validationSchema, ...rest } =
+    formikOptions;
+
+  const form = useFormik({
+    initialValues,
+    onSubmit: handleSubmit,
+    validationSchema,
+    ...rest,
+  });
+
+  const handleChangeForm = (e) => {
+    form.setFieldTouched(e.target.name);
+    form.handleChange(e);
   };
 
-  return [form, handleChangeFormValue];
+  return { form, handleChangeForm };
 };
 
 export default useForm;
