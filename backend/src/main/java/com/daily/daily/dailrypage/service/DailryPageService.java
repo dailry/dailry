@@ -1,5 +1,6 @@
 package com.daily.daily.dailrypage.service;
 
+import com.daily.daily.common.dto.CommonResponseDTO;
 import com.daily.daily.dailrypage.domain.DailryPage;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
@@ -18,6 +19,7 @@ public class DailryPageService {
 
     public DailryPageDTO create() {
         DailryPage savedPage = dailryPageRepository.save(DailryPage.createEmptyPage());
+
         return DailryPageDTO.from(savedPage);
     }
 
@@ -29,5 +31,16 @@ public class DailryPageService {
         findPage.updateElements(dailryPageUpdateDTO.getElements());
 
         return DailryPageDTO.from(findPage);
+    }
+
+    public DailryPageDTO find(Long pageId) {
+        DailryPage findPage = dailryPageRepository.findById(pageId)
+                .orElseThrow(DailryPageNotFoundException::new);
+
+        return DailryPageDTO.from(findPage);
+    }
+
+    public void delete(Long pageId) {
+        dailryPageRepository.deleteById(pageId);
     }
 }
