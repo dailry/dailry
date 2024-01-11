@@ -34,3 +34,6 @@ sketch
 
 storybook-static
 build-storybook.log
+
+### cert files
+.cert/
