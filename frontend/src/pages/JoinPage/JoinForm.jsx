@@ -1,84 +1,175 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
-import useForm from '../../hooks/useForm';
-import { getCheckUserName, postJoinMember } from '../../apis/memberApi';
 import Input from '../../components/common/Input/Input';
 import AuthButton from '../../components/common/AuthButton/AuthButton';
 import Text from '../../components/common/Text/Text';
 import { TEXT } from '../../styles/color';
+import * as S from './JoinPage.styled';
+import useJoinForm from '../../hooks/useJoinForm';
 
 const JoinForm = (props) => {
   const { setJoinCompletedMember } = props;
-  const [form, handleChangeFormValue] = useForm({
-    username: '',
-    password: '',
-    nickname: '',
-  });
-  const [checkPassword, setCheckPassword] = useState('');
-  const [isUserNameDuplicated, setIsUserNameDuplicated] = useState(undefined);
+  const {
+    joinForm,
+    handleChangeForm,
+    isUserNameDuplicated,
+    isNickNameDuplicated,
+    checkIsNickNameDuplicated,
+    checkIsUserNameDuplicated,
+  } = useJoinForm(setJoinCompletedMember);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (checkPassword !== form.password || isUserNameDuplicated) return;
-
-    await postJoinMember(form);
-    setJoinCompletedMember({ nickname: form.nickname });
-  };
+  const { values, touched, errors, handleSubmit } = joinForm;
 
   return (
-    <form onSubmit={handleSubmit}>
+    <S.JoinFormWrapper onSubmit={handleSubmit}>
       <div>
         <Input
+          id="username"
           name="username"
           placeholder={'아이디'}
-          onChange={handleChangeFormValue}
+          onChange={handleChangeForm}
+          value={values.username}
         >
           <AuthButton
             size={'sm'}
             type="button"
-            onClick={async () => {
-              const result = await getCheckUserName(form.username);
-              setIsUserNameDuplicated(result);
-            }}
+            onClick={checkIsUserNameDuplicated}
           >
             중복확인
           </AuthButton>
         </Input>
-        <Text size={12} color={TEXT.error}>
-          아이디 중복확인을 해주세요
-        </Text>
+        <div style={{ position: 'absolute', marginTop: '4px' }}>
+          {errors.username && touched.username && (
+            <Text size={12} color={TEXT.error}>
+              {errors.username}
+            </Text>
+          )}
+
+          {!errors.username && (
+            <>
+              {isUserNameDuplicated === undefined && values.username && (
+                <Text size={12} color={TEXT.error}>
+                  아이디를 중복 확인 해주세요
+                </Text>
+              )}
+              {isUserNameDuplicated === true && (
+                <Text size={12} color={TEXT.error}>
+                  이미 사용중인 아이디입니다
+                </Text>
+              )}
+              {isUserNameDuplicated === false && (
+                <Text size={12} color={TEXT.valid}>
+                  사용 가능한 아이디입니다
+                </Text>
+              )}
+            </>
+          )}
+        </div>
       </div>
+
       <div>
         <Input
+          id="nickname"
           name="nickname"
           placeholder={'닉네임'}
-          onChange={handleChangeFormValue}
-        ></Input>
+          onChange={handleChangeForm}
+          value={values.nickname}
+        >
+          <AuthButton
+            size={'sm'}
+            type="button"
+            onClick={checkIsNickNameDuplicated}
+          >
+            중복확인
+          </AuthButton>
+        </Input>
+
+        <div style={{ position: 'absolute', marginTop: '4px' }}>
+          {errors.nickname && touched.nickname && (
+            <Text size={12} color={TEXT.error}>
+              {errors.nickname}
+            </Text>
+          )}
+
+          {!errors.nickname && (
+            <>
+              {isNickNameDuplicated === undefined && values.nickname && (
+                <Text size={12} color={TEXT.error}>
+                  닉네임을 중복 확인 해주세요
+                </Text>
+              )}
+              {isNickNameDuplicated === true && (
+                <Text size={12} color={TEXT.error}>
+                  이미 사용중인 닉네임입니다
+                </Text>
+              )}
+              {isNickNameDuplicated === false && (
+                <Text size={12} color={TEXT.valid}>
+                  사용 가능한 닉네임입니다
+                </Text>
+              )}
+            </>
+          )}
+        </div>
       </div>
       <div>
         <Input
+          id="password"
           name="password"
           placeholder={'비밀번호'}
           type="password"
-          onChange={handleChangeFormValue}
+          onChange={handleChangeForm}
+          value={values.password}
         />
-        <Text size={12} color={TEXT.valid}>
-          사용 가능한 비밀번호입니다
-        </Text>
+        <div style={{ position: 'absolute', marginTop: '4px' }}>
+          {errors.password && touched.password && (
+            <Text size={12} color={TEXT.error}>
+              {errors.password}
+            </Text>
+          )}
+
+          {!errors.password && touched.password && (
+            <Text size={12} color={TEXT.valid}>
+              사용 가능한 비밀번호 입니다.
+            </Text>
+          )}
+        </div>
       </div>
       <div>
         <Input
-          placeholder={'비밀번호 확인'}
+          id="checkPassword"
+          name="checkPassword"
           type="password"
-          onChange={(e) => setCheckPassword(e.target.value)}
+          placeholder={'비밀번호 확인'}
+          onChange={handleChangeForm}
+          value={values.checkPassword}
         />
-        <Text size={12} color={TEXT.error}>
-          비밀번호가 비밀번호 확인과 다릅니다
-        </Text>
+        <div style={{ position: 'absolute', marginTop: '4px' }}>
+          {errors.checkPassword && touched.checkPassword && (
+            <Text size={12} color={TEXT.error}>
+              {errors.checkPassword}
+            </Text>
+          )}
+          {!errors.checkPassword && (
+            <>
+              {values.checkPassword !== values.password && (
+                <Text size={12} color={TEXT.error}>
+                  비밀번호가 일치하지 않습니다
+                </Text>
+              )}
+              {!errors.password &&
+                values.checkPassword === values.password &&
+                touched.checkPassword && (
+                  <Text size={12} color={TEXT.valid}>
+                    비밀번호가 일치합니다.
+                  </Text>
+                )}
+            </>
+          )}
+        </div>
       </div>
+
       <AuthButton type="submit">회원가입</AuthButton>
-    </form>
+    </S.JoinFormWrapper>
   );
 };
 
