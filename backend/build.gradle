@@ -34,6 +34,8 @@ dependencies {
 	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'org.testcontainers:testcontainers'
+	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.0'
+	implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
 	//jwt library
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
