@@ -29,7 +29,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
             jwtUtil.setTokensInCookie(response, accessToken, refreshToken);
 
-            response.sendRedirect("http://localhost:3000");
+            response.sendRedirect("https://localhost:3000");
         } catch (Exception e) {
             log.error("OAuth2 Login 성공 후 예외 발생 : {}", e.getMessage());
         }
