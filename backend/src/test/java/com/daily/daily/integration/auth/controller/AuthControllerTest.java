@@ -9,7 +9,7 @@ import com.daily.daily.member.dto.JoinDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.shaded.gson.Gson;
 import com.nimbusds.jose.shaded.gson.GsonBuilder;
-import net.minidev.json.JSONObject;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,27 +17,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpHeaders.SET_COOKIE;
-import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -108,14 +101,18 @@ class AuthControllerTest {
         LoginDTO loginDto = new LoginDTO();
         loginDto.setUsername(username);
         loginDto.setPassword(password);
+        TokenDTO tokenDto = authService.login(loginDto);
+
+        String accessToken = tokenDto.getAccessToken();
+        String refreshToken = tokenDto.getRefreshToken();
 
         ResultActions resultActions =  mockMvc.perform(post("/api/login")
+                        .cookie(new Cookie("AccessToken", accessToken))
+                        .cookie(new Cookie("RefreshToken", refreshToken))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.statusCode").value(200))
-                .andExpect(cookie().exists("AccessToken"))
-                .andExpect(cookie().exists("RefreshToken"));
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.statusCode").value(200));
 
         resultActions.andDo(document("로그인",
                 requestFields(
@@ -138,49 +135,19 @@ class AuthControllerTest {
         loginDto.setUsername(username);
         loginDto.setPassword(password);
         Gson GSON = new GsonBuilder().create();
-
         String userJSON = GSON.toJson(loginDto);
-        MvcResult mvcResult = mockMvc.perform(post("/api/login").content(userJSON)).andReturn();
+        TokenDTO tokenDto = authService.login(loginDto);
+
+        String accessToken = tokenDto.getAccessToken();
+        String refreshToken = tokenDto.getRefreshToken();
+
+        MvcResult mvcResult = mockMvc.perform(post("/api/login")
+                .cookie(new Cookie("AccessToken", accessToken))
+                .cookie(new Cookie("RefreshToken", refreshToken))
+                .content(userJSON)).andReturn();
         String bearer = mvcResult.getResponse().getContentAsString();
 
         assertThat(!bearer.isEmpty());
-    }
-
-    @Test
-    @DisplayName("로그인을 테스트합니다.(1)")
-    public void loginTest1() throws Exception {
-        // given
-        Map<String, String> map = new HashMap<>();
-        map.put("username", "testtest");
-        map.put("password", "12341234");
-        String content = objectMapper.writeValueAsString(map);
-
-        // when
-        MockHttpServletRequestBuilder reqBuilder
-                = post("/api/login").contentType("application/json").content(content);
-        ResultActions action = mockMvc.perform(reqBuilder);
-
-        // then
-        action.andExpect(status().is(200));
-    }
-
-    @DisplayName("로그인을 테스트합니다.(2)")
-    @WithMockUser
-    @Test
-    void loginTest2() throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("username", "testtest");
-        jsonObject.put("password", "12341234");
-
-        ResultActions result = mockMvc.perform(post("/api/login")
-                .content(jsonObject.toString())
-                .contentType(MediaType.APPLICATION_JSON));
-
-        MvcResult mvcResult = result.andDo(print())
-                .andExpect(status().isOk())
-                .andReturn();
-
-        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -194,18 +161,15 @@ class AuthControllerTest {
         loginDto.setPassword(password);
         TokenDTO tokenDto = authService.login(loginDto);
 
+        String accessToken = tokenDto.getAccessToken();
         String refreshToken = tokenDto.getRefreshToken();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("refreshToken", refreshToken);
 
         ResultActions resultActions =  mockMvc.perform(post("/api/token")
-                .content(objectMapper.writeValueAsString(jsonObject))
+                .cookie(new Cookie("AccessToken", accessToken))
+                .cookie(new Cookie("RefreshToken", refreshToken))
                 .contentType(MediaType.APPLICATION_JSON));
 
         resultActions.andDo(document("accesstoken갱신",
-                requestFields(
-                        fieldWithPath("refreshToken").type(STRING).description("refreshToken")
-                ),
                 responseFields(
                         fieldWithPath("accessToken").type(STRING).description("accessToken"),
                         fieldWithPath("refreshToken").type(STRING).description("refreshToken")
@@ -216,7 +180,6 @@ class AuthControllerTest {
     @WithMockUser
     @DisplayName("로그아웃을 실행합니다.")
     void logoutSuccess() throws Exception {
-        HttpHeaders headers = new HttpHeaders();
         String username = "testtest";
         String password = "12341234";
         LoginDTO loginDto = new LoginDTO();
@@ -229,14 +192,10 @@ class AuthControllerTest {
 
         ResultActions resultActions = mockMvc.perform(post("/api/logout")
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", accessToken)
-                .header("Authorization-refresh", refreshToken));
+                .cookie(new Cookie("AccessToken", accessToken))
+                .cookie(new Cookie("RefreshToken", refreshToken)));
 
         resultActions.andDo(document("로그아웃",
-                requestHeaders(
-                        headerWithName("Authorization").description("accessToken"),
-                        headerWithName("Authorization-refresh").description("refreshToken")
-                ),
                 responseFields(
                         fieldWithPath("statusCode").type(NUMBER).description("상태코드"),
                         fieldWithPath("successful").type(BOOLEAN).description("성공여부")
