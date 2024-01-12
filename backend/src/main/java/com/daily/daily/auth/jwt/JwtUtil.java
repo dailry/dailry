@@ -121,7 +121,7 @@ public class JwtUtil {
                 .before(new Date());
     }
 
-    private ResponseCookie createTokenCookie(String cookieName, String token) {
+    public ResponseCookie createTokenCookie(String cookieName, String token) {
         return ResponseCookie.from(cookieName, token)
                 .path("/")
                 .secure(true)
