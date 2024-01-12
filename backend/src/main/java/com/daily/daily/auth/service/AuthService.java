@@ -8,6 +8,8 @@ import com.daily.daily.auth.jwt.RefreshToken;
 import com.daily.daily.auth.jwt.RefreshTokenRepository;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.repository.MemberRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,7 +46,16 @@ public class AuthService {
         );
     }
 
-    public void logout(TokenDTO tokenDto) {
+    public void logout(HttpServletResponse response, TokenDTO tokenDto) {
+        deleteCookie(response, "AccessToken");
+        deleteCookie(response, "RefreshToken");
         refreshTokenRepository.deleteById(tokenDto.getRefreshToken());
+    }
+
+    private static void deleteCookie(HttpServletResponse response, String cookieName) {
+        Cookie cookie = new Cookie(cookieName, "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
     }
 }
