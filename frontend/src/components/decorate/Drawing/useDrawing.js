@@ -1,31 +1,26 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createCanvasElement } from './canvas';
 import Draw from './Draw';
 
 const useDrawing = (id) => {
   const [contentsLoaded, setContentsLoaded] = useState(false);
   const [drawInstance, setDrawInstance] = useState(undefined);
+  const el = document.getElementById(id);
 
   document.addEventListener('DOMContentLoaded', () => {
     setContentsLoaded(true);
   });
 
-  const attachDrawEvent = useCallback(() => {
-    const drawMove = (e) => drawInstance.move(e);
+  const move = (e) => drawInstance.move(e);
 
-    const start = (event) => {
-      document.addEventListener('mousemove', drawMove);
+  const startDrawing = (event) => {
+    el.addEventListener('mousemove', move);
+    drawInstance.reposition(event);
+  };
 
-      drawInstance.reposition(event);
-    };
-
-    const stop = () => {
-      document.removeEventListener('mousemove', drawMove);
-    };
-
-    document.addEventListener('mousedown', start);
-    document.addEventListener('mouseup', stop);
-  }, [drawInstance]);
+  const stopDrawing = () => {
+    el.removeEventListener('mousemove', move);
+  };
 
   const saveDrawData = () => {
     drawInstance.getInfo();
@@ -51,11 +46,7 @@ const useDrawing = (id) => {
     setDrawInstance(draw);
   }, [id, contentsLoaded]);
 
-  useEffect(() => {
-    if (drawInstance) attachDrawEvent();
-  }, [drawInstance, attachDrawEvent]);
-
-  return { saveDrawData, loadCanvas };
+  return { saveDrawData, loadCanvas, startDrawing, stopDrawing };
 };
 
 export default useDrawing;

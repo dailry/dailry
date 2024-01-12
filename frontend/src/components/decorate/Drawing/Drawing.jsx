@@ -6,12 +6,18 @@ import AuthButton from '../../common/AuthButton/AuthButton';
 
 const Drawing = (props) => {
   const { id } = props;
-  const { saveDrawData, loadCanvas } = useDrawing(id);
+
+  const { saveDrawData, loadCanvas, startDrawing, stopDrawing } =
+    useDrawing(id);
   const [imgSrc, setImgSrc] = useState('');
 
   return (
     <>
-      <canvas id={id}></canvas>
+      <canvas
+        onMouseDown={(e) => startDrawing(e)}
+        onMouseUp={(e) => stopDrawing(e)}
+        id={id}
+      ></canvas>
       <image id="canvas-draw-image" alt="converted-image" src={imgSrc} />
       <AuthButton onClick={() => setImgSrc(canvasToImage(id))}>
         이미지로 변환하기
