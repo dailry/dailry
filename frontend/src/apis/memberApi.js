@@ -40,6 +40,24 @@ export const getCheckUserName = async (userName) => {
   } catch (e) {
     console.error(e);
 
+    alert('아이디 중복 검사가 실패하였습니다.');
+
+    return e.response.data;
+  }
+};
+
+export const getCheckNickName = async (nickName) => {
+  try {
+    const isNickNameDuplicated = await customAxios.get(
+      `/member/check-nickname?nickname=${nickName}`,
+    );
+
+    return isNickNameDuplicated.data.duplicated;
+  } catch (e) {
+    console.error(e);
+
+    alert('아이디 중복 검사가 실패하였습니다.');
+
     return e.response.data;
   }
 };

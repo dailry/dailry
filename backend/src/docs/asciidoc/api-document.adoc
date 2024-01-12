@@ -44,7 +44,6 @@ include::{snippets}/로그인/http-response.adoc[]
 ==== 요청
 
 include::{snippets}/로그아웃/http-request.adoc[]
-include::{snippets}/로그아웃/request-headers.adoc[]
 
 ==== 응답
 

@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.daily.daily.auth.dto.JwtClaimDTO;
 import com.daily.daily.member.constant.MemberRole;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
@@ -117,8 +118,9 @@ public class JwtUtil {
     private ResponseCookie createTokenCookie(String cookieName, String token) {
         return ResponseCookie.from(cookieName, token)
                 .path("/")
-                .secure(false)
-                .httpOnly(false)
+                .secure(true)
+                .httpOnly(true)
+                .sameSite("None")
                 .build();
     }
 }

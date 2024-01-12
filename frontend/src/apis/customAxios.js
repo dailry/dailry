@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const customAxios = axios.create({
-  baseURL: 'http://3.39.121.23/api',
+  baseURL: 'https://api.da-ily.site/api/',
   headers: {
     Authorization: '',
   },
