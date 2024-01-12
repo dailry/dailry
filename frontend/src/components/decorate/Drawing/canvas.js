@@ -1,10 +1,9 @@
-export const createCanvasElement = (id) => {
-  const canvas = document.getElementById(id);
+export const createCtx = (canvas) => {
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = 'white';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  return { canvas, ctx };
+  return { ctx };
 };
 
 export const canvasToImage = (id) => {

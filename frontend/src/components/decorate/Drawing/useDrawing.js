@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
-import { createCanvasElement } from './canvas';
+import { useCallback, useEffect, useState } from 'react';
+import { createCtx } from './canvas';
 import Draw from './Draw';
 
-const useDrawing = (id) => {
+const useDrawing = (canvas) => {
   const [contentsLoaded, setContentsLoaded] = useState(false);
   const [drawInstance, setDrawInstance] = useState(undefined);
-  const el = document.getElementById(id);
 
   document.addEventListener('DOMContentLoaded', () => {
     setContentsLoaded(true);
@@ -14,39 +13,42 @@ const useDrawing = (id) => {
   const move = (e) => drawInstance.move(e);
 
   const startDrawing = (event) => {
-    el.addEventListener('mousemove', move);
+    canvas.current.addEventListener('mousemove', move);
     drawInstance.reposition(event);
   };
 
   const stopDrawing = () => {
-    el.removeEventListener('mousemove', move);
+    canvas.current.removeEventListener('mousemove', move);
   };
 
-  const saveDrawData = () => {
-    drawInstance.getInfo();
+  const saveCanvas = () => {
+    localStorage.setItem('drawData', JSON.stringify(drawInstance.getInfo()));
   };
 
-  const loadCanvas = () => {
-    const { canvas, ctx } = createCanvasElement('loaded-canvas');
-    const uintArray = new Uint8ClampedArray(
-      JSON.parse(drawInstance.getInfo().data),
-    );
-    const newImageData = new ImageData(uintArray, 300, 150);
-    console.log('canvas 데이터 로드', newImageData);
-    ctx.putImageData(newImageData, 0, 0);
-    const loadedDrawInstance = new Draw(canvas, ctx);
-
-    setDrawInstance(loadedDrawInstance);
+  const convertDataToCanvasImageData = (data) => {
+    const uintArray = new Uint8ClampedArray(JSON.parse(JSON.parse(data).data));
+    return new ImageData(uintArray, 300, 150);
   };
+
+  const createDrawing = useCallback(() => {
+    const { ctx } = createCtx(canvas.current);
+    const draw = new Draw(canvas.current, ctx);
+    setDrawInstance(draw);
+
+    return ctx;
+  }, [canvas]);
 
   useEffect(() => {
-    const { canvas, ctx } = createCanvasElement(id);
-    const draw = new Draw(canvas, ctx);
+    const ctx = createDrawing();
+    if (localStorage.getItem('drawData')) {
+      const imageData = convertDataToCanvasImageData(
+        localStorage.getItem('drawData'),
+      );
+      ctx.putImageData(imageData, 0, 0);
+    }
+  }, [canvas, contentsLoaded, createDrawing]);
 
-    setDrawInstance(draw);
-  }, [id, contentsLoaded]);
-
-  return { saveDrawData, loadCanvas, startDrawing, stopDrawing };
+  return { saveCanvas, createDrawing, startDrawing, stopDrawing };
 };
 
 export default useDrawing;
