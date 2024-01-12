@@ -1,10 +1,7 @@
 package com.daily.daily.auth.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.daily.daily.auth.dto.JwtClaimDTO;
 import com.daily.daily.member.constant.MemberRole;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
@@ -113,6 +110,15 @@ public class JwtUtil {
 
         response.addHeader(SET_COOKIE, accessCookie.toString());
         response.addHeader(SET_COOKIE, refreshCookie.toString());
+    }
+
+    public boolean isExpired(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload().getExpiration()
+                .before(new Date());
     }
 
     private ResponseCookie createTokenCookie(String cookieName, String token) {

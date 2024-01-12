@@ -32,14 +32,15 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<CommonResponseDTO> logout(@CookieValue("AccessToken") String accessToken,
-                       @CookieValue("RefreshToken") String refreshToken) {
-
-        authService.logout(TokenDTO.of(accessToken, refreshToken));
+                       @CookieValue("RefreshToken") String refreshToken, HttpServletResponse response) {
+        authService.logout(response, TokenDTO.of(accessToken, refreshToken));
         return ResponseEntity.ok().body(new CommonResponseDTO(true, HttpStatus.OK.value()));
     }
 
     @PostMapping("/token")
-    public TokenDTO getToken(@CookieValue("RefreshToken") RefreshToken refreshToken) {
-        return new TokenDTO(tokenService.createAccessToken(refreshToken), refreshToken.getRefreshToken());
+    public ResponseEntity<CommonResponseDTO> getToken(@CookieValue("AccessToken") String accessToken,
+                         @CookieValue("RefreshToken") RefreshToken refreshToken, HttpServletResponse response) {
+        tokenService.renewToken(response, accessToken, refreshToken);
+        return ResponseEntity.ok().body(new CommonResponseDTO(true, HttpStatus.OK.value()));
     }
 }
