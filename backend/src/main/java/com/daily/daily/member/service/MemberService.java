@@ -11,6 +11,7 @@ import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.exception.PasswordUnmatchedException;
 import com.daily.daily.member.repository.MemberRepository;
 import com.daily.daily.member.repository.PasswordResetTokenRepository;
+import com.daily.daily.member.validator.Nickname;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,10 @@ public class MemberService {
         String password = joinDTO.getPassword();
         joinDTO.setPassword(passwordEncoder.encode(password));
 
+        if (joinDTO.hasNoneNickname()) {
+            joinDTO.setNickname(nicknameGenerator.generateRandomNickname());
+        }
+
         Member member = joinDTO.toMember();
         validateJoinMember(member);
         memberRepository.save(member);
@@ -48,9 +53,7 @@ public class MemberService {
         if (existsByUsername(member.getUsername())) {
             throw new DuplicatedUsernameException();
         }
-        if (member.getNickname() == null || member.getNickname().isBlank()) {
-            member.updateNickname(nicknameGenerator.generateRandomNickname());
-        }
+
         validateDuplicatedNickname(member.getNickname());
     }
 

@@ -43,5 +43,9 @@ public class JoinDTO {
                 .socialType(SocialType.NONE)
                 .build();
     }
+
+    public boolean hasNoneNickname() {
+        return nickname == null || nickname.isBlank();
+    }
 }
 
