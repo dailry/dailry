@@ -22,25 +22,25 @@ public class AuthController {
     private final JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<SuccessResponseDTO> login(@RequestBody LoginDTO loginDto, HttpServletResponse response) {
+    public SuccessResponseDTO login(@RequestBody LoginDTO loginDto, HttpServletResponse response) {
         TokenDTO tokenDto = authService.login(loginDto);
 
         jwtUtil.setTokensInCookie(response, tokenDto.getAccessToken(), tokenDto.getRefreshToken());
 
-        return ResponseEntity.ok().body(new SuccessResponseDTO(true, HttpStatus.OK.value()));
+        return new SuccessResponseDTO();
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<SuccessResponseDTO> logout(@CookieValue("AccessToken") String accessToken,
+    public SuccessResponseDTO logout(@CookieValue("AccessToken") String accessToken,
                                                      @CookieValue("RefreshToken") String refreshToken, HttpServletResponse response) {
         authService.logout(response, TokenDTO.of(accessToken, refreshToken));
-        return ResponseEntity.ok().body(new SuccessResponseDTO(true, HttpStatus.OK.value()));
+        return new SuccessResponseDTO();
     }
 
     @PostMapping("/token")
-    public ResponseEntity<SuccessResponseDTO> getToken(@CookieValue("AccessToken") String accessToken,
+    public SuccessResponseDTO getToken(@CookieValue("AccessToken") String accessToken,
                                                        @CookieValue("RefreshToken") RefreshToken refreshToken, HttpServletResponse response) {
         tokenService.renewToken(response, accessToken, refreshToken);
-        return ResponseEntity.ok().body(new SuccessResponseDTO(true, HttpStatus.OK.value()));
+        return new SuccessResponseDTO();
     }
 }
