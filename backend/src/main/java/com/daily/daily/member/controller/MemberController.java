@@ -83,36 +83,36 @@ public class MemberController {
 
     @Secured(value = "ROLE_MEMBER")
     @PostMapping("/email-verification/request")
-    public ResponseEntity<SuccessResponseDTO> sendCertificationNumber(@RequestBody @Valid EmailDTO emailDTO) {
+    public SuccessResponseDTO sendCertificationNumber(@RequestBody @Valid EmailDTO emailDTO) {
         memberEmailService.sendCertificationNumber(emailDTO.getEmail());
-        return new ResponseEntity<>(new SuccessResponseDTO(), HttpStatus.OK);
+        return new SuccessResponseDTO();
     }
 
     @Secured(value = "ROLE_MEMBER")
     @PostMapping("/email-verification/confirm")
-    public ResponseEntity<SuccessResponseDTO> verifyEmailAndRegister(
+    public SuccessResponseDTO verifyEmailAndRegister(
             @RequestBody @Valid EmailVerifyDTO emailVerifyDTO,
             @AuthenticationPrincipal Long id
     ) {
         memberEmailService.verifyEmailAndRegister(id, emailVerifyDTO);
-        return new ResponseEntity<>(new SuccessResponseDTO(), HttpStatus.OK);
+        return new SuccessResponseDTO();
     }
 
     @PostMapping("/recover-username")
-    public ResponseEntity<SuccessResponseDTO> recoverUsername(@RequestBody @Valid EmailDTO emailDTO) {
+    public SuccessResponseDTO recoverUsername(@RequestBody @Valid EmailDTO emailDTO) {
         memberEmailService.sendUsername(emailDTO.getEmail());
-        return new ResponseEntity<>(new SuccessResponseDTO(), HttpStatus.OK);
+        return new SuccessResponseDTO();
     }
 
     @PostMapping("/recover-password")
-    public ResponseEntity<SuccessResponseDTO> recoverPassword(@RequestBody @Valid PasswordRecoverDTO passwordRecoverDTO) {
+    public SuccessResponseDTO recoverPassword(@RequestBody @Valid PasswordRecoverDTO passwordRecoverDTO) {
         memberEmailService.recoverPassword(passwordRecoverDTO.getUsername(), passwordRecoverDTO.getEmail());
-        return new ResponseEntity<>(new SuccessResponseDTO(), HttpStatus.OK);
+        return new SuccessResponseDTO();
     }
 
     @PatchMapping("/recover-password")
-    public ResponseEntity<SuccessResponseDTO> updatePasswordByResetToken(@RequestBody @Valid PasswordTokenDTO passwordTokenDTO) {
+    public SuccessResponseDTO updatePasswordByResetToken(@RequestBody @Valid PasswordTokenDTO passwordTokenDTO) {
         memberService.updatePasswordByResetToken(passwordTokenDTO.getPasswordResetToken(), passwordTokenDTO.getPassword());
-        return new ResponseEntity<>(new SuccessResponseDTO(), HttpStatus.OK);
+        return new SuccessResponseDTO();
     }
 }
