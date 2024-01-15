@@ -12,10 +12,6 @@ class Draw {
 
   move(event) {
     this.ctx.beginPath();
-    this.ctx.lineWidth = 5;
-    this.ctx.lineCap = 'round';
-    this.ctx.strokeStyle = '#ACD3ED';
-
     this.ctx.moveTo(this.coord.x, this.coord.y);
     this.reposition(event);
     this.ctx.lineTo(this.coord.x, this.coord.y);
@@ -25,6 +21,14 @@ class Draw {
   erase(event) {
     this.ctx.clearRect(this.coord.x, this.coord.y, 30, 30);
     this.reposition(event);
+  }
+
+  setColor(color) {
+    this.ctx.strokeStyle = color;
+  }
+
+  setSize(size) {
+    this.ctx.lineWidth = size;
   }
 
   getInfo() {

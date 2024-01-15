@@ -1,13 +1,15 @@
 import { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { canvasToImage } from './canvas';
-import useDrawing from './useDrawing';
+import useDrawUtils from './useDrawUtils';
 import AuthButton from '../../common/AuthButton/AuthButton';
+import useDrawInstance from './useDrawInstance';
 
 const Drawing = (props) => {
   const { id } = props;
   const canvas = useRef(null);
 
+  const { drawInstance } = useDrawInstance(canvas);
   const {
     saveCanvas,
     mouseEventHandlers,
@@ -15,7 +17,8 @@ const Drawing = (props) => {
     stopMoving,
     mode,
     setMode,
-  } = useDrawing(canvas);
+  } = useDrawUtils(canvas, drawInstance);
+
   const [imgSrc, setImgSrc] = useState('');
 
   return (
@@ -34,6 +37,14 @@ const Drawing = (props) => {
       <AuthButton onClick={() => setMode('drawMode')}>그리기</AuthButton>
 
       <AuthButton onClick={() => setMode('eraseMode')}>지우기</AuthButton>
+      <input
+        type="color"
+        onChange={(e) => drawInstance.setColor(e.target.value)}
+      />
+      <input
+        type="range"
+        onChange={(e) => drawInstance.setSize(e.target.value)}
+      />
     </>
   );
 };
