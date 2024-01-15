@@ -1,41 +1,31 @@
 import { useCallback, useEffect, useState } from 'react';
 import Draw from './Draw';
 import { createCtx } from './canvas';
+import { convertDataToCanvasImageData } from '../../../utils/dataFormatting';
+import useDomContentsLoaded from '../../../hooks/useDomContentsLoaded';
 
 const useDrawInstance = (canvas) => {
-  const [contentsLoaded, setContentsLoaded] = useState(false);
-  document.addEventListener('DOMContentLoaded', () => {
-    setContentsLoaded(true);
-  });
-
+  const contentsLoaded = useDomContentsLoaded();
   const [drawInstance, setDrawInstance] = useState(undefined);
 
-  const createDrawing = useCallback(() => {
+  const initialize = useCallback(() => {
     const { ctx } = createCtx(canvas.current);
     setDrawInstance(new Draw(canvas.current, ctx));
 
     return ctx;
   }, [canvas]);
 
-  const convertDataToCanvasImageData = (data) => {
-    const uintArray = new Uint8ClampedArray(JSON.parse(JSON.parse(data).data));
-    return new ImageData(uintArray, 300, 150);
-  };
-
   useEffect(() => {
-    const ctx = createDrawing();
+    const ctx = initialize();
     if (localStorage.getItem('drawData')) {
       const imageData = convertDataToCanvasImageData(
         localStorage.getItem('drawData'),
       );
       ctx.putImageData(imageData, 0, 0);
     }
-  }, [canvas, contentsLoaded, createDrawing]);
+  }, [contentsLoaded, initialize]);
 
-  const draw = (e) => drawInstance.move(e);
-  const erase = (e) => drawInstance.erase(e);
-
-  return { drawInstance, draw, erase };
+  return { drawInstance };
 };
 
 export default useDrawInstance;

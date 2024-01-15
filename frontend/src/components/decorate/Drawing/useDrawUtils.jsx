@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import useDrawInstance from './useDrawInstance';
 
-const useDrawing = (canvas) => {
-  const { drawInstance, draw, erase } = useDrawInstance(canvas);
-
+const useDrawUtils = (canvas, drawInstance) => {
   const [mode, setMode] = useState(undefined);
+
+  const draw = (e) => drawInstance.move(e);
+  const erase = (e) => drawInstance.erase(e);
 
   const startMoving = (event, callback) => {
     canvas.current.addEventListener('mousemove', callback);
@@ -34,4 +34,4 @@ const useDrawing = (canvas) => {
   };
 };
 
-export default useDrawing;
+export default useDrawUtils;
