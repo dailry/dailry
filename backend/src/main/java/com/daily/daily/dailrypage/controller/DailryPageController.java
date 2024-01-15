@@ -1,6 +1,6 @@
 package com.daily.daily.dailrypage.controller;
 
-import com.daily.daily.common.dto.CommonResponseDTO;
+import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 import com.daily.daily.dailrypage.service.DailryPageService;
@@ -44,8 +44,8 @@ public class DailryPageController {
 
     @DeleteMapping("/{pageId}")
     @ResponseStatus(HttpStatus.OK)
-    public CommonResponseDTO deletePage(@PathVariable Long pageId) {
+    public SuccessResponseDTO deletePage(@PathVariable Long pageId) {
         dailryPageService.delete(pageId);
-        return new CommonResponseDTO(true, HttpStatus.OK.value());
+        return new SuccessResponseDTO(true, HttpStatus.OK.value());
     }
 }

@@ -1,6 +1,6 @@
 package com.daily.daily.member.controller;
 
-import com.daily.daily.common.dto.CommonResponseDTO;
+import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.member.dto.DuplicateResultDTO;
 import com.daily.daily.member.dto.EmailDTO;
 import com.daily.daily.member.dto.EmailVerifyDTO;
@@ -81,43 +81,43 @@ public class MemberController {
     @Secured(value = "ROLE_MEMBER")
     @PatchMapping("/password")
     @ResponseStatus(HttpStatus.OK)
-    public CommonResponseDTO updatePassword(@RequestBody @Valid PasswordUpdateDTO passwordUpdateDTO, @AuthenticationPrincipal Long id) {
+    public SuccessResponseDTO updatePassword(@RequestBody @Valid PasswordUpdateDTO passwordUpdateDTO, @AuthenticationPrincipal Long id) {
         memberService.updatePassword(passwordUpdateDTO, id);
-        return new CommonResponseDTO(true, HttpStatus.OK.value());
+        return new SuccessResponseDTO(true, HttpStatus.OK.value());
     }
 
     @Secured(value = "ROLE_MEMBER")
     @PostMapping("/email-verification/request")
-    public ResponseEntity<CommonResponseDTO> sendCertificationNumber(@RequestBody @Valid EmailDTO emailDTO) {
+    public ResponseEntity<SuccessResponseDTO> sendCertificationNumber(@RequestBody @Valid EmailDTO emailDTO) {
         memberEmailService.sendCertificationNumber(emailDTO.getEmail());
-        return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+        return new ResponseEntity<>(new SuccessResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
     }
 
     @Secured(value = "ROLE_MEMBER")
     @PostMapping("/email-verification/confirm")
-    public ResponseEntity<CommonResponseDTO> verifyEmailAndRegister(
+    public ResponseEntity<SuccessResponseDTO> verifyEmailAndRegister(
             @RequestBody @Valid EmailVerifyDTO emailVerifyDTO,
             @AuthenticationPrincipal Long id
     ) {
         memberEmailService.verifyEmailAndRegister(id, emailVerifyDTO);
-        return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+        return new ResponseEntity<>(new SuccessResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
     }
 
     @PostMapping("/recover-username")
-    public ResponseEntity<CommonResponseDTO> recoverUsername(@RequestBody @Valid EmailDTO emailDTO) {
+    public ResponseEntity<SuccessResponseDTO> recoverUsername(@RequestBody @Valid EmailDTO emailDTO) {
         memberEmailService.sendUsername(emailDTO.getEmail());
-        return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+        return new ResponseEntity<>(new SuccessResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
     }
 
     @PostMapping("/recover-password")
-    public ResponseEntity<CommonResponseDTO> recoverPassword(@RequestBody @Valid PasswordRecoverDTO passwordRecoverDTO) {
+    public ResponseEntity<SuccessResponseDTO> recoverPassword(@RequestBody @Valid PasswordRecoverDTO passwordRecoverDTO) {
         memberEmailService.recoverPassword(passwordRecoverDTO.getUsername(), passwordRecoverDTO.getEmail());
-        return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+        return new ResponseEntity<>(new SuccessResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
     }
 
     @PatchMapping("/recover-password")
-    public ResponseEntity<CommonResponseDTO> updatePasswordByResetToken(@RequestBody @Valid PasswordTokenDTO passwordTokenDTO) {
+    public ResponseEntity<SuccessResponseDTO> updatePasswordByResetToken(@RequestBody @Valid PasswordTokenDTO passwordTokenDTO) {
         memberService.updatePasswordByResetToken(passwordTokenDTO.getPasswordResetToken(), passwordTokenDTO.getPassword());
-        return new ResponseEntity<>(new CommonResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+        return new ResponseEntity<>(new SuccessResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
     }
 }
