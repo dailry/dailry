@@ -169,11 +169,11 @@ class AuthControllerTest {
                 .cookie(new Cookie("RefreshToken", refreshToken))
                 .contentType(MediaType.APPLICATION_JSON));
 
-//        resultActions.andDo(document("accesstoken갱신",
-//                responseFields(
-//                        fieldWithPath("accessToken").type(STRING).description("accessToken"),
-//                        fieldWithPath("refreshToken").type(STRING).description("refreshToken")
-//                )));
+        resultActions.andDo(document("accesstoken갱신",
+                responseFields(
+                        fieldWithPath("statusCode").type(NUMBER).description("상태코드"),
+                        fieldWithPath("successful").type(BOOLEAN).description("성공여부")
+                )));
     }
 
     @Test

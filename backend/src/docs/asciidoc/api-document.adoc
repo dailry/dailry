@@ -55,7 +55,6 @@ include::{snippets}/로그아웃/http-response.adoc[]
 ==== 요청
 
 include::{snippets}/accesstoken갱신/http-request.adoc[]
-include::{snippets}/accesstoken갱신/request-fields.adoc[]
 
 ==== 응답
 
