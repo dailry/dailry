@@ -42,13 +42,6 @@ public class MemberService {
         return MemberInfoDTO.from(member);
     }
 
-    public MemberInfoDTO findById(Long id) {
-        Member member = memberRepository.findById(id)
-                .orElseThrow(MemberNotFoundException::new);
-
-        return MemberInfoDTO.from(member);
-    }
-
     private void validateJoinMember(Member member) {
         if (existsByUsername(member.getUsername())) {
             throw new DuplicatedUsernameException();
@@ -61,6 +54,13 @@ public class MemberService {
         if (existsByNickname(nickname)) {
             throw new DuplicatedNicknameException();
         }
+    }
+
+    public MemberInfoDTO findById(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(MemberNotFoundException::new);
+
+        return MemberInfoDTO.from(member);
     }
 
     public MemberInfoDTO updateNickname(Long id, String nickname) {
