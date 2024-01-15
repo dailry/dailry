@@ -32,14 +32,14 @@ public class AuthController {
 
     @PostMapping("/logout")
     public SuccessResponseDTO logout(@CookieValue("AccessToken") String accessToken,
-                                                     @CookieValue("RefreshToken") String refreshToken, HttpServletResponse response) {
+                                     @CookieValue("RefreshToken") String refreshToken, HttpServletResponse response) {
         authService.logout(response, TokenDTO.of(accessToken, refreshToken));
         return new SuccessResponseDTO();
     }
 
     @PostMapping("/token")
     public SuccessResponseDTO getToken(@CookieValue("AccessToken") String accessToken,
-                                                       @CookieValue("RefreshToken") RefreshToken refreshToken, HttpServletResponse response) {
+                                       @CookieValue("RefreshToken") RefreshToken refreshToken, HttpServletResponse response) {
         tokenService.renewToken(response, accessToken, refreshToken);
         return new SuccessResponseDTO();
     }
