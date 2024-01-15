@@ -15,7 +15,14 @@ else
 fi
 
 #new version start
-nohup java -jar -Dserver.port=$DEPLOY_PORT -Dspring.config.location=$CONFIG_PATH $JAR_PATH ${JAR_PATH} 1>>$LOG_PATH/app-log.out 2>>$LOG_PATH/err-log.out &
+nohup java -jar \
+    -Duser.timezone=Asia/Seoul \
+    -Dserver.port=$DEPLOY_PORT \
+    -Dspring.config.location=$CONFIG_PATH \
+    $JAR_PATH \
+    1>>$LOG_PATH/app-log.out \
+    2>>$LOG_PATH/err-log.out &
+
 sleep 30
 
 #health check...
