@@ -1,6 +1,5 @@
 package com.daily.daily.dailrypage.service;
 
-import com.daily.daily.common.dto.CommonResponseDTO;
 import com.daily.daily.dailrypage.domain.DailryPage;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
