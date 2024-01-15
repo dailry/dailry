@@ -42,12 +42,10 @@ public class MemberController {
 
     @Secured(value = "ROLE_MEMBER")
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public MemberInfoDTO getMemberByAccessToken(@AuthenticationPrincipal Long id) {
         return memberService.findById(id);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/check-username")
     public DuplicateResultDTO checkDuplicatedUsername(@RequestParam("username") String username) {
         System.out.println(username);
@@ -58,7 +56,6 @@ public class MemberController {
         return new DuplicateResultDTO(false);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/check-nickname")
     public DuplicateResultDTO checkDuplicatedNickname(@RequestParam("nickname") String nickname) {
         if (memberService.existsByNickname(nickname)) {
@@ -69,7 +66,6 @@ public class MemberController {
     }
 
     @Secured(value = "ROLE_MEMBER")
-    @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/nickname")
     public MemberInfoDTO updateNickname(
             @RequestBody @Valid NicknameDTO nicknameDTO,
@@ -80,17 +76,16 @@ public class MemberController {
 
     @Secured(value = "ROLE_MEMBER")
     @PatchMapping("/password")
-    @ResponseStatus(HttpStatus.OK)
     public SuccessResponseDTO updatePassword(@RequestBody @Valid PasswordUpdateDTO passwordUpdateDTO, @AuthenticationPrincipal Long id) {
         memberService.updatePassword(passwordUpdateDTO, id);
-        return new SuccessResponseDTO(true, HttpStatus.OK.value());
+        return new SuccessResponseDTO();
     }
 
     @Secured(value = "ROLE_MEMBER")
     @PostMapping("/email-verification/request")
     public ResponseEntity<SuccessResponseDTO> sendCertificationNumber(@RequestBody @Valid EmailDTO emailDTO) {
         memberEmailService.sendCertificationNumber(emailDTO.getEmail());
-        return new ResponseEntity<>(new SuccessResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+        return new ResponseEntity<>(new SuccessResponseDTO(), HttpStatus.OK);
     }
 
     @Secured(value = "ROLE_MEMBER")
@@ -100,24 +95,24 @@ public class MemberController {
             @AuthenticationPrincipal Long id
     ) {
         memberEmailService.verifyEmailAndRegister(id, emailVerifyDTO);
-        return new ResponseEntity<>(new SuccessResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+        return new ResponseEntity<>(new SuccessResponseDTO(), HttpStatus.OK);
     }
 
     @PostMapping("/recover-username")
     public ResponseEntity<SuccessResponseDTO> recoverUsername(@RequestBody @Valid EmailDTO emailDTO) {
         memberEmailService.sendUsername(emailDTO.getEmail());
-        return new ResponseEntity<>(new SuccessResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+        return new ResponseEntity<>(new SuccessResponseDTO(), HttpStatus.OK);
     }
 
     @PostMapping("/recover-password")
     public ResponseEntity<SuccessResponseDTO> recoverPassword(@RequestBody @Valid PasswordRecoverDTO passwordRecoverDTO) {
         memberEmailService.recoverPassword(passwordRecoverDTO.getUsername(), passwordRecoverDTO.getEmail());
-        return new ResponseEntity<>(new SuccessResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+        return new ResponseEntity<>(new SuccessResponseDTO(), HttpStatus.OK);
     }
 
     @PatchMapping("/recover-password")
     public ResponseEntity<SuccessResponseDTO> updatePasswordByResetToken(@RequestBody @Valid PasswordTokenDTO passwordTokenDTO) {
         memberService.updatePasswordByResetToken(passwordTokenDTO.getPasswordResetToken(), passwordTokenDTO.getPassword());
-        return new ResponseEntity<>(new SuccessResponseDTO(true, HttpStatus.OK.value()), HttpStatus.OK);
+        return new ResponseEntity<>(new SuccessResponseDTO(), HttpStatus.OK);
     }
 }

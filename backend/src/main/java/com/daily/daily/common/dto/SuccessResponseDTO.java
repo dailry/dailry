@@ -9,9 +9,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SuccessResponseDTO {
     private boolean isSuccessful = true;
-    private Integer statusCode;
+    private Integer statusCode = 200;
 
     public SuccessResponseDTO(Integer statusCode) {
         this.statusCode = statusCode;
+    }
+
+    public SuccessResponseDTO() {
     }
 }

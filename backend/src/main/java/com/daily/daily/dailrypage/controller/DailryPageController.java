@@ -31,19 +31,16 @@ public class DailryPageController {
     }
 
     @PatchMapping("/{pageId}")
-    @ResponseStatus(HttpStatus.OK)
     public DailryPageDTO updatePage(@RequestBody DailryPageUpdateDTO dailryPageUpdateDTO, @PathVariable Long pageId) {
         return dailryPageService.update(pageId, dailryPageUpdateDTO);
     }
 
     @GetMapping("/{pageId}")
-    @ResponseStatus(HttpStatus.OK)
     public DailryPageDTO findPage(@PathVariable Long pageId) {
         return dailryPageService.find(pageId);
     }
 
     @DeleteMapping("/{pageId}")
-    @ResponseStatus(HttpStatus.OK)
     public SuccessResponseDTO deletePage(@PathVariable Long pageId) {
         dailryPageService.delete(pageId);
         return new SuccessResponseDTO(true, HttpStatus.OK.value());
