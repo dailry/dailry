@@ -8,14 +8,21 @@ const Drawing = (props) => {
   const { id } = props;
   const canvas = useRef(null);
 
-  const { saveCanvas, startDrawing, stopDrawing } = useDrawing(canvas);
+  const {
+    saveCanvas,
+    mouseEventHandlers,
+    startMoving,
+    stopMoving,
+    mode,
+    setMode,
+  } = useDrawing(canvas);
   const [imgSrc, setImgSrc] = useState('');
 
   return (
     <>
       <canvas
-        onMouseDown={(e) => startDrawing(e)}
-        onMouseUp={(e) => stopDrawing(e)}
+        onMouseDown={(e) => startMoving(e, mouseEventHandlers[mode])}
+        onMouseUp={() => stopMoving(mouseEventHandlers[mode])}
         ref={canvas}
       ></canvas>
       <image id="canvas-draw-image" alt="converted-image" src={imgSrc} />
@@ -24,6 +31,9 @@ const Drawing = (props) => {
       </AuthButton>
 
       <AuthButton onClick={() => saveCanvas()}>저장</AuthButton>
+      <AuthButton onClick={() => setMode('drawMode')}>그리기</AuthButton>
+
+      <AuthButton onClick={() => setMode('eraseMode')}>지우기</AuthButton>
     </>
   );
 };

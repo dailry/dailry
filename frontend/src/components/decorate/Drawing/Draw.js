@@ -22,6 +22,11 @@ class Draw {
     this.ctx.stroke();
   }
 
+  erase(event) {
+    this.ctx.clearRect(this.coord.x, this.coord.y, 30, 30);
+    this.reposition(event);
+  }
+
   getInfo() {
     const { colorSpace, height, width, data } = this.ctx.getImageData(
       0,
