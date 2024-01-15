@@ -34,8 +34,6 @@ public class MemberService {
         validateJoinMember(member);
         memberRepository.save(member);
 
-        member.initializeNickname();
-
         return MemberInfoDTO.from(member);
     }
 
@@ -50,7 +48,7 @@ public class MemberService {
         if (existsByUsername(member.getUsername())) {
             throw new DuplicatedUsernameException();
         }
-        if (member.getNickname() == null) {
+        if (member.getNickname() == null || member.getNickname().isBlank()) {
             member.updateNickname(nicknameGenerator.generateRandomNickname());
         }
         validateDuplicatedNickname(member.getNickname());
@@ -71,7 +69,6 @@ public class MemberService {
         findMember.updateNickname(nickname);
         return MemberInfoDTO.from(findMember);
     }
-
 
     public void updatePassword(PasswordUpdateDTO passwordUpdateDTO, Long id) {
         Member findMember = memberRepository.findById(id)
