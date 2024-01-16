@@ -25,8 +25,8 @@
     "lint": "eslint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "sb build",
-    "start:mac": "HTTPS=true SSL_CRT_FILE=.cert/localhost.pem SSL_KEY_FILE=.cert/localhost-key.pem npm run start",
-    "start:windows": "set HTTPS=true&&set SSL_CRT_FILE=.cert/localhost.pem&&set SSL_KEY_FILE=.cert/localhost-key.pem&&npm run start"
+    "start-https:mac": "HTTPS=true npm start",
+    "start-https:windows": "set HTTPS=true&&npm start"
   },
   "babel": {
     "presets": [
