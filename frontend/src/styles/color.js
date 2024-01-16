@@ -48,6 +48,8 @@ export const MENU = Object.freeze({
   tool: '#74abd9',
 });
 
+export const DAILY = Object.freeze({});
+
 export const LOGIN = Object.freeze({
   googleText: '#888888',
   googleBorder: '#c0c0c0',
