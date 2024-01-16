@@ -89,7 +89,7 @@ class MemberControllerTest {
 
         given(memberService.join(Mockito.any())).willReturn(expected);
         //when
-        ResultActions joinActions = mockMvc.perform(post("/api/member/join")
+        ResultActions joinActions = mockMvc.perform(post("/api/members/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(joinDTO))
                 .with(csrf().asHeader())
@@ -129,7 +129,7 @@ class MemberControllerTest {
         given(memberService.join(Mockito.any())).willThrow(DuplicatedUsernameException.class);
 
         //when
-        ResultActions joinActions = mockMvc.perform(post("/api/member/join")
+        ResultActions joinActions = mockMvc.perform(post("/api/members/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(joinDTO))
                 .with(csrf().asHeader())
@@ -152,7 +152,7 @@ class MemberControllerTest {
         given(memberService.findById(Mockito.any())).willReturn(expected);
 
         //when
-        ResultActions actions = mockMvc.perform(get("/api/member")
+        ResultActions actions = mockMvc.perform(get("/api/members")
                 .header(AUTHORIZATION, AccessToken)
                 .with(csrf().asHeader())
         );
@@ -187,7 +187,7 @@ class MemberControllerTest {
         given(memberService.existsByUsername(testUsername)).willReturn(true);
 
         //when
-        ResultActions actions = mockMvc.perform(get("/api/member/check-username")
+        ResultActions actions = mockMvc.perform(get("/api/members/check-username")
                 .param("username", testUsername)
         );
 
@@ -215,7 +215,7 @@ class MemberControllerTest {
         given(memberService.existsByUsername(testUsername)).willReturn(false);
 
         //when
-        ResultActions perform = mockMvc.perform(get("/api/member/check-username")
+        ResultActions perform = mockMvc.perform(get("/api/members/check-username")
                 .param("username", testUsername)
         );
 
@@ -233,7 +233,7 @@ class MemberControllerTest {
         given(memberService.existsByNickname(testNickname)).willReturn(true);
 
         //when
-        ResultActions perform = mockMvc.perform(get("/api/member/check-nickname")
+        ResultActions perform = mockMvc.perform(get("/api/members/check-nickname")
                 .param("nickname", testNickname)
         );
 
@@ -261,7 +261,7 @@ class MemberControllerTest {
         given(memberService.existsByNickname(testNickname)).willReturn(false);
 
         //when
-        ResultActions perform = mockMvc.perform(get("/api/member/check-nickname")
+        ResultActions perform = mockMvc.perform(get("/api/members/check-nickname")
                 .param("nickname", testNickname)
         );
 
@@ -283,7 +283,7 @@ class MemberControllerTest {
 
         given(memberService.updateNickname(Mockito.any(), Mockito.any())).willReturn(expected);
         //when
-        ResultActions perform = mockMvc.perform(patch("/api/member/nickname")
+        ResultActions perform = mockMvc.perform(patch("/api/members/nickname")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(nicknameDTO))
                 .header(AUTHORIZATION, AccessToken)
@@ -320,7 +320,7 @@ class MemberControllerTest {
         PasswordUpdateDTO passwordUpdateDTO = new PasswordUpdateDTO("12345678", "23456789");
 
         //when
-        ResultActions perform = mockMvc.perform(patch("/api/member/password")
+        ResultActions perform = mockMvc.perform(patch("/api/members/password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(passwordUpdateDTO))
                 .header(AUTHORIZATION, AccessToken)
@@ -348,7 +348,7 @@ class MemberControllerTest {
         EmailDTO emailDTO = new EmailDTO("qkrrjsdn123@naver.com");
 
         //when
-        ResultActions perform = mockMvc.perform(post("/api/member/email-verification/request")
+        ResultActions perform = mockMvc.perform(post("/api/members/email-verification/request")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emailDTO))
                 .header(AUTHORIZATION, AccessToken)
@@ -375,7 +375,7 @@ class MemberControllerTest {
         EmailVerifyDTO emailVerifyDTO = new EmailVerifyDTO("qkrrjsdn123@naver.com", "315162");
 
         //when
-        ResultActions perform = mockMvc.perform(post("/api/member/email-verification/confirm")
+        ResultActions perform = mockMvc.perform(post("/api/members/email-verification/confirm")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emailVerifyDTO))
                 .header(AUTHORIZATION, AccessToken)
@@ -403,7 +403,7 @@ class MemberControllerTest {
         EmailDTO emailDTO = new EmailDTO("qkrrjsdn123@naver.com");
 
         //when
-        ResultActions perform = mockMvc.perform(post("/api/member/recover-username")
+        ResultActions perform = mockMvc.perform(post("/api/members/recover-username")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emailDTO))
                 .with(csrf().asHeader())
@@ -432,7 +432,7 @@ class MemberControllerTest {
         passwordRecoverDTO.setUsername("rjsdn123");
 
         //when
-        ResultActions perform = mockMvc.perform(post("/api/member/recover-password")
+        ResultActions perform = mockMvc.perform(post("/api/members/recover-password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(passwordRecoverDTO))
                 .with(csrf().asHeader())
@@ -462,7 +462,7 @@ class MemberControllerTest {
         passwordTokenDTO.setPassword("12345678");
 
         //when
-        ResultActions perform = mockMvc.perform(patch("/api/member/recover-password")
+        ResultActions perform = mockMvc.perform(patch("/api/members/recover-password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(passwordTokenDTO))
                 .with(csrf().asHeader())

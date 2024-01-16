@@ -1,3 +1,5 @@
+import Drawing from '../../components/decorate/Drawing/Drawing';
+
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
 import { useState } from 'react';
 import { Rnd } from 'react-rnd';
@@ -10,15 +12,15 @@ const DailyPage = () => {
   const { background, elements } = dailryData;
   const [activeElementId, setActiveElementId] = useState(null);
   const [draggable, setDraggable] = useState(false);
-
   return (
     <S.FlexWrapper>
       <S.CanvasWrapper>
         <button onClick={() => setDraggable(!draggable)}>
           draggable: {draggable}
         </button>
+        <Drawing id="first" />
         {elements.map((element) => {
-          return <Element enableResizing={draggable} {...element} />;
+          return <Element enableResizing={draggable} {...element}/>;
         })}
       </S.CanvasWrapper>
       <S.ToolWrapper>

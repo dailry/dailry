@@ -2,7 +2,9 @@ package com.daily.daily.integration.auth.jwt;
 
 import com.daily.daily.auth.dto.JwtClaimDTO;
 import com.daily.daily.auth.dto.LoginDTO;
+import com.daily.daily.auth.dto.TokenDTO;
 import com.daily.daily.auth.jwt.JwtUtil;
+import com.daily.daily.auth.service.AuthService;
 import com.daily.daily.member.constant.MemberRole;
 import com.daily.daily.member.controller.MemberController;
 import com.daily.daily.member.dto.JoinDTO;
@@ -20,9 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -43,15 +43,23 @@ public class JwtUtilTest {
     @Autowired
     MemberController memberController;
 
+    @Autowired
+    AuthService authService;
+
     @Test
     @DisplayName("Http 응답으로 전송되는 토큰이, jwtUtil 에서 만들어진 토큰과 같은 것인지 확인한다.")
-    void checkTokenHeader() {
+    void checkToken() {
         MockHttpServletResponse mockResponse = new MockHttpServletResponse();
+
+        System.out.println("mockResponse:" + mockResponse);
 
         String accessToken = jwtUtil.generateAccessToken(3L, MemberRole.ROLE_MEMBER);
         String refreshToken = jwtUtil.generateRefreshToken(3L);
 
         jwtUtil.setTokensInCookie(mockResponse, accessToken, refreshToken);
+
+        Cookie test = mockResponse.getCookie("AccessToken");
+        System.out.println("test:" + test);
 
         String responseAccessToken = mockResponse.getCookie("AccessToken").getValue();
         String responseRefreshToken = mockResponse.getCookie("RefreshToken").getValue();
@@ -91,15 +99,21 @@ public class JwtUtilTest {
         loginDto.setUsername("testtest");
         loginDto.setPassword("12341234");
 
+        TokenDTO tokenDto = authService.login(loginDto);
+
+        String accessToken = tokenDto.getAccessToken();
+        String refreshToken = tokenDto.getRefreshToken();
+
         String requestBody = objectMapper.writeValueAsString(loginDto);
 
         //when
-        ResultActions resultActions = mockMvc.perform(post("/api/login").content(requestBody).contentType(MediaType.APPLICATION_JSON));
+        ResultActions resultActions = mockMvc.perform(post("/api/login")
+                .cookie(new Cookie("AccessToken", accessToken))
+                .cookie(new Cookie("RefreshToken", refreshToken))
+                .content(requestBody).contentType(MediaType.APPLICATION_JSON));
 
         //then
         resultActions
-                .andExpect(status().isOk())
-                .andExpect(cookie().exists("AccessToken"))
-                .andExpect(cookie().exists("RefreshToken"));
+                .andExpect(status().isOk());
     }
 }

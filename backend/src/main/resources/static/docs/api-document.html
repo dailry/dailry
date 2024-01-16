@@ -510,6 +510,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMCwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA0OTU1NzAxfQ.LTFRUqb3bE-g9TGveMVaC0PcRtWaj8-slGVsLwEfBxTkO9aiwLLDk1gYSEe3oGK1wtWlFXu87tJJEBlgbeSKjw
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTAsImlhdCI6MTcwNDk1MjEwMSwiZXhwIjoxNzA2MTYxNzAxfQ.WZlj4WtwHDMoCw746NS5QFbMnnWh4rjYfhw3bcDl7zEaXxpCIqp4E0z2vkMwF6N2G4gTyK-KOGIsrdvSQ_E1yA
 
 {
   "username" : "testtest",
@@ -553,8 +555,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxNCwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA0Njk2NjY4fQ.leflqpEQAQblroNHfxAWJxvQyU2Fk1RMqLR2wJ2aTqQWzLEGXobPi7C0kqvXWz7ke2WB7XcDNnNAiSBEVHMwNw; Path=/; Secure
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTQsImlhdCI6MTcwNDY5MzA2OCwiZXhwIjoxNzA1OTAyNjY4fQ.41uxpfA4rebfxrgv-qN7ion0FM951WTZWheu5E_X3GqgD0aLXNAqgIHcn5tFVqno078ivS9dfvW2T1zlZSTbhg; Path=/; Secure
+Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMCwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA0OTU1NzAyfQ.9OCm53OG5G4NO1r6r1SBpJVPj5p219bomme06oIDH9DNkvaED8DZa_2WdD4qDL0wiebOskhGAzZT-UHcHNsbhA; Path=/
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTAsImlhdCI6MTcwNDk1MjEwMiwiZXhwIjoxNzA2MTYxNzAyfQ.MZk-g07ORmWZicXX1N2My_ythr8AVjMNPyhSr9qxOGsY8pvSve2bWPpwwWGAn16jMvwrEIgt40emDTkpAe0f4g; Path=/
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -573,32 +575,10 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDQ2OTY2NjZ9.yYEiZizAwoMTuJ1Yr9sd5LT2HE_MlgU12aglutTEYZNTWdIL6tIWnRlkdL07JtBwocHSbY7eknX31E0NnyCxNQ
-Authorization-refresh: eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA0NjkzMDY3LCJleHAiOjE3MDU5MDI2Njd9.kxmV95k03LEg_lYDf-2BmrTTHaTnjQ_bBhiihX0c9yV55_QlFgT82wVHk7Gl_i0cA34kIiF929HmAQNLfjtMLQ</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDQ5NTU3MDB9.UmAsr1ejyf5EqNEEQUKPotOg7WNoQqLxB114w7Ke__8mmdM2i1e1NA2qaj8itV-LoYZl9d81CJ_lMcuxjazVFQ
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA0OTUyMTAwLCJleHAiOjE3MDYxNjE3MDB9.llz07LesDURF66nlpXG0hvKDOl0NPGbDAQkXpsVwht1-tjodT5X2UnnbEAj0b_CBsWR_kfmhZuKn9mufWxeLWA</code></pre>
 </div>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">accessToken</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization-refresh</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">refreshToken</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect3">
 <h4 id="_응답_2">응답</h4>
@@ -623,10 +603,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-
-{
-  "refreshToken" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6OCwiaWF0IjoxNzA0NjkzMDY3LCJleHAiOjE3MDU5MDI2Njd9.UpIek0hVJ2NbpGFbY1VLNohbC4RGOPlfQA7bjDv71R11potlow6B0qXjgtgbPE2tUxMxfXoadnVdZM0OaTj_gA"
-}</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDQ5NTU3MDF9.kd-pzx1Gf5dNLcdLu869S8fzDHLwA8XZaW20vZJcgDoYrr3Wcp6w0xQItWnrcLcs6kJV7JvCAga665dkY4FMdA
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA0OTUyMTAxLCJleHAiOjE3MDYxNjE3MDF9.-tz-iJRT6xw2ThZZ0D1EHW4Im-uUlBo37jRIUJXKZ3PVr6GeC0M_1Wm2Q6QWADZSpwu-QvqeYNfZM5kEUl0s9g</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -662,8 +640,8 @@ Content-Type: application/json;charset=UTF-8
 Content-Type: application/json;charset=UTF-8
 
 {
-  "accessToken" : "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo4LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDQ2OTY2Njd9.k8-cJ9GC-jvAxPt-JYZQc9LzgvXiWEcyZLIgs0z_8IvXs0dCImBN2ukOAhJNcr8ECnc1bdbPIXKN3OtELW423A",
-  "refreshToken" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6OCwiaWF0IjoxNzA0NjkzMDY3LCJleHAiOjE3MDU5MDI2Njd9.UpIek0hVJ2NbpGFbY1VLNohbC4RGOPlfQA7bjDv71R11potlow6B0qXjgtgbPE2tUxMxfXoadnVdZM0OaTj_gA"
+  "accessToken" : "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDQ5NTU3MDF9.kd-pzx1Gf5dNLcdLu869S8fzDHLwA8XZaW20vZJcgDoYrr3Wcp6w0xQItWnrcLcs6kJV7JvCAga665dkY4FMdA",
+  "refreshToken" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA0OTUyMTAxLCJleHAiOjE3MDYxNjE3MDF9.-tz-iJRT6xw2ThZZ0D1EHW4Im-uUlBo37jRIUJXKZ3PVr6GeC0M_1Wm2Q6QWADZSpwu-QvqeYNfZM5kEUl0s9g"
 }</code></pre>
 </div>
 </div>
@@ -710,7 +688,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_요청_4">요청</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/member/join HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/join HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -822,7 +800,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_요청_5">요청</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/members HTTP/1.1
 Authorization: Bearer AccessToken</code></pre>
 </div>
 </div>
@@ -892,7 +870,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_요청_6">요청</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member/check-username?username=username123 HTTP/1.1</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/members/check-username?username=username123 HTTP/1.1</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -961,7 +939,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_요청_7">요청</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member/check-nickname?nickname=nickname HTTP/1.1</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/members/check-nickname?nickname=nickname HTTP/1.1</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1030,7 +1008,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_요청_8">요청</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/nickname HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/members/nickname HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer AccessToken
 
@@ -1129,7 +1107,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_요청_9">요청</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/password HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/members/password HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer AccessToken
 
@@ -1191,7 +1169,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_요청_10">요청</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/member/email-verification/request HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/email-verification/request HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer AccessToken
 
@@ -1246,7 +1224,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_요청_11">요청</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/member/email-verification/confirm HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/email-verification/confirm HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer AccessToken
 
@@ -1308,7 +1286,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_요청_12">요청</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/member/recover-username HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/recover-username HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -1362,7 +1340,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_요청_13">요청</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/member/recover-password HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/recover-password HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -1423,7 +1401,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_요청_14">요청</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/recover-password HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/members/recover-password HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -1496,7 +1474,7 @@ Content-Type: application/json;charset=UTF-8
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-08 14:40:39 +0900
+Last updated 2024-01-11 13:22:46 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
