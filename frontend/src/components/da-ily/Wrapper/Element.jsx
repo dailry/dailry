@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Rnd } from 'react-rnd';
 import { useState } from 'react';
 
@@ -8,22 +9,12 @@ import { useState } from 'react';
 // !TODO 회전
 
 const Element = (props) => {
-  const { children, key, type, order, position, rotation, properties } = props;
+  const { children, position, rotation, properties } = props;
   const { x, y } = position;
-  const {
-    font,
-    fontSize,
-    text,
-    fontweight,
-    backgroundColor,
-    width,
-    height,
-    color,
-  } = properties;
+  const { backgroundColor, width, height } = properties;
 
   const [pos, setPos] = useState({ x, y });
   const [size, setSize] = useState({ width, height });
-  const [deg, setDeg] = useState(rotation);
 
   const handleResize = (e, direction, ref, delta, newPos) => {
     setSize({ width: ref.offsetWidth, height: ref.offsetHeight });
@@ -45,6 +36,28 @@ const Element = (props) => {
       {children}
     </Rnd>
   );
+};
+
+const isDeg = (props, propName, componentName) => {
+  const prop = props[propName];
+  const rRotation = /^\d+deg$/;
+
+  if (!rRotation.test(prop)) {
+    return new Error(
+      `Invalid prop '${propName}' supplied to '${componentName}'. ` +
+        `Expected a string in the format of 'numberdeg' (e.g., '90deg').`,
+    );
+  }
+};
+
+Element.propTypes = {
+  children: PropTypes.node,
+  position: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }),
+  rotation: isDeg.isRequired,
+  properties: PropTypes.object,
 };
 
 export default Element;
