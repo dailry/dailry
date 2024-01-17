@@ -6,6 +6,7 @@ import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.repository.MemberRepository;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.dto.PostCreateDTO;
+import com.daily.daily.post.dto.PostResponseDTO;
 import com.daily.daily.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,19 +24,20 @@ public class PostService {
 
     private final S3StorageService storageService;
     private final String POST_STORAGE_DIRECTORY_PATH = "post/";
-    public void create(Long memberId, PostCreateDTO postCreateDTO, MultipartFile pageImage) {
+    public PostResponseDTO create(Long memberId, PostCreateDTO postCreateDTO, MultipartFile pageImage) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
 
         String filePath = storageService.uploadImage(pageImage, POST_STORAGE_DIRECTORY_PATH);
-
         String content = postCreateDTO.getContent();
+
         Post post = Post.builder()
                 .content(content)
                 .pageImage(filePath)
                 .member(member)
                 .build();
 
-        postRepository.save(post);
+        Post savedPost = postRepository.save(post);
+        return PostResponseDTO.from(post);
     }
 }
