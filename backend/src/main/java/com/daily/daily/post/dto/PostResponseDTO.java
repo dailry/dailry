@@ -6,6 +6,7 @@ import com.daily.daily.post.domain.Post;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@EqualsAndHashCode
 public class PostResponseDTO {
     private Long postId;
     private String content;

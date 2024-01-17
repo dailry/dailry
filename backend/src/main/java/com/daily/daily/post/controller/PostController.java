@@ -28,9 +28,9 @@ public class PostController {
     @Secured(value = "ROLE_MEMBER")
     public PostResponseDTO createPost(
             @AuthenticationPrincipal Long id,
-            @RequestPart @Valid PostCreateDTO postCreateRequest,
+            @RequestPart @Valid PostCreateDTO request,
             @RequestPart MultipartFile pageImage
     ) {
-        return postService.create(id, postCreateRequest, pageImage);
+        return postService.create(id, request, pageImage);
     }
 }
