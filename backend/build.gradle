@@ -36,6 +36,8 @@ dependencies {
 	testImplementation 'org.testcontainers:testcontainers'
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.0'
 	implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
+
+	implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.0")
 	implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.0.0'
 	//jwt library
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
