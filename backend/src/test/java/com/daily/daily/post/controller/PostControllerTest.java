@@ -60,7 +60,7 @@ class PostControllerTest {
     PostService postService;
 
     @Test
-    @DisplayName("게시글을 생성했을 경우 응답값을 검사한다.")
+    @DisplayName("게시글을 성공적으로 생성했을 경우 응답값을 검사한다.")
     @WithMockUser
     void createPost() throws Exception {
         //given
@@ -90,6 +90,7 @@ class PostControllerTest {
                 objectMapper.writeValueAsBytes(postCreateDTO)
         );
 
+        //when
         ResultActions perform = mockMvc.perform(multipart("/api/posts")
                 .file(pageImageFile)
                 .file(multipartJson)
