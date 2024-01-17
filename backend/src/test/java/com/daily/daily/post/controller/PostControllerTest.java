@@ -70,7 +70,7 @@ class PostControllerTest {
                 .content("오늘 저의 다일리입니다.")
                 .pageImage("imageURL")
                 .memberId(15L)
-                .nickname("배부른낙타")
+                .writer("배부른낙타")
                 .createdTime(LocalDateTime.now())
                 .build();
 

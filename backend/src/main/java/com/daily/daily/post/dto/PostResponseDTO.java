@@ -23,7 +23,6 @@ public class PostResponseDTO {
     private String pageImage;
     private Long memberId;
     private String writer;
-    private String nickname;
     private LocalDateTime createdTime;
 
     public static PostResponseDTO from(Post post) {

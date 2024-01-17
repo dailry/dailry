@@ -26,6 +26,7 @@ class S3StorageServiceTest {
     @Test
     @DisplayName("이미지가 파일이 아닌 파일을 업로드하려고 할 경우 FileContentTypeUnmatchedException 예외가 발생한다.")
     void uploadImage() {
+        //given
         MockMultipartFile textFile = new MockMultipartFile(
                 "textFile",
                 "example.txt",
@@ -33,6 +34,7 @@ class S3StorageServiceTest {
                 "".getBytes()
         );
 
+        //when, then
         assertThatThrownBy(() -> s3StorageService.uploadImage(textFile, "post/"))
                 .isInstanceOf(FileContentTypeUnmatchedException.class);
     }

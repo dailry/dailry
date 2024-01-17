@@ -19,6 +19,8 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Post extends BaseTimeEntity {
 
     @Id
@@ -30,13 +32,6 @@ public class Post extends BaseTimeEntity {
     private Member member;
 //    @ManyToOne
 //    private HashTags hashTags
-
-    @Builder
-    public Post(String content, String pageImage, Member member) {
-        this.content = content;
-        this.pageImage = pageImage;
-        this.member = member;
-    }
 
 
 }

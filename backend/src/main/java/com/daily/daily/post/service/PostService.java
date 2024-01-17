@@ -38,6 +38,6 @@ public class PostService {
                 .build();
 
         Post savedPost = postRepository.save(post);
-        return PostResponseDTO.from(post);
+        return PostResponseDTO.from(savedPost);
     }
 }
