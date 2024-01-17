@@ -30,7 +30,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build
       - name: Make zip file
-        run: zip -qq -r ./da-ily.zip .
+        run: zip -qq -r ./dailry.zip .
         # AWS S3에 빌드파일 배포
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -39,6 +39,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./da-ily.zip s3://dailry-bucket
+        run: aws s3 cp --region ap-northeast-2 ./dailry.zip s3://dailry-bucket
       - name: Code deploy
-        run: aws deploy create-deployment --application-name Da-ily --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name Daily-Api-Server --s3-location bucket=dailry-bucket,bundleType=zip,key=da-ily.zip
+        run: aws deploy create-deployment --application-name Da-ily --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name Daily-Api-Server --s3-location bucket=dailry-bucket,bundleType=zip,key=dailry.zip
