@@ -7,7 +7,7 @@ const Input = (props) => {
   const { children, disabled = false, ...rest } = props;
   return (
     <S.InputContainer disabled={disabled}>
-      <S.InputArea disabled={disabled} {...rest} />
+      <S.InputArea autoComplete="off" disabled={disabled} {...rest} />
       {children}
     </S.InputContainer>
   );

@@ -15,8 +15,15 @@ else
 fi
 
 #new version start
-nohup java -jar -Dserver.port=$DEPLOY_PORT -Dspring.config.location=$CONFIG_PATH $JAR_PATH ${JAR_PATH} 1>>$LOG_PATH/app-log.out 2>>$LOG_PATH/err-log.out &
-sleep 20
+nohup java -jar \
+    -Duser.timezone=Asia/Seoul \
+    -Dserver.port=$DEPLOY_PORT \
+    -Dspring.config.location=$CONFIG_PATH \
+    $JAR_PATH \
+    1>>$LOG_PATH/app-log.out \
+    2>>$LOG_PATH/err-log.out &
+
+sleep 30
 
 #health check...
 if [ -n "$(netstat -nlpt | grep ${DEPLOY_PORT})" ]; then
@@ -27,7 +34,6 @@ else
 fi
 
 #if health check is successful, kill old version
-sleep 10
 if [ -n "${OLD_VERSION_PID}" ]; then
   sudo kill -9 $OLD_VERSION_PID
 fi

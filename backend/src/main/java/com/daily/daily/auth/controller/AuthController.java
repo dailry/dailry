@@ -6,7 +6,7 @@ import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.auth.jwt.RefreshToken;
 import com.daily.daily.auth.service.AuthService;
 import com.daily.daily.auth.service.TokenService;
-import com.daily.daily.common.dto.CommonResponseDTO;
+import com.daily.daily.common.dto.SuccessResponseDTO;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,24 +22,25 @@ public class AuthController {
     private final JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<CommonResponseDTO> login(@RequestBody LoginDTO loginDto, HttpServletResponse response) {
+    public SuccessResponseDTO login(@RequestBody LoginDTO loginDto, HttpServletResponse response) {
         TokenDTO tokenDto = authService.login(loginDto);
 
         jwtUtil.setTokensInCookie(response, tokenDto.getAccessToken(), tokenDto.getRefreshToken());
 
-        return ResponseEntity.ok().body(new CommonResponseDTO(true, HttpStatus.OK.value()));
+        return new SuccessResponseDTO();
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<CommonResponseDTO> logout(@RequestHeader(JwtUtil.ACCESS_HEADER) String accessToken,
-                       @RequestHeader(JwtUtil.REFRESH_HEADER) String refreshToken) {
-
-        authService.logout(TokenDTO.of(accessToken, refreshToken));
-        return ResponseEntity.ok().body(new CommonResponseDTO(true, HttpStatus.OK.value()));
+    public SuccessResponseDTO logout(@CookieValue("AccessToken") String accessToken,
+                                     @CookieValue("RefreshToken") String refreshToken, HttpServletResponse response) {
+        authService.logout(response, TokenDTO.of(accessToken, refreshToken));
+        return new SuccessResponseDTO();
     }
 
     @PostMapping("/token")
-    public TokenDTO getToken(@RequestBody RefreshToken refreshToken) {
-        return new TokenDTO(tokenService.createAccessToken(refreshToken), refreshToken.getRefreshToken());
+    public SuccessResponseDTO getToken(@CookieValue("AccessToken") String accessToken,
+                                       @CookieValue("RefreshToken") RefreshToken refreshToken, HttpServletResponse response) {
+        tokenService.renewToken(response, accessToken, refreshToken);
+        return new SuccessResponseDTO();
     }
 }

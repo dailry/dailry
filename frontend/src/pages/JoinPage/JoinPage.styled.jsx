@@ -15,3 +15,11 @@ export const JoinWrapper = styled.div`
     margin-top: 4px;
   }
 `;
+
+export const JoinFormWrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+`;
