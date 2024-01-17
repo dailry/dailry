@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import * as S from './RootLayout.styled';
 
 const RootLayout = (props) => {
-  const { navigation: Navigation, pageTemplate: PageTemplate } = props;
+  const { navigation: Navigation } = props;
   return (
     <S.Background>
       {Navigation && (
@@ -13,9 +13,7 @@ const RootLayout = (props) => {
         </S.NavigationContainer>
       )}
       <S.PageContainer>
-        <PageTemplate>
-          <Outlet />
-        </PageTemplate>
+        <Outlet />
       </S.PageContainer>
     </S.Background>
   );

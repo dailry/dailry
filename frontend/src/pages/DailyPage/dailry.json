@@ -1,0 +1,45 @@
+{
+  "background": "VINTAGE",
+  "elements": [
+    {
+      "key": "2024-01-11T05:30:00.000Z",
+      "type": "textbox",
+      "order": 1,
+      "position": {
+        "x": 100,
+        "y": 50
+      },
+      "rotation": "90deg",
+      "properties": {
+        "font": "굴림",
+        "fontSize": 12,
+        "text": "아 어지럽다.",
+        "fontWeight": "bold",
+        "backgroundColor": "#ffcc00",
+        "width": "300px",
+        "height": "200px",
+        "color": "#333333"
+      }
+    },
+    {
+      "key": "2024-01-11T05:30:00.000Z",
+      "type": "textbox",
+      "order": 1,
+      "position": {
+        "x": 200,
+        "y": 50
+      },
+      "rotation": "90deg",
+      "properties": {
+        "font": "굴림",
+        "fontSize": 12,
+        "text": "아 어지럽다.",
+        "fontWeight": "bold",
+        "backgroundColor": "#ffcc00",
+        "width": "100px",
+        "height": "200px",
+        "color": "#555555"
+      }
+    }
+  ]
+}

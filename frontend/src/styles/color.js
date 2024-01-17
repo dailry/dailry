@@ -3,6 +3,7 @@ export const BACKGROUND = Object.freeze({
     'linear-gradient(180deg, rgb(199, 130, 194) 0%, rgb(100, 164, 214) 99.88%);',
   darkGradient:
     'linear-gradient(180deg, rgb(168.29, 86.39, 162.35) 0%, rgb(58.51, 117.75, 164.04) 100%)',
+  paper: '#fffefc',
   bright: '#ffffff',
 });
 
@@ -46,6 +47,8 @@ export const MENU = Object.freeze({
   boxCurrent: '#ffffff',
   tool: '#74abd9',
 });
+
+export const DAILY = Object.freeze({});
 
 export const LOGIN = Object.freeze({
   googleText: '#888888',
