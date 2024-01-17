@@ -1,13 +1,9 @@
 package com.daily.daily.dailry.domain;
 
 import com.daily.daily.common.domain.BaseTimeEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.daily.daily.member.domain.Member;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,14 +11,20 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Dailry extends BaseTimeEntity {
 
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     public static Dailry createEmptyDailry() {
         return new Dailry();
     }
+
 
     public void updateTitle(String title) {
         this.title = title;
