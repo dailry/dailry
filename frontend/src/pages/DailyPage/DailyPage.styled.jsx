@@ -8,12 +8,24 @@ export const FlexWrapper = styled.div`
 `;
 
 export const CanvasWrapper = styled.div`
+  position: relative;
   height: calc(100dvh - 20px);
   aspect-ratio: 1.35/1;
 
   border-radius: 8px;
   background-color: ${BACKGROUND.paper};
 `;
+
+export const ElementStyle = ({ position, properties }) => {
+  return {
+    position: 'absolute',
+    left: position.x,
+    top: position.y,
+    width: properties.width,
+    height: properties.height,
+    backgroundColor: properties.backgroundColor,
+  };
+};
 
 export const ToolWrapper = styled.div`
   flex: 1;
