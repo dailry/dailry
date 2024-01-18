@@ -39,6 +39,7 @@ dependencies {
 
 	implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.0")
 	implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.0.0'
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 	//jwt library
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
