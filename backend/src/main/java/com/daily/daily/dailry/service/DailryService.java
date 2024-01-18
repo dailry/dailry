@@ -49,8 +49,9 @@ public class DailryService {
 
         return DailryDTO.from(dailry);
     }
-//
-//    public void delete(Long pageId) {
-//        dailryPageRepository.deleteById(pageId);
-//    }
+
+    public void delete(Long pageId) {
+        dailryRepository.deleteById(pageId);
+    }
+
 }

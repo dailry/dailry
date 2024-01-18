@@ -1,9 +1,9 @@
 package com.daily.daily.dailry.controller;
 
+import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.dailry.dto.DailryDTO;
 import com.daily.daily.dailry.dto.DailryUpdateDTO;
 import com.daily.daily.dailry.service.DailryService;
-import com.daily.daily.dailrypage.dto.DailryPageDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,5 +32,11 @@ public class DailryController {
     @GetMapping("/{dailryId}")
     public DailryDTO findDailry(@PathVariable Long dailryId) {
         return dailryService.find(dailryId);
+    }
+
+    @DeleteMapping("/{dailryId}")
+    public SuccessResponseDTO deleteDailry(@PathVariable Long dailryId) {
+        dailryService.delete(dailryId);
+        return new SuccessResponseDTO(true, HttpStatus.OK.value());
     }
 }
