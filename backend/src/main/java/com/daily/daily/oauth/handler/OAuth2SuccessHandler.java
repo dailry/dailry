@@ -1,6 +1,7 @@
 package com.daily.daily.oauth.handler;
 
 import com.daily.daily.auth.jwt.JwtUtil;
+import com.daily.daily.common.config.AppProperties;
 import com.daily.daily.oauth.OAuth2CustomUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,7 +30,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
             jwtUtil.setTokensInCookie(response, accessToken, refreshToken);
 
-            response.sendRedirect("https://localhost:3000");
+            response.sendRedirect(AppProperties.getFrontendDomain());
         } catch (Exception e) {
             log.error("OAuth2 Login 성공 후 예외 발생 : {}", e.getMessage());
         }
