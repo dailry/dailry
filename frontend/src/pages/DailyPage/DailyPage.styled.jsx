@@ -16,6 +16,17 @@ export const CanvasWrapper = styled.div`
   background-color: ${BACKGROUND.paper};
 `;
 
+export const ElementStyle = ({ position, properties }) => {
+  return {
+    position: 'absolute',
+    left: position.x,
+    top: position.y,
+    width: properties.width,
+    height: properties.height,
+    backgroundColor: properties.backgroundColor,
+  };
+};
+
 export const ToolWrapper = styled.div`
   flex: 1;
   display: flex;

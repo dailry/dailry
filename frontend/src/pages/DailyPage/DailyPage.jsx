@@ -27,14 +27,7 @@ const DailyPage = () => {
             <div
               key={id}
               onMouseDown={handleMouseDown}
-              style={{
-                position: 'absolute',
-                left: position.x,
-                top: position.y,
-                width: properties.width,
-                height: properties.height,
-                backgroundColor: properties.backgroundColor,
-              }}
+              style={S.ElementStyle({ position, properties })}
             >
               {type}
             </div>
