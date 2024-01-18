@@ -1,14 +1,14 @@
 import Drawing from '../../components/decorate/Drawing/Drawing';
 
-// Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
+// Dailry 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
 import { useState } from 'react';
 import { Rnd } from 'react-rnd';
-import * as S from './DailyPage.styled';
-import Element from '../../components/da-ily/Wrapper/Element';
-import Wrapper from '../../components/da-ily/Wrapper/Wrapper';
+import * as S from './DailryPage.styled';
+import Element from '../../components/dailry/Wrapper/Element';
+import Wrapper from '../../components/dailry/Wrapper/Wrapper';
 import dailryData from './dailry.json';
 
-const DailyPage = () => {
+const DailryPage = () => {
   const { background, elements } = dailryData;
   const [activeElementId, setActiveElementId] = useState(null);
   const [draggable, setDraggable] = useState(false);
@@ -30,4 +30,4 @@ const DailyPage = () => {
     </S.FlexWrapper>
   );
 };
-export default DailyPage;
+export default DailryPage;

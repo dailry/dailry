@@ -5,9 +5,9 @@ import { NavigationItemIcon } from '../../../assets/svg';
 const DefaultNavigation = () => {
   return (
     <>
-      <NavigationItem icon={<NavigationItemIcon />}>daily</NavigationItem>
+      <NavigationItem icon={<NavigationItemIcon />}>dailry</NavigationItem>
       <NavigationItem icon={<NavigationItemIcon />} current>
-        daily
+        dailry
       </NavigationItem>
     </>
   );

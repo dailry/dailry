@@ -16,7 +16,7 @@ const HomePage = () => {
         <S.RingWrapper top={'643px'} />
         <S.FrontCover>
           <Text as={'h1'} color={TEXT.white} size={60} weight={1000}>
-            Da-ily
+            Dailry
           </Text>
         </S.FrontCover>
         <S.BackCover />
@@ -26,7 +26,7 @@ const HomePage = () => {
         <S.BookMark to={PATH_NAME.Community} css={S.BookMark2}>
           공개 다일리
         </S.BookMark>
-        <S.BookMark to={PATH_NAME.Daily} css={S.BookMark3}>
+        <S.BookMark to={PATH_NAME.Dailry} css={S.BookMark3}>
           다일리 만들기
         </S.BookMark>
         <S.BookMark to={PATH_NAME.Home} css={S.BookMark4}>

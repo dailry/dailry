@@ -1,5 +1,5 @@
 {
-  "name": "da-ily",
+  "name": "dailry",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -88,5 +88,5 @@
     "webpack": "^5.89.0"
   },
   "readme": "ERROR: No README data found!",
-  "_id": "da-ily@0.1.0"
+  "_id": "dailry@0.1.0"
 }
