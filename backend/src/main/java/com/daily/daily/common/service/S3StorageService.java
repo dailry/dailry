@@ -41,7 +41,7 @@ public class S3StorageService {
         validateImageContentType(imageFile);
         String filePath = directoryPath + "/" +
                 filePrefix + "_" +
-                UUID.randomUUID() +
+                UUID.randomUUID() + "_" +
                 imageFile.getOriginalFilename();
 
         try {
