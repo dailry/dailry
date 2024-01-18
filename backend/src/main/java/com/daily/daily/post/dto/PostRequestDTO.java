@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostCreateDTO {
+public class PostRequestDTO {
     private String content;
 
 //    private List<String> hashTag;

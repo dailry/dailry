@@ -4,26 +4,21 @@ import com.daily.daily.common.service.S3StorageService;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.repository.MemberRepository;
 import com.daily.daily.post.domain.Post;
-import com.daily.daily.post.dto.PostCreateDTO;
+import com.daily.daily.post.dto.PostRequestDTO;
 import com.daily.daily.post.dto.PostResponseDTO;
 import com.daily.daily.post.repository.PostRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -64,7 +59,7 @@ class PostServiceTest {
         when(postRepository.save(any())).thenReturn(savedPost);
 
         //when
-        PostResponseDTO result = postService.create(3L, new PostCreateDTO(), pageImage);
+        PostResponseDTO result = postService.create(3L, new PostRequestDTO(), pageImage);
 
         //then
         verify(storageService, times(1)).uploadImage(any(), any());
@@ -75,4 +70,6 @@ class PostServiceTest {
         assertThat(result.getPageImage()).isEqualTo("imagePath");
         assertThat(result.getMemberId()).isEqualTo(3L);
     }
+
+
 }
