@@ -1,5 +1,6 @@
 package com.daily.daily.post.controller;
 
+import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.post.dto.PostRequestDTO;
 import com.daily.daily.post.dto.PostResponseDTO;
 import com.daily.daily.post.service.PostService;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,5 +50,17 @@ public class PostController {
             @RequestPart @Nullable MultipartFile pageImage
     ) {
         return postService.update(postId, request, pageImage);
+    }
+
+    @GetMapping("/{postId}")
+    public PostResponseDTO readSinglePost(@PathVariable Long postId) {
+        return postService.find(postId);
+    }
+
+    @DeleteMapping("/{postId}")
+    @Secured(value = "ROLE_MEMBER")
+    public SuccessResponseDTO deletePost(@PathVariable Long postId) {
+        postService.delete(postId);
+        return new SuccessResponseDTO();
     }
 }

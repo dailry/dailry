@@ -35,7 +35,7 @@ class S3StorageServiceTest {
         );
 
         //when, then
-        assertThatThrownBy(() -> s3StorageService.uploadImage(textFile, "post/"))
+        assertThatThrownBy(() -> s3StorageService.uploadImage(textFile, "post/", ""))
                 .isInstanceOf(FileContentTypeUnmatchedException.class);
     }
 }

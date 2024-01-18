@@ -7,6 +7,7 @@ import com.daily.daily.post.dto.PostResponseDTO;
 import com.daily.daily.post.fixture.PostFixture;
 import com.daily.daily.post.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,12 +28,16 @@ import static com.daily.daily.post.fixture.PostFixture.POST_ID;
 import static com.daily.daily.post.fixture.PostFixture.게시글_요청_DTO_JSON_파일;
 import static com.daily.daily.post.fixture.PostFixture.게시글_응답_DTO;
 import static com.daily.daily.post.fixture.PostFixture.다일리_페이지_이미지_파일;
+import static com.daily.daily.post.fixture.PostFixture.일반회원이_작성한_게시글;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = PostController.class, excludeFilters = {
@@ -137,4 +142,43 @@ class PostControllerTest {
         }
     }
 
+    @Nested
+    @DisplayName("deletePost() -게시글 삭제 테스트")
+    class deletePost {
+        @Test
+        @WithMockUser
+        @DisplayName("게시글 삭제가 성공했을 때 응답결과를 검사한다.")
+        void test1() throws Exception {
+            ResultActions perform = mockMvc.perform(delete("/api/posts/15")
+                    .with(csrf().asHeader())
+            );
+
+            perform.andExpect(status().isOk())
+                    .andExpect(jsonPath("$.successful").value(true))
+                    .andExpect(jsonPath("$.statusCode").value(200));
+        }
+    }
+
+    @Nested
+    @DisplayName("readSinglePost() -게시글 단건 조회 테스트")
+    class readSinglePost {
+        @Test
+        @WithMockUser
+        @DisplayName("게시글 단건 조회가 성공했을 때 응답결과를 검사한다.")
+        void test1() throws Exception {
+            given(postService.find(POST_ID)).willReturn(게시글_응답_DTO());
+
+            ResultActions perform = mockMvc.perform(get("/api/posts/%d".formatted(POST_ID))
+                    .with(csrf().asHeader())
+            );
+
+            String content = perform.andExpect(status().isOk())
+                    .andReturn()
+                    .getResponse()
+                    .getContentAsString(StandardCharsets.UTF_8);
+
+            PostResponseDTO 테스트_조회_결과 = objectMapper.readValue(content, PostResponseDTO.class);
+            Assertions.assertThat(게시글_응답_DTO()).isEqualTo(테스트_조회_결과);
+        }
+    }
 }
