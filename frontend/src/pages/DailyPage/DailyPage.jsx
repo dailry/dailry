@@ -33,7 +33,7 @@ const DailyPage = () => {
                 top: position.y,
                 width: properties.width,
                 height: properties.height,
-                backgroundColor: '#333333',
+                backgroundColor: properties.backgroundColor,
               }}
             >
               {type}
