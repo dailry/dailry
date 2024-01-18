@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import * as S from './LoginPage.styled';
-import AuthButton from '../../components/common/AuthButton/AuthButton';
+import Button from '../../components/common/Button/Button';
 import Text from '../../components/common/Text/Text';
 
 const SentId = (props) => {
@@ -12,12 +12,12 @@ const SentId = (props) => {
         으로 아이디를 보냈습니다.
       </Text>
       <S.FormWrapper>
-        <AuthButton onClick={() => alert('로그인 페이지로 갈거에요')}>
+        <Button onClick={() => alert('로그인 페이지로 갈거에요')}>
           로그인 페이지로
-        </AuthButton>
-        <AuthButton onClick={() => alert('비밀번호도 찾을거에요')}>
+        </Button>
+        <Button onClick={() => alert('비밀번호도 찾을거에요')}>
           비밀번호 찾기
-        </AuthButton>
+        </Button>
       </S.FormWrapper>
     </S.LoginContainer>
   );

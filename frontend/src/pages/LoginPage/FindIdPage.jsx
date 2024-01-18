@@ -1,7 +1,7 @@
 import * as S from './LoginPage.styled';
 import Text from '../../components/common/Text/Text';
 import Input from '../../components/common/Input/Input';
-import AuthButton from '../../components/common/AuthButton/AuthButton';
+import Button from '../../components/common/Button/Button';
 import { TEXT } from '../../styles/color';
 
 const FindIdPage = () => {
@@ -12,9 +12,9 @@ const FindIdPage = () => {
           아이디 찾기
         </Text>
         <Input placeholder={'이메일'} />
-        <AuthButton onClick={() => alert('아이디를 이메일로 보냈습니다!')}>
+        <Button onClick={() => alert('아이디를 이메일로 보냈습니다!')}>
           아이디 찾기
-        </AuthButton>
+        </Button>
       </S.FormWrapper>
       <Text size={12} color={TEXT.purple}>
         회원가입 | 로그인
@@ -32,9 +32,9 @@ const FindIdPage = () => {
         </Text>
         <Input placeholder={'아이디'} />
         <Input placeholder={'이메일'} />
-        <AuthButton onClick={() => alert('비밀번호를 이메일로 보냈습니다!')}>
+        <Button onClick={() => alert('비밀번호를 이메일로 보냈습니다!')}>
           비밀번호 찾기
-        </AuthButton>
+        </Button>
       </S.FormWrapper>
     </S.LoginContainer>
   );

@@ -18,6 +18,7 @@ import com.daily.daily.testutil.mockmvc.MockMvcTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -37,6 +38,7 @@ import java.nio.charset.StandardCharsets;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static com.daily.daily.testutil.mockmvc.MockMvcConstant.AccessToken;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
@@ -87,7 +89,7 @@ class MemberControllerTest {
         expected.setUsername("geonwoo123");
         expected.setNickname("사모예드");
 
-        given(memberService.join(Mockito.any())).willReturn(expected);
+        given(memberService.join(any())).willReturn(expected);
         //when
         ResultActions joinActions = mockMvc.perform(post("/api/members/join")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -126,7 +128,7 @@ class MemberControllerTest {
         //given
         JoinDTO joinDTO = new JoinDTO("geonwoo123", "pass1234", null);
 
-        given(memberService.join(Mockito.any())).willThrow(DuplicatedUsernameException.class);
+        given(memberService.join(any())).willThrow(DuplicatedUsernameException.class);
 
         //when
         ResultActions joinActions = mockMvc.perform(post("/api/members/join")
@@ -149,7 +151,7 @@ class MemberControllerTest {
         expected.setUsername("geonwoo123");
         expected.setNickname("난폭한사자");
 
-        given(memberService.findById(Mockito.any())).willReturn(expected);
+        given(memberService.findById(any())).willReturn(expected);
 
         //when
         ResultActions actions = mockMvc.perform(get("/api/members")
@@ -281,7 +283,7 @@ class MemberControllerTest {
         expected.setUsername("geonwoo123");
         expected.setNickname("난폭한사자");
 
-        given(memberService.updateNickname(Mockito.any(), Mockito.any())).willReturn(expected);
+        given(memberService.updateNickname(any(), any())).willReturn(expected);
         //when
         ResultActions perform = mockMvc.perform(patch("/api/members/nickname")
                 .contentType(MediaType.APPLICATION_JSON)

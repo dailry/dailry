@@ -2,7 +2,7 @@
 import * as S from './LoginPage.styled';
 import Text from '../../components/common/Text/Text';
 import Input from '../../components/common/Input/Input';
-import AuthButton from '../../components/common/AuthButton/AuthButton';
+import Button from '../../components/common/Button/Button';
 import { TEXT } from '../../styles/color';
 import { googleLogo, kakaoLogo } from '../../assets/png';
 
@@ -20,9 +20,7 @@ const LoginPage = () => {
             아이디 또는 비밀번호가 일치하지 않습니다
           </Text>
         </div>
-        <AuthButton onClick={() => alert('로그인 되었습니다!')}>
-          로그인
-        </AuthButton>
+        <Button onClick={() => alert('로그인 되었습니다!')}>로그인</Button>
         <Text size={12} color={TEXT.purple}>
           회원가입 | 아이디/비밀번호 찾기
         </Text>
