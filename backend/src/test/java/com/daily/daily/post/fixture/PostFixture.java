@@ -29,12 +29,13 @@ public class PostFixture {
     }
 
     public static PostResponseDTO 게시글_응답_DTO() {
+        Member member = 일반회원();
         return PostResponseDTO.builder()
                 .postId(POST_ID)
                 .content(POST_CONTENT)
                 .pageImage(PAGE_IMAGE_URL)
-                .memberId(15L)
-                .writer("배부른낙타")
+                .memberId(member.getId())
+                .writer(member.getNickname())
                 .createdTime(POST_CREATED_TIME)
                 .build();
     }
