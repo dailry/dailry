@@ -1,6 +1,5 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { canvasToImage } from './canvas';
 import useDrawUtils from './useDrawUtils';
 import Button from '../../common/Button/Button';
 import useDrawInstance from './useDrawInstance';
@@ -19,11 +18,10 @@ const Drawing = (props) => {
     setMode,
   } = useDrawUtils(canvas, drawInstance);
 
-  const [imgSrc, setImgSrc] = useState('');
-
   return (
     <>
       <canvas
+        id={id}
         onMouseDown={(e) => startMoving(e, mouseEventHandlers[mode])}
         onMouseUp={() => stopMoving(mouseEventHandlers[mode])}
         ref={canvas}

@@ -16,7 +16,7 @@ const useDrawUtils = (canvas, drawInstance) => {
   };
 
   const saveCanvas = () => {
-    localStorage.setItem('drawData', JSON.stringify(drawInstance.getInfo()));
+    localStorage.setItem('canvasImageUrl', drawInstance.getInfo());
   };
 
   const mouseEventHandlers = {

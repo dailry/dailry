@@ -19,8 +19,8 @@ class Draw {
   }
 
   erase(event) {
-    this.ctx.clearRect(this.coord.x, this.coord.y, 30, 30);
-    this.reposition(event);
+    this.ctx.strokeStyle = 'white';
+    this.move(event);
   }
 
   setColor(color) {
@@ -32,17 +32,21 @@ class Draw {
   }
 
   getInfo() {
-    const { colorSpace, height, width, data } = this.ctx.getImageData(
-      0,
-      0,
-      this.canvas.width,
-      this.canvas.height,
-    );
+    const imgBase64 = this.canvas.toDataURL('image/jpeg', 'image/octet-stream');
+    const decodeImg = atob(imgBase64.split(',')[1]);
 
-    const rgbDatas = JSON.stringify(Array.from(data));
-    const info = { data: rgbDatas, colorSpace, height, width };
+    const array = [];
+    for (let i = 0; i < decodeImg.length; i += 1) {
+      array.push(decodeImg.charCodeAt(i));
+    }
 
-    return info;
+    const file = new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
+    const fileName = `canvas_img_${new Date().getMilliseconds()}.jpg`;
+    const formData = new FormData();
+
+    formData.append('file_give', file, fileName);
+
+    return imgBase64;
   }
 }
 
