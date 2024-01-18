@@ -42,13 +42,13 @@ public class DailryService {
 
         return DailryDTO.from(dailry);
     }
-//
-//    public DailryPageDTO find(Long dairlyId) {
-//        DailryPage findPage = dailryPageRepository.findById(pageId)
-//                .orElseThrow(DailryPageNotFoundException::new);
-//
-//        return DailryPageDTO.from(findPage);
-//    }
+
+    public DailryDTO find(Long dairlyId) {
+        Dailry dailry = dailryRepository.findById(dairlyId)
+                .orElseThrow(DailryPageNotFoundException::new);
+
+        return DailryDTO.from(dailry);
+    }
 //
 //    public void delete(Long pageId) {
 //        dailryPageRepository.deleteById(pageId);

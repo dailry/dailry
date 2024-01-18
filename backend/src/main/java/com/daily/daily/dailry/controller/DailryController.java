@@ -3,6 +3,7 @@ package com.daily.daily.dailry.controller;
 import com.daily.daily.dailry.dto.DailryDTO;
 import com.daily.daily.dailry.dto.DailryUpdateDTO;
 import com.daily.daily.dailry.service.DailryService;
+import com.daily.daily.dailrypage.dto.DailryPageDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,5 +27,10 @@ public class DailryController {
     @PatchMapping("/{dailryId}")
     public DailryDTO updateDailry(@RequestBody DailryUpdateDTO dailryUpdateDTO, @PathVariable Long dailryId) {
         return dailryService.update(dailryId, dailryUpdateDTO);
+    }
+
+    @GetMapping("/{dailryId}")
+    public DailryDTO findDailry(@PathVariable Long dailryId) {
+        return dailryService.find(dailryId);
     }
 }
