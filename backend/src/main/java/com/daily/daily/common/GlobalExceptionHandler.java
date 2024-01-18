@@ -1,7 +1,8 @@
-package com.daily.daily.common.exception;
+package com.daily.daily.common;
 
 import com.daily.daily.auth.exception.LoginFailureException;
 import com.daily.daily.common.dto.ExceptionResponseDTO;
+import com.daily.daily.common.exception.FileUploadFailureException;
 import com.daily.daily.member.exception.DuplicatedNicknameException;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
 import com.daily.daily.member.exception.PasswordUnmatchedException;
@@ -22,6 +23,14 @@ public class GlobalExceptionHandler {
         log.warn(defaultMessage);
 
         return ResponseEntity.badRequest()
-                .body(new ExceptionResponseDTO(defaultMessage, HttpStatus.BAD_REQUEST.value()));
+                .body(new ExceptionResponseDTO(defaultMessage, 400));
+    }
+
+    @ExceptionHandler(FileUploadFailureException.class)
+    public ResponseEntity<ExceptionResponseDTO> handleFileUploadFailureException(FileUploadFailureException e) {
+        log.error("파일 업로드 실패 {}", e.getOriginalException().getMessage());
+
+        return ResponseEntity.badRequest()
+                .body(new ExceptionResponseDTO(e.getMessage(), 400));
     }
 }
