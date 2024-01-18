@@ -39,13 +39,13 @@ public class PostController {
         return postService.create(id, request, pageImage);
     }
 
-    @PatchMapping("/{postId}")
+    @PostMapping("/{postId}/edit")
     @Secured(value = "ROLE_MEMBER")
     public PostResponseDTO updatePost(
             @PathVariable Long postId,
-            @RequestPart @Valid PostRequestDTO postRequestDTO,
+            @RequestPart @Valid PostRequestDTO request,
             @RequestPart @Nullable MultipartFile pageImage
     ) {
-        return postService.update(postId, postRequestDTO, pageImage);
+        return postService.update(postId, request, pageImage);
     }
 }

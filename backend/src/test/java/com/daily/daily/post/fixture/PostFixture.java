@@ -31,7 +31,7 @@ public class PostFixture {
 
     //----------픽스쳐 객체 초기화에 필요한 상수 값------------//
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final Long POST_ID = 31L;
+    public static final Long POST_ID = 31L;
     private static final String POST_CONTENT = "오늘 저의 다일리입니다.";
     private static final String PAGE_IMAGE_URL = "imageURL";
     private static final LocalDateTime POST_CREATED_TIME = LocalDateTime.of(2024,1,18,15,38,32,42);
