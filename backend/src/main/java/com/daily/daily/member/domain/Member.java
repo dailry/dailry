@@ -31,8 +31,6 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
-    @OneToMany(mappedBy = "member")
-    private List<Dailry> dailries = new ArrayList<>();
 
     public void updateNickname(String nickname) {
         this.nickname = nickname;
