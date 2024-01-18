@@ -22,11 +22,6 @@ public class Dailry extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public static Dailry createEmptyDailry() {
-        return new Dailry();
-    }
-
-
     public void updateTitle(String title) {
         this.title = title;
     }
