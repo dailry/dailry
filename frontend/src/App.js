@@ -4,7 +4,7 @@ import { PATH_NAME } from './constants/routes';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import JoinPage from './pages/JoinPage/JoinPage';
-import DailyPage from './pages/DailyPage/DailyPage';
+import DailryPage from './pages/DailryPage/DailryPage';
 import MyPage from './pages/MyPage/MyPage';
 import CommunityPage from './pages/CommunityPage/CommunityPage';
 import AdminMembersPage from './pages/AdminMembersPage/AdminMembersPage';
@@ -22,7 +22,7 @@ const App = () => {
         <Route path={PATH_NAME.Join} element={<JoinPage />} />
       </Route>
       <Route element={<DefaultLayout />}>
-        <Route path={PATH_NAME.Daily} element={<DailyPage />} />
+        <Route path={PATH_NAME.Dailry} element={<DailryPage />} />
         <Route path={PATH_NAME.MyPage} element={<MyPage />} />
         <Route path={PATH_NAME.Community} element={<CommunityPage />} />
         <Route path={PATH_NAME.AdminMembers} element={<AdminMembersPage />} />

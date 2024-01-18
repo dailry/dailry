@@ -1,9 +1,9 @@
 import { styled, css } from 'styled-components';
-import { FORM, TEXT } from '../../../styles/color';
+import { INPUT, TEXT } from '../../../styles/color';
 
 const disabledStyle = css`
   color: ${TEXT.disabled};
-  border: 1px solid ${FORM.inputDisabled};
+  border: 1px solid ${INPUT.disabled};
 `;
 
 export const InputContainer = styled.div`
@@ -15,14 +15,14 @@ export const InputContainer = styled.div`
   height: 50px;
   padding: 12px;
 
-  border: 1px solid ${FORM.input};
+  border: 1px solid ${INPUT.default};
   border-radius: 8px;
 
   color: ${TEXT.black};
   font-size: 16px;
 
   &:focus-within {
-    border-color: ${FORM.inputFocused};
+    border-color: ${INPUT.focused};
   }
 
   ${({ disabled }) => (disabled ? disabledStyle : undefined)}

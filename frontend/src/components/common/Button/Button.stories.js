@@ -1,8 +1,8 @@
-import AuthButton from './AuthButton';
+import Button from './Button';
 
 export default {
-  title: 'Common/AuthButton',
-  component: AuthButton,
+  title: 'Common/Button',
+  component: Button,
   parameters: {
     layout: 'centered',
   },

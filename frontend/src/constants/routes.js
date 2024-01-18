@@ -3,7 +3,7 @@ export const PATH_NAME = {
   Login: '/login',
   FindId: '/findId',
   Join: '/join',
-  Daily: '/daily',
+  Dailry: '/dailry',
   MyPage: '/mypage',
   AdminMembers: '/admin/members',
   AdminAnnouncement: '/admin/announcement',

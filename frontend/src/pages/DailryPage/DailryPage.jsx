@@ -2,10 +2,10 @@
 import { useState, useRef } from 'react';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
 import Drawing from '../../components/decorate/Drawing/Drawing';
-import * as S from './DailyPage.styled';
+import * as S from './DailryPage.styled';
 import dailryData from './dailry.json';
 
-const DailyPage = () => {
+const DailryPage = () => {
   const { elements } = dailryData;
   const [target, setTarget] = useState(null);
   const moveableRef = useRef(null);
@@ -42,4 +42,4 @@ const DailyPage = () => {
     </S.FlexWrapper>
   );
 };
-export default DailyPage;
+export default DailryPage;
