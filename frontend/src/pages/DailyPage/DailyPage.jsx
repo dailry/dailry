@@ -1,6 +1,6 @@
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
 import { useState, useRef } from 'react';
-import Moveable from 'react-moveable';
+import Moveable from '../../components/da-ily/Moveable/Moveable';
 import Drawing from '../../components/decorate/Drawing/Drawing';
 import * as S from './DailyPage.styled';
 import dailryData from './dailry.json';
@@ -33,26 +33,7 @@ const DailyPage = () => {
             </div>
           );
         })}
-        <Moveable
-          ref={moveableRef}
-          target={target}
-          draggable={true}
-          onDrag={({ transform }) => {
-            target.style.transform = transform;
-          }}
-          throttleDrag={0}
-          resizable={true}
-          throttleResize={0}
-          onResize={({ width, height }) => {
-            target.style.width = `${width}px`;
-            target.style.height = `${height}px`;
-          }}
-          rotatable={true}
-          throttleRotate={0}
-          onRotate={({ transform }) => {
-            target.style.transform = transform;
-          }}
-        />
+        <Moveable target={target} moveableRef={moveableRef} />
       </S.CanvasWrapper>
       <S.ToolWrapper>
         <div>tool1크기</div>
