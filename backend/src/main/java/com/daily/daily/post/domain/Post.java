@@ -35,12 +35,12 @@ public class Post extends BaseTimeEntity {
 //    @ManyToOne
 //    private HashTags hashTags
 
-    public void update(String content, String pageImage) {
-        update(content);
+
+    public void updatePageImage(String pageImage) {
         this.pageImage = pageImage;
     }
 
-    public void update(String content) {
+    public void updateContent(String content) {
         this.content = content;
     }
 }

@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -48,13 +46,14 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
 
+        post.updateContent(postRequestDTO.getContent());
+
         if (pageImage == null || pageImage.isEmpty()) {
-            post.update(postRequestDTO.getContent());
             return PostResponseDTO.from(post);
         }
 
         String filePath = storageService.uploadImage(pageImage, POST_STORAGE_DIRECTORY_PATH);
-        post.update(postRequestDTO.getContent(), filePath);
+        post.updatePageImage(filePath);
         return PostResponseDTO.from(post);
     }
 }

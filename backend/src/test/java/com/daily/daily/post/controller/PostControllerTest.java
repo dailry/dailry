@@ -57,12 +57,12 @@ class PostControllerTest {
     @WithMockUser
     void createPost() throws Exception {
         //given
-        given(postService.create(any(), any(), any())).willReturn(게시글_응답_DTO);
+        given(postService.create(any(), any(), any())).willReturn(게시글_응답_DTO());
 
         //when
         ResultActions perform = mockMvc.perform(multipart("/api/posts")
-                .file(다일리_페이지_이미지_파일)
-                .file(게시글_요청_DTO_JSON_파일)
+                .file(다일리_페이지_이미지_파일())
+                .file(게시글_요청_DTO_JSON_파일())
                 .contentType(MULTIPART_FORM_DATA)
                 .with(csrf().asHeader())
         );
@@ -74,7 +74,7 @@ class PostControllerTest {
                 .getContentAsString(StandardCharsets.UTF_8);
 
         PostResponseDTO 실제_테스트_응답_결과 = objectMapper.readValue(content, PostResponseDTO.class);
-        assertThat(게시글_응답_DTO).isEqualTo(실제_테스트_응답_결과);
+        assertThat(게시글_응답_DTO()).isEqualTo(실제_테스트_응답_결과);
     }
 
 
@@ -86,12 +86,12 @@ class PostControllerTest {
         @DisplayName("게시글 수정 요청에 이미지 파일과, Json정보를 전부 보냈을 경우 응답값을 검사한다.")
         void imageAndJson() throws Exception {
             //given
-            given(postService.update(any(), any(), any())).willReturn(게시글_응답_DTO);
+            given(postService.update(any(), any(), any())).willReturn(게시글_응답_DTO());
 
             //when
             ResultActions perform = mockMvc.perform(multipart(String.format("/api/posts/%d/edit", POST_ID))
-                    .file(다일리_페이지_이미지_파일)
-                    .file(게시글_요청_DTO_JSON_파일)
+                    .file(다일리_페이지_이미지_파일())
+                    .file(게시글_요청_DTO_JSON_파일())
                     .contentType(MULTIPART_FORM_DATA)
                     .with(csrf().asHeader())
             );
@@ -103,7 +103,7 @@ class PostControllerTest {
                     .getContentAsString(StandardCharsets.UTF_8);
 
             PostResponseDTO 실제_테스트_응답_결과 = objectMapper.readValue(content, PostResponseDTO.class);
-            assertThat(게시글_응답_DTO).isEqualTo(실제_테스트_응답_결과);
+            assertThat(게시글_응답_DTO()).isEqualTo(실제_테스트_응답_결과);
         }
 
         @Test
@@ -112,7 +112,7 @@ class PostControllerTest {
         void onlyJson() throws Exception {
             //given, when
             ResultActions perform = mockMvc.perform(multipart(String.format("/api/posts/%d/edit", POST_ID))
-                    .file(게시글_요청_DTO_JSON_파일)
+                    .file(게시글_요청_DTO_JSON_파일())
                     .contentType(MULTIPART_FORM_DATA)
                     .with(csrf().asHeader())
             );
@@ -127,7 +127,7 @@ class PostControllerTest {
         void noneJson() throws Exception {
             //given, when
             ResultActions perform = mockMvc.perform(multipart(String.format("/api/posts/%d/edit", POST_ID))
-                    .file(다일리_페이지_이미지_파일)
+                    .file(다일리_페이지_이미지_파일())
                     .contentType(MULTIPART_FORM_DATA)
                     .with(csrf().asHeader())
             );
