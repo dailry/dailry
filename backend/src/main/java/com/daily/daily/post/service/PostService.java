@@ -1,6 +1,5 @@
 package com.daily.daily.post.service;
 
-import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.common.service.S3StorageService;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.exception.MemberNotFoundException;
@@ -23,12 +22,14 @@ import java.time.ZoneId;
 @RequiredArgsConstructor
 public class PostService {
 
+    private final String POST_STORAGE_DIRECTORY_PATH = "post/" + LocalDate.now(ZoneId.of("Asia/Seoul"));
+
     private final PostRepository postRepository;
 
     private final MemberRepository memberRepository;
 
     private final S3StorageService storageService;
-    private final String POST_STORAGE_DIRECTORY_PATH = "post/" + LocalDate.now(ZoneId.of("Asia/Seoul"));
+
 
     public PostResponseDTO create(Long memberId, PostRequestDTO postRequestDTO, MultipartFile pageImage) {
         Member member = memberRepository.findById(memberId)
@@ -57,8 +58,8 @@ public class PostService {
             return PostResponseDTO.from(post);
         }
 
-        String filePath = storageService.uploadImage(pageImage, POST_STORAGE_DIRECTORY_PATH, post.getId().toString());
-        post.updatePageImage(filePath);
+        String fileUrl = storageService.uploadImage(pageImage, POST_STORAGE_DIRECTORY_PATH, post.getId().toString());
+        post.updatePageImage(fileUrl);
         return PostResponseDTO.from(post);
     }
 
