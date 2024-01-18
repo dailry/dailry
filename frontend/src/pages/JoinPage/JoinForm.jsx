@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import Input from '../../components/common/Input/Input';
-import AuthButton from '../../components/common/AuthButton/AuthButton';
+import Button from '../../components/common/Button/Button';
 import Text from '../../components/common/Text/Text';
 import { TEXT } from '../../styles/color';
 import * as S from './JoinPage.styled';
@@ -29,13 +29,9 @@ const JoinForm = (props) => {
           onChange={handleChangeForm}
           value={values.username}
         >
-          <AuthButton
-            size={'sm'}
-            type="button"
-            onClick={checkIsUserNameDuplicated}
-          >
+          <Button size={'sm'} type="button" onClick={checkIsUserNameDuplicated}>
             중복확인
-          </AuthButton>
+          </Button>
         </Input>
         <div style={{ position: 'absolute', marginTop: '4px' }}>
           {errors.username && touched.username && (
@@ -74,13 +70,9 @@ const JoinForm = (props) => {
           onChange={handleChangeForm}
           value={values.nickname}
         >
-          <AuthButton
-            size={'sm'}
-            type="button"
-            onClick={checkIsNickNameDuplicated}
-          >
+          <Button size={'sm'} type="button" onClick={checkIsNickNameDuplicated}>
             중복확인
-          </AuthButton>
+          </Button>
         </Input>
 
         <div style={{ position: 'absolute', marginTop: '4px' }}>
@@ -168,7 +160,7 @@ const JoinForm = (props) => {
         </div>
       </div>
 
-      <AuthButton type="submit">회원가입</AuthButton>
+      <Button type="submit">회원가입</Button>
     </S.JoinFormWrapper>
   );
 };

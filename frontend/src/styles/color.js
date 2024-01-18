@@ -27,13 +27,16 @@ export const HOME = Object.freeze({
   menu4: '#aeddff',
 });
 
-export const FORM = Object.freeze({
-  input: '#9d9d9d',
-  inputFocused: '#616161',
-  inputDisabled: '#c0c0c0',
-  button: '#87a5eb',
-  buttonClick: '#87a5eb',
-  buttonDisabled: '#9d9d9d',
+export const INPUT = Object.freeze({
+  default: '#9d9d9d',
+  focused: '#616161',
+  disabled: '#c0c0c0',
+});
+
+export const BUTTON = Object.freeze({
+  default: '#87a5eb',
+  click: '#87a5eb',
+  disabled: '#9d9d9d',
 });
 
 // 다일리 왼쪽 메뉴

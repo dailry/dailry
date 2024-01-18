@@ -1,5 +1,5 @@
 import { styled, css } from 'styled-components';
-import { TEXT, FORM } from '../../../styles/color';
+import { BUTTON, TEXT } from '../../../styles/color';
 
 const sizes = {
   sm: css`
@@ -15,10 +15,11 @@ const sizes = {
     font-size: 16px;
   `,
 };
+
 export const Container = styled.button`
   color: ${TEXT.white};
   text-align: center;
   background-color: ${({ disabled = false }) =>
-    disabled ? FORM.buttonDisabled : FORM.button};
+    disabled ? BUTTON.disabled : BUTTON.default};
   ${({ size = 'lg' }) => sizes[size]};
 `;

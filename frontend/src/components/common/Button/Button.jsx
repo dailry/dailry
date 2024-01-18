@@ -1,9 +1,9 @@
 // 로그인과 회원가입에 들어갈 버튼
 // 2가지 크기, text, onClick, disabled
 import PropTypes, { oneOf } from 'prop-types';
-import * as S from './AuthButton.styled';
+import * as S from './Button.styled';
 
-const AuthButton = (props) => {
+const Button = (props) => {
   const { size, disabled, children, onClick, type = 'button' } = props;
   return (
     <S.Container size={size} disabled={disabled} onClick={onClick} type={type}>
@@ -12,7 +12,7 @@ const AuthButton = (props) => {
   );
 };
 
-AuthButton.propTypes = {
+Button.propTypes = {
   size: oneOf(['sm', 'lg']),
   disabled: PropTypes.bool,
   children: PropTypes.string.isRequired,
@@ -20,4 +20,4 @@ AuthButton.propTypes = {
   type: oneOf(['submit', 'button']),
 };
 
-export default AuthButton;
+export default Button;
