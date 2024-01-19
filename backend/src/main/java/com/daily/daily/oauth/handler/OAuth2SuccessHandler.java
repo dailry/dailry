@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    @Value("${app.properties.frontendDomain}")
+    private String frontendDomain;
 
     private final JwtUtil jwtUtil;
 
@@ -29,7 +33,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
             jwtUtil.setTokensInCookie(response, accessToken, refreshToken);
 
-            response.sendRedirect("https://localhost:3000");
+            response.sendRedirect(frontendDomain);
         } catch (Exception e) {
             log.error("OAuth2 Login 성공 후 예외 발생 : {}", e.getMessage());
         }
