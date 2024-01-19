@@ -1,5 +1,8 @@
 package com.daily.daily.dailrypage.service;
 
+import com.daily.daily.dailry.domain.Dailry;
+import com.daily.daily.dailry.exception.DialryNotFoundException;
+import com.daily.daily.dailry.repository.DailryRepository;
 import com.daily.daily.dailrypage.domain.DailryPage;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
@@ -15,9 +18,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class DailryPageService {
 
     private final DailryPageRepository dailryPageRepository;
+    private final DailryRepository dailryRepository;
 
     public DailryPageDTO create() {
         DailryPage savedPage = dailryPageRepository.save(DailryPage.createEmptyPage());
+
+        return DailryPageDTO.from(savedPage);
+    }
+
+    public DailryPageDTO create2(Long dailryId) {
+
+        Dailry dailry = dailryRepository.findById(dailryId)
+                .orElseThrow(DialryNotFoundException::new);
+
+        DailryPage dailryPage = DailryPage.builder()
+                .dailry(dailry)
+                .build();
+
+        DailryPage savedPage = dailryPageRepository.save(dailryPage);
 
         return DailryPageDTO.from(savedPage);
     }
