@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+//@RequestMapping("/api/dailry/{dailryID}/pages")
+//@RequestMapping("/api/pages")
 public class DailryPageController {
 
     private final DailryPageService dailryPageService;

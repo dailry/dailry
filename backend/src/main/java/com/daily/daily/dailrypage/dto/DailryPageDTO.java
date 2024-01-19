@@ -16,14 +16,12 @@ public class DailryPageDTO {
     private Long id;
     private String background;
     private Object elements;
-    private Dailry dialry;
 
     public static DailryPageDTO from(DailryPage dailryPage) {
         return DailryPageDTO.builder()
                 .id(dailryPage.getId())
                 .background(dailryPage.getBackground())
                 .elements(dailryPage.getElements())
-                .dialry(dailryPage.getDailry())
                 .build();
     }
 

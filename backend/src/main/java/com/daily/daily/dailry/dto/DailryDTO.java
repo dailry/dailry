@@ -15,13 +15,11 @@ public class DailryDTO {
 
     private Long id;
     private String title;
-    private Member member;
 
     public static DailryDTO from(Dailry dailry) {
         return DailryDTO.builder()
                 .id(dailry.getId())
                 .title(dailry.getTitle())
-                .member(dailry.getMember())
                 .build();
     }
 }
