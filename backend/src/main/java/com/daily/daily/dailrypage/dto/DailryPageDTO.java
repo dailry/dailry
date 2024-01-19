@@ -1,5 +1,6 @@
 package com.daily.daily.dailrypage.dto;
 
+import com.daily.daily.dailry.domain.Dailry;
 import com.daily.daily.dailrypage.domain.DailryPage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

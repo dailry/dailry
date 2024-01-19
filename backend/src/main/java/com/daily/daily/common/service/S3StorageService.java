@@ -22,22 +22,31 @@ public class S3StorageService {
 
     private final S3Operations s3Operations;
 
+    @Value("${app.properties.dataStorageDomain}")
+    private String dataStorageDomain;
+
     /**
-     * 파일을 업로드하고 파일 경로를 반환합니다.
+     * 파일을 업로드하고 파일의 URL를 반환합니다.
      * @param imageFile 업로드 하고 싶은 파일. 이미지 형식이 아닐경우 예외 발생.
      * @param directoryPath 저장하고 싶은 S3저장소의 디렉토리 경로.
-     * @return 저장한 파일의 전체 경로를 반환합니다.
+     * @param filePrefix 저장하고 싶은 파일이름의 prefix
+     * @return 저장한 파일의 URL 정보를 반환합니다.
+     * 파일의 URL은 다음과 같은 규칙에 의해 정해집니다.
+     * {DataStorageDomain}/{directoryPath}/filePrefix_UUID_OriginalFileName
      */
 
-    public String uploadImage(MultipartFile imageFile, String directoryPath) {
+    public String uploadImage(MultipartFile imageFile, String directoryPath, String filePrefix) {
         log.info("파일 업로드 시작");
 
         validateImageContentType(imageFile);
-        String path = directoryPath + UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+        String filePath = directoryPath + "/" +
+                filePrefix + "_" +
+                UUID.randomUUID() + "_" +
+                imageFile.getOriginalFilename();
 
         try {
-            s3Operations.upload(BUCKET_NAME, path, imageFile.getInputStream());
-            return path;
+            s3Operations.upload(BUCKET_NAME, filePath, imageFile.getInputStream());
+            return dataStorageDomain + "/" + filePath;
         } catch (IOException e) {
             throw new FileUploadFailureException(e);
         }

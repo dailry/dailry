@@ -3,6 +3,7 @@ package com.daily.daily.post.domain;
 import com.daily.daily.common.domain.BaseTimeEntity;
 import com.daily.daily.member.domain.Member;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,10 +29,18 @@ public class Post extends BaseTimeEntity {
     private Long id;
     private String content;
     private String pageImage; // 이미지 파일 경로 저장
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
+
 //    @ManyToOne
 //    private HashTags hashTags
 
 
+    public void updatePageImage(String pageImage) {
+        this.pageImage = pageImage;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }
