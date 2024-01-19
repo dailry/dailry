@@ -20,8 +20,8 @@ public class DailryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DailryDTO createDailry(@AuthenticationPrincipal Long id, @RequestBody @Valid DailryUpdateDTO dailryUpdateDTO) {
-        return dailryService.create(id, dailryUpdateDTO);
+    public DailryDTO createDailry(@AuthenticationPrincipal Long memberId, @RequestBody @Valid DailryUpdateDTO dailryUpdateDTO) {
+        return dailryService.create(memberId, dailryUpdateDTO);
     }
 
     @PatchMapping("/{dailryId}")

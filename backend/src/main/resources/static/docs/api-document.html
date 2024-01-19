@@ -469,7 +469,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_비밀번호_변경_비밀번호_찾기">비밀번호 변경 (비밀번호 찾기)</a></li>
 </ul>
 </li>
-<li><a href="#_다일리">다일리</a></li>
+<li><a href="#_다일리">다일리</a>
+<ul class="sectlevel2">
+<li><a href="#_다일리_생성">다일리 생성</a></li>
+<li><a href="#_다일리_수정">다일리 수정</a></li>
+<li><a href="#_다일리_조회">다일리 조회</a></li>
+<li><a href="#_다일리_삭제">다일리 삭제</a></li>
+</ul>
+</li>
 <li><a href="#_커뮤니티">커뮤니티</a></li>
 </ul>
 </div>
@@ -510,8 +517,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxNCwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1NjQ5NDg3fQ.8vy_5FShSDMLl_xB4CELrVcXHbAskASW76kiPez2Ax0a3Jw9l1IGE7c72FANzX9ue_sGdxoD49vmWguDSM-ISw
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTQsImlhdCI6MTcwNTY0NTg4NywiZXhwIjoxNzA2ODU1NDg3fQ.EqTvcHFU34ZbLyqjqzbC6XOz4yyD-HA-sqUkaG25xIWIL3C7HNwA-7UehbjP2PilkrIuct2bTYODg6HlxZN3pQ
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxNCwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1NjUzNzg0fQ.SK9s_XWl2FoEj9VDJK2qawg6zmVQ8HA6IjMnm2BlLsqRFISnrBnG-uQTMgCFrLX4GSvOxuMY5CG0XUVO96o6YA
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTQsImlhdCI6MTcwNTY1MDE4NCwiZXhwIjoxNzA2ODU5Nzg0fQ.66FVZn0DBjTgR1SzgtYWRniB6HVvqP2Y8uD7_jBWWrGrrfRtJYoJRRl85LZFHcbUY-9CVTQM-GWRO2LFq26JbQ
 
 {
   "username" : "testtest",
@@ -555,8 +562,8 @@ Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTQsImlhdCI6MTcwNTY0NT
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxNCwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1NjQ5NDg3fQ.8vy_5FShSDMLl_xB4CELrVcXHbAskASW76kiPez2Ax0a3Jw9l1IGE7c72FANzX9ue_sGdxoD49vmWguDSM-ISw; Path=/; Secure; HttpOnly; SameSite=None
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTQsImlhdCI6MTcwNTY0NTg4NywiZXhwIjoxNzA2ODU1NDg3fQ.EqTvcHFU34ZbLyqjqzbC6XOz4yyD-HA-sqUkaG25xIWIL3C7HNwA-7UehbjP2PilkrIuct2bTYODg6HlxZN3pQ; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxNCwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1NjUzNzg0fQ.SK9s_XWl2FoEj9VDJK2qawg6zmVQ8HA6IjMnm2BlLsqRFISnrBnG-uQTMgCFrLX4GSvOxuMY5CG0XUVO96o6YA; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTQsImlhdCI6MTcwNTY1MDE4NCwiZXhwIjoxNzA2ODU5Nzg0fQ.66FVZn0DBjTgR1SzgtYWRniB6HVvqP2Y8uD7_jBWWrGrrfRtJYoJRRl85LZFHcbUY-9CVTQM-GWRO2LFq26JbQ; Path=/; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -575,8 +582,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo2LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU2NDk0ODZ9.juwvVZ2yqXIFOYeyhzJVNM4_VnW8QPORtic1n7MaPGK65Z7oJTJtAODWzuJ3y5nv5mknz9foBHWQcXL-2x21_w
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NiwiaWF0IjoxNzA1NjQ1ODg2LCJleHAiOjE3MDY4NTU0ODZ9.xSG6d2aT6bsAwi4qpgb7sYbTueskrhyz5IzBrCUoU-DggcvQcb3GFhEJSb0o7KV0CRdL7DYNh5mLFTQA-mXiTA</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo2LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU2NTM3ODN9.zje-peV7CtmAxSiovVfnbSqv4msxuTlvG_UuD2YUal9eTsiUV59vn6feDPY1WVXsa-Xagj9uoKvCB8afEov9Iw
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NiwiaWF0IjoxNzA1NjUwMTgzLCJleHAiOjE3MDY4NTk3ODN9.xndASPOYjiUpPnQpPKTicExWmiaaPN4yjV6Znnl0vHuelkbFTgvo0hgC5ezk1NqQ6_5KU5i40ywTkFeSiRD7jw</code></pre>
 </div>
 </div>
 </div>
@@ -605,8 +612,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo4LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU2NDk0ODZ9.SEly0XgZtPxxQCljnykcoM9S1dKFDK-xB7c94k5HUd37x0zRUQ6SpIgtL-z1B3lIjmghigcUjWOFuyepKUYIkg
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6OCwiaWF0IjoxNzA1NjQ1ODg2LCJleHAiOjE3MDY4NTU0ODZ9.2GUULfEtH657FxMftRMqgev8shLa0b8XKQo7QrARohelg29KIDCAIZK6TS80RO6LNQ203ZRvadi-SczqBsGpBw</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo4LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU2NTM3ODN9.NCJuC7xwxc8PD24k3WdZ8oc9toh6uBDGxX6hBtBYVJ2X8RSoaLBzsbk4ZC9TNrkDOwJlVNTsAubOkgQi7TLEtw
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6OCwiaWF0IjoxNzA1NjUwMTgzLCJleHAiOjE3MDY4NTk3ODN9.CvYz45tWhXU0zNx6ytnNIL6CsXKi3XL25aes2FGAvnXTEi2cwv8Gcqc3NSKxRM8mNUkmEmMXwR853yCXU5lhBg</code></pre>
 </div>
 </div>
 </div>
@@ -1439,7 +1446,326 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect1">
 <h2 id="_다일리">다일리</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_다일리_생성">다일리 생성</h3>
+<div class="sect3">
+<h4 id="_요청_15">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/dailry HTTP/1.1
+Content-Type: application/json;charset=UTF-8
 
+{
+  "id" : 4,
+  "title" : "오늘의 다일리"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 제목</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_15">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Content-Type: application/json;charset=UTF-8
+
+{
+  "id" : 5,
+  "title" : "오늘의 다일리"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 제목</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_다일리_수정">다일리 수정</h3>
+<div class="sect3">
+<h4 id="_요청_16">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/dailry/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+
+{
+  "id" : 1,
+  "title" : "내일의 다일리"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 제목</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_16">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+
+{
+  "id" : 1,
+  "title" : "내일의 다일리"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 제목</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_다일리_조회">다일리 조회</h3>
+<div class="sect3">
+<h4 id="_요청_17">요청</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/dailry/{dailryId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dailryId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_17">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+
+{
+  "id" : 3,
+  "title" : "오늘의 다일리"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 제목</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_다일리_삭제">다일리 삭제</h3>
+<div class="sect3">
+<h4 id="_요청_18">요청</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. /api/dailry/{dailryId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dailryId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_18">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+
+{
+  "statusCode" : 200,
+  "successful" : true
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>statusCode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상태코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>successful</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성공여부</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1452,7 +1778,7 @@ Content-Type: application/json;charset=UTF-8
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-17 12:11:18 +0900
+Last updated 2024-01-19 16:42:30 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

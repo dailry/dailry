@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -26,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @SpringBootTest
@@ -85,6 +88,10 @@ public class DailryControllerTest {
 
 
         resultActions.andDo(document("다일리 생성",
+                requestFields(
+                        fieldWithPath("id").type(NUMBER).description("멤버 id"),
+                        fieldWithPath("title").type(STRING).description("다일리 제목")
+                ),
                 responseFields(
                         fieldWithPath("id").type(NUMBER).description("다일리 id"),
                         fieldWithPath("title").type(STRING).description("다일리 제목")
@@ -131,10 +138,13 @@ public class DailryControllerTest {
         DailryDTO dailryDTO = dailryService.create(3L, dailryUpdateDTO);
         Long dailryId = dailryDTO.getId();
 
-        ResultActions resultActions = mockMvc.perform(get("/api/dailry/{dailryId}", dailryId)
+        ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.get("/api/dailry/{dailryId}", dailryId)
                 .contentType(MediaType.APPLICATION_JSON));
 
         resultActions.andDo(document("다일리 조회",
+                pathParameters(
+                        parameterWithName("dailryId").description("다일리 id")
+                ),
                 responseFields(
                         fieldWithPath("id").type(NUMBER).description("다일리 id"),
                         fieldWithPath("title").type(STRING).description("다일리 제목")
@@ -150,10 +160,13 @@ public class DailryControllerTest {
         dailryUpdateDTO.setTitle("오늘의 다일리");
         dailryService.create(2L, dailryUpdateDTO);;
 
-        ResultActions resultActions = mockMvc.perform(delete("/api/dailry/{dailryId}", dailryId)
+        ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/dailry/{dailryId}", dailryId)
                 .contentType(MediaType.APPLICATION_JSON));
 
         resultActions.andDo(document("다일리 삭제",
+                pathParameters(
+                        parameterWithName("dailryId").description("다일리 id")
+                ),
                 responseFields(
                         fieldWithPath("statusCode").type(NUMBER).description("상태코드"),
                         fieldWithPath("successful").type(BOOLEAN).description("성공여부")
