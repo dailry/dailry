@@ -4,8 +4,7 @@ import useDrawUtils from './useDrawUtils';
 import Button from '../../common/Button/Button';
 import useDrawInstance from './useDrawInstance';
 
-const Drawing = (props) => {
-  const { id } = props;
+const Drawing = () => {
   const canvas = useRef(null);
 
   const { drawInstance } = useDrawInstance(canvas);
@@ -21,16 +20,10 @@ const Drawing = (props) => {
   return (
     <>
       <canvas
-        id={id}
         onMouseDown={(e) => startMoving(e, mouseEventHandlers[mode])}
         onMouseUp={() => stopMoving(mouseEventHandlers[mode])}
         ref={canvas}
       ></canvas>
-      <image id="canvas-draw-image" alt="converted-image" src={imgSrc} />
-      <Button onClick={() => setImgSrc(canvasToImage(id))}>
-        이미지로 변환하기
-      </Button>
-
       <Button onClick={() => saveCanvas()}>저장</Button>
       <Button onClick={() => setMode('drawMode')}>그리기</Button>
 
