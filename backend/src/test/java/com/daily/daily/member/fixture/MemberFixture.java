@@ -15,4 +15,15 @@ public class MemberFixture {
                 .role(MemberRole.ROLE_MEMBER)
                 .build();
     }
+
+    public static Member 소셜회원() {
+        return Member.builder()
+                .id(5L)
+                .username("socia123l")
+                .nickname("소셜회원임")
+                .email("aseokp@gmail.com")
+                .socialType(SocialType.GOOGLE)
+                .role(MemberRole.ROLE_MEMBER)
+                .build();
+    }
 }
