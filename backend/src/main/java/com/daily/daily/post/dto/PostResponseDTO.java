@@ -26,14 +26,14 @@ public class PostResponseDTO {
     private LocalDateTime createdTime;
 
     public static PostResponseDTO from(Post post) {
-        Member member = post.getMember();
+        Member postWriter = post.getPostWriter();
 
         return PostResponseDTO.builder()
                 .postId(post.getId())
                 .content(post.getContent())
                 .pageImage(post.getPageImage())
-                .memberId(member.getId())
-                .writer(member.getNickname())
+                .memberId(postWriter.getId())
+                .writer(postWriter.getNickname())
                 .createdTime(post.getCreatedTime())
                 .build();
     }

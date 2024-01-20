@@ -62,7 +62,7 @@ public class PostFixture {
                 .id(3L)
                 .content(POST_CONTENT)
                 .pageImage(PAGE_IMAGE_URL)
-                .member(member)
+                .postWriter(member)
                 .build();
     }
 
@@ -71,7 +71,7 @@ public class PostFixture {
                 .id(3L)
                 .content(POST_CONTENT)
                 .pageImage(PAGE_IMAGE_URL)
-                .member(일반회원())
+                .postWriter(일반회원())
                 .build();
     }
 }
