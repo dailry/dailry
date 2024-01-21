@@ -15,20 +15,30 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static com.daily.daily.post.fixture.PostFixture.POST_ID;
+import static com.daily.daily.postcomment.fixture.PostCommentFixture.COMMENT_ID;
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_생성_DTO;
+import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_수정_DTO;
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_응답_DTO;
+import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,19 +71,37 @@ class PostCommentControllerTest {
             PostCommentResponseDTO response = 댓글_응답_DTO();
             given(postCommentService.create(any(), any(), any())).willReturn(response);
 
-            ResultActions perform = mockMvc.perform(post("/api/posts/31/comments")
+            ResultActions perform = mockMvc.perform(post("/api/posts/{postId}/comments", POST_ID)
                     .contentType(APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(댓글_생성_DTO()))
                     .with(csrf().asHeader())
             );
             //then
             perform.andExpect(status().isCreated())
+                    .andDo(print())
                     .andExpect(jsonPath("$.commentId").value(response.getCommentId()))
                     .andExpect(jsonPath("$.postId").value(response.getPostId()))
                     .andExpect(jsonPath("$.writerId").value(response.getWriterId()))
                     .andExpect(jsonPath("$.content").value(response.getContent()))
                     .andExpect(jsonPath("$.writerNickname").value(response.getWriterNickname()))
                     .andExpect(jsonPath("$.createdTime").value(response.getCreatedTime().toString()));
+
+            //restdocs
+            perform.andDo(document("댓글 작성",
+                    pathParameters(
+                            parameterWithName("postId").description("게시글 id")
+                    ),
+                    requestFields(
+                            fieldWithPath("content").type(STRING).description("댓글 내용")
+                    ), responseFields(
+                            fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("댓글 id"),
+                            fieldWithPath("postId").type(JsonFieldType.NUMBER).description("댓글을 작성한 게시글의 id"),
+                            fieldWithPath("writerId").type(JsonFieldType.NUMBER).description("댓글작성자의 id"),
+                            fieldWithPath("content").type(STRING).description("댓글 내용"),
+                            fieldWithPath("writerNickname").type(STRING).description("댓글 작성자의 닉네임"),
+                            fieldWithPath("createdTime").type(STRING).description("댓글 작성 시간")
+                    )
+            ));
         }
     }
 
@@ -89,9 +117,9 @@ class PostCommentControllerTest {
             PostCommentResponseDTO response = 댓글_응답_DTO();
             given(postCommentService.update(any(), any(), any())).willReturn(response);
 
-            ResultActions perform = mockMvc.perform(patch("/api/comments/16")
+            ResultActions perform = mockMvc.perform(patch("/api/posts/comments/{commentId}", COMMENT_ID)
                     .contentType(APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(댓글_생성_DTO()))
+                    .content(objectMapper.writeValueAsString(댓글_수정_DTO()))
                     .with(csrf().asHeader())
             );
             //then
@@ -102,6 +130,24 @@ class PostCommentControllerTest {
                     .andExpect(jsonPath("$.content").value(response.getContent()))
                     .andExpect(jsonPath("$.writerNickname").value(response.getWriterNickname()))
                     .andExpect(jsonPath("$.createdTime").value(response.getCreatedTime().toString()));
+
+            //restdocs
+            perform.andDo(document("댓글 수정",
+                    pathParameters(
+                            parameterWithName("commentId").description("수정할 댓글 id")
+                    ),
+                    requestFields(
+                            fieldWithPath("content").type(STRING).description("수정할 댓글 내용")
+                    ),
+                    responseFields(
+                            fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("댓글 id"),
+                            fieldWithPath("postId").type(JsonFieldType.NUMBER).description("댓글을 작성한 게시글의 id"),
+                            fieldWithPath("writerId").type(JsonFieldType.NUMBER).description("댓글작성자의 id"),
+                            fieldWithPath("content").type(STRING).description("수정한 댓글 내용"),
+                            fieldWithPath("writerNickname").type(STRING).description("댓글 작성자의 닉네임"),
+                            fieldWithPath("createdTime").type(STRING).description("댓글 작성 시간")
+                    )
+            ));
         }
     }
 
@@ -114,13 +160,20 @@ class PostCommentControllerTest {
         @WithMockUser
         void test1() throws Exception {
             //given, when
-            ResultActions perform = mockMvc.perform(delete("/api/comments/16")
+            ResultActions perform = mockMvc.perform(delete("/api/posts/comments/{commentId}", COMMENT_ID)
                     .with(csrf().asHeader())
             );
             //then
             perform.andExpect(status().isOk())
                     .andExpect(jsonPath("$.successful").value(true))
                     .andExpect(jsonPath("$.statusCode").value(200));
+
+            //restdocs
+            perform.andDo(document("댓글 삭제",
+                    pathParameters(
+                            parameterWithName("commentId").description("삭제할 댓글 id")
+                    )
+            ));
         }
     }
 }

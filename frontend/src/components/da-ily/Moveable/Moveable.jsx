@@ -1,28 +1,31 @@
+import { makeMoveable, Rotatable, Draggable, Resizable } from 'react-moveable';
 import PropTypes from 'prop-types';
-import Mvb from 'react-moveable';
+import MoveableHelper from 'moveable-helper';
+import { useState } from 'react';
+
+const MoveableInstance = makeMoveable([Draggable, Rotatable, Resizable]);
 
 const Moveable = (props) => {
-  const { moveableRef, target } = props;
+  const { target } = props;
+  const [helper] = useState(() => {
+    return new MoveableHelper();
+  });
+
   return (
-    <Mvb
-      ref={moveableRef}
+    <MoveableInstance
       target={target}
       draggable={true}
-      onDrag={({ transform }) => {
-        target.style.transform = transform;
-      }}
-      throttleDrag={0}
       resizable={true}
-      throttleResize={0}
-      onResize={({ width, height }) => {
-        target.style.width = `${width}px`;
-        target.style.height = `${height}px`;
-      }}
       rotatable={true}
+      throttleDrag={0}
+      throttleResize={0}
       throttleRotate={0}
-      onRotate={({ transform }) => {
-        target.style.transform = transform;
-      }}
+      onDragStart={helper.onDragStart}
+      onDrag={helper.onDrag}
+      onRotateStart={helper.onRotateStart}
+      onRotate={helper.onRotate}
+      onResizeStart={helper.onResizeStart}
+      onResize={helper.onResize}
     />
   );
 };
