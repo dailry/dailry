@@ -41,6 +41,10 @@ public class PostComment extends BaseTimeEntity {
         return commentWriter.getId();
     }
 
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
     public String getWriterNickname() {
         return commentWriter.getNickname();
     }

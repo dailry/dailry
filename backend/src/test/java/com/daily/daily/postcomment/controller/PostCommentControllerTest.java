@@ -19,12 +19,13 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_요청_DTO;
+import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_생성_DTO;
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_응답_DTO;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -60,12 +61,11 @@ class PostCommentControllerTest {
 
             ResultActions perform = mockMvc.perform(post("/api/posts/31/comments")
                     .contentType(APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(댓글_요청_DTO()))
+                    .content(objectMapper.writeValueAsString(댓글_생성_DTO()))
                     .with(csrf().asHeader())
             );
             //then
             perform.andExpect(status().isCreated())
-                    .andDo(print())
                     .andExpect(jsonPath("$.commentId").value(response.getCommentId()))
                     .andExpect(jsonPath("$.postId").value(response.getPostId()))
                     .andExpect(jsonPath("$.writerId").value(response.getWriterId()))
@@ -74,4 +74,33 @@ class PostCommentControllerTest {
                     .andExpect(jsonPath("$.createdTime").value(response.getCreatedTime().toString()));
         }
     }
+
+    @Nested
+    @DisplayName("update() - 댓글 수정 메서드 테스트")
+    class update {
+
+        @Test
+        @DisplayName("댓글을 성공적으로 수정했을 때 응답결과를 테스트한다.")
+        @WithMockUser
+        void test1() throws Exception {
+            //given, when
+            PostCommentResponseDTO response = 댓글_응답_DTO();
+            given(postCommentService.update(any(), any(), any())).willReturn(response);
+
+            ResultActions perform = mockMvc.perform(patch("/api/comments/16")
+                    .contentType(APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(댓글_생성_DTO()))
+                    .with(csrf().asHeader())
+            );
+            //then
+            perform.andExpect(status().isOk())
+                    .andExpect(jsonPath("$.commentId").value(response.getCommentId()))
+                    .andExpect(jsonPath("$.postId").value(response.getPostId()))
+                    .andExpect(jsonPath("$.writerId").value(response.getWriterId()))
+                    .andExpect(jsonPath("$.content").value(response.getContent()))
+                    .andExpect(jsonPath("$.writerNickname").value(response.getWriterNickname()))
+                    .andExpect(jsonPath("$.createdTime").value(response.getCreatedTime().toString()));
+        }
+    }
+
 }

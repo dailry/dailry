@@ -6,6 +6,7 @@ import com.daily.daily.postcomment.service.PostCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,5 +28,14 @@ public class PostCommentController {
             PostCommentRequestDTO postCommentRequestDTO
     ) {
         return postCommentService.create(writerId, postId, postCommentRequestDTO);
+    }
+
+    @PatchMapping("/comments/{commentId}")
+    public PostCommentResponseDTO update(
+            @AuthenticationPrincipal Long writerId,
+            @PathVariable Long commentId,
+            PostCommentRequestDTO postCommentRequestDTO
+    ) {
+        return postCommentService.update(writerId, commentId, postCommentRequestDTO);
     }
 }
