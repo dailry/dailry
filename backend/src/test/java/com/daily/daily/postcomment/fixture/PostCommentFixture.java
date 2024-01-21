@@ -13,9 +13,9 @@ import static com.daily.daily.post.fixture.PostFixture.일반회원1이_작성�
 
 public class PostCommentFixture {
 
-    private static final Long COMMENT_ID = 16L;
+    public static final Long COMMENT_ID = 16L;
     private static final String 댓글_내용 = "오오.. 오늘 계획 알차시네요!!";
-    private static final String 수정_댓글_내용 = "댓글 수정하기 ㅇㅅㅇ";
+    private static final String 수정_댓글_내용 = "댓글 수정하기 ㅁㄴㅇㄹ";
     private static final LocalDateTime 댓글_생성_시간 = LocalDateTime.of(2024, 1, 20, 6, 52, 30, 4);
 
     public static PostCommentRequestDTO 댓글_생성_DTO() {
@@ -34,6 +34,7 @@ public class PostCommentFixture {
                 .postId(POST_ID)
                 .writerId(일반회원2.getId())
                 .writerNickname(일반회원2.getNickname())
+                .content(댓글_내용)
                 .createdTime(댓글_생성_시간)
                 .build();
     }
