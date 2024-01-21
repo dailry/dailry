@@ -104,4 +104,38 @@ class PostCommentServiceTest {
                     .isInstanceOf(UnauthorizedAccessException.class);
         }
     }
+
+
+    @Nested
+    @DisplayName("delete() - 댓글 수정 메서드 테스트")
+    class delete {
+        @Test
+        @DisplayName("댓글을 삭제하는 메서드는 반드시 한 번 호출되어야 한다.")
+        void test1() {
+            //given
+            Member 댓글_수정_요청자 = 일반회원2();
+            PostComment 댓글 = 일반회원2가_작성한_댓글_to_일반회원1이_작성한_게시글();
+
+            when(commentRepository.findById(any())).thenReturn(Optional.of(댓글));
+
+            //when
+            commentService.delete(댓글_수정_요청자.getId(), 댓글.getId());
+
+            //then
+            verify(commentRepository, times(1)).delete(댓글);
+        }
+
+        @Test
+        @DisplayName("댓글 삭제를 요청하는 사람이 해당 댓글의 작성자가 아니라면 UnauthorizedAccessException() 예외가 발생한다.")
+        void test2() {
+            //given
+            Member 댓글_수정_요청자 = 구글소셜회원();
+
+            when(commentRepository.findById(any(Long.class))).thenReturn(Optional.of(일반회원2가_작성한_댓글_to_일반회원1이_작성한_게시글()));
+
+            //when, then
+            assertThatThrownBy(() -> commentService.delete(댓글_수정_요청자.getId(), 482L))
+                    .isInstanceOf(UnauthorizedAccessException.class);
+        }
+    }
 }

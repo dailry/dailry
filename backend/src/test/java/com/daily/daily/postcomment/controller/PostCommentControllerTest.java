@@ -18,6 +18,7 @@ import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_생성_DTO;
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_응답_DTO;
@@ -25,6 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -103,4 +105,22 @@ class PostCommentControllerTest {
         }
     }
 
+    @Nested
+    @DisplayName("delete() - 댓글 삭제 메서드 테스트")
+    class delete {
+
+        @Test
+        @DisplayName("댓글을 성공적으로 삭제했을 때 응답결과를 테스트한다.")
+        @WithMockUser
+        void test1() throws Exception {
+            //given, when
+            ResultActions perform = mockMvc.perform(delete("/api/comments/16")
+                    .with(csrf().asHeader())
+            );
+            //then
+            perform.andExpect(status().isOk())
+                    .andExpect(jsonPath("$.successful").value(true))
+                    .andExpect(jsonPath("$.statusCode").value(200));
+        }
+    }
 }

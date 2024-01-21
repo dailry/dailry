@@ -1,5 +1,6 @@
 package com.daily.daily.postcomment.service;
 
+import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.common.exception.UnauthorizedAccessException;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.exception.MemberNotFoundException;
@@ -44,11 +45,27 @@ public class PostCommentService {
     public PostCommentResponseDTO update(Long writerId, Long commentId, PostCommentRequestDTO postCommentRequestDTO) {
         PostComment findComment = commentRepository.findById(commentId).orElseThrow(PostCommentNotFoundException::new);
 
+        validateAuthorityToComment(findComment, writerId);
+
         if (writerId.longValue() != findComment.getWriterId().longValue()) {
             throw new UnauthorizedAccessException();
         }
 
         findComment.updateContent(postCommentRequestDTO.getContent());
         return PostCommentResponseDTO.from(findComment);
+    }
+
+    public void delete(Long deleterId, Long commentId) {
+        PostComment findComment = commentRepository.findById(commentId).orElseThrow(PostCommentNotFoundException::new);
+
+        validateAuthorityToComment(findComment, deleterId);
+
+        commentRepository.delete(findComment);
+    }
+
+    private void validateAuthorityToComment(PostComment comment, Long memberId) {
+        if (comment.getWriterId().longValue() != memberId.longValue()) {
+            throw new UnauthorizedAccessException();
+        }
     }
 }
