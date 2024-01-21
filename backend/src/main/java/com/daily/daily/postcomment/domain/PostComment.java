@@ -1,9 +1,9 @@
-package com.daily.daily.post.domain;
+package com.daily.daily.postcomment.domain;
 
 import com.daily.daily.common.domain.BaseTimeEntity;
 import com.daily.daily.member.domain.Member;
+import com.daily.daily.post.domain.Post;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,31 +15,33 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Getter
 @AllArgsConstructor @Builder @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Post extends BaseTimeEntity {
-
+public class PostComment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String content;
-    private String pageImage; // 이미지 파일 경로 저장
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "postId")
-    private Member postWriter;
+    private Post post;
 
-//    @ManyToOne
-//    private HashTags hashTags
+    @ManyToOne
+    @JoinColumn(name = "writerId")
+    private Member commentWriter;
 
-
-    public void updatePageImage(String pageImage) {
-        this.pageImage = pageImage;
+    public Long getPostId() {
+        return post.getId();
     }
 
-    public void updateContent(String content) {
-        this.content = content;
+    public Long getWriterId() {
+        return commentWriter.getId();
+    }
+
+    public String getWriterNickname() {
+        return commentWriter.getNickname();
     }
 }

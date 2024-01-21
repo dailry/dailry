@@ -1,9 +1,7 @@
 package com.daily.daily.post.service;
 
 import com.daily.daily.common.service.S3StorageService;
-import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.repository.MemberRepository;
-import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.dto.PostRequestDTO;
 import com.daily.daily.post.dto.PostResponseDTO;
 import com.daily.daily.post.repository.PostRepository;
@@ -17,10 +15,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
-import static com.daily.daily.member.fixture.MemberFixture.일반회원;
+import static com.daily.daily.member.fixture.MemberFixture.일반회원1;
 import static com.daily.daily.post.fixture.PostFixture.POST_ID;
 import static com.daily.daily.post.fixture.PostFixture.다일리_페이지_이미지_파일;
-import static com.daily.daily.post.fixture.PostFixture.일반회원이_작성한_게시글;
+import static com.daily.daily.post.fixture.PostFixture.일반회원1이_작성한_게시글;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -47,9 +45,9 @@ class PostServiceTest {
                 "그리고 PostResponse의 페이지 이미지 URL 경로는 storageService.uploadImage() 의 반환값으로 받은 URL 경로와 일치한다.")
         void test1() {
             //given
-            when(memberRepository.findById(any())).thenReturn(Optional.of(일반회원()));
+            when(memberRepository.findById(any())).thenReturn(Optional.of(일반회원1()));
             when(storageService.uploadImage(any(), any(), any())).thenReturn("post/3-awef-123-124-wafewe123123_asdf.png");
-            when(postRepository.save(any())).thenReturn(일반회원이_작성한_게시글());
+            when(postRepository.save(any())).thenReturn(일반회원1이_작성한_게시글());
 
             //when
             PostResponseDTO result = postService.create(2L, new PostRequestDTO(), 다일리_페이지_이미지_파일());
@@ -69,13 +67,13 @@ class PostServiceTest {
         @DisplayName("게시글 수정 요청에 pageImage파일이 null이면 해당 포스트의 pageImage값은 그대로여야한다.")
         void test1() {
             //given
-            when(postRepository.findById(POST_ID)).thenReturn(Optional.of(일반회원이_작성한_게시글()));
+            when(postRepository.findById(POST_ID)).thenReturn(Optional.of(일반회원1이_작성한_게시글()));
 
             //when
             PostResponseDTO updateResult = postService.update(POST_ID, new PostRequestDTO(), null);
 
             //then
-            assertThat(updateResult.getPageImage()).isEqualTo(일반회원이_작성한_게시글().getPageImage());
+            assertThat(updateResult.getPageImage()).isEqualTo(일반회원1이_작성한_게시글().getPageImage());
         }
 
         @Test
@@ -83,7 +81,7 @@ class PostServiceTest {
                 "PostResponse의 페이지 이미지 URL 경로는 storageService.uploadImage() 의 반환값으로 받은 URL 경로와 일치한다.")
         void test2() {
             //given
-            when(postRepository.findById(POST_ID)).thenReturn(Optional.of(일반회원이_작성한_게시글()));
+            when(postRepository.findById(POST_ID)).thenReturn(Optional.of(일반회원1이_작성한_게시글()));
             when(storageService.uploadImage(any(), any(), any())).thenReturn("post/4-awef-1231-xcvsdf-12312_qwf.png");
 
             //when
