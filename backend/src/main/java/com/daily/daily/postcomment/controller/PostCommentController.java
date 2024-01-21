@@ -6,7 +6,6 @@ import com.daily.daily.postcomment.dto.PostCommentResponseDTO;
 import com.daily.daily.postcomment.service.PostCommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/posts")
 public class PostCommentController {
 
     private final PostCommentService commentService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/posts/{postId}/comments")
+    @PostMapping("/{postId}/comments")
     public PostCommentResponseDTO create(
             @AuthenticationPrincipal Long writerId,
             @PathVariable Long postId,
@@ -35,7 +34,7 @@ public class PostCommentController {
         return commentService.create(writerId, postId, postCommentRequestDTO);
     }
 
-    @PatchMapping("/posts/comments/{commentId}")
+    @PatchMapping("/comments/{commentId}")
     public PostCommentResponseDTO update(
             @AuthenticationPrincipal Long writerId,
             @PathVariable Long commentId,
@@ -44,7 +43,7 @@ public class PostCommentController {
         return commentService.update(writerId, commentId, postCommentRequestDTO);
     }
 
-    @DeleteMapping("/posts/comments/{commentId}")
+    @DeleteMapping("/comments/{commentId}")
     public SuccessResponseDTO delete(
             @AuthenticationPrincipal Long deleterId,
             @PathVariable Long commentId
