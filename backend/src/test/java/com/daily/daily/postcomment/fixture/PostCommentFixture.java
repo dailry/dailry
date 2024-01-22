@@ -4,8 +4,6 @@ import com.daily.daily.postcomment.domain.PostComment;
 import com.daily.daily.postcomment.dto.PostCommentSliceDTO;
 import com.daily.daily.postcomment.dto.PostCommentRequestDTO;
 import com.daily.daily.postcomment.dto.PostCommentResponseDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -38,6 +36,13 @@ public class PostCommentFixture {
     public static PostCommentResponseDTO 댓글_응답_DTO() {
         PostCommentResponseDTO result = PostCommentResponseDTO.from(일반회원2가_작성한_댓글_to_일반회원1이_작성한_게시글());
         result.setCreatedTime(댓글_생성_시간);
+
+        return result;
+    }
+
+    public static PostCommentResponseDTO 수정된_댓글_응답_DTO() {
+        PostCommentResponseDTO result = 댓글_응답_DTO();
+        result.setContent(수정_댓글_내용);
 
         return result;
     }

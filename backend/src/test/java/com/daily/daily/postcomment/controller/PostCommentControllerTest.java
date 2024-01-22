@@ -28,6 +28,7 @@ import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_생�
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_수정_DTO;
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_응답_DTO;
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_조회_페이징_DTO;
+import static com.daily.daily.postcomment.fixture.PostCommentFixture.수정된_댓글_응답_DTO;
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.요청_페이지_사이즈;
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.요청_페이지_숫자;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
@@ -125,7 +126,7 @@ class PostCommentControllerTest {
         @WithMockUser
         void test1() throws Exception {
             //given, when
-            PostCommentResponseDTO response = 댓글_응답_DTO();
+            PostCommentResponseDTO response = 수정된_댓글_응답_DTO();
             given(commentService.update(any(), any(), any())).willReturn(response);
 
             ResultActions perform = mockMvc.perform(patch("/api/posts/comments/{commentId}", COMMENT_ID)
