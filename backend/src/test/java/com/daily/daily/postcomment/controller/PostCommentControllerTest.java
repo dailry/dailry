@@ -192,7 +192,7 @@ class PostCommentControllerTest {
     @DisplayName("readByPostId() - 댓글 조회 메서드 테스트")
     class readByPostId {
         @Test
-        @DisplayName("")
+        @DisplayName("댓글을 성공적으로 조회했을 때 응답결과를 테스트한다.")
         @WithMockUser
         void test1() throws Exception{
             //given
@@ -221,7 +221,7 @@ class PostCommentControllerTest {
                             parameterWithName("postId").description("게시글 id")
                     ),
                     queryParameters(
-                            parameterWithName("page").description("페이지 번호"),
+                            parameterWithName("page").description("페이지 번호(0부터 시작)"),
                             parameterWithName("size").description("페이지 사이즈")
                     ),
                     responseFields(

@@ -285,6 +285,20 @@ include::{snippets}/댓글 수정/request-fields.adoc[]
 include::{snippets}/댓글 수정/http-response.adoc[]
 include::{snippets}/댓글 수정/response-fields.adoc[]
 
+=== 댓글 조회
+
+==== 요청
+
+include::{snippets}/댓글 조회/http-request.adoc[]
+include::{snippets}/댓글 조회/path-parameters.adoc[]
+include::{snippets}/댓글 조회/query-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/댓글 조회/http-response.adoc[]
+include::{snippets}/댓글 조회/response-fields.adoc[]
+
+
 === 댓글 삭제
 
 ==== 요청

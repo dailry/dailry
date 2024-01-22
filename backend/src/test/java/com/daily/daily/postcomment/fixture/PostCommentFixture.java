@@ -24,7 +24,7 @@ public class PostCommentFixture {
     private static final String 댓글_내용 = "오오.. 오늘 계획 알차시네요!!";
     private static final String 수정_댓글_내용 = "댓글 수정하기 ㅁㄴㅇㄹ";
     private static final LocalDateTime 댓글_생성_시간 = LocalDateTime.of(2024, 1, 20, 6, 52, 30, 4);
-    public static final int 요청_페이지_숫자 = 1;
+    public static final int 요청_페이지_숫자 = 0;
     public static final int 요청_페이지_사이즈 = 3;
 
     public static PostCommentRequestDTO 댓글_생성_DTO() {
