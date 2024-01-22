@@ -4,12 +4,14 @@ import com.daily.daily.postcomment.domain.PostComment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
 @Builder
+@Setter
 public class PostCommentResponseDTO {
     private Long commentId;
     private Long postId;

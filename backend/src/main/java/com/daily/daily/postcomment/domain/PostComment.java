@@ -14,10 +14,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Getter
 @AllArgsConstructor @Builder @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class PostComment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

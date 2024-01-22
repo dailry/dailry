@@ -1,13 +1,12 @@
 package com.daily.daily.postcomment.controller;
 
 import com.daily.daily.common.dto.SuccessResponseDTO;
-import com.daily.daily.postcomment.dto.PostCommentPagingDTO;
+import com.daily.daily.postcomment.dto.PostCommentSliceDTO;
 import com.daily.daily.postcomment.dto.PostCommentRequestDTO;
 import com.daily.daily.postcomment.dto.PostCommentResponseDTO;
 import com.daily.daily.postcomment.service.PostCommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Role;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -51,11 +50,11 @@ public class PostCommentController {
     }
 
     @GetMapping("/{postId}/comments")
-    public PostCommentPagingDTO readCommentsByPostId(
+    public PostCommentSliceDTO readByPostId(
             @PathVariable Long postId,
             Pageable pageable
     ) {
-        return commentService.read(postId, pageable);
+        return commentService.readByPostId(postId, pageable);
     }
 
     @Secured(value = "ROLE_MEMBER")

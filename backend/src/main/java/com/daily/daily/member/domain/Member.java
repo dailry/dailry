@@ -1,14 +1,11 @@
 package com.daily.daily.member.domain;
 
 import com.daily.daily.common.domain.BaseTimeEntity;
-import com.daily.daily.dailry.domain.Dailry;
 import com.daily.daily.member.constant.MemberRole;
 import com.daily.daily.oauth.constant.SocialType;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

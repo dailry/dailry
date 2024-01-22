@@ -8,14 +8,14 @@ import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.exception.PostNotFoundException;
 import com.daily.daily.post.repository.PostRepository;
 import com.daily.daily.postcomment.domain.PostComment;
-import com.daily.daily.postcomment.dto.PostCommentPagingDTO;
+import com.daily.daily.postcomment.dto.PostCommentSliceDTO;
 import com.daily.daily.postcomment.dto.PostCommentRequestDTO;
 import com.daily.daily.postcomment.dto.PostCommentResponseDTO;
 import com.daily.daily.postcomment.exception.PostCommentNotFoundException;
 import com.daily.daily.postcomment.repository.PostCommentRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,11 +71,11 @@ public class PostCommentService {
         }
     }
 
-    public PostCommentPagingDTO read(Long postId, Pageable pageable) {
+    public PostCommentSliceDTO readByPostId(Long postId, Pageable pageable) {
         postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
 
-        Page<PostComment> commentPage = commentRepository.findByPostId(postId, pageable);
+        Slice<PostComment> commentSlice = commentRepository.findByPostId(postId, pageable);
 
-        return PostCommentPagingDTO.from(commentPage);
+        return PostCommentSliceDTO.from(commentSlice);
     }
 }

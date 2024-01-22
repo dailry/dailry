@@ -21,9 +21,12 @@ import java.util.Optional;
 
 import static com.daily.daily.member.fixture.MemberFixture.구글소셜회원;
 import static com.daily.daily.member.fixture.MemberFixture.일반회원2;
+import static com.daily.daily.post.fixture.PostFixture.POST_ID;
 import static com.daily.daily.post.fixture.PostFixture.일반회원1이_작성한_게시글;
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_수정_DTO;
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_생성_DTO;
+import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_페이징_결과;
+import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_페이징_요청_객체;
 import static com.daily.daily.postcomment.fixture.PostCommentFixture.일반회원2가_작성한_댓글_to_일반회원1이_작성한_게시글;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -136,6 +139,24 @@ class PostCommentServiceTest {
             //when, then
             assertThatThrownBy(() -> commentService.delete(댓글_수정_요청자.getId(), 482L))
                     .isInstanceOf(UnauthorizedAccessException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("readByPostID() - 댓글 조회 메서드 테스트")
+    class readByPostID {
+        @Test
+        @DisplayName("파라미터 정보에 맞게 findByPostId를 한 번 호출하는지 확인한다.")
+        void test1() {
+            //given
+            when(postRepository.findById(POST_ID)).thenReturn(Optional.of(일반회원1이_작성한_게시글()));
+            when(commentRepository.findByPostId(any(), any())).thenReturn(댓글_페이징_결과());
+
+            //when
+            commentService.readByPostId(POST_ID, 댓글_페이징_요청_객체());
+
+            //then
+            verify(commentRepository, times(1)).findByPostId(POST_ID, 댓글_페이징_요청_객체());
         }
     }
 }
