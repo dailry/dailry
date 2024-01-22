@@ -478,6 +478,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_다일리_삭제">다일리 삭제</a></li>
 </ul>
 </li>
+<li><a href="#_게시글">게시글</a></li>
+<li><a href="#_댓글">댓글</a>
+<ul class="sectlevel2">
+<li><a href="#_댓글_작성">댓글 작성</a></li>
+<li><a href="#_댓글_수정">댓글 수정</a></li>
+<li><a href="#_댓글_조회">댓글 조회</a></li>
+<li><a href="#_댓글_삭제">댓글 삭제</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -517,8 +526,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1OTA5MTIxfQ.FRNq6SY3zZGltPxX4D_OXLs4VID6Kp3Qj610d20tetq1RzDtOloiBYDAYMvMrw_b63Pq-NhYL9NYFvYOglC2nA
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNTkwNTUyMSwiZXhwIjoxNzA3MTE1MTIxfQ.AQhg4C_zRvAQhExCQrYzavXrslDxvll2fyYtsyv1ri5cNdGHUtq2celmTzlChcQqwVgmycxkM_5tXhaxjiVpaA
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxNiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1OTE4NDIxfQ.MTMxYeJPGFASply47R1OcvYLDjMqBNNul-pH0XvM7FJgr4CRCgh5goCgLfXE85gHpq9FtcX-s9Ti9dfQWxupwg
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTYsImlhdCI6MTcwNTkxNDgyMSwiZXhwIjoxNzA3MTI0NDIxfQ.O8zYSt756AOgbEcDNCKGpHB6G1ddQrrYMAG9bUc9qohYI8JyOp4L_GEks-E5qb6EaIgoCLGF7aPnTC8PDJgoWw
 
 {
   "username" : "testtest",
@@ -562,8 +571,8 @@ Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNTkwNT
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1OTA5MTIxfQ.FRNq6SY3zZGltPxX4D_OXLs4VID6Kp3Qj610d20tetq1RzDtOloiBYDAYMvMrw_b63Pq-NhYL9NYFvYOglC2nA; Path=/; Secure; HttpOnly; SameSite=None
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNTkwNTUyMSwiZXhwIjoxNzA3MTE1MTIxfQ.AQhg4C_zRvAQhExCQrYzavXrslDxvll2fyYtsyv1ri5cNdGHUtq2celmTzlChcQqwVgmycxkM_5tXhaxjiVpaA; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxNiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1OTE4NDIxfQ.MTMxYeJPGFASply47R1OcvYLDjMqBNNul-pH0XvM7FJgr4CRCgh5goCgLfXE85gHpq9FtcX-s9Ti9dfQWxupwg; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTYsImlhdCI6MTcwNTkxNDgyMSwiZXhwIjoxNzA3MTI0NDIxfQ.O8zYSt756AOgbEcDNCKGpHB6G1ddQrrYMAG9bUc9qohYI8JyOp4L_GEks-E5qb6EaIgoCLGF7aPnTC8PDJgoWw; Path=/; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -582,8 +591,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU5MDkxMjB9.8prC6eRIkKrKbDdZZSIscYN_l9hW1YpNScnzAcV1z-vFrSRKiSyHcYGPmXSoO8JsP0X1ltdZeDd46doTFU0NOQ
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA1OTA1NTIwLCJleHAiOjE3MDcxMTUxMjB9.kiGh8Rd6u44neAdQ4CAMJmjGY2DO9zs1Wwt9hLRwUdskuEfKWQ9Qg3J6eGeoUD7Dq2l_yVoJfWbf9hbdeNO0JA</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo2LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU5MTg0MjB9.zVSACIKJiZURlUzB94Isgo3Zi2D3BNAFqTWp1t_PfQnBqN2HFNOQj61R_CrFIwMSJNZl9hTl0yXPJbFuSejqhQ
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NiwiaWF0IjoxNzA1OTE0ODIwLCJleHAiOjE3MDcxMjQ0MjB9._PfEG7ykeO34w13smZBLOyMrQpqRzrHP3jMVxFsEedq1ywKP1tfSw5nRsYPG6x9Lw5ilCRBZHSEcbSuYphh5oQ</code></pre>
 </div>
 </div>
 </div>
@@ -612,8 +621,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU5MDkxMjB9.128ri4DOZw97sL3aHHBKczK-zSrZ4Q5qPur9FS-BEfPZE9gRupLiBYv35uQnSOEzIupXP5xKv_-5eY1UFHiCdw
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA1OTA1NTIwLCJleHAiOjE3MDcxMTUxMjB9.ZTSpbwaHg1BpUwQRc2V-BsENIQ747JhXXY1j8CutHcMXzTanwNZXQVXG7nNm_NUpkN4vmvjPeG1jhpcL4YJbbw</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo4LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU5MTg0MjB9.LwVtVjJI2ZtSoGRdVRJIs2oI7c3iwZgB8bF9K48lQ0mi1dF_9BCN63_ovhzruDQqSV8_NW6xFqbpLYeNDmcHhg
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6OCwiaWF0IjoxNzA1OTE0ODIwLCJleHAiOjE3MDcxMjQ0MjB9.46iZigf9OwQ7Tq7by2ibcNoq6dL1nTJblTAfOWRB26h0-ZDq_exz29x1ozhwBpAwWpgIghuBC8fPOLk0n8rTfQ</code></pre>
 </div>
 </div>
 </div>
@@ -1444,6 +1453,15 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_회원탈퇴">회원탈퇴</h3>
 <div class="sect3">
+<h4 id="_요청_15">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/withdrawal HTTP/1.1
+Content-Type: application/json;charset=UTF-8</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
 <h4 id="_응답_15">응답</h4>
 <div class="listingblock">
 <div class="content">
@@ -1496,7 +1514,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_다일리_생성">다일리 생성</h3>
 <div class="sect3">
-<h4 id="_요청_15">요청</h4>
+<h4 id="_요청_16">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/dailry HTTP/1.1
@@ -1587,7 +1605,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_다일리_수정">다일리 수정</h3>
 <div class="sect3">
-<h4 id="_요청_16">요청</h4>
+<h4 id="_요청_17">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/dailry/1 HTTP/1.1
@@ -1678,7 +1696,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_다일리_조회">다일리 조회</h3>
 <div class="sect3">
-<h4 id="_요청_17">요청</h4>
+<h4 id="_요청_18">요청</h4>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. /api/dailry/{dailryId}</caption>
 <colgroup>
@@ -1747,7 +1765,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_다일리_삭제">다일리 삭제</h3>
 <div class="sect3">
-<h4 id="_요청_18">요청</h4>
+<h4 id="_요청_19">요청</h4>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 2. /api/dailry/{dailryId}</caption>
 <colgroup>
@@ -1816,12 +1834,18 @@ Content-Type: application/json;charset=UTF-8
 </div>
 </div>
 <div class="sect1">
+<h2 id="_게시글">게시글</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
 <h2 id="_댓글">댓글</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_댓글_작성">댓글 작성</h3>
 <div class="sect3">
-<h4 id="_요청_19">요청</h4>
+<h4 id="_요청_20">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/31/comments HTTP/1.1
@@ -1877,7 +1901,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_19">응답</h4>
+<h4 id="_응답_20">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -1952,7 +1976,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_댓글_수정">댓글 수정</h3>
 <div class="sect3">
-<h4 id="_요청_20">요청</h4>
+<h4 id="_요청_21">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/comments/16 HTTP/1.1
@@ -2008,7 +2032,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_20">응답</h4>
+<h4 id="_응답_21">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2083,7 +2107,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_댓글_조회">댓글 조회</h3>
 <div class="sect3">
-<h4 id="_요청_21">요청</h4>
+<h4 id="_요청_22">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/31/comments?page=0&amp;size=3 HTTP/1.1</code></pre>
@@ -2136,7 +2160,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_21">응답</h4>
+<h4 id="_응답_22">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2229,7 +2253,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_댓글_삭제">댓글 삭제</h3>
 <div class="sect3">
-<h4 id="_요청_22">요청</h4>
+<h4 id="_요청_23">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/posts/comments/16 HTTP/1.1</code></pre>
@@ -2256,7 +2280,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_22">응답</h4>
+<h4 id="_응답_23">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2276,11 +2300,7 @@ Content-Type: application/json;charset=UTF-8
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-<<<<<<< HEAD
-Last updated 2024-01-22 17:12:32 +0900
-=======
-Last updated 2024-01-22 15:37:29 +0900
->>>>>>> a44cc334988c7b35ee1e206efe33ac2f4f97fcd4
+Last updated 2024-01-22 17:54:45 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
