@@ -1,14 +1,19 @@
 package com.daily.daily.postcomment.controller;
 
 import com.daily.daily.common.dto.SuccessResponseDTO;
+import com.daily.daily.postcomment.dto.PostCommentPagingDTO;
 import com.daily.daily.postcomment.dto.PostCommentRequestDTO;
 import com.daily.daily.postcomment.dto.PostCommentResponseDTO;
 import com.daily.daily.postcomment.service.PostCommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Role;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +29,7 @@ public class PostCommentController {
 
     private final PostCommentService commentService;
 
+    @Secured(value = "ROLE_MEMBER")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{postId}/comments")
     public PostCommentResponseDTO create(
@@ -34,6 +40,7 @@ public class PostCommentController {
         return commentService.create(writerId, postId, postCommentRequestDTO);
     }
 
+    @Secured(value = "ROLE_MEMBER")
     @PatchMapping("/comments/{commentId}")
     public PostCommentResponseDTO update(
             @AuthenticationPrincipal Long writerId,
@@ -43,6 +50,15 @@ public class PostCommentController {
         return commentService.update(writerId, commentId, postCommentRequestDTO);
     }
 
+    @GetMapping("/{postId}/comments")
+    public PostCommentPagingDTO readCommentsByPostId(
+            @PathVariable Long postId,
+            Pageable pageable
+    ) {
+        return commentService.read(postId, pageable);
+    }
+
+    @Secured(value = "ROLE_MEMBER")
     @DeleteMapping("/comments/{commentId}")
     public SuccessResponseDTO delete(
             @AuthenticationPrincipal Long deleterId,

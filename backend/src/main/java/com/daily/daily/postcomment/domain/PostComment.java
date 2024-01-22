@@ -48,4 +48,8 @@ public class PostComment extends BaseTimeEntity {
     public String getWriterNickname() {
         return commentWriter.getNickname();
     }
+
+    public boolean isWrittenBy(Long memberId) {
+        return getWriterId().longValue() == memberId.longValue();
+    }
 }

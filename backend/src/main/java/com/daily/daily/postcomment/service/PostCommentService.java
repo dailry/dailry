@@ -1,6 +1,5 @@
 package com.daily.daily.postcomment.service;
 
-import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.common.exception.UnauthorizedAccessException;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.exception.MemberNotFoundException;
@@ -9,11 +8,14 @@ import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.exception.PostNotFoundException;
 import com.daily.daily.post.repository.PostRepository;
 import com.daily.daily.postcomment.domain.PostComment;
+import com.daily.daily.postcomment.dto.PostCommentPagingDTO;
 import com.daily.daily.postcomment.dto.PostCommentRequestDTO;
 import com.daily.daily.postcomment.dto.PostCommentResponseDTO;
 import com.daily.daily.postcomment.exception.PostCommentNotFoundException;
 import com.daily.daily.postcomment.repository.PostCommentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,9 +65,17 @@ public class PostCommentService {
         commentRepository.delete(findComment);
     }
 
-    private void validateAuthorityToComment(PostComment comment, Long memberId) {
-        if (comment.getWriterId().longValue() != memberId.longValue()) {
+    private void validateAuthorityToComment(PostComment comment, Long writerId) {
+        if (!comment.isWrittenBy(writerId)) {
             throw new UnauthorizedAccessException();
         }
+    }
+
+    public PostCommentPagingDTO read(Long postId, Pageable pageable) {
+        postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+
+        Page<PostComment> commentPage = commentRepository.findByPostId(postId, pageable);
+
+        return PostCommentPagingDTO.from(commentPage);
     }
 }
