@@ -31,7 +31,6 @@ const Moveable = (props) => {
 };
 
 Moveable.propTypes = {
-  moveableRef: PropTypes.elementType,
-  target: PropTypes.elementType,
+  target: PropTypes.object,
 };
 export default Moveable;

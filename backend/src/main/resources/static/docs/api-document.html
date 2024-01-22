@@ -467,6 +467,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_아이디_찾기">아이디 찾기</a></li>
 <li><a href="#_비밀번호_변경링크_전송">비밀번호 변경링크 전송</a></li>
 <li><a href="#_비밀번호_변경_비밀번호_찾기">비밀번호 변경 (비밀번호 찾기)</a></li>
+<li><a href="#_회원탈퇴">회원탈퇴</a></li>
 </ul>
 </li>
 <li><a href="#_다일리">다일리</a>
@@ -475,15 +476,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_다일리_수정">다일리 수정</a></li>
 <li><a href="#_다일리_조회">다일리 조회</a></li>
 <li><a href="#_다일리_삭제">다일리 삭제</a></li>
-</ul>
-</li>
-<li><a href="#_게시글">게시글</a></li>
-<li><a href="#_댓글">댓글</a>
-<ul class="sectlevel2">
-<li><a href="#_댓글_작성">댓글 작성</a></li>
-<li><a href="#_댓글_수정">댓글 수정</a></li>
-<li><a href="#_댓글_조회">댓글 조회</a></li>
-<li><a href="#_댓글_삭제">댓글 삭제</a></li>
 </ul>
 </li>
 </ul>
@@ -525,8 +517,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxNCwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1OTE1OTc2fQ.YZF96fiVrPly51jsK75z6U9P6cUj5jMypp-g7Vy44X2byr7mlRLrbaTTlsHBcisVJfbTJLY7M7gL-L__4QAf8g
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTQsImlhdCI6MTcwNTkxMjM3NiwiZXhwIjoxNzA3MTIxOTc2fQ.iy8yp2h2GqrUaX8zOLGlHp6kFu8WfhYl1TbfHX1EV6RCHqYoXKQO9jDWHfDz9phcRmYke3DAmPqznVPEQA2S-A
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1OTA5MTIxfQ.FRNq6SY3zZGltPxX4D_OXLs4VID6Kp3Qj610d20tetq1RzDtOloiBYDAYMvMrw_b63Pq-NhYL9NYFvYOglC2nA
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNTkwNTUyMSwiZXhwIjoxNzA3MTE1MTIxfQ.AQhg4C_zRvAQhExCQrYzavXrslDxvll2fyYtsyv1ri5cNdGHUtq2celmTzlChcQqwVgmycxkM_5tXhaxjiVpaA
 
 {
   "username" : "testtest",
@@ -570,8 +562,8 @@ Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTQsImlhdCI6MTcwNTkxMj
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxNCwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1OTE1OTc2fQ.YZF96fiVrPly51jsK75z6U9P6cUj5jMypp-g7Vy44X2byr7mlRLrbaTTlsHBcisVJfbTJLY7M7gL-L__4QAf8g; Path=/; Secure; HttpOnly; SameSite=None
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTQsImlhdCI6MTcwNTkxMjM3NiwiZXhwIjoxNzA3MTIxOTc2fQ.iy8yp2h2GqrUaX8zOLGlHp6kFu8WfhYl1TbfHX1EV6RCHqYoXKQO9jDWHfDz9phcRmYke3DAmPqznVPEQA2S-A; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1OTA5MTIxfQ.FRNq6SY3zZGltPxX4D_OXLs4VID6Kp3Qj610d20tetq1RzDtOloiBYDAYMvMrw_b63Pq-NhYL9NYFvYOglC2nA; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNTkwNTUyMSwiZXhwIjoxNzA3MTE1MTIxfQ.AQhg4C_zRvAQhExCQrYzavXrslDxvll2fyYtsyv1ri5cNdGHUtq2celmTzlChcQqwVgmycxkM_5tXhaxjiVpaA; Path=/; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -590,8 +582,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo2LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU5MTU5NzV9.t0ibak51qRti5vsYzJhqjphXyMBc1QMU7L-CTEJSGDaS7CP5gUMuD9oFtzPz9MyCuaEcpjVmhGCAc2kQrPUUNQ
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NiwiaWF0IjoxNzA1OTEyMzc1LCJleHAiOjE3MDcxMjE5NzV9.OzsLkSm_q7mNAHIsDCNUKZ6d5YMT9jrzIiN7w6LRP3q02e0faWNbzbmGbbtAEoQwFe6vTBYGgBce1-dgnRtf0Q</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU5MDkxMjB9.8prC6eRIkKrKbDdZZSIscYN_l9hW1YpNScnzAcV1z-vFrSRKiSyHcYGPmXSoO8JsP0X1ltdZeDd46doTFU0NOQ
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA1OTA1NTIwLCJleHAiOjE3MDcxMTUxMjB9.kiGh8Rd6u44neAdQ4CAMJmjGY2DO9zs1Wwt9hLRwUdskuEfKWQ9Qg3J6eGeoUD7Dq2l_yVoJfWbf9hbdeNO0JA</code></pre>
 </div>
 </div>
 </div>
@@ -620,8 +612,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo4LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU5MTU5NzZ9.PFOnTOky-d3otwoCgbu3ToYiLBIFJGgFuJQlo457id7mGa88eyQm2dE04p8_7T1mrFepSAedlMdt98K5s9sM_Q
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6OCwiaWF0IjoxNzA1OTEyMzc2LCJleHAiOjE3MDcxMjE5NzZ9.5orGwceCU3wosB1spIrEIvLa9HahB-nlGxBZIFniF4GshXAFO3403uKFAACY0oQ7pTBf7oeJrCBz_hfN4N52bg</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU5MDkxMjB9.128ri4DOZw97sL3aHHBKczK-zSrZ4Q5qPur9FS-BEfPZE9gRupLiBYv35uQnSOEzIupXP5xKv_-5eY1UFHiCdw
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA1OTA1NTIwLCJleHAiOjE3MDcxMTUxMjB9.ZTSpbwaHg1BpUwQRc2V-BsENIQ747JhXXY1j8CutHcMXzTanwNZXQVXG7nNm_NUpkN4vmvjPeG1jhpcL4YJbbw</code></pre>
 </div>
 </div>
 </div>
@@ -1449,6 +1441,53 @@ Content-Type: application/json;charset=UTF-8
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_회원탈퇴">회원탈퇴</h3>
+<div class="sect3">
+<h4 id="_응답_15">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+
+{
+  "statusCode" : 200,
+  "successful" : true
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>statusCode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상태코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>successful</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성공여부</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1501,7 +1540,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_15">응답</h4>
+<h4 id="_응답_16">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -1592,7 +1631,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_16">응답</h4>
+<h4 id="_응답_17">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1661,7 +1700,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_17">응답</h4>
+<h4 id="_응답_18">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1730,7 +1769,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_18">응답</h4>
+<h4 id="_응답_19">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1774,12 +1813,6 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_게시글">게시글</h2>
-<div class="sectionbody">
-
 </div>
 </div>
 <div class="sect1">
@@ -2243,7 +2276,11 @@ Content-Type: application/json;charset=UTF-8
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
+<<<<<<< HEAD
 Last updated 2024-01-22 17:12:32 +0900
+=======
+Last updated 2024-01-22 15:37:29 +0900
+>>>>>>> a44cc334988c7b35ee1e206efe33ac2f4f97fcd4
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

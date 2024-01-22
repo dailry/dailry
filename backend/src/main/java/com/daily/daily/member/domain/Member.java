@@ -1,11 +1,11 @@
 package com.daily.daily.member.domain;
 
 import com.daily.daily.common.domain.BaseTimeEntity;
+import com.daily.daily.dailry.domain.Dailry;
 import com.daily.daily.member.constant.MemberRole;
 import com.daily.daily.oauth.constant.SocialType;
 import jakarta.persistence.*;
 import lombok.*;
-
 
 @Entity
 @Getter
@@ -16,6 +16,7 @@ public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
     private String username;
     private String password;
