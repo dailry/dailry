@@ -263,10 +263,58 @@ include::{snippets}/다일리 삭제/path-parameters.adoc[]
 include::{snippets}/다일리 삭제/http-response.adoc[]
 include::{snippets}/다일리 삭제/response-fields.adoc[]
 
-== 커뮤니티
+== 게시글
 
-// include::{snippets}/register/http-request.adoc[]
-// include::{snippets}/register/http-response.adoc[]
-// include::{snippets}/register/httpie-request.adoc[]
-// include::{snippets}/register/request-body.adoc[]
-// include::{snippets}/register/response-body.adoc[]
+
+== 댓글
+
+=== 댓글 작성
+
+==== 요청
+
+include::{snippets}/댓글 작성/http-request.adoc[]
+include::{snippets}/댓글 작성/path-parameters.adoc[]
+include::{snippets}/댓글 작성/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/댓글 작성/http-response.adoc[]
+include::{snippets}/댓글 작성/response-fields.adoc[]
+
+=== 댓글 수정
+
+==== 요청
+
+include::{snippets}/댓글 수정/http-request.adoc[]
+include::{snippets}/댓글 수정/path-parameters.adoc[]
+include::{snippets}/댓글 수정/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/댓글 수정/http-response.adoc[]
+include::{snippets}/댓글 수정/response-fields.adoc[]
+
+=== 댓글 조회
+
+==== 요청
+
+include::{snippets}/댓글 조회/http-request.adoc[]
+include::{snippets}/댓글 조회/path-parameters.adoc[]
+include::{snippets}/댓글 조회/query-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/댓글 조회/http-response.adoc[]
+include::{snippets}/댓글 조회/response-fields.adoc[]
+
+
+=== 댓글 삭제
+
+==== 요청
+
+include::{snippets}/댓글 삭제/http-request.adoc[]
+include::{snippets}/댓글 삭제/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/댓글 삭제/http-response.adoc[]

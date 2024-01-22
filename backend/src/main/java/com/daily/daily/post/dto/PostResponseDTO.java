@@ -1,7 +1,6 @@
 package com.daily.daily.post.dto;
 
 import com.daily.daily.member.domain.Member;
-import com.daily.daily.member.dto.MemberInfoDTO;
 import com.daily.daily.post.domain.Post;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,19 +20,19 @@ public class PostResponseDTO {
     private Long postId;
     private String content;
     private String pageImage;
-    private Long memberId;
-    private String writer;
+    private Long writerId;
+    private String writerNickname;
     private LocalDateTime createdTime;
 
     public static PostResponseDTO from(Post post) {
-        Member member = post.getMember();
+        Member postWriter = post.getPostWriter();
 
         return PostResponseDTO.builder()
                 .postId(post.getId())
                 .content(post.getContent())
                 .pageImage(post.getPageImage())
-                .memberId(member.getId())
-                .writer(member.getNickname())
+                .writerId(postWriter.getId())
+                .writerNickname(postWriter.getNickname())
                 .createdTime(post.getCreatedTime())
                 .build();
     }

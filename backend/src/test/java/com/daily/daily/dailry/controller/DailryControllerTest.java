@@ -1,4 +1,4 @@
-package com.daily.daily.integration.dailry.controller;
+package com.daily.daily.dailry.controller;
 
 import com.daily.daily.auth.dto.LoginDTO;
 import com.daily.daily.auth.dto.TokenDTO;

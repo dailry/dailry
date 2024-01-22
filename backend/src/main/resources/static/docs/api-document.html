@@ -478,7 +478,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_다일리_삭제">다일리 삭제</a></li>
 </ul>
 </li>
-<li><a href="#_커뮤니티">커뮤니티</a></li>
+<li><a href="#_게시글">게시글</a></li>
+<li><a href="#_댓글">댓글</a>
+<ul class="sectlevel2">
+<li><a href="#_댓글_작성">댓글 작성</a></li>
+<li><a href="#_댓글_수정">댓글 수정</a></li>
+<li><a href="#_댓글_조회">댓글 조회</a></li>
+<li><a href="#_댓글_삭제">댓글 삭제</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -518,8 +526,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1OTA5MTIxfQ.FRNq6SY3zZGltPxX4D_OXLs4VID6Kp3Qj610d20tetq1RzDtOloiBYDAYMvMrw_b63Pq-NhYL9NYFvYOglC2nA
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNTkwNTUyMSwiZXhwIjoxNzA3MTE1MTIxfQ.AQhg4C_zRvAQhExCQrYzavXrslDxvll2fyYtsyv1ri5cNdGHUtq2celmTzlChcQqwVgmycxkM_5tXhaxjiVpaA
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxNiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1OTE4NDIxfQ.MTMxYeJPGFASply47R1OcvYLDjMqBNNul-pH0XvM7FJgr4CRCgh5goCgLfXE85gHpq9FtcX-s9Ti9dfQWxupwg
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTYsImlhdCI6MTcwNTkxNDgyMSwiZXhwIjoxNzA3MTI0NDIxfQ.O8zYSt756AOgbEcDNCKGpHB6G1ddQrrYMAG9bUc9qohYI8JyOp4L_GEks-E5qb6EaIgoCLGF7aPnTC8PDJgoWw
 
 {
   "username" : "testtest",
@@ -563,8 +571,8 @@ Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNTkwNT
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1OTA5MTIxfQ.FRNq6SY3zZGltPxX4D_OXLs4VID6Kp3Qj610d20tetq1RzDtOloiBYDAYMvMrw_b63Pq-NhYL9NYFvYOglC2nA; Path=/; Secure; HttpOnly; SameSite=None
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNTkwNTUyMSwiZXhwIjoxNzA3MTE1MTIxfQ.AQhg4C_zRvAQhExCQrYzavXrslDxvll2fyYtsyv1ri5cNdGHUtq2celmTzlChcQqwVgmycxkM_5tXhaxjiVpaA; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxNiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA1OTE4NDIxfQ.MTMxYeJPGFASply47R1OcvYLDjMqBNNul-pH0XvM7FJgr4CRCgh5goCgLfXE85gHpq9FtcX-s9Ti9dfQWxupwg; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTYsImlhdCI6MTcwNTkxNDgyMSwiZXhwIjoxNzA3MTI0NDIxfQ.O8zYSt756AOgbEcDNCKGpHB6G1ddQrrYMAG9bUc9qohYI8JyOp4L_GEks-E5qb6EaIgoCLGF7aPnTC8PDJgoWw; Path=/; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -583,8 +591,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU5MDkxMjB9.8prC6eRIkKrKbDdZZSIscYN_l9hW1YpNScnzAcV1z-vFrSRKiSyHcYGPmXSoO8JsP0X1ltdZeDd46doTFU0NOQ
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA1OTA1NTIwLCJleHAiOjE3MDcxMTUxMjB9.kiGh8Rd6u44neAdQ4CAMJmjGY2DO9zs1Wwt9hLRwUdskuEfKWQ9Qg3J6eGeoUD7Dq2l_yVoJfWbf9hbdeNO0JA</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo2LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU5MTg0MjB9.zVSACIKJiZURlUzB94Isgo3Zi2D3BNAFqTWp1t_PfQnBqN2HFNOQj61R_CrFIwMSJNZl9hTl0yXPJbFuSejqhQ
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NiwiaWF0IjoxNzA1OTE0ODIwLCJleHAiOjE3MDcxMjQ0MjB9._PfEG7ykeO34w13smZBLOyMrQpqRzrHP3jMVxFsEedq1ywKP1tfSw5nRsYPG6x9Lw5ilCRBZHSEcbSuYphh5oQ</code></pre>
 </div>
 </div>
 </div>
@@ -613,8 +621,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU5MDkxMjB9.128ri4DOZw97sL3aHHBKczK-zSrZ4Q5qPur9FS-BEfPZE9gRupLiBYv35uQnSOEzIupXP5xKv_-5eY1UFHiCdw
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA1OTA1NTIwLCJleHAiOjE3MDcxMTUxMjB9.ZTSpbwaHg1BpUwQRc2V-BsENIQ747JhXXY1j8CutHcMXzTanwNZXQVXG7nNm_NUpkN4vmvjPeG1jhpcL4YJbbw</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo4LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDU5MTg0MjB9.LwVtVjJI2ZtSoGRdVRJIs2oI7c3iwZgB8bF9K48lQ0mi1dF_9BCN63_ovhzruDQqSV8_NW6xFqbpLYeNDmcHhg
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6OCwiaWF0IjoxNzA1OTE0ODIwLCJleHAiOjE3MDcxMjQ0MjB9.46iZigf9OwQ7Tq7by2ibcNoq6dL1nTJblTAfOWRB26h0-ZDq_exz29x1ozhwBpAwWpgIghuBC8fPOLk0n8rTfQ</code></pre>
 </div>
 </div>
 </div>
@@ -1445,6 +1453,15 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_회원탈퇴">회원탈퇴</h3>
 <div class="sect3">
+<h4 id="_요청_15">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/withdrawal HTTP/1.1
+Content-Type: application/json;charset=UTF-8</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
 <h4 id="_응답_15">응답</h4>
 <div class="listingblock">
 <div class="content">
@@ -1497,7 +1514,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_다일리_생성">다일리 생성</h3>
 <div class="sect3">
-<h4 id="_요청_15">요청</h4>
+<h4 id="_요청_16">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/dailry HTTP/1.1
@@ -1588,7 +1605,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_다일리_수정">다일리 수정</h3>
 <div class="sect3">
-<h4 id="_요청_16">요청</h4>
+<h4 id="_요청_17">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/dailry/1 HTTP/1.1
@@ -1679,7 +1696,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_다일리_조회">다일리 조회</h3>
 <div class="sect3">
-<h4 id="_요청_17">요청</h4>
+<h4 id="_요청_18">요청</h4>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. /api/dailry/{dailryId}</caption>
 <colgroup>
@@ -1748,7 +1765,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_다일리_삭제">다일리 삭제</h3>
 <div class="sect3">
-<h4 id="_요청_18">요청</h4>
+<h4 id="_요청_19">요청</h4>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 2. /api/dailry/{dailryId}</caption>
 <colgroup>
@@ -1817,16 +1834,473 @@ Content-Type: application/json;charset=UTF-8
 </div>
 </div>
 <div class="sect1">
-<h2 id="_커뮤니티">커뮤니티</h2>
+<h2 id="_게시글">게시글</h2>
 <div class="sectionbody">
 
+</div>
+</div>
+<div class="sect1">
+<h2 id="_댓글">댓글</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_댓글_작성">댓글 작성</h3>
+<div class="sect3">
+<h4 id="_요청_20">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/31/comments HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+
+{
+  "content" : "오오.. 오늘 계획 알차시네요!!"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. /api/posts/{postId}/comments</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 내용</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_20">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Content-Type: application/json;charset=UTF-8
+
+{
+  "commentId" : 16,
+  "postId" : 3,
+  "writerId" : 13,
+  "writerNickname" : "일반회원2임",
+  "content" : "오오.. 오늘 계획 알차시네요!!",
+  "createdTime" : "2024-01-20T06:52:30.000000004"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글을 작성한 게시글의 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글작성자의 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writerNickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성자의 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성 시간</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_댓글_수정">댓글 수정</h3>
+<div class="sect3">
+<h4 id="_요청_21">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/comments/16 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+
+{
+  "content" : "댓글 수정하기 ㅁㄴㅇㄹ"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. /api/posts/comments/{commentId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 댓글 id</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 댓글 내용</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_21">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+
+{
+  "commentId" : 16,
+  "postId" : 3,
+  "writerId" : 13,
+  "writerNickname" : "일반회원2임",
+  "content" : "댓글 수정하기 ㅁㄴㅇㄹ",
+  "createdTime" : "2024-01-20T06:52:30.000000004"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글을 작성한 게시글의 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글작성자의 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정한 댓글 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writerNickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성자의 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성 시간</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_댓글_조회">댓글 조회</h3>
+<div class="sect3">
+<h4 id="_요청_22">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/31/comments?page=0&amp;size=3 HTTP/1.1</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. /api/posts/{postId}/comments</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 번호(0부터 시작)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 사이즈</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_22">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+
+{
+  "presentPage" : 0,
+  "hasNext" : true,
+  "comments" : [ {
+    "commentId" : 6,
+    "content" : "1번째 댓글입니다.",
+    "writerNickname" : "일반회원2임",
+    "createdTime" : "2024-01-20T06:52:30.000000004"
+  }, {
+    "commentId" : 12,
+    "content" : "2번째 댓글입니다.",
+    "writerNickname" : "일반회원2임",
+    "createdTime" : "2024-01-20T06:52:30.000000004"
+  }, {
+    "commentId" : 18,
+    "content" : "3번째 댓글입니다.",
+    "writerNickname" : "일반회원2임",
+    "createdTime" : "2024-01-20T06:52:30.000000004"
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>presentPage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hasNext</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다음 댓글이 존재하는지 유무</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>comments</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 목록 배열</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>comments[].commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>comments[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>comments[].writerNickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 작성자 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>comments[].createdTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 생성 시간</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_댓글_삭제">댓글 삭제</h3>
+<div class="sect3">
+<h4 id="_요청_23">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/posts/comments/16 HTTP/1.1</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. /api/posts/comments/{commentId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">삭제할 댓글 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_23">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+
+{
+  "statusCode" : 200,
+  "successful" : true
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-22 15:37:29 +0900
+Last updated 2024-01-22 17:54:45 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

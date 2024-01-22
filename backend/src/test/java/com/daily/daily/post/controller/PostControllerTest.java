@@ -2,9 +2,7 @@ package com.daily.daily.post.controller;
 
 import com.daily.daily.auth.jwt.JwtAuthorizationFilter;
 import com.daily.daily.auth.jwt.JwtUtil;
-import com.daily.daily.post.dto.PostRequestDTO;
 import com.daily.daily.post.dto.PostResponseDTO;
-import com.daily.daily.post.fixture.PostFixture;
 import com.daily.daily.post.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
@@ -24,11 +22,9 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.nio.charset.StandardCharsets;
 
-import static com.daily.daily.post.fixture.PostFixture.POST_ID;
 import static com.daily.daily.post.fixture.PostFixture.게시글_요청_DTO_JSON_파일;
 import static com.daily.daily.post.fixture.PostFixture.게시글_응답_DTO;
 import static com.daily.daily.post.fixture.PostFixture.다일리_페이지_이미지_파일;
-import static com.daily.daily.post.fixture.PostFixture.일반회원이_작성한_게시글;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -94,7 +90,7 @@ class PostControllerTest {
             given(postService.update(any(), any(), any())).willReturn(게시글_응답_DTO());
 
             //when
-            ResultActions perform = mockMvc.perform(multipart(String.format("/api/posts/%d/edit", POST_ID))
+            ResultActions perform = mockMvc.perform(multipart("/api/posts/31/edit")
                     .file(다일리_페이지_이미지_파일())
                     .file(게시글_요청_DTO_JSON_파일())
                     .contentType(MULTIPART_FORM_DATA)
@@ -116,7 +112,7 @@ class PostControllerTest {
         @DisplayName("게시글 수정 요청에 이미지 파일을 보내지 않고, Json 정보만 보냈을 때에는 에러 없이 200 상태코드를 반환해야 한다.")
         void onlyJson() throws Exception {
             //given, when
-            ResultActions perform = mockMvc.perform(multipart(String.format("/api/posts/%d/edit", POST_ID))
+            ResultActions perform = mockMvc.perform(multipart("/api/posts/31/edit")
                     .file(게시글_요청_DTO_JSON_파일())
                     .contentType(MULTIPART_FORM_DATA)
                     .with(csrf().asHeader())
@@ -131,7 +127,7 @@ class PostControllerTest {
         @DisplayName("게시글 수정 요청에 Json 정보를 보내지 않을 경우에는 400에러가 발생해야 한다.")
         void noneJson() throws Exception {
             //given, when
-            ResultActions perform = mockMvc.perform(multipart(String.format("/api/posts/%d/edit", POST_ID))
+            ResultActions perform = mockMvc.perform(multipart("/api/posts/31/edit")
                     .file(다일리_페이지_이미지_파일())
                     .contentType(MULTIPART_FORM_DATA)
                     .with(csrf().asHeader())
@@ -166,9 +162,9 @@ class PostControllerTest {
         @WithMockUser
         @DisplayName("게시글 단건 조회가 성공했을 때 응답결과를 검사한다.")
         void test1() throws Exception {
-            given(postService.find(POST_ID)).willReturn(게시글_응답_DTO());
+            given(postService.find(31L)).willReturn(게시글_응답_DTO());
 
-            ResultActions perform = mockMvc.perform(get("/api/posts/%d".formatted(POST_ID))
+            ResultActions perform = mockMvc.perform(get("/api/posts/31")
                     .with(csrf().asHeader())
             );
 

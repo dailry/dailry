@@ -5,13 +5,12 @@ import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.dto.PostRequestDTO;
 import com.daily.daily.post.dto.PostResponseDTO;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 
-import static com.daily.daily.member.fixture.MemberFixture.일반회원;
+import static com.daily.daily.member.fixture.MemberFixture.일반회원1;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 
@@ -29,13 +28,14 @@ public class PostFixture {
     }
 
     public static PostResponseDTO 게시글_응답_DTO() {
-        Member member = 일반회원();
+        Member member = 일반회원1();
+
         return PostResponseDTO.builder()
                 .postId(POST_ID)
                 .content(POST_CONTENT)
                 .pageImage(PAGE_IMAGE_URL)
-                .memberId(member.getId())
-                .writer(member.getNickname())
+                .writerId(member.getId())
+                .writerNickname(member.getNickname())
                 .createdTime(POST_CREATED_TIME)
                 .build();
     }
@@ -57,21 +57,13 @@ public class PostFixture {
                 objectMapper.writeValueAsBytes(게시글_요청_DTO())
         );
     }
-    public static Post 게시글(Member member) {
-        return Post.builder()
-                .id(3L)
-                .content(POST_CONTENT)
-                .pageImage(PAGE_IMAGE_URL)
-                .member(member)
-                .build();
-    }
 
-    public static Post 일반회원이_작성한_게시글() {
+    public static Post 일반회원1이_작성한_게시글() {
         return Post.builder()
                 .id(3L)
                 .content(POST_CONTENT)
                 .pageImage(PAGE_IMAGE_URL)
-                .member(일반회원())
+                .postWriter(일반회원1())
                 .build();
     }
 }
