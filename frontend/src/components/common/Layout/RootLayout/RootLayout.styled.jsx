@@ -13,14 +13,15 @@ export const Background = styled.div`
 `;
 
 export const NavigationContainer = styled.div`
-  flex: 0.5;
-  width: 225px;
+  flex-grow: 1;
+  width: 150px;
+  max-width: 300px;
   height: calc(100dvh - 20px);
   margin: 10px;
 `;
 
 export const PageContainer = styled.div`
-  flex: 0.5;
+  flex-grow: 1;
   height: calc(100dvh - 20px);
-  margin: 10px;
+  margin: 10px 10px 10px 0;
 `;

@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import { BACKGROUND } from '../../styles/color';
 
 export const FlexWrapper = styled.div`
-  flex: 0.5;
+  flex-grow: 1;
   display: flex;
   gap: 10px;
 `;
@@ -27,13 +27,19 @@ export const ElementStyle = ({ position, properties }) => {
   };
 };
 
+export const SideWrapper = styled.div`
+  flex-grow: 1;
+`;
+
 export const ToolWrapper = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 
-  padding: 5px;
-  border-radius: 15px;
+  min-width: 40px;
+  max-width: 76px;
+
+  padding: 8px;
+  border-radius: 8px;
   background-color: ${BACKGROUND.bright};
 `;
