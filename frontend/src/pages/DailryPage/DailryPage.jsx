@@ -1,7 +1,7 @@
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
 import { useState, useRef, useEffect } from 'react';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
-
+import Drawing from '../../components/decorate/Drawing/Drawing';
 import * as S from './DailryPage.styled';
 import dailryData from './dailry.json';
 import Button from '../../components/common/Button/Button';
@@ -22,6 +22,7 @@ const DecorateComponents = {
 const DailryPage = () => {
   const { elements } = dailryData;
   const [target, setTarget] = useState(null);
+
   const moveableRef = useRef([]);
   const [decorateComponents, setDecorateComponents] = useState([]);
   const { setNewDecorateComponentPosition, createNewDecorateComponent } =
