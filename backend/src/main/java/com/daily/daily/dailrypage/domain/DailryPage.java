@@ -1,10 +1,15 @@
 package com.daily.daily.dailrypage.domain;
 
 import com.daily.daily.dailry.domain.Dailry;
+import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Type;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,9 +22,13 @@ public class DailryPage {
     private Long id;
     private String background;
 
+//    @Type(JsonType.class)
+//    @Column(name = "elements", columnDefinition = "JSON")
+//    private Object elements;
+
     @Type(JsonType.class)
     @Column(name = "elements", columnDefinition = "JSON")
-    private Object elements;
+    private Map<String, Object> elements = new HashMap<>();
 
     @ManyToOne
     @JoinColumn(name = "dailry_id")
@@ -33,7 +42,13 @@ public class DailryPage {
         this.background = background;
     }
 
-    public void updateElements(Object elements) {
-        this.elements = elements;
+//    public void updateElements(Object elements) {
+//        this.elements = elements;
+//    }
+
+    public void updateElements(List<DailryPageUpdateDTO.ElementDTO> elements) {
+        for (DailryPageUpdateDTO.ElementDTO element : elements) {
+            this.elements.put(element.getId(), element);
+        }
     }
 }

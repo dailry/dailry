@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collection;
+
 
 @Getter
 @Setter
@@ -21,7 +23,7 @@ public class DailryPageDTO {
         return DailryPageDTO.builder()
                 .id(dailryPage.getId())
                 .background(dailryPage.getBackground())
-                .elements(dailryPage.getElements())
+                .elements(dailryPage.getElements().values())
                 .build();
     }
 
