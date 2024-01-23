@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { MENU } from '../../../styles/color';
+import { MEDIA_RATIO } from '../../../constants/media';
 
 export const ToolWrapper = styled.button`
   aspect-ratio: 1;
@@ -10,11 +11,11 @@ export const ToolWrapper = styled.button`
   background-color: ${({ selected }) =>
     selected ? MENU.tool : MENU.boxCurrent};
 
-  @media (min-aspect-ratio: 7/4) {
+  @media (min-aspect-ratio: ${MEDIA_RATIO}) {
     width: 100%;
   }
 
-  @media (max-aspect-ratio: 7/4) {
+  @media (max-aspect-ratio: ${MEDIA_RATIO}) {
     height: 100%;
   }
 `;

@@ -1,12 +1,13 @@
 import { styled } from 'styled-components';
 import { BACKGROUND } from '../../styles/color';
+import { MEDIA_RATIO } from '../../constants/media';
 
 export const FlexWrapper = styled.div`
   flex-grow: 1;
   display: flex;
   gap: 10px;
 
-  @media (max-aspect-ratio: 7/4) {
+  @media (max-aspect-ratio: ${MEDIA_RATIO}) {
     flex-direction: column;
     height: 100%;
   }
@@ -19,11 +20,11 @@ export const CanvasWrapper = styled.div`
   border-radius: 8px;
   background-color: ${BACKGROUND.paper};
 
-  @media (min-aspect-ratio: 7/4) {
+  @media (min-aspect-ratio: ${MEDIA_RATIO}) {
     height: calc(100dvh - 20px);
   }
 
-  @media (max-aspect-ratio: 7/4) {
+  @media (max-aspect-ratio: ${MEDIA_RATIO}) {
     width: 100%;
   }
 `;
@@ -52,12 +53,12 @@ export const ToolWrapper = styled.div`
   border-radius: 8px;
   background-color: ${BACKGROUND.bright};
 
-  @media (min-aspect-ratio: 7/4) {
+  @media (min-aspect-ratio: ${MEDIA_RATIO}) {
     width: 100%;
     max-width: 76px;
   }
 
-  @media (max-aspect-ratio: 7/4) {
+  @media (max-aspect-ratio: ${MEDIA_RATIO}) {
     flex-direction: row;
     height: 100%;
     max-height: 76px;
