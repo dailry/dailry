@@ -115,4 +115,10 @@ public class MemberController {
         memberService.updatePasswordByResetToken(passwordTokenDTO.getPasswordResetToken(), passwordTokenDTO.getPassword());
         return new SuccessResponseDTO();
     }
+
+    @PostMapping("/withdrawal")
+    public SuccessResponseDTO withdrawalMember(@AuthenticationPrincipal Long memberId) {
+        memberService.withdrawalMember(memberId);
+        return new SuccessResponseDTO();
+    }
 }

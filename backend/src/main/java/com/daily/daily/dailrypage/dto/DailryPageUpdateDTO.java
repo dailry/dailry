@@ -2,6 +2,7 @@ package com.daily.daily.dailrypage.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,9 @@ public class DailryPageUpdateDTO {
 
     @Getter
     @Setter
-    static class ElementDTO {
+    @ToString
+    public static class ElementDTO {
+        private String id;
         private String type;
         private int order;
         private PositionDTO position;

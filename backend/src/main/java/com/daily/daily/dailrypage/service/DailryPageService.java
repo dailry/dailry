@@ -9,9 +9,11 @@ import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 import com.daily.daily.dailrypage.exception.DailryPageNotFoundException;
 import com.daily.daily.dailrypage.repository.DailryPageRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -41,6 +43,8 @@ public class DailryPageService {
     }
 
     public DailryPageDTO update(Long pageId, DailryPageUpdateDTO dailryPageUpdateDTO) {
+        log.info("DailryPageService.update() 호출");
+
         DailryPage findPage = dailryPageRepository.findById(pageId)
                 .orElseThrow(DailryPageNotFoundException::new);
 

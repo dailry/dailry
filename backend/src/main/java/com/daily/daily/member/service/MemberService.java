@@ -109,4 +109,11 @@ public class MemberService {
         return memberRepository.existsByNickname(nickname);
     }
 
+    public void withdrawalMember(Long memberId)
+    {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
+        memberRepository.delete(findMember);
+    }
+
 }

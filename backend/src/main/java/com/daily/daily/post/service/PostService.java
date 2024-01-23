@@ -37,7 +37,7 @@ public class PostService {
 
         Post post = Post.builder()
                 .content(postRequestDTO.getContent())
-                .member(member)
+                .postWriter(member)
                 .build();
 
         Post savedPost = postRepository.save(post);
