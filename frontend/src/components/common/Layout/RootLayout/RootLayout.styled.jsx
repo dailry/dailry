@@ -14,8 +14,8 @@ export const Background = styled.div`
 
 export const NavigationContainer = styled.div`
   flex-grow: 1;
-  width: 150px;
-  max-width: 300px;
+  width: 180px;
+  max-width: 270px;
   height: calc(100dvh - 20px);
   margin: 10px;
 `;

@@ -2,7 +2,6 @@ import { styled } from 'styled-components';
 import { MENU } from '../../../styles/color';
 
 export const ToolWrapper = styled.button`
-  width: 100%;
   aspect-ratio: 1;
   padding: 10px;
 
@@ -10,6 +9,14 @@ export const ToolWrapper = styled.button`
 
   background-color: ${({ selected }) =>
     selected ? MENU.tool : MENU.boxCurrent};
+
+  @media (min-aspect-ratio: 7/4) {
+    width: 100%;
+  }
+
+  @media (max-aspect-ratio: 7/4) {
+    height: 100%;
+  }
 `;
 
 export const IconProps = (selected) => {
