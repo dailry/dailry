@@ -1,19 +1,32 @@
 import { styled } from 'styled-components';
 import { BACKGROUND } from '../../styles/color';
+import { MEDIA_RATIO } from '../../constants/media';
 
 export const FlexWrapper = styled.div`
-  flex: 0.5;
+  flex-grow: 1;
   display: flex;
   gap: 10px;
+
+  @media (max-aspect-ratio: ${MEDIA_RATIO}) {
+    flex-direction: column;
+    height: 100%;
+  }
 `;
 
 export const CanvasWrapper = styled.div`
   position: relative;
-  height: calc(100dvh - 20px);
   aspect-ratio: 1.35/1;
 
   border-radius: 8px;
   background-color: ${BACKGROUND.paper};
+
+  @media (min-aspect-ratio: ${MEDIA_RATIO}) {
+    height: calc(100dvh - 20px);
+  }
+
+  @media (max-aspect-ratio: ${MEDIA_RATIO}) {
+    width: 100%;
+  }
 `;
 
 export const ElementStyle = ({ position, properties }) => {
@@ -27,13 +40,27 @@ export const ElementStyle = ({ position, properties }) => {
   };
 };
 
-export const ToolWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+export const SideWrapper = styled.div`
+  flex-grow: 1;
+`;
 
-  padding: 5px;
-  border-radius: 15px;
+export const ToolWrapper = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+
+  padding: 8px;
+  border-radius: 8px;
   background-color: ${BACKGROUND.bright};
+
+  @media (min-aspect-ratio: ${MEDIA_RATIO}) {
+    width: 100%;
+    max-width: 76px;
+  }
+
+  @media (max-aspect-ratio: ${MEDIA_RATIO}) {
+    flex-direction: row;
+    height: 100%;
+    max-height: 76px;
+  }
 `;
