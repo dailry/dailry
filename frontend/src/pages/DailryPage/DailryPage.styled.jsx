@@ -17,6 +17,7 @@ export const CanvasWrapper = styled.div`
   position: relative;
   aspect-ratio: 1.35/1;
 
+  overflow: hidden;
   border-radius: 8px;
   background-color: ${BACKGROUND.paper};
 

@@ -25,6 +25,7 @@ const DailryPage = () => {
   const { elements } = dailryData;
   const [target, setTarget] = useState(null);
   const moveableRef = useRef([]);
+  const parentRef = useRef(null);
   const [decorateComponents, setDecorateComponents] = useState([]);
   const tools = [
     { icon: (props) => <CursorIcon {...props} /> },
@@ -35,7 +36,7 @@ const DailryPage = () => {
   const [selectedTool, setSelectedTool] = useState(null);
 
   const { setNewDecorateComponentPosition, createNewDecorateComponent } =
-    useCreateDecorateComponent(setDecorateComponents);
+    useCreateDecorateComponent(setDecorateComponents, parentRef);
 
   useEffect(() => {
     if (elements) setDecorateComponents(elements);
@@ -47,7 +48,10 @@ const DailryPage = () => {
 
   return (
     <S.FlexWrapper>
-      <S.CanvasWrapper onClick={(e) => setNewDecorateComponentPosition(e)}>
+      <S.CanvasWrapper
+        ref={parentRef}
+        onClick={(e) => setNewDecorateComponentPosition(e)}
+      >
         {decorateComponents.map((element, index) => {
           const { id, type, position, properties } = element;
           return (
