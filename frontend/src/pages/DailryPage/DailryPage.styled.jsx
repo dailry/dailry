@@ -12,6 +12,7 @@ export const CanvasWrapper = styled.div`
   height: calc(100dvh - 20px);
   aspect-ratio: 1.35/1;
 
+  overflow: hidden;
   border-radius: 8px;
   background-color: ${BACKGROUND.paper};
 `;

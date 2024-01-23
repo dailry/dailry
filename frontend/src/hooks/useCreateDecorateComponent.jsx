@@ -21,20 +21,29 @@ const mockData = {
   },
 };
 
-const useCreateDecorateComponent = (addToArray) => {
+const useCreateDecorateComponent = (addToArray, parentRef) => {
   const [newDecorateComponent, setNewDecorateComponent] = useState(undefined);
+  const parentX = parentRef?.current?.getBoundingClientRect().left.toFixed();
+  const parentY = parentRef?.current?.getBoundingClientRect().top.toFixed();
 
   const createNewDecorateComponent = (type) => {
     setNewDecorateComponent(() => ({ ...mockData, type }));
   };
 
+  const getNewDecorateComponentPosition = (e) => {
+    const { clientX, clientY } = e;
+    return { x: clientX - parentX, y: clientY - parentY };
+  };
+
   const setNewDecorateComponentPosition = (e) => {
     if (!newDecorateComponent) return;
 
-    const { clientX, clientY } = e;
     setNewDecorateComponent((prev) => ({
       ...prev,
-      position: { ...prev.position, x: clientX, y: clientY },
+      position: {
+        ...prev.position,
+        ...getNewDecorateComponentPosition(e),
+      },
     }));
   };
 
