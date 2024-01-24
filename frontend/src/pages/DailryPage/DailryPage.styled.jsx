@@ -13,7 +13,7 @@ export const FlexWrapper = styled.div`
   }
 `;
 
-export const CanvasWrapper = styled.div`
+export const CanvasWrapper = styled.canvas`
   position: relative;
   aspect-ratio: 1.35/1;
 

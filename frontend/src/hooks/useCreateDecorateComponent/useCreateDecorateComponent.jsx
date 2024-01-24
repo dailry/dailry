@@ -26,7 +26,12 @@ const useCreateDecorateComponent = (
   };
 
   const createNewDecorateComponent = (e, type) => {
-    if (type === null || type === DECORATE_TYPE.MOVING) return;
+    if (
+      type === null ||
+      type === DECORATE_TYPE.MOVING ||
+      type === DECORATE_TYPE.DRAWING
+    )
+      return;
     setNewDecorateComponent(() => ({
       type,
       ...getCommonDecorateComponentProperties(e),

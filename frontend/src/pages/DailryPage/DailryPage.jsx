@@ -9,6 +9,9 @@ import {
   DECORATE_COMPONENT,
   DECORATE_TYPE,
 } from '../../constants/decorateComponent';
+import useDrawInstance from '../../components/decorate/Drawing/useDrawInstance';
+import useDrawUtils from '../../components/decorate/Drawing/useDrawUtils';
+import Button from '../../components/common/Button/Button';
 
 const DailryPage = () => {
   const parentRef = useRef(null);
@@ -17,6 +20,16 @@ const DailryPage = () => {
   const [target, setTarget] = useState(null);
   const [decorateComponents, setDecorateComponents] = useState([]);
   const [selectedTool, setSelectedTool] = useState(null);
+
+  const { drawInstance } = useDrawInstance(parentRef);
+  const {
+    saveCanvas,
+    mouseEventHandlers,
+    startMoving,
+    stopMoving,
+    mode,
+    setMode,
+  } = useDrawUtils(parentRef, drawInstance);
 
   const { createNewDecorateComponent } = useCreateDecorateComponent(
     decorateComponents,
@@ -31,27 +44,40 @@ const DailryPage = () => {
       <S.CanvasWrapper
         ref={parentRef}
         onClick={(e) => createNewDecorateComponent(e, selectedTool)}
-      >
-        {decorateComponents.map((element, index) => {
-          const { id, type, position, properties, order, size } = element;
-          return (
-            <div
-              key={id}
-              onMouseDown={() => setTarget(index + 1)}
-              style={S.ElementStyle({ position, properties, order, size })}
-              ref={(el) => {
-                moveableRef[index + 1] = el;
-              }}
-            >
-              {DECORATE_COMPONENT[type]}
-            </div>
-          );
-        })}
+        onMouseDown={(e) => {
+          if (selectedTool === DECORATE_TYPE.DRAWING)
+            startMoving(e, mouseEventHandlers[mode]);
+        }}
+        onMouseUp={() => {
+          if (selectedTool === DECORATE_TYPE.DRAWING)
+            stopMoving(mouseEventHandlers[mode]);
+        }}
+      />
 
-        {isMoveable() && <Moveable target={moveableRef[target]} />}
-      </S.CanvasWrapper>
+      {decorateComponents.map((element, index) => {
+        const { id, type, position, properties, order, size } = element;
+        return (
+          <div
+            key={id}
+            onMouseDown={() => setTarget(index + 1)}
+            style={S.ElementStyle({ position, properties, order, size })}
+            ref={(el) => {
+              moveableRef[index + 1] = el;
+            }}
+          >
+            {DECORATE_COMPONENT[type]}
+          </div>
+        );
+      })}
+
+      {isMoveable() && <Moveable target={moveableRef[target]} />}
+
       <S.SideWrapper>
         <S.ToolWrapper>
+          <Button onClick={() => saveCanvas()}>저장</Button>
+          <Button onClick={() => setMode('drawMode')}>그리기</Button>
+
+          <Button onClick={() => setMode('eraseMode')}>지우기</Button>
           {TOOLS.map(({ icon, type }, index) => {
             return (
               <ToolButton
