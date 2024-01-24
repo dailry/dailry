@@ -5,35 +5,35 @@ import com.daily.daily.post.domain.Post;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-@EqualsAndHashCode
-public class PostResponseDTO {
+public class PostReadResponseDTO {
     private Long postId;
     private String content;
     private String pageImage;
     private Long writerId;
     private String writerNickname;
+    private Long likeCount;
     private LocalDateTime createdTime;
 
-    public static PostResponseDTO from(Post post) {
+    public static PostReadResponseDTO from(Post post, Long likeCount) {
         Member postWriter = post.getPostWriter();
 
-        return PostResponseDTO.builder()
+        return PostReadResponseDTO.builder()
                 .postId(post.getId())
                 .content(post.getContent())
                 .pageImage(post.getPageImage())
                 .writerId(postWriter.getId())
                 .writerNickname(postWriter.getNickname())
                 .createdTime(post.getCreatedTime())
+                .likeCount(likeCount)
                 .build();
     }
 }
+

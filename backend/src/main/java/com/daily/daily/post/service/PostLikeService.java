@@ -18,11 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class PostLikeService {
-    private final PostLikeRepository postLikeRepository;
+    private final PostLikeRepository likeRepository;
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
     public void increaseLikeCount(Long memberId, Long postId) {
-        if (postLikeRepository.existsBy(memberId, postId)) {
+        if (likeRepository.existsBy(memberId, postId)) {
             throw new AlreadyLikeException();
         }
 
@@ -34,13 +34,13 @@ public class PostLikeService {
                 .post(findPost)
                 .build();
 
-        postLikeRepository.save(like);
+        likeRepository.save(like);
     }
 
     public void decreaseLikeCount(Long memberId, Long postId) {
-        PostLike like = postLikeRepository.findBy(memberId, postId)
+        PostLike like = likeRepository.findBy(memberId, postId)
                 .orElseThrow(LikeDecreaseNotAllowedException::new);
 
-        postLikeRepository.delete(like);
+        likeRepository.delete(like);
     }
 }

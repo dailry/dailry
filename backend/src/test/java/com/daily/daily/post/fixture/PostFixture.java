@@ -2,8 +2,9 @@ package com.daily.daily.post.fixture;
 
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.post.domain.Post;
+import com.daily.daily.post.dto.PostReadResponseDTO;
 import com.daily.daily.post.dto.PostRequestDTO;
-import com.daily.daily.post.dto.PostResponseDTO;
+import com.daily.daily.post.dto.PostWriteResponseDTO;
 import org.springframework.mock.web.MockMultipartFile;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,16 +28,30 @@ public class PostFixture {
         return new PostRequestDTO(POST_CONTENT);
     }
 
-    public static PostResponseDTO 게시글_응답_DTO() {
+    public static PostWriteResponseDTO 게시글_작성_응답_DTO() {
         Member member = 일반회원1();
 
-        return PostResponseDTO.builder()
+        return PostWriteResponseDTO.builder()
                 .postId(POST_ID)
                 .content(POST_CONTENT)
                 .pageImage(PAGE_IMAGE_URL)
                 .writerId(member.getId())
                 .writerNickname(member.getNickname())
                 .createdTime(POST_CREATED_TIME)
+                .build();
+    }
+
+    public static PostReadResponseDTO 게시글_단건_조회_DTO() {
+        PostWriteResponseDTO 게시글_작성_응답_DTO = 게시글_작성_응답_DTO();
+
+        return PostReadResponseDTO.builder()
+                .postId(게시글_작성_응답_DTO.getPostId())
+                .content(게시글_작성_응답_DTO.getContent())
+                .pageImage(게시글_작성_응답_DTO.getPageImage())
+                .writerId(게시글_작성_응답_DTO().getWriterId())
+                .writerNickname(게시글_작성_응답_DTO().getWriterNickname())
+                .createdTime(게시글_작성_응답_DTO().getCreatedTime())
+                .likeCount(10L)
                 .build();
     }
 
