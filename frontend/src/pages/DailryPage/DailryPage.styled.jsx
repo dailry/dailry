@@ -30,14 +30,15 @@ export const CanvasWrapper = styled.div`
   }
 `;
 
-export const ElementStyle = ({ position, properties }) => {
+export const ElementStyle = ({ position, properties, order, size }) => {
   return {
     position: 'absolute',
     left: position.x,
     top: position.y,
-    width: properties.width,
-    height: properties.height,
+    width: size.width,
+    height: size.height,
     backgroundColor: properties.backgroundColor,
+    zIndex: order,
   };
 };
 
