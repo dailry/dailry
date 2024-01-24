@@ -33,12 +33,12 @@ const DailryPage = () => {
         onClick={(e) => createNewDecorateComponent(e, selectedTool)}
       >
         {decorateComponents.map((element, index) => {
-          const { id, type, position, properties, order } = element;
+          const { id, type, position, properties, order, size } = element;
           return (
             <div
               key={id}
               onMouseDown={() => setTarget(index + 1)}
-              style={S.ElementStyle({ position, properties, order })}
+              style={S.ElementStyle({ position, properties, order, size })}
               ref={(el) => {
                 moveableRef[index + 1] = el;
               }}

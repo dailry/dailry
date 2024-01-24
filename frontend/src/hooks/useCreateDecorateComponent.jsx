@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import { DECORATE_TYPE } from '../constants/decorateComponent';
 
 const commonDecorateComponentProperties = {
+  size: {
+    width: 300,
+    height: 150,
+  },
   position: {
     x: null,
     y: null,
@@ -23,17 +27,12 @@ const initialDecorateComponentProperties = {
 
   drawing: {
     properties: {
-      colorSpace: 'srgb',
-      height: 150,
-      width: 300,
-      data: '[255, 255, 255, 255, 255]',
+      base64: '[255, 255, 255, 255, 255]',
     },
   },
 
   sticker: {
     properties: {
-      width: 300,
-      height: 150,
       imageUrl:
         'https://trboard.game.onstove.com/Data/TR/20180111/13/636512725318200105.jpg',
     },
