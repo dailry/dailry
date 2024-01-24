@@ -1,92 +1,75 @@
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
 import { useState, useRef, useEffect } from 'react';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
-import Drawing from '../../components/decorate/Drawing/Drawing';
 import * as S from './DailryPage.styled';
 import dailryData from './dailry.json';
-import Button from '../../components/common/Button/Button';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import useCreateDecorateComponent from '../../hooks/useCreateDecorateComponent';
-import { CursorIcon, DrawIcon, TextIcon, StickerIcon } from '../../assets/svg';
-
-const TextBox = () => <div>ff</div>;
-
-const DecorateComponents = {
-  drawing: {
-    type: 'drawing',
-    component: <Drawing />,
-  },
-  textbox: {
-    component: <TextBox />,
-  },
-};
+import { TOOLS } from '../../constants/toolbar';
+import {
+  DECORATE_COMPONENT,
+  DECORATE_TYPE,
+} from '../../constants/decorateComponent';
 
 const DailryPage = () => {
   const { elements } = dailryData;
-  const [target, setTarget] = useState(null);
-  const moveableRef = useRef([]);
+
   const parentRef = useRef(null);
+  const moveableRef = useRef([]);
+
+  const [target, setTarget] = useState(null);
   const [decorateComponents, setDecorateComponents] = useState([]);
-  const tools = [
-    { icon: (props) => <CursorIcon {...props} /> },
-    { icon: (props) => <DrawIcon {...props} /> },
-    { icon: (props) => <TextIcon {...props} /> },
-    { icon: (props) => <StickerIcon {...props} /> },
-  ];
   const [selectedTool, setSelectedTool] = useState(null);
 
-  const { setNewDecorateComponentPosition, createNewDecorateComponent } =
-    useCreateDecorateComponent(setDecorateComponents, parentRef);
+  const { createNewDecorateComponent } = useCreateDecorateComponent(
+    setDecorateComponents,
+    parentRef,
+  );
+
+  const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
 
   useEffect(() => {
     if (elements) setDecorateComponents(elements);
   }, [elements]);
 
-  const handleMouseDown = (e, index) => {
-    setTarget(index + 1);
-  };
-
   return (
     <S.FlexWrapper>
       <S.CanvasWrapper
         ref={parentRef}
-        onClick={(e) => setNewDecorateComponentPosition(e)}
+        onClick={(e) => createNewDecorateComponent(e, selectedTool)}
       >
         {decorateComponents.map((element, index) => {
           const { id, type, position, properties } = element;
           return (
             <div
               key={id}
-              onMouseDown={(e) => handleMouseDown(e, index)}
+              onMouseDown={() => setTarget(index + 1)}
               style={S.ElementStyle({ position, properties })}
               ref={(el) => {
                 moveableRef[index + 1] = el;
               }}
             >
-              {DecorateComponents[type].component}
+              {DECORATE_COMPONENT[type]}
             </div>
           );
         })}
-        {target && <Moveable target={moveableRef[target]} />}
+
+        {isMoveable() && <Moveable target={moveableRef[target]} />}
       </S.CanvasWrapper>
       <S.SideWrapper>
         <S.ToolWrapper>
-          {tools.map((tool, index) => {
+          {TOOLS.map(({ icon, type }, index) => {
             return (
               <ToolButton
                 key={index}
-                tool={tool}
-                selected={selectedTool === index}
-                onSelect={() => setSelectedTool(index)}
+                icon={icon}
+                selected={selectedTool === type}
+                onSelect={() =>
+                  setSelectedTool(selectedTool === type ? null : type)
+                }
               />
             );
           })}
-          {/* <Button onClick={() => createNewDecorateComponent('drawing')}> */}
-          {/*  드로잉 */}
-          {/* </Button> */}
-          {/* <Button onClick={() => createNewDecorateComponent('textbox')}> */}
-          {/*  텍스트 */}
-          {/* </Button> */}
         </S.ToolWrapper>
       </S.SideWrapper>
     </S.FlexWrapper>

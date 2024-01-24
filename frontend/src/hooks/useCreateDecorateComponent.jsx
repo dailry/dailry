@@ -26,24 +26,17 @@ const useCreateDecorateComponent = (addToArray, parentRef) => {
   const parentX = parentRef?.current?.getBoundingClientRect().left.toFixed();
   const parentY = parentRef?.current?.getBoundingClientRect().top.toFixed();
 
-  const createNewDecorateComponent = (type) => {
-    setNewDecorateComponent(() => ({ ...mockData, type }));
-  };
-
   const getNewDecorateComponentPosition = (e) => {
     const { clientX, clientY } = e;
     return { x: clientX - parentX, y: clientY - parentY };
   };
 
-  const setNewDecorateComponentPosition = (e) => {
-    if (!newDecorateComponent) return;
-
-    setNewDecorateComponent((prev) => ({
-      ...prev,
-      position: {
-        ...prev.position,
-        ...getNewDecorateComponentPosition(e),
-      },
+  const createNewDecorateComponent = (e, type) => {
+    if (type === null || type === 'moving') return;
+    setNewDecorateComponent(() => ({
+      ...mockData,
+      type,
+      position: getNewDecorateComponentPosition(e),
     }));
   };
 
@@ -54,7 +47,7 @@ const useCreateDecorateComponent = (addToArray, parentRef) => {
     }
   }, [newDecorateComponent?.position?.x]);
 
-  return { createNewDecorateComponent, setNewDecorateComponentPosition };
+  return { createNewDecorateComponent };
 };
 
 export default useCreateDecorateComponent;
