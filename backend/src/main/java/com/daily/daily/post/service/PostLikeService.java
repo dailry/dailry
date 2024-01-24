@@ -23,7 +23,7 @@ public class PostLikeService {
     private final PostRepository postRepository;
 
     public void increaseLikeCount(Long memberId, Long postId) {
-        if (likeRepository.existsBy(memberId, postId)) {
+        if (likeRepository.findBy(memberId, postId).isPresent()) {
             throw new AlreadyLikeException();
         }
 
