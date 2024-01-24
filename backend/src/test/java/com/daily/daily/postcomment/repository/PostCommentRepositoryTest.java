@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -21,16 +23,13 @@ class PostCommentRepositoryTest {
     @Test
     @DisplayName("PageRequest에 맞게 슬라이스 객체를 반환하는지 확인한다.")
     void findAllByPostId() {
-        postRepository.save(Post.builder().build());
-        postRepository.save(Post.builder().build());
-        Post savedPost = postRepository.save(Post.builder().build()); // 저장된 postId는 3이다.
-
+        Post post = postRepository.save(Post.builder().build());
 
         //댓글 저장 (20개 저장)
         for (int i = 1; i <=20; i++) {
             PostComment postComment = PostComment.builder()
-                    .post(savedPost)
-                    .content(i + "번째" )
+                    .post(post)
+                    .content(i + "번째")
                     .build();
 
             commentRepository.save(postComment);
@@ -38,11 +37,13 @@ class PostCommentRepositoryTest {
 
         int pageNumber = 3;
         int pageSize = 5;
-        Slice<PostComment> comments = commentRepository.findByPostId(3L, PageRequest.of(pageNumber, pageSize));
+        Slice<PostComment> comments = commentRepository.findByPostId(post.getId(), PageRequest.of(pageNumber, pageSize));
 
         assertThat(comments.getSize()).isEqualTo(pageSize);
         assertThat(comments.getNumber()).isEqualTo(pageNumber);
-        assertThat(comments.hasNext()).isFalse();
-        assertThat(comments.getContent().get(1).getPostId()).isEqualTo(3L);
+        assertThat(comments.hasNext()).isFalse(); //총 댓글이 20개이므로 (pageNumber + 1) * pageSize = 20. 따라서 hasNext()는 false 이다.
+
+        List<PostComment> content = comments.getContent();
+        assertThat(content.get(1).getPostId()).isEqualTo(post.getId());
     }
 }

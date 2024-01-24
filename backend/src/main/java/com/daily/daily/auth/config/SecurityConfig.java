@@ -41,6 +41,7 @@ public class SecurityConfig {
         http.formLogin(AbstractHttpConfigurer::disable);
         http.logout(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(registry -> registry
+                .requestMatchers("/api/posts/*/likes").authenticated()
                 .anyRequest().permitAll()
         );
         http.exceptionHandling(configurer -> configurer

@@ -23,7 +23,7 @@ nohup java -jar \
     1>>$LOG_PATH/app-log.out \
     2>>$LOG_PATH/err-log.out &
 
-sleep 30
+sleep 60
 
 #health check...
 if [ -n "$(netstat -nlpt | grep ${DEPLOY_PORT})" ]; then
