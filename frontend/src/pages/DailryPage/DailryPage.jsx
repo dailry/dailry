@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
-import useCreateDecorateComponent from '../../hooks/useCreateDecorateComponent';
+import useCreateDecorateComponent from '../../hooks/useCreateDecorateComponent/useCreateDecorateComponent';
 import { TOOLS } from '../../constants/toolbar';
 import {
   DECORATE_COMPONENT,
