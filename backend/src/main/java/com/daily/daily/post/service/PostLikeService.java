@@ -21,6 +21,7 @@ public class PostLikeService {
     private final PostLikeRepository likeRepository;
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
+
     public void increaseLikeCount(Long memberId, Long postId) {
         if (likeRepository.existsBy(memberId, postId)) {
             throw new AlreadyLikeException();
