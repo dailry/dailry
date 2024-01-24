@@ -265,6 +265,27 @@ include::{snippets}/다일리 삭제/response-fields.adoc[]
 
 == 게시글
 
+== 게시글 좋아요
+
+=== 좋아요 증가
+
+==== 요청
+
+include::{snippets}/좋아요 증가/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/좋아요 취소/http-response.adoc[]
+
+=== 좋아요 취소
+
+==== 요청
+
+include::{snippets}/좋아요 증가/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/좋아요 취소/http-response.adoc[]
 
 == 댓글
 

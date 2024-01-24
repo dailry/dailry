@@ -14,13 +14,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static com.daily.daily.post.fixture.PostFixture.POST_ID;
+import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -53,6 +57,7 @@ class PostLikeControllerTest {
             //when
             ResultActions perform = mockMvc.perform(post("/api/posts/{postId}/likes", POST_ID)
                     .with(csrf().asHeader())
+                    .contentType(MediaType.ALL)
             );
 
             //then
@@ -60,19 +65,27 @@ class PostLikeControllerTest {
                     .andDo(print())
                     .andExpect(jsonPath("$.successful").value(true))
                     .andExpect(jsonPath("$.statusCode").value(200));
+
+            //restdocs
+            perform.andDo(document("좋아요 증가",
+                    pathParameters(
+                            parameterWithName("postId").description("좋아요할 게시글 id")
+                    )
+            ));
         }
     }
     
     @Nested
-    @DisplayName("decreasedLikeCount() - 좋아요 감소 메서드 테스트")
+    @DisplayName("decreasedLikeCount() - 좋아요 취소 메서드 테스트")
     class decreaseLikeCount {
         @Test
-        @DisplayName("성공적으로 좋아요를 감소시켰을 경우 응답 결과를 확인한다.")
+        @DisplayName("성공적으로 좋아요를 취소시켰을 경우 응답 결과를 확인한다.")
         @WithMockUser
         void test1() throws Exception {
             //when
             ResultActions perform = mockMvc.perform(delete("/api/posts/{postId}/likes", POST_ID)
                     .with(csrf().asHeader())
+                    .contentType(MediaType.ALL)
             );
 
             //then
@@ -80,6 +93,13 @@ class PostLikeControllerTest {
                     .andDo(print())
                     .andExpect(jsonPath("$.successful").value(true))
                     .andExpect(jsonPath("$.statusCode").value(200));
+
+            //restdocs
+            perform.andDo(document("좋아요 취소",
+                    pathParameters(
+                            parameterWithName("postId").description("좋아요를 취소할 게시글 id")
+                    )
+            ));
         }
     }
 }
