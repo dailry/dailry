@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { DECORATE_TYPE } from '../../constants/decorateComponent';
 import {
   commonDecorateComponentProperties,
   typedDecorateComponentProperties,
 } from './properties';
 
-const useCreateDecorateComponent = (
+const useCreateNewDecorateComponent = ({
   decorateComponents,
-  addToArray,
   parentRef,
-) => {
+  setCanEditDecorateComponentId,
+}) => {
   const [newDecorateComponent, setNewDecorateComponent] = useState(undefined);
+
   const parentX = parentRef?.current?.getBoundingClientRect().left.toFixed();
   const parentY = parentRef?.current?.getBoundingClientRect().top.toFixed();
 
@@ -27,21 +28,24 @@ const useCreateDecorateComponent = (
 
   const createNewDecorateComponent = (e, type) => {
     if (type === null || type === DECORATE_TYPE.MOVING) return;
+
+    const newCommonDecorateComponentProperties =
+      getCommonDecorateComponentProperties(e);
+
     setNewDecorateComponent(() => ({
       type,
-      ...getCommonDecorateComponentProperties(e),
+      ...newCommonDecorateComponentProperties,
       ...typedDecorateComponentProperties[type],
     }));
+
+    setCanEditDecorateComponentId(newCommonDecorateComponentProperties.id);
   };
 
-  useEffect(() => {
-    if (Number.isSafeInteger(newDecorateComponent?.position?.x)) {
-      addToArray((prev) => prev.concat(newDecorateComponent));
-      setNewDecorateComponent(undefined);
-    }
-  }, [newDecorateComponent?.position?.x]);
-
-  return { createNewDecorateComponent };
+  return {
+    createNewDecorateComponent,
+    newDecorateComponent,
+    setNewDecorateComponent,
+  };
 };
 
-export default useCreateDecorateComponent;
+export default useCreateNewDecorateComponent;
