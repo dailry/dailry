@@ -1,42 +1,73 @@
 import { useEffect, useState } from 'react';
+import { DECORATE_TYPE } from '../constants/decorateComponent';
 
-const mockData = {
-  key: new Date().toISOString(),
-  type: null,
-  order: 1,
+const commonDecorateComponentProperties = {
   position: {
     x: null,
     y: null,
   },
-  rotation: '90deg',
-  properties: {
-    font: '굴림',
-    fontSize: 12,
-    text: '아 어지럽다.',
-    fontWeight: 'bold',
-    backgroundColor: '#ffcc00',
-    width: 'auto',
-    height: 'auto',
-    color: '#333333',
+  rotation: null,
+};
+
+const initialDecorateComponentProperties = {
+  textBox: {
+    properties: {
+      font: '굴림',
+      fontSize: 12,
+      text: '',
+      fontWeight: 'bold',
+      backgroundColor: '#ffcc00',
+      color: '#333333',
+    },
+  },
+
+  drawing: {
+    properties: {
+      colorSpace: 'srgb',
+      height: 150,
+      width: 300,
+      data: '[255, 255, 255, 255, 255]',
+    },
+  },
+
+  sticker: {
+    properties: {
+      width: 300,
+      height: 150,
+      imageUrl:
+        'https://trboard.game.onstove.com/Data/TR/20180111/13/636512725318200105.jpg',
+    },
   },
 };
 
-const useCreateDecorateComponent = (addToArray, parentRef) => {
+const useCreateDecorateComponent = (
+  decorateComponents,
+  addToArray,
+  parentRef,
+) => {
   const [newDecorateComponent, setNewDecorateComponent] = useState(undefined);
   const parentX = parentRef?.current?.getBoundingClientRect().left.toFixed();
   const parentY = parentRef?.current?.getBoundingClientRect().top.toFixed();
 
-  const getNewDecorateComponentPosition = (e) => {
+  const getNewDecorateComponentProperties = (e, type) => {
     const { clientX, clientY } = e;
-    return { x: clientX - parentX, y: clientY - parentY };
+
+    return {
+      ...initialDecorateComponentProperties[type],
+      ...{
+        id: new Date().toISOString(),
+        type,
+        order: decorateComponents.length,
+        position: { x: clientX - parentX, y: clientY - parentY },
+      },
+    };
   };
 
   const createNewDecorateComponent = (e, type) => {
-    if (type === null || type === 'moving') return;
+    if (type === null || type === DECORATE_TYPE.MOVING) return;
     setNewDecorateComponent(() => ({
-      ...mockData,
-      type,
-      position: getNewDecorateComponentPosition(e),
+      ...commonDecorateComponentProperties,
+      ...getNewDecorateComponentProperties(e, type),
     }));
   };
 

@@ -1,8 +1,7 @@
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
-import dailryData from './dailry.json';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import useCreateDecorateComponent from '../../hooks/useCreateDecorateComponent';
 import { TOOLS } from '../../constants/toolbar';
@@ -12,8 +11,6 @@ import {
 } from '../../constants/decorateComponent';
 
 const DailryPage = () => {
-  const { elements } = dailryData;
-
   const parentRef = useRef(null);
   const moveableRef = useRef([]);
 
@@ -22,15 +19,12 @@ const DailryPage = () => {
   const [selectedTool, setSelectedTool] = useState(null);
 
   const { createNewDecorateComponent } = useCreateDecorateComponent(
+    decorateComponents,
     setDecorateComponents,
     parentRef,
   );
 
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
-
-  useEffect(() => {
-    if (elements) setDecorateComponents(elements);
-  }, [elements]);
 
   return (
     <S.FlexWrapper>
@@ -39,12 +33,12 @@ const DailryPage = () => {
         onClick={(e) => createNewDecorateComponent(e, selectedTool)}
       >
         {decorateComponents.map((element, index) => {
-          const { id, type, position, properties } = element;
+          const { id, type, position, properties, order } = element;
           return (
             <div
               key={id}
               onMouseDown={() => setTarget(index + 1)}
-              style={S.ElementStyle({ position, properties })}
+              style={S.ElementStyle({ position, properties, order })}
               ref={(el) => {
                 moveableRef[index + 1] = el;
               }}
