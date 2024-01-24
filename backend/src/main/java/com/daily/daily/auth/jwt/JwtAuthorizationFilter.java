@@ -10,6 +10,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import net.minidev.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,27 +32,21 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        Cookie[] authCookies = request.getCookies();
-        if(authCookies == null || !isPresentAccessToken(authCookies))
+        Cookie[] cookies = request.getCookies();
+        if(cookies == null || !isPresentAccessToken(cookies))
         {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String accessToken = Arrays.stream(authCookies)
+        String accessToken = Arrays.stream(cookies)
                 .filter(name -> name.getName().equals("AccessToken"))
                 .findFirst()
                 .get()
                 .getValue();
 
-        if (!hasValidAuthCookie(accessToken)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        if (!jwtUtil.validateToken(accessToken)) {
+        if (!hasValidAuthCookie(accessToken) || !jwtUtil.validateToken(accessToken)) {
             writeErrorResponse(response);
-            filterChain.doFilter(request, response);
             return;
         }
 
@@ -69,8 +64,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private void writeErrorResponse(HttpServletResponse response) throws IOException {
-        ExceptionResponseDTO exceptionResponseDto = new ExceptionResponseDTO("토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST.value());
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        ExceptionResponseDTO exceptionResponseDto = new ExceptionResponseDTO("토큰이 유효하지 않습니다.", 403);
+        response.setStatus(403);
         response.setContentType("application/json; charset=UTF-8");
         response.getWriter().write(objectMapper.writeValueAsString(exceptionResponseDto));
     }
