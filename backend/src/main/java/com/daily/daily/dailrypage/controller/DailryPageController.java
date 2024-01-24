@@ -4,6 +4,7 @@ import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 import com.daily.daily.dailrypage.service.DailryPageService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class DailryPageController {
     }
 
     @PatchMapping("/api/pages/{pageId}")
-    public DailryPageDTO updatePage(@RequestBody DailryPageUpdateDTO dailryPageUpdateDTO, @PathVariable Long pageId) {
+    public DailryPageDTO updatePage(@RequestBody @Valid DailryPageUpdateDTO dailryPageUpdateDTO, @PathVariable Long pageId) {
         return dailryPageService.update(pageId, dailryPageUpdateDTO);
     }
 
