@@ -1,12 +1,10 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { canvasToImage } from './canvas';
 import useDrawUtils from './useDrawUtils';
-import AuthButton from '../../common/AuthButton/AuthButton';
+import Button from '../../common/Button/Button';
 import useDrawInstance from './useDrawInstance';
 
-const Drawing = (props) => {
-  const { id } = props;
+const Drawing = () => {
   const canvas = useRef(null);
 
   const { drawInstance } = useDrawInstance(canvas);
@@ -19,8 +17,6 @@ const Drawing = (props) => {
     setMode,
   } = useDrawUtils(canvas, drawInstance);
 
-  const [imgSrc, setImgSrc] = useState('');
-
   return (
     <>
       <canvas
@@ -28,15 +24,10 @@ const Drawing = (props) => {
         onMouseUp={() => stopMoving(mouseEventHandlers[mode])}
         ref={canvas}
       ></canvas>
-      <image id="canvas-draw-image" alt="converted-image" src={imgSrc} />
-      <AuthButton onClick={() => setImgSrc(canvasToImage(id))}>
-        이미지로 변환하기
-      </AuthButton>
+      <Button onClick={() => saveCanvas()}>저장</Button>
+      <Button onClick={() => setMode('drawMode')}>그리기</Button>
 
-      <AuthButton onClick={() => saveCanvas()}>저장</AuthButton>
-      <AuthButton onClick={() => setMode('drawMode')}>그리기</AuthButton>
-
-      <AuthButton onClick={() => setMode('eraseMode')}>지우기</AuthButton>
+      <Button onClick={() => setMode('eraseMode')}>지우기</Button>
       <input
         type="color"
         onChange={(e) => drawInstance.setColor(e.target.value)}

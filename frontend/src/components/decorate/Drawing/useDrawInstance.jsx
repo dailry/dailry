@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import Draw from './Draw';
 import { createCtx } from './canvas';
-import { convertDataToCanvasImageData } from '../../../utils/dataFormatting';
 import useDomContentsLoaded from '../../../hooks/useDomContentsLoaded';
 
 const useDrawInstance = (canvas) => {
@@ -17,11 +16,16 @@ const useDrawInstance = (canvas) => {
 
   useEffect(() => {
     const ctx = initialize();
-    if (localStorage.getItem('drawData')) {
-      const imageData = convertDataToCanvasImageData(
-        localStorage.getItem('drawData'),
-      );
-      ctx.putImageData(imageData, 0, 0);
+    const img = new Image();
+    if (localStorage.getItem('canvasImageUrl')) {
+      img.src = localStorage.getItem('canvasImageUrl');
+
+      img.onload = () => {
+        if (ctx) {
+          ctx.globalCompositeOperation = 'source-over';
+          ctx.drawImage(img, 0, 0, canvas.current.width, canvas.current.height);
+        }
+      };
     }
   }, [contentsLoaded, initialize]);
 

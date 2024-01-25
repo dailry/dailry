@@ -16,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -40,7 +41,12 @@ public class SecurityConfig {
         http.formLogin(AbstractHttpConfigurer::disable);
         http.logout(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(registry -> registry
+                .requestMatchers("/api/posts/*/likes").authenticated()
                 .anyRequest().permitAll()
+        );
+        http.exceptionHandling(configurer -> configurer
+                .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
+//                .authenticationEntryPoint((request, response, authException) -> response.sendRedirect("https://localhost:3000/login"))
         );
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
         http.oauth2Login(configurer -> configurer

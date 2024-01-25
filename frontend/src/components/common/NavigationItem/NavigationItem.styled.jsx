@@ -11,7 +11,7 @@ const containerPropsStyles = (current) => ({
 });
 
 const BaseContainer = styled.a`
-  width: 262px;
+  width: 100%;
   height: 50px;
   border-radius: 20px;
   display: flex;

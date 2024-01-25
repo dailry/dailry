@@ -171,8 +171,8 @@ class AuthControllerTest {
 
         resultActions.andDo(document("accesstoken갱신",
                 responseFields(
-                        fieldWithPath("accessToken").type(STRING).description("accessToken"),
-                        fieldWithPath("refreshToken").type(STRING).description("refreshToken")
+                        fieldWithPath("statusCode").type(NUMBER).description("상태코드"),
+                        fieldWithPath("successful").type(BOOLEAN).description("성공여부")
                 )));
     }
 
@@ -196,6 +196,33 @@ class AuthControllerTest {
                 .cookie(new Cookie("RefreshToken", refreshToken)));
 
         resultActions.andDo(document("로그아웃",
+                responseFields(
+                        fieldWithPath("statusCode").type(NUMBER).description("상태코드"),
+                        fieldWithPath("successful").type(BOOLEAN).description("성공여부")
+                )));
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("정상적으로 회원탈퇴가 이루어지는지 테스트한다.")
+    void withdrawalMember() throws Exception {
+
+        LoginDTO loginDto = new LoginDTO("testtest", "12341234");
+
+        TokenDTO tokenDto = authService.login(loginDto);
+        String accessToken = tokenDto.getAccessToken();
+        String refreshToken = tokenDto.getRefreshToken();
+
+        mockMvc.perform(post("/api/login")
+                .cookie(new Cookie("AccessToken", accessToken))
+                .cookie(new Cookie("RefreshToken", refreshToken))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginDto)));
+
+        ResultActions resultActions =  mockMvc.perform(post("/api/members/withdrawal")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        resultActions.andDo(document("회원탈퇴",
                 responseFields(
                         fieldWithPath("statusCode").type(NUMBER).description("상태코드"),
                         fieldWithPath("successful").type(BOOLEAN).description("성공여부")

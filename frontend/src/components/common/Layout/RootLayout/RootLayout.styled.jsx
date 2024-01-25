@@ -4,7 +4,7 @@ import { BACKGROUND } from '../../../../styles/color';
 export const Background = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
 
   width: 100%;
@@ -13,13 +13,15 @@ export const Background = styled.div`
 `;
 
 export const NavigationContainer = styled.div`
-  flex-basis: 30%;
+  flex-grow: 1;
+  width: 180px;
+  max-width: 270px;
   height: calc(100dvh - 20px);
   margin: 10px;
 `;
 
 export const PageContainer = styled.div`
-  flex-basis: 70%;
+  flex-grow: 1;
   height: calc(100dvh - 20px);
-  margin: 10px;
+  margin: 10px 10px 10px 0;
 `;

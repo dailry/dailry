@@ -3,6 +3,7 @@ export const BACKGROUND = Object.freeze({
     'linear-gradient(180deg, rgb(199, 130, 194) 0%, rgb(100, 164, 214) 99.88%);',
   darkGradient:
     'linear-gradient(180deg, rgb(168.29, 86.39, 162.35) 0%, rgb(58.51, 117.75, 164.04) 100%)',
+  paper: '#fffefc',
   bright: '#ffffff',
 });
 
@@ -26,13 +27,16 @@ export const HOME = Object.freeze({
   menu4: '#aeddff',
 });
 
-export const FORM = Object.freeze({
-  input: '#9d9d9d',
-  inputFocused: '#616161',
-  inputDisabled: '#c0c0c0',
-  button: '#87a5eb',
-  buttonClick: '#87a5eb',
-  buttonDisabled: '#9d9d9d',
+export const INPUT = Object.freeze({
+  default: '#9d9d9d',
+  focused: '#616161',
+  disabled: '#c0c0c0',
+});
+
+export const BUTTON = Object.freeze({
+  default: '#87a5eb',
+  click: '#87a5eb',
+  disabled: '#9d9d9d',
 });
 
 // 다일리 왼쪽 메뉴
@@ -46,6 +50,8 @@ export const MENU = Object.freeze({
   boxCurrent: '#ffffff',
   tool: '#74abd9',
 });
+
+export const DAILY = Object.freeze({});
 
 export const LOGIN = Object.freeze({
   googleText: '#888888',

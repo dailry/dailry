@@ -11,6 +11,7 @@ import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.exception.PasswordUnmatchedException;
 import com.daily.daily.member.repository.MemberRepository;
 import com.daily.daily.member.repository.PasswordResetTokenRepository;
+import com.daily.daily.member.validator.Nickname;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,18 +31,13 @@ public class MemberService {
         String password = joinDTO.getPassword();
         joinDTO.setPassword(passwordEncoder.encode(password));
 
+        if (joinDTO.hasNoneNickname()) {
+            joinDTO.setNickname(nicknameGenerator.generateRandomNickname());
+        }
+
         Member member = joinDTO.toMember();
         validateJoinMember(member);
         memberRepository.save(member);
-
-        member.initializeNickname();
-
-        return MemberInfoDTO.from(member);
-    }
-
-    public MemberInfoDTO findById(Long id) {
-        Member member = memberRepository.findById(id)
-                .orElseThrow(MemberNotFoundException::new);
 
         return MemberInfoDTO.from(member);
     }
@@ -50,9 +46,7 @@ public class MemberService {
         if (existsByUsername(member.getUsername())) {
             throw new DuplicatedUsernameException();
         }
-        if (member.getNickname() == null) {
-            member.updateNickname(nicknameGenerator.generateRandomNickname());
-        }
+
         validateDuplicatedNickname(member.getNickname());
     }
 
@@ -60,6 +54,13 @@ public class MemberService {
         if (existsByNickname(nickname)) {
             throw new DuplicatedNicknameException();
         }
+    }
+
+    public MemberInfoDTO findById(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(MemberNotFoundException::new);
+
+        return MemberInfoDTO.from(member);
     }
 
     public MemberInfoDTO updateNickname(Long id, String nickname) {
@@ -71,7 +72,6 @@ public class MemberService {
         findMember.updateNickname(nickname);
         return MemberInfoDTO.from(findMember);
     }
-
 
     public void updatePassword(PasswordUpdateDTO passwordUpdateDTO, Long id) {
         Member findMember = memberRepository.findById(id)
@@ -107,6 +107,13 @@ public class MemberService {
 
     public boolean existsByNickname(String nickname) {
         return memberRepository.existsByNickname(nickname);
+    }
+
+    public void withdrawalMember(Long memberId)
+    {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
+        memberRepository.delete(findMember);
     }
 
 }

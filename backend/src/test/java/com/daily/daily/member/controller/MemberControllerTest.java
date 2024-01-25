@@ -2,23 +2,13 @@ package com.daily.daily.member.controller;
 
 import com.daily.daily.auth.jwt.JwtAuthorizationFilter;
 import com.daily.daily.auth.jwt.JwtUtil;
-import com.daily.daily.member.dto.EmailDTO;
-import com.daily.daily.member.dto.EmailVerifyDTO;
-import com.daily.daily.member.dto.JoinDTO;
-import com.daily.daily.member.dto.MemberInfoDTO;
-import com.daily.daily.member.dto.NicknameDTO;
-import com.daily.daily.member.dto.PasswordRecoverDTO;
-import com.daily.daily.member.dto.PasswordTokenDTO;
-import com.daily.daily.member.dto.PasswordUpdateDTO;
+import com.daily.daily.member.dto.*;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
 import com.daily.daily.member.service.MemberEmailService;
 import com.daily.daily.member.service.MemberService;
-import com.daily.daily.testutil.mockmvc.MockMvcConstant;
-import com.daily.daily.testutil.mockmvc.MockMvcTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,7 +16,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,18 +26,16 @@ import java.nio.charset.StandardCharsets;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static com.daily.daily.testutil.mockmvc.MockMvcConstant.AccessToken;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.http.HttpHeaders.*;
-import static org.springframework.restdocs.payload.JsonFieldType.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -87,7 +74,7 @@ class MemberControllerTest {
         expected.setUsername("geonwoo123");
         expected.setNickname("사모예드");
 
-        given(memberService.join(Mockito.any())).willReturn(expected);
+        given(memberService.join(any())).willReturn(expected);
         //when
         ResultActions joinActions = mockMvc.perform(post("/api/members/join")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -126,7 +113,7 @@ class MemberControllerTest {
         //given
         JoinDTO joinDTO = new JoinDTO("geonwoo123", "pass1234", null);
 
-        given(memberService.join(Mockito.any())).willThrow(DuplicatedUsernameException.class);
+        given(memberService.join(any())).willThrow(DuplicatedUsernameException.class);
 
         //when
         ResultActions joinActions = mockMvc.perform(post("/api/members/join")
@@ -149,7 +136,7 @@ class MemberControllerTest {
         expected.setUsername("geonwoo123");
         expected.setNickname("난폭한사자");
 
-        given(memberService.findById(Mockito.any())).willReturn(expected);
+        given(memberService.findById(any())).willReturn(expected);
 
         //when
         ResultActions actions = mockMvc.perform(get("/api/members")
@@ -281,7 +268,7 @@ class MemberControllerTest {
         expected.setUsername("geonwoo123");
         expected.setNickname("난폭한사자");
 
-        given(memberService.updateNickname(Mockito.any(), Mockito.any())).willReturn(expected);
+        given(memberService.updateNickname(any(), any())).willReturn(expected);
         //when
         ResultActions perform = mockMvc.perform(patch("/api/members/nickname")
                 .contentType(MediaType.APPLICATION_JSON)
