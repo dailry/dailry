@@ -1,4 +1,5 @@
 import { setupWorker } from 'msw/browser';
+import { http } from 'msw';
 import { authHandlers } from './handlers/auth';
 import { commentsHandlers } from './handlers/comments';
 import { dailryHandlers } from './handlers/dailry';

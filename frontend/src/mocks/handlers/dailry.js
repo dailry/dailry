@@ -1,12 +1,14 @@
 import { http, HttpResponse } from 'msw';
-
-const dailryData = [
-  { id: 1, title: 'bird dailry' },
-  { id: 3, title: '안녕나는다일리' },
-];
+import dailryData from '../datas/dailry.json';
 
 export const dailryHandlers = [
-  http.get('/dailry', () => {
-    return HttpResponse.json(dailryData);
+  http.get('https://api.da-ily.site/api/dailry/:id', ({ params }) => {
+    const dailryId = Number(params.id);
+    const foundDailry = dailryData.find((item) => item.id === dailryId);
+
+    if (foundDailry) {
+      return HttpResponse.json(foundDailry);
+    }
+    return new HttpResponse(null, { status: 500 });
   }),
 ];
