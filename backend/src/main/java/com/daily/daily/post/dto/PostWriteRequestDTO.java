@@ -14,7 +14,7 @@ import java.util.Set;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostRequestDTO {
+public class PostWriteRequestDTO {
     @NotBlank(message = "content 필드는 반드시 존재해야 합니다.")
     private String content;
 

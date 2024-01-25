@@ -3,7 +3,7 @@ package com.daily.daily.post.fixture;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.dto.PostReadResponseDTO;
-import com.daily.daily.post.dto.PostRequestDTO;
+import com.daily.daily.post.dto.PostWriteRequestDTO;
 import com.daily.daily.post.dto.PostWriteResponseDTO;
 import org.springframework.mock.web.MockMultipartFile;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,8 +25,8 @@ public class PostFixture {
     private static final LocalDateTime POST_CREATED_TIME = LocalDateTime.of(2024,1,18,15,38,32,42);
 
 
-    public static PostRequestDTO 게시글_요청_DTO() {
-        return new PostRequestDTO(POST_CONTENT, Set.of("일반", "음식", "대학생"));
+    public static PostWriteRequestDTO 게시글_요청_DTO() {
+        return new PostWriteRequestDTO(POST_CONTENT, Set.of("일반", "음식", "대학생"));
     }
 
     public static PostWriteResponseDTO 게시글_작성_응답_DTO() {

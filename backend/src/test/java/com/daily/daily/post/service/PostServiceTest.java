@@ -2,7 +2,7 @@ package com.daily.daily.post.service;
 
 import com.daily.daily.common.service.S3StorageService;
 import com.daily.daily.member.repository.MemberRepository;
-import com.daily.daily.post.dto.PostRequestDTO;
+import com.daily.daily.post.dto.PostWriteRequestDTO;
 import com.daily.daily.post.dto.PostWriteResponseDTO;
 import com.daily.daily.post.repository.PostRepository;
 import org.assertj.core.api.Assertions;
@@ -52,7 +52,7 @@ class PostServiceTest {
             when(postRepository.save(any())).thenReturn(일반회원1이_작성한_게시글());
 
             //when
-            PostWriteResponseDTO result = postService.create(2L, new PostRequestDTO(), 다일리_페이지_이미지_파일());
+            PostWriteResponseDTO result = postService.create(2L, new PostWriteRequestDTO(), 다일리_페이지_이미지_파일());
 
             //then
             verify(storageService, times(1)).uploadImage(any(), any(), any());
@@ -72,7 +72,7 @@ class PostServiceTest {
             when(postRepository.findById(POST_ID)).thenReturn(Optional.of(일반회원1이_작성한_게시글()));
 
             //when
-            PostWriteResponseDTO updateResult = postService.update(POST_ID, new PostRequestDTO(), null);
+            PostWriteResponseDTO updateResult = postService.update(POST_ID, new PostWriteRequestDTO(), null);
 
             //then
             assertThat(updateResult.getPageImage()).isEqualTo(일반회원1이_작성한_게시글().getPageImage());
@@ -87,7 +87,7 @@ class PostServiceTest {
             when(storageService.uploadImage(any(), any(), any())).thenReturn("post/4-awef-1231-xcvsdf-12312_qwf.png");
 
             //when
-            PostWriteResponseDTO updateResult = postService.update(POST_ID, new PostRequestDTO(), 다일리_페이지_이미지_파일());
+            PostWriteResponseDTO updateResult = postService.update(POST_ID, new PostWriteRequestDTO(), 다일리_페이지_이미지_파일());
 
             //then
             assertThat(updateResult.getPageImage()).isEqualTo("post/4-awef-1231-xcvsdf-12312_qwf.png");

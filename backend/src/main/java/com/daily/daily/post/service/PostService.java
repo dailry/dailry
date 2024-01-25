@@ -4,15 +4,11 @@ import com.daily.daily.common.service.S3StorageService;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.repository.MemberRepository;
-import com.daily.daily.post.domain.Hashtag;
-import com.daily.daily.post.domain.PostHashtag;
-import com.daily.daily.post.repository.HashtagRepository;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.dto.PostReadResponseDTO;
-import com.daily.daily.post.dto.PostRequestDTO;
+import com.daily.daily.post.dto.PostWriteRequestDTO;
 import com.daily.daily.post.dto.PostWriteResponseDTO;
 import com.daily.daily.post.exception.PostNotFoundException;
-import com.daily.daily.post.repository.PostHashtagRepository;
 import com.daily.daily.post.repository.PostLikeRepository;
 import com.daily.daily.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -41,26 +36,26 @@ public class PostService {
 
     private final HashtagService hashtagService;
 
-    public PostWriteResponseDTO create(Long memberId, PostRequestDTO postRequestDTO, MultipartFile pageImage) {
+    public PostWriteResponseDTO create(Long memberId, PostWriteRequestDTO postWriteRequestDTO, MultipartFile pageImage) {
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 
         Post post = Post.builder()
-                .content(postRequestDTO.getContent())
+                .content(postWriteRequestDTO.getContent())
                 .postWriter(member)
                 .build();
 
         Post savedPost = postRepository.save(post);
-        hashtagService.addHashtagsToPost(savedPost, postRequestDTO.getHashtags());
+        hashtagService.addHashtagsToPost(savedPost, postWriteRequestDTO.getHashtags());
 
         uploadPageImage(savedPost, pageImage);
         return PostWriteResponseDTO.from(savedPost);
     }
 
-    public PostWriteResponseDTO update(Long postId, PostRequestDTO postRequestDTO, MultipartFile pageImage) {
+    public PostWriteResponseDTO update(Long postId, PostWriteRequestDTO postWriteRequestDTO, MultipartFile pageImage) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
 
-        post.updateContent(postRequestDTO.getContent());
+        post.updateContent(postWriteRequestDTO.getContent());
 
         if (pageImage == null || pageImage.isEmpty()) {
             return PostWriteResponseDTO.from(post);
