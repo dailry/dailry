@@ -34,6 +34,8 @@ class PostServiceTest {
     MemberRepository memberRepository;
     @Mock
     S3StorageService storageService;
+    @Mock
+    HashtagService hashtagService;
     @InjectMocks
     PostService postService;
 

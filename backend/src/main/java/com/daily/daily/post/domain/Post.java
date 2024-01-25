@@ -2,6 +2,7 @@ package com.daily.daily.post.domain;
 
 import com.daily.daily.common.domain.BaseTimeEntity;
 import com.daily.daily.member.domain.Member;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -9,11 +10,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -28,12 +33,12 @@ public class Post extends BaseTimeEntity {
     private String pageImage; // 이미지 파일 경로 저장
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "postId")
+    @JoinColumn(name = "member_id")
     private Member postWriter;
 
-//    @ManyToOne
-//    private HashTags hashTags
-
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @Builder.Default
+    private Set<PostHashtag> postHashtags = new HashSet<>();
 
     public void updatePageImage(String pageImage) {
         this.pageImage = pageImage;

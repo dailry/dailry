@@ -10,6 +10,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingExcept
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import static com.daily.daily.member.fixture.MemberFixture.일반회원1;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -25,7 +26,7 @@ public class PostFixture {
 
 
     public static PostRequestDTO 게시글_요청_DTO() {
-        return new PostRequestDTO(POST_CONTENT);
+        return new PostRequestDTO(POST_CONTENT, Set.of("일반", "음식", "대학생"));
     }
 
     public static PostWriteResponseDTO 게시글_작성_응답_DTO() {
