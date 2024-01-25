@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const useDrawUtils = (canvas, drawInstance) => {
-  const [mode, setMode] = useState(undefined);
+  const [mode, setMode] = useState('drawMode');
 
   const draw = (e) => drawInstance.move(e);
   const erase = (e) => drawInstance.erase(e);

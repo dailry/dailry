@@ -2,12 +2,16 @@ class Draw {
   constructor(canvas, ctx) {
     this.canvas = canvas;
     this.ctx = ctx;
+    this.canvas.width = canvas.getBoundingClientRect().width;
+    this.canvas.height = canvas.getBoundingClientRect().height;
     this.coord = { x: 0, y: 0 };
   }
 
   reposition(event) {
-    this.coord.x = event.clientX - this.canvas.offsetLeft;
-    this.coord.y = event.clientY - this.canvas.offsetTop;
+    this.coord.x =
+      event.clientX - this.canvas.getBoundingClientRect().left.toFixed();
+    this.coord.y =
+      event.clientY - this.canvas.getBoundingClientRect().top.toFixed();
   }
 
   move(event) {
