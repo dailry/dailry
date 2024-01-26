@@ -5,6 +5,7 @@ import com.daily.daily.dailry.exception.DialryNotFoundException;
 import com.daily.daily.dailry.repository.DailryRepository;
 import com.daily.daily.dailrypage.domain.DailryPage;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
+import com.daily.daily.dailrypage.dto.DailryPageFindDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 import com.daily.daily.dailrypage.exception.DailryPageNotFoundException;
 import com.daily.daily.dailrypage.repository.DailryPageRepository;
@@ -12,6 +13,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -28,13 +33,21 @@ public class DailryPageService {
         return DailryPageDTO.from(savedPage);
     }
 
-    public DailryPageDTO create2(Long dailryId) {
-
+    public DailryPageDTO create2(Long dailryId, DailryPageUpdateDTO dailryPageUpdateDTO) {
         Dailry dailry = dailryRepository.findById(dailryId)
                 .orElseThrow(DialryNotFoundException::new);
+        int dailryPageCount = dailryPageRepository.countByDailry(dailry);
+        int newDiaryPageNumber = dailryPageCount + 1;
+
+        Map<String, Object> elements = new HashMap<>();
+        for (DailryPageUpdateDTO.ElementDTO element : dailryPageUpdateDTO.getElements()) {
+            elements.put(element.getId(), element);
+        }
 
         DailryPage dailryPage = DailryPage.builder()
                 .dailry(dailry)
+                .pageNumber(newDiaryPageNumber)
+                .elements(elements)
                 .build();
 
         DailryPage savedPage = dailryPageRepository.save(dailryPage);
@@ -59,6 +72,10 @@ public class DailryPageService {
                 .orElseThrow(DailryPageNotFoundException::new);
 
         return DailryPageDTO.from(findPage);
+    }
+
+    public List<DailryPageFindDTO> findAll(Long dailryId) {
+        return dailryPageRepository.findIdsAndThumbnailsByDailryId(dailryId);
     }
 
     public void delete(Long pageId) {
