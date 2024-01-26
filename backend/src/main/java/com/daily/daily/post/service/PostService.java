@@ -5,9 +5,11 @@ import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.repository.MemberRepository;
 import com.daily.daily.post.domain.Post;
+import com.daily.daily.post.dto.PostReadResponseDTO;
 import com.daily.daily.post.dto.PostRequestDTO;
-import com.daily.daily.post.dto.PostResponseDTO;
+import com.daily.daily.post.dto.PostWriteResponseDTO;
 import com.daily.daily.post.exception.PostNotFoundException;
+import com.daily.daily.post.repository.PostLikeRepository;
 import com.daily.daily.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,8 +32,10 @@ public class PostService {
 
     private final S3StorageService storageService;
 
+    private final PostLikeRepository likeRepository;
 
-    public PostResponseDTO create(Long memberId, PostRequestDTO postRequestDTO, MultipartFile pageImage) {
+
+    public PostWriteResponseDTO create(Long memberId, PostRequestDTO postRequestDTO, MultipartFile pageImage) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
 
@@ -45,29 +49,30 @@ public class PostService {
         String fileUrl = storageService.uploadImage(pageImage, POST_STORAGE_DIRECTORY_PATH, savedPost.getId().toString());
         savedPost.updatePageImage(fileUrl);
 
-        return PostResponseDTO.from(savedPost);
+        return PostWriteResponseDTO.from(savedPost);
     }
 
-    public PostResponseDTO update(Long postId, PostRequestDTO postRequestDTO, MultipartFile pageImage) {
+    public PostWriteResponseDTO update(Long postId, PostRequestDTO postRequestDTO, MultipartFile pageImage) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
 
         post.updateContent(postRequestDTO.getContent());
 
         if (pageImage == null || pageImage.isEmpty()) {
-            return PostResponseDTO.from(post);
+            return PostWriteResponseDTO.from(post);
         }
 
         String fileUrl = storageService.uploadImage(pageImage, POST_STORAGE_DIRECTORY_PATH, post.getId().toString());
         post.updatePageImage(fileUrl);
-        return PostResponseDTO.from(post);
+        return PostWriteResponseDTO.from(post);
     }
 
-    public PostResponseDTO find(Long postId) {
+    public PostReadResponseDTO find(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
 
-        return PostResponseDTO.from(post);
+        Long likeCount = likeRepository.countByPost(post);
+        return PostReadResponseDTO.from(post, likeCount);
     }
 
     public void delete(Long postId) {
