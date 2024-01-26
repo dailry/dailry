@@ -80,7 +80,7 @@ public class DailryControllerTest {
 
         DailryUpdateDTO dailryUpdateDTO = new DailryUpdateDTO();
         dailryUpdateDTO.setTitle("오늘의 다일리");
-        DailryDTO dailryDTO = dailryService.create(4L, dailryUpdateDTO);
+        DailryDTO dailryDTO = dailryService.create(5L, dailryUpdateDTO);
 
         ResultActions resultActions =  mockMvc.perform(post("/api/dailry")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +111,7 @@ public class DailryControllerTest {
 
         DailryUpdateDTO updatedDailryUpdateDTO = new DailryUpdateDTO();
         updatedDailryUpdateDTO.setTitle("내일의 다일리");
-        DailryDTO dailryDTO = dailryService.update(dailryId, updatedDailryUpdateDTO);
+        DailryDTO dailryDTO = dailryService.update(1L, dailryId, updatedDailryUpdateDTO);
 
         ResultActions resultActions = mockMvc.perform(patch("/api/dailry/{dailryId}", dailryId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -135,7 +135,7 @@ public class DailryControllerTest {
 
         DailryUpdateDTO dailryUpdateDTO = new DailryUpdateDTO();
         dailryUpdateDTO.setTitle("오늘의 다일리");
-        DailryDTO dailryDTO = dailryService.create(3L, dailryUpdateDTO);
+        DailryDTO dailryDTO = dailryService.create(4L, dailryUpdateDTO);
         Long dailryId = dailryDTO.getId();
 
         ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.get("/api/dailry/{dailryId}", dailryId)
@@ -152,13 +152,36 @@ public class DailryControllerTest {
     }
 
     @Test
+    @DisplayName("정상적으로 전체 다일리가 조회됐는지 확인합니다.")
+    @WithMockUser
+    void findAllDailry() throws Exception {
+
+        DailryUpdateDTO dailryUpdateDTO = new DailryUpdateDTO();
+        dailryUpdateDTO.setTitle("오늘의 다일리");
+        dailryService.create(3L, dailryUpdateDTO);
+        dailryUpdateDTO.setTitle("내일의 다일리");
+        dailryService.create(3L, dailryUpdateDTO);
+        dailryUpdateDTO.setTitle("어제의 다일리");
+        dailryService.create(3L, dailryUpdateDTO);
+
+        ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.get("/api/dailry")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        resultActions.andDo(document("전체 다일리 조회",
+                responseFields(
+                        fieldWithPath("[].id").type(NUMBER).description("다일리 id"),
+                        fieldWithPath("[].title").type(STRING).description("다일리 제목")
+                )));
+    }
+
+    @Test
     @DisplayName("정상적으로 다일리가 삭제됐는지 확인합니다.")
     @WithMockUser
     void deleteDailry() throws Exception {
-        Long dailryId = 1L;
         DailryUpdateDTO dailryUpdateDTO = new DailryUpdateDTO();
         dailryUpdateDTO.setTitle("오늘의 다일리");
-        dailryService.create(2L, dailryUpdateDTO);;
+        DailryDTO dailryDTO = dailryService.create(2L, dailryUpdateDTO);;
+        Long dailryId = dailryDTO.getId();
 
         ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/dailry/{dailryId}", dailryId)
                 .contentType(MediaType.APPLICATION_JSON));
