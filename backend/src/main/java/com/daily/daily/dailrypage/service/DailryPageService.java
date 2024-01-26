@@ -33,21 +33,16 @@ public class DailryPageService {
         return DailryPageDTO.from(savedPage);
     }
 
-    public DailryPageDTO create2(Long dailryId, DailryPageUpdateDTO dailryPageUpdateDTO) {
+    public DailryPageDTO create2(Long dailryId) {
         Dailry dailry = dailryRepository.findById(dailryId)
                 .orElseThrow(DailryNotFoundException::new);
+
         int dailryPageCount = dailryPageRepository.countByDailry(dailry);
         int newDiaryPageNumber = dailryPageCount + 1;
-
-        Map<String, Object> elements = new HashMap<>();
-        for (DailryPageUpdateDTO.ElementDTO element : dailryPageUpdateDTO.getElements()) {
-            elements.put(element.getId(), element);
-        }
 
         DailryPage dailryPage = DailryPage.builder()
                 .dailry(dailry)
                 .pageNumber(newDiaryPageNumber)
-//                .elements(elements)
                 .build();
 
         DailryPage savedPage = dailryPageRepository.save(dailryPage);

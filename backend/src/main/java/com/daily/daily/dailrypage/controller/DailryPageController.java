@@ -28,8 +28,8 @@ public class DailryPageController {
 
     @PostMapping("/api/dailry/{dailryID}/pages")
     @ResponseStatus(HttpStatus.CREATED)
-    public DailryPageDTO createPage2(@RequestBody @Valid DailryPageUpdateDTO dailryPageUpdateDTO, @PathVariable Long dailryID) {
-        return dailryPageService.create2(dailryID, dailryPageUpdateDTO);
+    public DailryPageDTO createPage2(@PathVariable Long dailryID) {
+        return dailryPageService.create2(dailryID);
     }
 
     @PatchMapping("/api/pages/{pageId}")

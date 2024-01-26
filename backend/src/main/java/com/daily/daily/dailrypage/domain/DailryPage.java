@@ -30,6 +30,7 @@ public class DailryPage {
 
     @Type(JsonType.class)
     @Column(name = "elements", columnDefinition = "JSON")
+    @Builder.Default
     private Map<String, Object> elements = new HashMap<>();
 
     @ManyToOne
