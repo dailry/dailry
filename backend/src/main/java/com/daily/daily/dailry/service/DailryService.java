@@ -2,6 +2,7 @@ package com.daily.daily.dailry.service;
 
 import com.daily.daily.dailry.domain.Dailry;
 import com.daily.daily.dailry.dto.DailryDTO;
+import com.daily.daily.dailry.dto.DailryFindDTO;
 import com.daily.daily.dailry.dto.DailryUpdateDTO;
 import com.daily.daily.dailry.repository.DailryRepository;
 import com.daily.daily.dailrypage.exception.DailryPageNotFoundException;
@@ -11,6 +12,8 @@ import com.daily.daily.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -34,24 +37,40 @@ public class DailryService {
         return DailryDTO.from(savedDailry);
     }
 
-    public DailryDTO update(Long dairlyId, DailryUpdateDTO dailryUpdateDTO) {
+    public DailryDTO update(Long memberId, Long dairlyId, DailryUpdateDTO dailryUpdateDTO) {
         Dailry dailry = dailryRepository.findById(dairlyId)
                 .orElseThrow(DailryPageNotFoundException::new);
+
+//        if(!Objects.equals(memberId, dailry.getMember().getId())) {
+//            throw new UnauthorizedAccessException();
+//        }
 
         dailry.updateTitle(dailryUpdateDTO.getTitle());
 
         return DailryDTO.from(dailry);
     }
 
-    public DailryDTO find(Long dairlyId) {
+    public DailryDTO find(Long memberId, Long dairlyId) {
         Dailry dailry = dailryRepository.findById(dairlyId)
                 .orElseThrow(DailryPageNotFoundException::new);
 
+//        if(!Objects.equals(memberId, dailry.getMember().getId())) {
+//            throw new UnauthorizedAccessException();
+//        }
         return DailryDTO.from(dailry);
     }
 
-    public void delete(Long pageId) {
-        dailryRepository.deleteById(pageId);
+    public List<DailryFindDTO> findAll(Long memberId) {
+        return dailryRepository.findIdsAndTitlesByMemberId(memberId);
+    }
+
+    public void delete(Long memberId, Long dairlyId) {
+        Dailry dailry = dailryRepository.findById(dairlyId)
+                .orElseThrow(DailryPageNotFoundException::new);
+//        if(!Objects.equals(memberId, dailry.getMember().getId())) {
+//            throw new UnauthorizedAccessException();
+//        }
+        dailryRepository.deleteById(dairlyId);
     }
 
 }
