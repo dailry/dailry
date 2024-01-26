@@ -1,7 +1,7 @@
 package com.daily.daily.dailrypage.service;
 
 import com.daily.daily.dailry.domain.Dailry;
-import com.daily.daily.dailry.exception.DialryNotFoundException;
+import com.daily.daily.dailry.exception.DailryNotFoundException;
 import com.daily.daily.dailry.repository.DailryRepository;
 import com.daily.daily.dailrypage.domain.DailryPage;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
@@ -35,7 +35,7 @@ public class DailryPageService {
 
     public DailryPageDTO create2(Long dailryId, DailryPageUpdateDTO dailryPageUpdateDTO) {
         Dailry dailry = dailryRepository.findById(dailryId)
-                .orElseThrow(DialryNotFoundException::new);
+                .orElseThrow(DailryNotFoundException::new);
         int dailryPageCount = dailryPageRepository.countByDailry(dailry);
         int newDiaryPageNumber = dailryPageCount + 1;
 
@@ -47,7 +47,7 @@ public class DailryPageService {
         DailryPage dailryPage = DailryPage.builder()
                 .dailry(dailry)
                 .pageNumber(newDiaryPageNumber)
-                .elements(elements)
+//                .elements(elements)
                 .build();
 
         DailryPage savedPage = dailryPageRepository.save(dailryPage);
