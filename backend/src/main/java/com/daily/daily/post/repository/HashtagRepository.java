@@ -8,7 +8,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
-    boolean existsByTagName(String tagName);
-
     Optional<Hashtag> findByTagName(String tagName);
 }

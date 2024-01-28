@@ -33,7 +33,7 @@ public class HashtagService {
     }
 
     private Set<String> getDefaultHashtagsIfEmpty(Set<String> hashtags) {
-        if (hashtags == null || hashtags.isEmpty()) {
+        if (hashtags == null || hashtags.isEmpty() || hashtags.stream().allMatch(String::isBlank)) {
             hashtags = Set.of(DEFAULT_HASHTAG);
         }
         return hashtags;
