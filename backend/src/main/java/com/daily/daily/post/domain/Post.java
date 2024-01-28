@@ -19,6 +19,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -58,5 +60,11 @@ public class Post extends BaseTimeEntity {
 
     public void clearHashtags() {
         postHashtags.clear();
+    }
+
+    public Set<String> getTagNames() {
+        return postHashtags.stream()
+                .map(PostHashtag::getTagName)
+                .collect(Collectors.toSet());
     }
 }

@@ -30,16 +30,12 @@ public class PostWriteResponseDTO { // 수정, 삭제 전용 응답 DTO
 
     public static PostWriteResponseDTO from(Post post) {
         Member postWriter = post.getPostWriter();
-        Set<String> hashtags = post.getPostHashtags()
-                .stream()
-                .map(PostHashtag::getTagName)
-                .collect(Collectors.toSet());
 
         return PostWriteResponseDTO.builder()
                 .postId(post.getId())
                 .content(post.getContent())
                 .pageImage(post.getPageImage())
-                .hashtags(hashtags)
+                .hashtags(post.getTagNames())
                 .writerId(postWriter.getId())
                 .writerNickname(postWriter.getNickname())
                 .createdTime(post.getCreatedTime())

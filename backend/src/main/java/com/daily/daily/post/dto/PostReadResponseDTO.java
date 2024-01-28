@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+
 @Getter
 @Setter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -19,6 +21,7 @@ public class PostReadResponseDTO {
     private String pageImage;
     private Long writerId;
     private String writerNickname;
+    private Set<String> hashtags;
     private Long likeCount;
     private LocalDateTime createdTime;
 
@@ -31,6 +34,7 @@ public class PostReadResponseDTO {
                 .pageImage(post.getPageImage())
                 .writerId(postWriter.getId())
                 .writerNickname(postWriter.getNickname())
+                .hashtags(post.getTagNames())
                 .createdTime(post.getCreatedTime())
                 .likeCount(likeCount)
                 .build();
