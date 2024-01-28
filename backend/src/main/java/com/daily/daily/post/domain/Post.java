@@ -17,14 +17,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
 @Getter
-@AllArgsConstructor @Builder @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseTimeEntity {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,9 +39,9 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member postWriter;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private Set<PostHashtag> postHashtags = new HashSet<>();
+    private List<PostHashtag> postHashtags = new ArrayList<>();
 
     public void updatePageImage(String pageImage) {
         this.pageImage = pageImage;
@@ -46,5 +49,14 @@ public class Post extends BaseTimeEntity {
 
     public void updateContent(String content) {
         this.content = content;
+    }
+
+    public void addPostHashtag(PostHashtag postHashtag) {
+        postHashtags.add(postHashtag);
+        postHashtag.setPost(this);  // 연관관계 편의 로직.
+    }
+
+    public void clearHashtags() {
+        postHashtags.clear();
     }
 }

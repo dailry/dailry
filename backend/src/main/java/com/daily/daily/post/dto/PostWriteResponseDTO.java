@@ -32,7 +32,7 @@ public class PostWriteResponseDTO { // 수정, 삭제 전용 응답 DTO
         Member postWriter = post.getPostWriter();
         Set<String> hashtags = post.getPostHashtags()
                 .stream()
-                .map(PostHashtag::getTangName)
+                .map(PostHashtag::getTagName)
                 .collect(Collectors.toSet());
 
         return PostWriteResponseDTO.builder()

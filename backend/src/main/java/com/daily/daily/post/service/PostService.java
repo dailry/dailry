@@ -56,6 +56,7 @@ public class PostService {
                 .orElseThrow(PostNotFoundException::new);
 
         post.updateContent(postWriteRequestDTO.getContent());
+        hashtagService.updateHashtagsInPost(post, postWriteRequestDTO.getHashtags());
 
         if (pageImage == null || pageImage.isEmpty()) {
             return PostWriteResponseDTO.from(post);
@@ -80,5 +81,4 @@ public class PostService {
     public void delete(Long postId) {
         postRepository.deleteById(postId);
     }
-
 }
