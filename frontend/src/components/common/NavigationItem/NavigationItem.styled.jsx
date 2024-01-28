@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { BACKGROUND } from '../../../styles/color';
 
 const containerPropsStyles = (current) => ({
@@ -10,15 +11,17 @@ const containerPropsStyles = (current) => ({
   },
 });
 
-const BaseContainer = styled.a`
-  width: 100%;
-  height: 50px;
-  border-radius: 20px;
+const BaseContainer = styled(Link)`
   display: flex;
   align-items: center;
   column-gap: 14px;
+
+  width: 100%;
+  height: 50px;
+  padding: 0 16px;
+
+  border-radius: 20px;
   font-size: 16px;
-  padding: 0px 16px;
   font-weight: 700;
   cursor: pointer;
 `;

@@ -8,7 +8,6 @@ import DailryPage from './pages/DailryPage/DailryPage';
 import MyPage from './pages/MyPage/MyPage';
 import CommunityPage from './pages/CommunityPage/CommunityPage';
 import AdminMembersPage from './pages/AdminMembersPage/AdminMembersPage';
-import DefaultLayout from './components/common/Layout/DefaultLayout';
 import RootLayout from './components/common/Layout/RootLayout/RootLayout';
 import FindIdPage from './pages/LoginPage/FindIdPage';
 
@@ -20,8 +19,6 @@ const App = () => {
         <Route path={PATH_NAME.Login} element={<LoginPage />} />
         <Route path={PATH_NAME.FindId} element={<FindIdPage />} />
         <Route path={PATH_NAME.Join} element={<JoinPage />} />
-      </Route>
-      <Route element={<DefaultLayout />}>
         <Route path={PATH_NAME.Dailry} element={<DailryPage />} />
         <Route path={PATH_NAME.MyPage} element={<MyPage />} />
         <Route path={PATH_NAME.Community} element={<CommunityPage />} />
