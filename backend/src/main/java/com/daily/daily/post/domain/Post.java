@@ -62,9 +62,9 @@ public class Post extends BaseTimeEntity {
         postHashtags.clear();
     }
 
-    public Set<String> getTagNames() {
+    public List<String> getTagNames() {
         return postHashtags.stream()
                 .map(PostHashtag::getTagName)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 }

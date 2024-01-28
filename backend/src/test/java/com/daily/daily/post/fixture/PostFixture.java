@@ -10,6 +10,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingExcept
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Set;
 
 import static com.daily.daily.member.fixture.MemberFixture.일반회원1;
@@ -23,7 +24,6 @@ public class PostFixture {
     private static final String POST_CONTENT = "오늘 저의 다일리입니다.";
     private static final String PAGE_IMAGE_URL = "imageURL";
     private static final LocalDateTime POST_CREATED_TIME = LocalDateTime.of(2024,1,18,15,38,32,42);
-
 
     public static PostWriteRequestDTO 게시글_요청_DTO() {
         return new PostWriteRequestDTO(POST_CONTENT, Set.of("일반", "음식", "대학생"));
