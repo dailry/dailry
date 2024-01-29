@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface DailryPageRepository extends JpaRepository<DailryPage, Long> {
     int countByDailry(Dailry dailry);
-    List<DailryPageFindDTO> findIdsAndThumbnailsByDailryId(Long dailryId);
+    List<DailryPageFindDTO> findPageNumbersAndThumbnailsByDailryId(Long dailryId);
 }

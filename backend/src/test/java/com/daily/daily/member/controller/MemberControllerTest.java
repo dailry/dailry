@@ -70,7 +70,7 @@ class MemberControllerTest {
         JoinDTO joinDTO = new JoinDTO("geonwoo123", "pass1234", "사모예드");
 
         MemberInfoDTO expected = new MemberInfoDTO();
-        expected.setId(1L);
+        expected.setMemberId(1L);
         expected.setUsername("geonwoo123");
         expected.setNickname("사모예드");
 
@@ -98,7 +98,7 @@ class MemberControllerTest {
                         fieldWithPath("nickname").type(STRING).description("닉네임").optional()
                 ),
                 responseFields(
-                        fieldWithPath("id").type(NUMBER).description("회원 식별 id"),
+                        fieldWithPath("memberId").type(NUMBER).description("회원 식별 id"),
                         fieldWithPath("username").type(STRING).description("아이디"),
                         fieldWithPath("nickname").type(STRING).description("닉네임"),
                         fieldWithPath("email").type(STRING).description("이메일").optional()
@@ -132,7 +132,7 @@ class MemberControllerTest {
     void getMemberByAccessToken() throws Exception {
         //given
         MemberInfoDTO expected = new MemberInfoDTO();
-        expected.setId(1L);
+        expected.setMemberId(1L);
         expected.setUsername("geonwoo123");
         expected.setNickname("난폭한사자");
 
@@ -157,7 +157,7 @@ class MemberControllerTest {
         //restdocs
         actions.andDo(document("회원정보조회",
                 responseFields(
-                        fieldWithPath("id").type(NUMBER).description("회원 식별 id"),
+                        fieldWithPath("memberId").type(NUMBER).description("회원 식별 id"),
                         fieldWithPath("username").type(STRING).description("아이디"),
                         fieldWithPath("nickname").type(STRING).description("닉네임"),
                         fieldWithPath("email").type(STRING).description("이메일").optional()
@@ -264,7 +264,7 @@ class MemberControllerTest {
         NicknameDTO nicknameDTO = new NicknameDTO("mynickname");
 
         MemberInfoDTO expected = new MemberInfoDTO();
-        expected.setId(1L);
+        expected.setMemberId(1L);
         expected.setUsername("geonwoo123");
         expected.setNickname("난폭한사자");
 
@@ -292,7 +292,7 @@ class MemberControllerTest {
                         fieldWithPath("nickname").type(STRING).description("변경을 요청할 닉네임")
                 ),
                 responseFields(
-                        fieldWithPath("id").type(NUMBER).description("회원 식별 id"),
+                        fieldWithPath("memberId").type(NUMBER).description("회원 식별 id"),
                         fieldWithPath("username").type(STRING).description("아이디"),
                         fieldWithPath("nickname").type(STRING).description("닉네임"),
                         fieldWithPath("email").type(STRING).description("이메일").optional()

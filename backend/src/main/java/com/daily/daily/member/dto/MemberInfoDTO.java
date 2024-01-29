@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class MemberInfoDTO {
-    private Long id;
+    private Long memberId;
     private String username;
     private String nickname;
     private String email;
