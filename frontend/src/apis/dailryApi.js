@@ -2,10 +2,9 @@ import customAxios from './customAxios';
 
 export const getDailry = async (dailryId) => {
   try {
-    const dailry = dailryId
+    return dailryId
       ? await customAxios.get(`/dailry/${dailryId}`)
       : await customAxios.get('/dailry');
-    return dailry;
   } catch (e) {
     console.error(e);
 

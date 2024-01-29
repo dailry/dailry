@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { BACKGROUND } from '../../../styles/color';
 
 const containerPropsStyles = (current) => ({
@@ -11,7 +10,7 @@ const containerPropsStyles = (current) => ({
   },
 });
 
-const BaseContainer = styled(Link)`
+const BaseContainer = styled.button`
   display: flex;
   align-items: center;
   column-gap: 14px;

@@ -5,14 +5,19 @@ import Text from '../Text/Text';
 import NavigationItem from '../NavigationItem/NavigationItem';
 import { NavigationItemIcon } from '../../../assets/svg';
 import { getDailry } from '../../../apis/dailryApi';
+import { useDailryContext } from '../../../hooks/useDailryContext';
 
 const DailryNavigation = () => {
   const [dailryItem, setDailryItem] = useState([]);
-  const [currentDailry, setCurrentDailry] = useState(null);
+  const { currentDailry, setCurrentDailry } = useDailryContext();
 
   useEffect(() => {
     getDailry().then((response) => setDailryItem(response.data));
   }, []);
+
+  const handleClick = (dailryId) => {
+    setCurrentDailry({ dailryId, pageId: 1 });
+  };
 
   return (
     <S.NavigationWrapper>
@@ -23,8 +28,8 @@ const DailryNavigation = () => {
         return (
           <NavigationItem
             key={id}
-            to={'/dailry'}
-            current={currentDailry === id}
+            onClick={() => handleClick(id)}
+            current={currentDailry.dailryId === id}
             icon={<NavigationItemIcon />}
           >
             {title}
