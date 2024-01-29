@@ -4,12 +4,10 @@ import Moveable from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import { TOOLS } from '../../constants/toolbar';
-import {
-  DECORATE_COMPONENT,
-  DECORATE_TYPE,
-} from '../../constants/decorateComponent';
+import { DECORATE_TYPE } from '../../constants/decorateComponent';
 import NewTemporaryComponent from '../../components/decorate/NewTemporaryComponent/NewTemporaryComponent';
 import useCreateNewDecorateComponent from '../../hooks/useCreateDecorateComponent/useCreateDecorateComponent';
+import Decorate from '../../components/decorate/Decorate';
 
 const DailryPage = () => {
   const parentRef = useRef(null);
@@ -30,11 +28,7 @@ const DailryPage = () => {
     parentRef,
     setCanEditDecorateComponentId,
   });
-
-  const isMoveable = () =>
-    target &&
-    selectedTool === DECORATE_TYPE.MOVING &&
-    canEditDecorateComponentId === null;
+  const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
 
   const isNewDecorateComponentEdited =
     newDecorateComponent &&
@@ -45,7 +39,7 @@ const DailryPage = () => {
     setCanEditDecorateComponentId(null);
   };
 
-  const handleMouseDown = (e) => {
+  const handleClickPage = (e) => {
     if (canEditDecorateComponentId !== null && isNewDecorateComponentEdited) {
       initializeCreateNewDecorateComponentState();
       return;
@@ -54,32 +48,30 @@ const DailryPage = () => {
     createNewDecorateComponent(e, selectedTool);
   };
 
+  const handleClickDecorate = (e, index) => {
+    e.stopPropagation();
+    setTarget(index + 1);
+  };
+
   return (
     <S.FlexWrapper>
-      <S.CanvasWrapper ref={parentRef} onMouseDown={handleMouseDown}>
+      <S.CanvasWrapper ref={parentRef} onMouseDown={handleClickPage}>
+        {decorateComponents.length}
         {decorateComponents.map((element, index) => {
-          const { id, type, position, properties, order, size } = element;
+          const { id } = element;
           const canEdit = canEditDecorateComponentId === id;
           return (
-            <div
+            <Decorate
               key={id}
-              onMouseDown={(e) => {
-                e.stopPropagation();
-                setTarget(index + 1);
-              }}
-              style={S.ElementStyle({
-                position,
-                properties,
-                order,
-                size,
-                canEdit,
-              })}
+              onMouseDown={(e) => handleClickDecorate(e, index)}
+              setTarget={setTarget}
+              index={index}
+              canEdit={canEdit}
               ref={(el) => {
                 moveableRef[index + 1] = el;
               }}
-            >
-              {DECORATE_COMPONENT[type]}
-            </div>
+              {...element}
+            />
           );
         })}
 
