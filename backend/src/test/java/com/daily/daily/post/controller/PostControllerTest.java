@@ -7,7 +7,6 @@ import com.daily.daily.post.dto.PostWriteResponseDTO;
 import com.daily.daily.post.service.PostService;
 import com.daily.daily.testutil.document.RestDocsUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -45,7 +43,6 @@ import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestPartFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -113,9 +110,9 @@ class PostControllerTest {
                         fieldWithPath("postId").type(NUMBER).description("게시글 id"),
                         fieldWithPath("content").type(STRING).description("게시글 본문 내용"),
                         fieldWithPath("pageImage").type(STRING).description("게시된 다일리 이미지 URL"),
+                        fieldWithPath("hashtags").type(ARRAY).description("게시글 해시태그"),
                         fieldWithPath("writerId").type(NUMBER).description("게시글 작성자 고유 식별자"),
                         fieldWithPath("writerNickname").type(STRING).description("게시글 작성자 닉네임"),
-                        fieldWithPath("hashtags").type(ARRAY).description("게시글 해시태그"),
                         fieldWithPath("createdTime").type(STRING).description("게시글 생성 시간")
                 )
         ));
@@ -167,9 +164,9 @@ class PostControllerTest {
                             fieldWithPath("postId").type(NUMBER).description("게시글 id"),
                             fieldWithPath("content").type(STRING).description("게시글 본문 내용"),
                             fieldWithPath("pageImage").type(STRING).description("게시된 다일리 이미지 URL"),
+                            fieldWithPath("hashtags").type(ARRAY).description("게시글 해시태그"),
                             fieldWithPath("writerId").type(NUMBER).description("게시글 작성자 고유 식별자"),
                             fieldWithPath("writerNickname").type(STRING).description("게시글 작성자 닉네임"),
-                            fieldWithPath("hashtags").type(ARRAY).description("게시글 해시태그"),
                             fieldWithPath("createdTime").type(STRING).description("게시글 생성 시간")
                     )
             ));
@@ -260,9 +257,9 @@ class PostControllerTest {
                             fieldWithPath("postId").type(NUMBER).description("게시글 id"),
                             fieldWithPath("content").type(STRING).description("게시글 본문 내용"),
                             fieldWithPath("pageImage").type(STRING).description("게시된 다일리 이미지 URL"),
+                            fieldWithPath("hashtags").type(ARRAY).description("게시글 해시태그"),
                             fieldWithPath("writerId").type(NUMBER).description("게시글 작성자 고유 식별자"),
                             fieldWithPath("writerNickname").type(STRING).description("게시글 작성자 닉네임"),
-                            fieldWithPath("hashtags").type(ARRAY).description("게시글 해시태그"),
                             fieldWithPath("likeCount").type(NUMBER).description("좋아요 숫자"),
                             fieldWithPath("createdTime").type(STRING).description("게시글 생성 시간")
                     )
@@ -310,9 +307,9 @@ class PostControllerTest {
                             fieldWithPath("posts[].postId").type(NUMBER).description("게시글 id"),
                             fieldWithPath("posts[].content").type(STRING).description("게시글 본문 내용"),
                             fieldWithPath("posts[].pageImage").type(STRING).description("게시된 다일리 이미지 URL"),
+                            fieldWithPath("posts[].hashtags").type(ARRAY).description("게시글 해시태그"),
                             fieldWithPath("posts[].writerId").type(NUMBER).description("게시글 작성자 고유 식별자"),
                             fieldWithPath("posts[].writerNickname").type(STRING).description("게시글 작성자 닉네임"),
-                            fieldWithPath("posts[].hashtags").type(ARRAY).description("게시글 해시태그"),
                             fieldWithPath("posts[].likeCount").type(NUMBER).description("좋아요 숫자"),
                             fieldWithPath("posts[].createdTime").type(STRING).description("게시글 생성 시간")
                     )

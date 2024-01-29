@@ -276,6 +276,71 @@ include::{snippets}/다일리 삭제/response-fields.adoc[]
 
 == 게시글
 
+=== 게시글 작성
+
+==== 요청
+
+include::{snippets}/게시글 작성/http-request.adoc[]
+include::{snippets}/게시글 작성/request-parts.adoc[]
+part : request
+include::{snippets}/게시글 작성/request-part-request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/게시글 작성/http-response.adoc[]
+include::{snippets}/게시글 작성/response-fields.adoc[]
+
+=== 게시글 수정
+
+==== 요청
+
+include::{snippets}/게시글 수정/http-request.adoc[]
+include::{snippets}/게시글 수정/path-parameters.adoc[]
+include::{snippets}/게시글 수정/request-parts.adoc[]
+part : request
+include::{snippets}/게시글 수정/request-part-request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/게시글 수정/http-response.adoc[]
+include::{snippets}/게시글 수정/response-fields.adoc[]
+
+=== 게시글 단건 조회
+
+==== 요청
+
+include::{snippets}/게시글 단건 조회/http-request.adoc[]
+include::{snippets}/게시글 단건 조회/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/게시글 단건 조회/http-response.adoc[]
+include::{snippets}/게시글 단건 조회/response-fields.adoc[]
+
+=== 게시글 여러건 조회
+
+==== 요청
+
+include::{snippets}/게시글 여러건 조회/http-request.adoc[]
+include::{snippets}/게시글 여러건 조회/query-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/게시글 여러건 조회/http-response.adoc[]
+include::{snippets}/게시글 여러건 조회/response-fields.adoc[]
+
+=== 게시글 삭제
+
+==== 요청
+
+include::{snippets}/게시글 삭제/http-request.adoc[]
+include::{snippets}/게시글 삭제/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/게시글 삭제/http-response.adoc[]
+
+
 == 게시글 좋아요
 
 === 좋아요 증가
