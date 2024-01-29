@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,6 +21,7 @@ public class PostWriteResponseDTO { // 수정, 삭제 전용 응답 DTO
     private Long postId;
     private String content;
     private String pageImage;
+    private List<String> hashtags;
     private Long writerId;
     private String writerNickname;
     private LocalDateTime createdTime;
@@ -31,6 +33,7 @@ public class PostWriteResponseDTO { // 수정, 삭제 전용 응답 DTO
                 .postId(post.getId())
                 .content(post.getContent())
                 .pageImage(post.getPageImage())
+                .hashtags(post.getTagNames())
                 .writerId(postWriter.getId())
                 .writerNickname(postWriter.getNickname())
                 .createdTime(post.getCreatedTime())

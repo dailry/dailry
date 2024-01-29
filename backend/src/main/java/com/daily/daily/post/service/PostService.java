@@ -6,7 +6,7 @@ import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.repository.MemberRepository;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.dto.PostReadResponseDTO;
-import com.daily.daily.post.dto.PostRequestDTO;
+import com.daily.daily.post.dto.PostWriteRequestDTO;
 import com.daily.daily.post.dto.PostWriteResponseDTO;
 import com.daily.daily.post.exception.PostNotFoundException;
 import com.daily.daily.post.repository.PostLikeRepository;
@@ -30,53 +30,55 @@ public class PostService {
 
     private final MemberRepository memberRepository;
 
-    private final S3StorageService storageService;
-
     private final PostLikeRepository likeRepository;
 
+    private final S3StorageService storageService;
 
-    public PostWriteResponseDTO create(Long memberId, PostRequestDTO postRequestDTO, MultipartFile pageImage) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
+    private final HashtagService hashtagService;
+
+    public PostWriteResponseDTO create(Long memberId, PostWriteRequestDTO postWriteRequestDTO, MultipartFile pageImage) {
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 
         Post post = Post.builder()
-                .content(postRequestDTO.getContent())
+                .content(postWriteRequestDTO.getContent())
                 .postWriter(member)
                 .build();
 
         Post savedPost = postRepository.save(post);
+        hashtagService.addHashtagsToPost(savedPost, postWriteRequestDTO.getHashtags());
 
-        String fileUrl = storageService.uploadImage(pageImage, POST_STORAGE_DIRECTORY_PATH, savedPost.getId().toString());
-        savedPost.updatePageImage(fileUrl);
-
+        uploadPageImage(savedPost, pageImage);
         return PostWriteResponseDTO.from(savedPost);
     }
 
-    public PostWriteResponseDTO update(Long postId, PostRequestDTO postRequestDTO, MultipartFile pageImage) {
+    public PostWriteResponseDTO update(Long postId, PostWriteRequestDTO postWriteRequestDTO, MultipartFile pageImage) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
 
-        post.updateContent(postRequestDTO.getContent());
+        post.updateContent(postWriteRequestDTO.getContent());
+        hashtagService.updateHashtagsInPost(post, postWriteRequestDTO.getHashtags());
 
         if (pageImage == null || pageImage.isEmpty()) {
             return PostWriteResponseDTO.from(post);
         }
 
-        String fileUrl = storageService.uploadImage(pageImage, POST_STORAGE_DIRECTORY_PATH, post.getId().toString());
-        post.updatePageImage(fileUrl);
+        uploadPageImage(post, pageImage);
         return PostWriteResponseDTO.from(post);
     }
 
-    public PostReadResponseDTO find(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(PostNotFoundException::new);
+    private void uploadPageImage(Post post, MultipartFile pageImage) {
+        String fileUrl = storageService.uploadImage(pageImage, POST_STORAGE_DIRECTORY_PATH, post.getId().toString());
+        post.updatePageImage(fileUrl);
+    }
 
+    public PostReadResponseDTO find(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         Long likeCount = likeRepository.countByPost(post);
+
         return PostReadResponseDTO.from(post, likeCount);
     }
 
     public void delete(Long postId) {
         postRepository.deleteById(postId);
     }
-
 }

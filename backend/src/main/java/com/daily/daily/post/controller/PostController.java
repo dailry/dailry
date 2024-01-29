@@ -2,7 +2,7 @@ package com.daily.daily.post.controller;
 
 import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.post.dto.PostReadResponseDTO;
-import com.daily.daily.post.dto.PostRequestDTO;
+import com.daily.daily.post.dto.PostWriteRequestDTO;
 import com.daily.daily.post.dto.PostWriteResponseDTO;
 import com.daily.daily.post.service.PostService;
 import jakarta.annotation.Nullable;
@@ -37,7 +37,7 @@ public class PostController {
     @ResponseStatus(HttpStatus.CREATED)
     public PostWriteResponseDTO createPost(
             @AuthenticationPrincipal Long id,
-            @RequestPart @Valid PostRequestDTO request,
+            @RequestPart @Valid PostWriteRequestDTO request,
             @RequestPart @NotNull MultipartFile pageImage
     ) {
         return postService.create(id, request, pageImage);
@@ -47,7 +47,7 @@ public class PostController {
     @Secured(value = "ROLE_MEMBER")
     public PostWriteResponseDTO updatePost(
             @PathVariable Long postId,
-            @RequestPart @Valid PostRequestDTO request,
+            @RequestPart @Valid PostWriteRequestDTO request,
             @RequestPart @Nullable MultipartFile pageImage
     ) {
         return postService.update(postId, request, pageImage);
