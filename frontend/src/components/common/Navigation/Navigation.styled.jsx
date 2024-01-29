@@ -37,3 +37,17 @@ export const ItemName = css`
   font-size: 16px;
   font-weight: 700;
 `;
+
+export const AddDailry = styled.button`
+  padding: 10px;
+
+  text-align: start;
+  font-weight: 700;
+  font-size: 16px;
+  color: ${MENU.text};
+  letter-spacing: -1px;
+
+  &:hover {
+    color: ${MENU.textMouseOver};
+  }
+`;
