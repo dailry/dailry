@@ -13,9 +13,7 @@ import com.daily.daily.post.dto.PostWriteResponseDTO;
 import com.daily.daily.post.exception.PostNotFoundException;
 import com.daily.daily.post.repository.PostLikeRepository;
 import com.daily.daily.post.repository.PostRepository;
-import com.daily.daily.postcomment.domain.PostComment;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -57,10 +55,11 @@ public class PostService {
         return PostWriteResponseDTO.from(savedPost);
     }
 
-    public PostWriteResponseDTO update(Long postId, PostWriteRequestDTO postWriteRequestDTO, MultipartFile pageImage) {
+    public PostWriteResponseDTO update(Long memberId, Long postId, PostWriteRequestDTO postWriteRequestDTO, MultipartFile pageImage) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
 
+        validateAuthorityToPost(post, memberId);
         post.updateContent(postWriteRequestDTO.getContent());
         hashtagService.updateHashtagsInPost(post, postWriteRequestDTO.getHashtags());
 
@@ -84,13 +83,7 @@ public class PostService {
         return PostReadResponseDTO.from(post, likeCount);
     }
 
-    public void delete(Long postId) {
-        postRepository.deleteById(postId);
-    }
-
-
-
-    public PostReadSliceResponseDTO readSlice(Pageable pageable) {
+    public PostReadSliceResponseDTO findSlice(Pageable pageable) {
         Slice<Post> posts = postRepository.find(pageable);
 
         /**
@@ -103,6 +96,16 @@ public class PostService {
 
         return PostReadSliceResponseDTO.from(posts);
     }
+
+    public void delete(Long memberId, Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(PostNotFoundException::new);
+
+        validateAuthorityToPost(post, memberId);
+
+        postRepository.deleteById(postId);
+    }
+
 
     private void validateAuthorityToPost(Post post, Long writerId) {
         if (!post.isWrittenBy(writerId)) {

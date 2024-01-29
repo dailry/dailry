@@ -127,7 +127,7 @@ class PostControllerTest {
         @DisplayName("게시글 수정 요청에 이미지 파일과, Json정보를 전부 보냈을 경우 응답값을 검사한다.")
         void imageAndJson() throws Exception {
             //given
-            given(postService.update(any(), any(), any())).willReturn(게시글_작성_응답_DTO());
+            given(postService.update(any(), any(), any(), any())).willReturn(게시글_작성_응답_DTO());
 
             //when
             ResultActions perform = mockMvc.perform(multipart("/api/posts/{postId}/edit", POST_ID)
@@ -276,7 +276,7 @@ class PostControllerTest {
         void test1() throws Exception {
             //given
             PostReadSliceResponseDTO 게시글_여러건_조회_dto = 게시글_여러건_조회_DTO();
-            given(postService.readSlice(PageRequest.of(0, 5))).willReturn(게시글_여러건_조회_dto);
+            given(postService.findSlice(PageRequest.of(0, 5))).willReturn(게시글_여러건_조회_dto);
 
             //when
             ResultActions perform = mockMvc.perform(get("/api/posts")
