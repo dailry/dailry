@@ -2,6 +2,7 @@ package com.daily.daily.post.controller;
 
 import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.post.dto.PostReadResponseDTO;
+import com.daily.daily.post.dto.PostReadSliceResponseDTO;
 import com.daily.daily.post.dto.PostWriteRequestDTO;
 import com.daily.daily.post.dto.PostWriteResponseDTO;
 import com.daily.daily.post.service.PostService;
@@ -9,6 +10,8 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -57,6 +60,12 @@ public class PostController {
     public PostReadResponseDTO readSinglePost(@PathVariable Long postId) {
         return postService.find(postId);
     }
+
+    @GetMapping
+    public PostReadSliceResponseDTO readSlicePost(Pageable pageable) {
+        return postService.readSlice(pageable);
+    }
+
 
     @DeleteMapping("/{postId}")
     @Secured(value = "ROLE_MEMBER")

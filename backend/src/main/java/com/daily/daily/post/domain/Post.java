@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -45,12 +45,20 @@ public class Post extends BaseTimeEntity {
     @Builder.Default
     private List<PostHashtag> postHashtags = new ArrayList<>();
 
+    @Transient
+    private Long likeCount;
+
+
     public void updatePageImage(String pageImage) {
         this.pageImage = pageImage;
     }
 
     public void updateContent(String content) {
         this.content = content;
+    }
+
+    public void setLikeCount(Long likeCount) {
+        this.likeCount = likeCount;
     }
 
     public void addPostHashtag(PostHashtag postHashtag) {
@@ -62,9 +70,22 @@ public class Post extends BaseTimeEntity {
         postHashtags.clear();
     }
 
+    public boolean isWrittenBy(Long writerId) {
+        return writerId.equals(this.getWriterId());
+    }
+
     public List<String> getTagNames() {
         return postHashtags.stream()
                 .map(PostHashtag::getTagName)
                 .collect(Collectors.toList());
     }
+
+    public Long getWriterId() {
+        return postWriter.getId();
+    }
+
+    public String getWriterNickname() {
+        return postWriter.getNickname();
+    }
+
 }

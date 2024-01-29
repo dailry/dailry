@@ -26,14 +26,13 @@ public class PostReadResponseDTO {
     private LocalDateTime createdTime;
 
     public static PostReadResponseDTO from(Post post, Long likeCount) {
-        Member postWriter = post.getPostWriter();
 
         return PostReadResponseDTO.builder()
                 .postId(post.getId())
                 .content(post.getContent())
                 .pageImage(post.getPageImage())
-                .writerId(postWriter.getId())
-                .writerNickname(postWriter.getNickname())
+                .writerId(post.getWriterId())
+                .writerNickname(post.getWriterNickname())
                 .hashtags(post.getTagNames())
                 .createdTime(post.getCreatedTime())
                 .likeCount(likeCount)
