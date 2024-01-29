@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import memberData from '../datas/member.json';
+import { memberData } from '../datas/member';
 
 export const memberHandlers = [
   http.get('https://api.da-ily.site/api/member', () => {

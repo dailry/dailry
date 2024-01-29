@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import dailryData from '../datas/dailry.json';
+import { dailryData } from '../datas/dailry';
 
 export const dailryHandlers = [
   http.get('https://api.da-ily.site/api/dailry', () => {
@@ -14,5 +14,13 @@ export const dailryHandlers = [
       return HttpResponse.json(foundDailry);
     }
     return new HttpResponse(null, { status: 500 });
+  }),
+
+  http.post('https://api.da-ily.site/api/dailry', async ({ request }) => {
+    const { title } = await request.json();
+    const nextId = dailryData[dailryData.length - 1].id + 1;
+    const newDailry = { id: nextId, title };
+    dailryData.push(newDailry);
+    return HttpResponse.json(newDailry);
   }),
 ];

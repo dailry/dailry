@@ -1,19 +1,20 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { BACKGROUND } from '../../../styles/color';
+import { styled, css } from 'styled-components';
+import { MENU } from '../../../styles/color';
 
 const containerPropsStyles = (current) => ({
-  background: current ? BACKGROUND.bright : 'none',
+  background: current ? MENU.boxCurrent : 'none',
   boxShadow: current ? '0px 2px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
   '&:hover': {
-    background: current ? BACKGROUND.bright : 'rgba(0, 0, 0, 0.1)',
+    background: current ? MENU.boxCurrent : MENU.boxMouseOver,
   },
 });
 
-const BaseContainer = styled.button`
+const BaseContainer = css`
   display: flex;
   align-items: center;
   column-gap: 14px;
+  overflow: hidden;
 
   width: 100%;
   height: 50px;
@@ -25,13 +26,21 @@ const BaseContainer = styled.button`
   cursor: pointer;
 `;
 
-export const Container = styled(BaseContainer)((props) => {
-  const { current } = props;
-  return {
-    ...containerPropsStyles(current),
-  };
-});
+export const Container = styled.button`
+  ${BaseContainer}
+  ${(props) => {
+    const { current } = props;
+    return {
+      ...containerPropsStyles(current),
+    };
+  }}
+`;
 
 Container.propTypes = {
   current: PropTypes.bool,
 };
+
+export const CreateForm = styled.form`
+  background-color: ${MENU.boxMouseOver};
+  ${BaseContainer}
+`;

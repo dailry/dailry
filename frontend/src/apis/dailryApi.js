@@ -14,9 +14,8 @@ export const getDailry = async (dailryId) => {
 
 export const postDailry = async (dailryData) => {
   try {
-    const { id, title } = dailryData;
+    const { title } = dailryData;
     return await customAxios.post('/dailry', {
-      id,
       title,
     });
   } catch (e) {
