@@ -1,5 +1,6 @@
 package com.daily.daily.post.service;
 
+import com.daily.daily.common.exception.UnauthorizedAccessException;
 import com.daily.daily.common.service.S3StorageService;
 import com.daily.daily.member.repository.MemberRepository;
 import com.daily.daily.post.domain.Post;
@@ -21,6 +22,7 @@ import java.util.HashSet;
 import java.util.Optional;
 
 import static com.daily.daily.member.fixture.MemberFixture.일반회원1;
+import static com.daily.daily.member.fixture.MemberFixture.일반회원1_ID;
 import static com.daily.daily.post.fixture.PostFixture.POST_ID;
 import static com.daily.daily.post.fixture.PostFixture.게시글_요청_DTO;
 import static com.daily.daily.post.fixture.PostFixture.다일리_페이지_이미지_파일;
@@ -85,7 +87,7 @@ class PostServiceTest {
             when(postRepository.findById(POST_ID)).thenReturn(Optional.of(일반회원1이_작성한_게시글()));
 
             //when
-            PostWriteResponseDTO updateResult = postService.update(POST_ID, new PostWriteRequestDTO(), null);
+            PostWriteResponseDTO updateResult = postService.update(일반회원1_ID, POST_ID, new PostWriteRequestDTO(), null);
 
             //then
             assertThat(updateResult.getPageImage()).isEqualTo(일반회원1이_작성한_게시글().getPageImage());
@@ -100,10 +102,21 @@ class PostServiceTest {
             when(storageService.uploadImage(any(), any(), any())).thenReturn("post/4-awef-1231-xcvsdf-12312_qwf.png");
 
             //when
-            PostWriteResponseDTO updateResult = postService.update(POST_ID, new PostWriteRequestDTO(), 다일리_페이지_이미지_파일());
+            PostWriteResponseDTO updateResult = postService.update(일반회원1_ID, POST_ID, new PostWriteRequestDTO(), 다일리_페이지_이미지_파일());
 
             //then
             assertThat(updateResult.getPageImage()).isEqualTo("post/4-awef-1231-xcvsdf-12312_qwf.png");
+        }
+
+        @Test
+        @DisplayName("게시글 작성자가 아닌 다른 사람이 게시글을 수정하려고 하면 UnauthorizedAccessException이 발생한다.")
+        void test3() {
+            //given
+            when(postRepository.findById(POST_ID)).thenReturn(Optional.of(일반회원1이_작성한_게시글()));
+
+            //when, then
+            Assertions.assertThatThrownBy(() -> postService.update(일반회원1_ID + 3, POST_ID, new PostWriteRequestDTO(), 다일리_페이지_이미지_파일()))
+                    .isInstanceOf(UnauthorizedAccessException.class);
         }
     }
 
@@ -123,6 +136,19 @@ class PostServiceTest {
 
             //then
             assertThat(result.getLikeCount()).isEqualTo(5L);
+        }
+    }
+
+    @Nested
+    @DisplayName("delete() - 게시글 삭제 테스트")
+    class delete {
+        @Test
+        @DisplayName("게시글 작성자가 아닌 다른 사람이 게시글을 삭제하려고 하면 UnauthorizedAccessException이 발생한다.")
+        void test1() {
+            when(postRepository.findById(POST_ID)).thenReturn(Optional.of(일반회원1이_작성한_게시글()));
+
+            Assertions.assertThatThrownBy(() -> postService.delete(일반회원1_ID + 3, POST_ID))
+                    .isInstanceOf(UnauthorizedAccessException.class);
         }
     }
 }

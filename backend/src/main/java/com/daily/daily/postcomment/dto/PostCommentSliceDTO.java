@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Getter
 @Builder
 public class PostCommentSliceDTO {
-    private int presentPage;
+    private Integer presentPage;
     private boolean hasNext;
     private List<SingleCommentDTO> comments;
 

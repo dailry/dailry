@@ -5,6 +5,7 @@ import com.daily.daily.post.domain.Hashtag;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.domain.PostHashtag;
 import com.daily.daily.post.dto.PostReadResponseDTO;
+import com.daily.daily.post.dto.PostReadSliceResponseDTO;
 import com.daily.daily.post.dto.PostWriteRequestDTO;
 import com.daily.daily.post.dto.PostWriteResponseDTO;
 import org.springframework.mock.web.MockMultipartFile;
@@ -12,6 +13,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingExcept
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,6 +64,70 @@ public class PostFixture {
                 .hashtags(게시글_작성_응답_DTO.getHashtags())
                 .createdTime(게시글_작성_응답_DTO.getCreatedTime())
                 .likeCount(10L)
+                .build();
+    }
+
+    public static PostReadSliceResponseDTO 게시글_여러건_조회_DTO() {
+        PostReadResponseDTO 게시글1 = PostReadResponseDTO.builder()
+                .postId(36L)
+                .content("오늘 다일리 어떤가요?")
+                .pageImage("https://imageURL123.com")
+                .writerId(3L)
+                .writerNickname("신입생123")
+                .hashtags(List.of("대학생", "시험기간"))
+                .createdTime(POST_CREATED_TIME)
+                .likeCount(5L)
+                .build();
+
+        PostReadResponseDTO 게시글2 = PostReadResponseDTO.builder()
+                .postId(37L)
+                .content("오늘 다일리 어떤가요~~")
+                .pageImage("https://imageURL13.com")
+                .writerId(4L)
+                .writerNickname("다솔맘")
+                .hashtags(List.of("육아"))
+                .createdTime(POST_CREATED_TIME)
+                .likeCount(8L)
+                .build();
+
+        PostReadResponseDTO 게시글3 = PostReadResponseDTO.builder()
+                .postId(38L)
+                .content("오늘 업무량 실화냐..")
+                .pageImage("https://imageURL123.com")
+                .writerId(31L)
+                .writerNickname("다일리개발자")
+                .hashtags(List.of("개발자", "회사", "퇴사"))
+                .createdTime(POST_CREATED_TIME)
+                .likeCount(33L)
+                .build();
+
+        PostReadResponseDTO 게시글4 = PostReadResponseDTO.builder()
+                .postId(39L)
+                .content("주말 다일리 어떤가요?")
+                .pageImage("https://imageURL1413.com")
+                .writerId(83L)
+                .writerNickname("주말좋아")
+                .hashtags(List.of("주말", "휴식"))
+                .createdTime(POST_CREATED_TIME)
+                .likeCount(23L)
+                .build();
+
+        PostReadResponseDTO 게시글5 = PostReadResponseDTO.builder()
+                .postId(40L)
+                .content("유럽여행 25일차 일정 짜봤습니다.")
+                .pageImage("https://imageURL23123.com")
+                .writerId(512L)
+                .writerNickname("여행유튜버")
+                .hashtags(List.of("여행", "유럽여행"))
+                .createdTime(POST_CREATED_TIME)
+                .likeCount(212L)
+                .build();
+
+        return PostReadSliceResponseDTO
+                .builder()
+                .hasNext(true)
+                .presentPage(7)
+                .posts(List.of(게시글1, 게시글2, 게시글3, 게시글4, 게시글5))
                 .build();
     }
 
