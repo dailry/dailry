@@ -17,12 +17,16 @@ import java.util.Collection;
 public class DailryPageDTO {
     private Long id;
     private String background;
+    private String thumbnail;
+    private int pageNumber;
     private Object elements;
 
     public static DailryPageDTO from(DailryPage dailryPage) {
         return DailryPageDTO.builder()
                 .id(dailryPage.getId())
                 .background(dailryPage.getBackground())
+                .thumbnail(dailryPage.getThumbnail())
+                .pageNumber(dailryPage.getPageNumber())
                 .elements(dailryPage.getElements().values())
                 .build();
     }

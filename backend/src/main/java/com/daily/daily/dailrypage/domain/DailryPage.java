@@ -21,6 +21,8 @@ public class DailryPage {
     @GeneratedValue
     private Long id;
     private String background;
+    private String thumbnail;
+    private int pageNumber;
 
 //    @Type(JsonType.class)
 //    @Column(name = "elements", columnDefinition = "JSON")
@@ -28,6 +30,7 @@ public class DailryPage {
 
     @Type(JsonType.class)
     @Column(name = "elements", columnDefinition = "JSON")
+    @Builder.Default
     private Map<String, Object> elements = new HashMap<>();
 
     @ManyToOne
@@ -45,6 +48,8 @@ public class DailryPage {
 //    public void updateElements(Object elements) {
 //        this.elements = elements;
 //    }
+
+    public void updatePageNumber(int pageNumber) { this.pageNumber = pageNumber; }
 
     public void updateElements(List<DailryPageUpdateDTO.ElementDTO> elements) {
         for (DailryPageUpdateDTO.ElementDTO element : elements) {

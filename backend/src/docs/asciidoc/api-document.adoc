@@ -252,6 +252,17 @@ include::{snippets}/다일리 조회/path-parameters.adoc[]
 include::{snippets}/다일리 조회/http-response.adoc[]
 include::{snippets}/다일리 조회/response-fields.adoc[]
 
+=== 전체 다일리 조회
+
+==== 요청
+
+include::{snippets}/전체 다일리 조회/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/전체 다일리 조회/http-response.adoc[]
+include::{snippets}/전체 다일리 조회/response-fields.adoc[]
+
 === 다일리 삭제
 
 ==== 요청
@@ -275,13 +286,13 @@ include::{snippets}/좋아요 증가/http-request.adoc[]
 
 ==== 응답
 
-include::{snippets}/좋아요 취소/http-response.adoc[]
+include::{snippets}/좋아요 증가/http-response.adoc[]
 
 === 좋아요 취소
 
 ==== 요청
 
-include::{snippets}/좋아요 증가/http-request.adoc[]
+include::{snippets}/좋아요 취소/http-request.adoc[]
 
 ==== 응답
 
