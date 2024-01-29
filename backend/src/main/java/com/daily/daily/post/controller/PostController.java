@@ -1,8 +1,9 @@
 package com.daily.daily.post.controller;
 
 import com.daily.daily.common.dto.SuccessResponseDTO;
-import com.daily.daily.post.dto.PostRequestDTO;
-import com.daily.daily.post.dto.PostResponseDTO;
+import com.daily.daily.post.dto.PostReadResponseDTO;
+import com.daily.daily.post.dto.PostWriteRequestDTO;
+import com.daily.daily.post.dto.PostWriteResponseDTO;
 import com.daily.daily.post.service.PostService;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
@@ -13,7 +14,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -37,9 +35,9 @@ public class PostController {
     @PostMapping
     @Secured(value = "ROLE_MEMBER")
     @ResponseStatus(HttpStatus.CREATED)
-    public PostResponseDTO createPost(
+    public PostWriteResponseDTO createPost(
             @AuthenticationPrincipal Long id,
-            @RequestPart @Valid PostRequestDTO request,
+            @RequestPart @Valid PostWriteRequestDTO request,
             @RequestPart @NotNull MultipartFile pageImage
     ) {
         return postService.create(id, request, pageImage);
@@ -47,16 +45,16 @@ public class PostController {
 
     @PostMapping("/{postId}/edit")
     @Secured(value = "ROLE_MEMBER")
-    public PostResponseDTO updatePost(
+    public PostWriteResponseDTO updatePost(
             @PathVariable Long postId,
-            @RequestPart @Valid PostRequestDTO request,
+            @RequestPart @Valid PostWriteRequestDTO request,
             @RequestPart @Nullable MultipartFile pageImage
     ) {
         return postService.update(postId, request, pageImage);
     }
 
     @GetMapping("/{postId}")
-    public PostResponseDTO readSinglePost(@PathVariable Long postId) {
+    public PostReadResponseDTO readSinglePost(@PathVariable Long postId) {
         return postService.find(postId);
     }
 
