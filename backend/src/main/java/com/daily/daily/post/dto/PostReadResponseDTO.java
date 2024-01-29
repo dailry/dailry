@@ -1,6 +1,5 @@
 package com.daily.daily.post.dto;
 
-import com.daily.daily.member.domain.Member;
 import com.daily.daily.post.domain.Post;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
