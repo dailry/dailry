@@ -70,7 +70,7 @@ public class DailryPageService {
     }
 
     public List<DailryPageFindDTO> findAll(Long dailryId) {
-        return dailryPageRepository.findIdsAndThumbnailsByDailryId(dailryId);
+        return dailryPageRepository.findPageNumbersAndThumbnailsByDailryId(dailryId);
     }
 
     public void delete(Long pageId) {

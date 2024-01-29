@@ -1,39 +1,46 @@
 package com.daily.daily.dailry.controller;
 
-import com.daily.daily.auth.dto.LoginDTO;
-import com.daily.daily.auth.dto.TokenDTO;
-import com.daily.daily.auth.service.AuthService;
+import com.daily.daily.auth.jwt.JwtAuthorizationFilter;
+import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.dailry.dto.DailryDTO;
-import com.daily.daily.dailry.dto.DailryUpdateDTO;
+import com.daily.daily.dailry.dto.DailryFindDTO;
 import com.daily.daily.dailry.service.DailryService;
-import com.daily.daily.member.controller.MemberController;
-import com.daily.daily.member.dto.JoinDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.Cookie;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+import static com.daily.daily.dailry.fixture.DailryFixture.*;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
-import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Transactional
+@WebMvcTest(value = DailryController.class, excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtAuthorizationFilter.class),
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtUtil.class),
+})
+@MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
 public class DailryControllerTest {
 
@@ -43,57 +50,30 @@ public class DailryControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Autowired
-    MemberController memberController;
-
-    @Autowired
+    @MockBean
     DailryService dailryService;
-
-    @Autowired
-    AuthService authService;
-
-    @BeforeEach
-    void join() throws Exception {
-        JoinDTO joinDTO = new JoinDTO("testtest", "12341234", "잠자는사자");
-        memberController.join(joinDTO);
-        String username = "testtest";
-        String password = "12341234";
-        LoginDTO loginDto = new LoginDTO();
-        loginDto.setUsername(username);
-        loginDto.setPassword(password);
-        TokenDTO tokenDto = authService.login(loginDto);
-
-        String accessToken = tokenDto.getAccessToken();
-        String refreshToken = tokenDto.getRefreshToken();
-
-        mockMvc.perform(post("/api/login")
-                .cookie(new Cookie("AccessToken", accessToken))
-                .cookie(new Cookie("RefreshToken", refreshToken))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(loginDto)));
-    }
 
     @Test
     @DisplayName("정상적으로 다일리가 생성됐는지 확인합니다.")
     @WithMockUser
     void createDialry() throws Exception {
-
-        DailryUpdateDTO dailryUpdateDTO = new DailryUpdateDTO();
-        dailryUpdateDTO.setTitle("오늘의 다일리");
-        DailryDTO dailryDTO = dailryService.create(5L, dailryUpdateDTO);
+        //given, when
+        DailryDTO response = 다일리_응답_DTO();
+        given(dailryService.create(any(), any())).willReturn(response);
 
         ResultActions resultActions =  mockMvc.perform(post("/api/dailry")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dailryDTO)));
+                        .content(objectMapper.writeValueAsString(다일리_생성_DTO()))
+                        .with(csrf().asHeader())
+        );
 
 
         resultActions.andDo(document("다일리 생성",
                 requestFields(
-                        fieldWithPath("id").type(NUMBER).description("멤버 id"),
                         fieldWithPath("title").type(STRING).description("다일리 제목")
                 ),
                 responseFields(
-                        fieldWithPath("id").type(NUMBER).description("다일리 id"),
+                        fieldWithPath("dailryId").type(NUMBER).description("다일리 id"),
                         fieldWithPath("title").type(STRING).description("다일리 제목")
         )));
     }
@@ -103,27 +83,25 @@ public class DailryControllerTest {
     @WithMockUser
     void updateDailry() throws Exception {
 
-        Long dailryId = 1L;
+        //given, when
+        DailryDTO response = 수정된_다일리_응답_DTO();
+        given(dailryService.update(any(), any(), any())).willReturn(response);
 
-        DailryUpdateDTO dailryUpdateDTO = new DailryUpdateDTO();
-        dailryUpdateDTO.setTitle("오늘의 다일리");
-        dailryService.create(1L, dailryUpdateDTO);
-
-        DailryUpdateDTO updatedDailryUpdateDTO = new DailryUpdateDTO();
-        updatedDailryUpdateDTO.setTitle("내일의 다일리");
-        DailryDTO dailryDTO = dailryService.update(1L, dailryId, updatedDailryUpdateDTO);
-
-        ResultActions resultActions = mockMvc.perform(patch("/api/dailry/{dailryId}", dailryId)
+        ResultActions resultActions = mockMvc.perform(patch("/api/dailry/{dailryId}", DAILRY_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dailryDTO)));
+                .content(objectMapper.writeValueAsString(다일리_수정_DTO()))
+                .with(csrf().asHeader())
+        );
 
         resultActions.andDo(document("다일리 수정",
+                pathParameters(
+                        parameterWithName("dailryId").description("다일리 id")
+                ),
                 requestFields(
-                        fieldWithPath("id").type(NUMBER).description("다일리 id"),
                         fieldWithPath("title").type(STRING).description("다일리 제목")
                 ),
                 responseFields(
-                        fieldWithPath("id").type(NUMBER).description("다일리 id"),
+                        fieldWithPath("dailryId").type(NUMBER).description("다일리 id"),
                         fieldWithPath("title").type(STRING).description("다일리 제목")
                 )));
     }
@@ -133,12 +111,11 @@ public class DailryControllerTest {
     @WithMockUser
     void findDailry() throws Exception {
 
-        DailryUpdateDTO dailryUpdateDTO = new DailryUpdateDTO();
-        dailryUpdateDTO.setTitle("오늘의 다일리");
-        DailryDTO dailryDTO = dailryService.create(4L, dailryUpdateDTO);
-        Long dailryId = dailryDTO.getId();
+        DailryDTO 응답결과 = 다일리_조회_DTO();
+        given(dailryService.find(any(), any())).willReturn(응답결과);
 
-        ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.get("/api/dailry/{dailryId}", dailryId)
+
+        ResultActions resultActions = mockMvc.perform(get("/api/dailry/{dailryId}", DAILRY_ID)
                 .contentType(MediaType.APPLICATION_JSON));
 
         resultActions.andDo(document("다일리 조회",
@@ -146,7 +123,7 @@ public class DailryControllerTest {
                         parameterWithName("dailryId").description("다일리 id")
                 ),
                 responseFields(
-                        fieldWithPath("id").type(NUMBER).description("다일리 id"),
+                        fieldWithPath("dailryId").type(NUMBER).description("다일리 id"),
                         fieldWithPath("title").type(STRING).description("다일리 제목")
                 )));
     }
@@ -156,20 +133,17 @@ public class DailryControllerTest {
     @WithMockUser
     void findAllDailry() throws Exception {
 
-        DailryUpdateDTO dailryUpdateDTO = new DailryUpdateDTO();
-        dailryUpdateDTO.setTitle("오늘의 다일리");
-        dailryService.create(3L, dailryUpdateDTO);
-        dailryUpdateDTO.setTitle("내일의 다일리");
-        dailryService.create(3L, dailryUpdateDTO);
-        dailryUpdateDTO.setTitle("어제의 다일리");
-        dailryService.create(3L, dailryUpdateDTO);
+        List<DailryFindDTO> 응답결과 = 다일리_리스트_응답_DTO();
+        given(dailryService.findAll(any())).willReturn(응답결과);
 
-        ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.get("/api/dailry")
-                .contentType(MediaType.APPLICATION_JSON));
+        ResultActions resultActions = mockMvc.perform(get("/api/dailry")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf().asHeader())
+        );
 
         resultActions.andDo(document("전체 다일리 조회",
                 responseFields(
-                        fieldWithPath("[].id").type(NUMBER).description("다일리 id"),
+                        fieldWithPath("[].dailryId").type(NUMBER).description("다일리 id"),
                         fieldWithPath("[].title").type(STRING).description("다일리 제목")
                 )));
     }
@@ -178,22 +152,21 @@ public class DailryControllerTest {
     @DisplayName("정상적으로 다일리가 삭제됐는지 확인합니다.")
     @WithMockUser
     void deleteDailry() throws Exception {
-        DailryUpdateDTO dailryUpdateDTO = new DailryUpdateDTO();
-        dailryUpdateDTO.setTitle("오늘의 다일리");
-        DailryDTO dailryDTO = dailryService.create(2L, dailryUpdateDTO);;
-        Long dailryId = dailryDTO.getId();
+        //given, when
+        ResultActions resultActions = mockMvc.perform(delete("/api/dailry/{dailryId}", DAILRY_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf().asHeader())
+        );
 
-        ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/dailry/{dailryId}", dailryId)
-                .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.successful").value(true))
+                .andExpect(jsonPath("$.statusCode").value(200));
 
         resultActions.andDo(document("다일리 삭제",
                 pathParameters(
                         parameterWithName("dailryId").description("다일리 id")
-                ),
-                responseFields(
-                        fieldWithPath("statusCode").type(NUMBER).description("상태코드"),
-                        fieldWithPath("successful").type(BOOLEAN).description("성공여부")
-                )));
+                )
+        ));
     }
 
 

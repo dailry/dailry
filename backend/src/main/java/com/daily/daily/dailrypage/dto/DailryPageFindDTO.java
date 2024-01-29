@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class DailryPageFindDTO {
-    private Long id;
+    private int pageNumber;
     private String thumbnail;
 }
 

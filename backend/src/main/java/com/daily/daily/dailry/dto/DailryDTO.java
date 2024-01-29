@@ -13,12 +13,12 @@ import lombok.Setter;
 @Builder
 public class DailryDTO {
 
-    private Long id;
+    private Long dailryId;
     private String title;
 
     public static DailryDTO from(Dailry dailry) {
         return DailryDTO.builder()
-                .id(dailry.getId())
+                .dailryId(dailry.getId())
                 .title(dailry.getTitle())
                 .build();
     }
