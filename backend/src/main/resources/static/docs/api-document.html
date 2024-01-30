@@ -484,7 +484,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_페이지_생성">페이지 생성</a></li>
 <li><a href="#_페이지_수정">페이지 수정</a></li>
 <li><a href="#_페이지_단건_조회">페이지 단건 조회</a></li>
-<li><a href="#_페이지_미리보기">페이지 미리보기</a></li>
+<li><a href="#_페이지_목록_미리보기">페이지 목록 미리보기</a></li>
 <li><a href="#_페이지_삭제">페이지 삭제</a></li>
 </ul>
 </li>
@@ -550,8 +550,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA2NjEzMTE5fQ.4_nIRzzGGnqiJxF4riBpolHeEILiiVZXeT97cTvcOY_1D6Tvdi_dZ54sYhcPU4ZRtFewwDTozthNfna3n83qZw
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNjYwOTUxOSwiZXhwIjoxNzA3ODE5MTE5fQ.F26rECvp49j5LEwFvPq5fXrnaHxEziYjolkdwf5-qcS8Ngkl0avRbEnToFpnh_bW8anMQjCT5Jxbtt__gOZHXA
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA2NjEzNzMwfQ.evv5P2_MmbXwHlh5NnX3SOGpHRl9IDCh4q1ug5ex94pIeEDAEO_SUNV_3STXAaMwCTq30_3MNpic6zu79r6hOg
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNjYxMDEzMCwiZXhwIjoxNzA3ODE5NzMwfQ.A28umaVNkjdTBVUZwMxcZaOkbMsi5-ohrvJ0J6BrlavyFw6p0I865U0jyoZ7R28qNz80JOSU9UqORzMgl6QBIg
 
 {
   "username" : "testtest",
@@ -595,8 +595,8 @@ Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNjYwOT
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA2NjEzMTE5fQ.4_nIRzzGGnqiJxF4riBpolHeEILiiVZXeT97cTvcOY_1D6Tvdi_dZ54sYhcPU4ZRtFewwDTozthNfna3n83qZw; Path=/; Secure; HttpOnly; SameSite=None
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNjYwOTUxOSwiZXhwIjoxNzA3ODE5MTE5fQ.F26rECvp49j5LEwFvPq5fXrnaHxEziYjolkdwf5-qcS8Ngkl0avRbEnToFpnh_bW8anMQjCT5Jxbtt__gOZHXA; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA2NjEzNzMwfQ.evv5P2_MmbXwHlh5NnX3SOGpHRl9IDCh4q1ug5ex94pIeEDAEO_SUNV_3STXAaMwCTq30_3MNpic6zu79r6hOg; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNjYxMDEzMCwiZXhwIjoxNzA3ODE5NzMwfQ.A28umaVNkjdTBVUZwMxcZaOkbMsi5-ohrvJ0J6BrlavyFw6p0I865U0jyoZ7R28qNz80JOSU9UqORzMgl6QBIg; Path=/; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -615,8 +615,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDY2MTMxMTd9.tlXPVggZ-bCv4rO-6q8C1XeDh5iNUBoL5RSC1Ph0VFhMYVymcnKbDC-c0FEIct3w_JUpAckUjrXY-8YQ9KXJdA
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA2NjA5NTE3LCJleHAiOjE3MDc4MTkxMTd9.AoYMViMuo0Eu1YJPVoMKm-LK4ctlvfBB1pHkCsrbzPV3Fw70zU9a51scqrtHFpb595YXXSNKqMtvAo5U0XOq8A</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDY2MTM3Mjl9.V_gQ-i7XbUgTIcG0NFRvX_0ZguqfrJsjv_NtXeSk1NVJv-TLvlqfaszkZF0vHFfBM3RNK5ZHgvnbwcyMUqUvug
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA2NjEwMTI5LCJleHAiOjE3MDc4MTk3Mjl9.lwW6sElCHPpyXh_jFJOnGdF3rYMNT0PZqGiZaCAtWAagEAJIq-CgsCp2cHzfrwayRyeKQMOnVX2JGtdyqlunhQ</code></pre>
 </div>
 </div>
 </div>
@@ -645,8 +645,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDY2MTMxMTh9.aUhxwvGe1y1rS_ajx9ywPiWe7OtgwkVaZ-zvHrCnGf5R1e_xaVk8S6hZirJWKsSkcgvOM-YKc9B9tXXYs2pNhg
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA2NjA5NTE4LCJleHAiOjE3MDc4MTkxMTh9.bq1v6kVYu1XE4Bdu3kHeHuCTJilyVkep7gz3pxYnoGw47lmQQaKS7lZrWZoAwftGLqPlFYaEziLcyyvuu-dmHw</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDY2MTM3Mjl9.ockllDsd-sKuPw8PTt6UVCKzu708UL-6BbEjUt4P8v9arbEcpQ9NEFWdVOhqra_LiB6-rE9uMp3pbVx-gOhCiw
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA2NjEwMTI5LCJleHAiOjE3MDc4MTk3Mjl9.hKNgUrwwzDjyeVyEkDv_MFo4eDm3wmiaroCnkHBVrSTNAZ7ULHr3ZX0w-JJICG5XOGWcWFIYIWfb_r8wT7KLqQ</code></pre>
 </div>
 </div>
 </div>
@@ -2489,7 +2489,7 @@ Content-Type: application/json;charset=UTF-8
 </div>
 </div>
 <div class="sect2">
-<h3 id="_페이지_미리보기">페이지 미리보기</h3>
+<h3 id="_페이지_목록_미리보기">페이지 목록 미리보기</h3>
 <div class="sect3">
 <h4 id="_요청_24">요청</h4>
 <div class="listingblock">
@@ -3820,7 +3820,7 @@ Content-Type: application/json;charset=UTF-8
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-30 19:11:07 +0900
+Last updated 2024-01-30 19:21:39 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
