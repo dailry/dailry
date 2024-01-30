@@ -5,6 +5,8 @@ import com.daily.daily.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -23,6 +25,10 @@ public class Dailry extends BaseTimeEntity {
 
     public void updateTitle(String title) {
         this.title = title;
+    }
+
+    public boolean belongsTo(Long memberId) {
+        return Objects.equals(this.member.getId(), memberId);
     }
 
 }

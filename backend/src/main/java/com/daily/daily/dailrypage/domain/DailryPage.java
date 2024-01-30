@@ -10,6 +10,7 @@ import org.hibernate.annotations.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -55,5 +56,9 @@ public class DailryPage {
         for (DailryPageUpdateDTO.ElementDTO element : elements) {
             this.elements.put(element.getId(), element);
         }
+    }
+
+    public boolean belongsTo(Long memberId) {
+        return Objects.equals(this.dailry.getMember().getId(), memberId);
     }
 }
