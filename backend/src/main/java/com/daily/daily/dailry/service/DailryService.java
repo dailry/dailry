@@ -38,8 +38,8 @@ public class DailryService {
         return DailryDTO.from(savedDailry);
     }
 
-    public DailryDTO update(Long memberId, Long dairlyId, DailryUpdateDTO dailryUpdateDTO) {
-        Dailry dailry = dailryRepository.findById(dairlyId)
+    public DailryDTO update(Long memberId, Long dailryId, DailryUpdateDTO dailryUpdateDTO) {
+        Dailry dailry = dailryRepository.findById(dailryId)
                 .orElseThrow(DailryNotFoundException::new);
 
         if (!dailry.belongsTo(memberId)) {
@@ -51,8 +51,8 @@ public class DailryService {
         return DailryDTO.from(dailry);
     }
 
-    public DailryDTO find(Long memberId, Long dairlyId) {
-        Dailry dailry = dailryRepository.findById(dairlyId)
+    public DailryDTO find(Long memberId, Long dailryId) {
+        Dailry dailry = dailryRepository.findById(dailryId)
                 .orElseThrow(DailryNotFoundException::new);
 
         if (!dailry.belongsTo(memberId)) {
@@ -65,13 +65,13 @@ public class DailryService {
         return dailryRepository.findIdsAndTitlesByMemberId(memberId);
     }
 
-    public void delete(Long memberId, Long dairlyId) {
-        Dailry dailry = dailryRepository.findById(dairlyId)
+    public void delete(Long memberId, Long dailryId) {
+        Dailry dailry = dailryRepository.findById(dailryId)
                 .orElseThrow(DailryNotFoundException::new);
         if (!dailry.belongsTo(memberId)) {
             throw new UnauthorizedAccessException();
         }
-        dailryRepository.deleteById(dairlyId);
+        dailryRepository.deleteById(dailryId);
     }
 
 }

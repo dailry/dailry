@@ -28,7 +28,7 @@ public class Dailry extends BaseTimeEntity {
     }
 
     public boolean belongsTo(Long memberId) {
-        return Objects.equals(this.id, memberId);
+        return Objects.equals(this.member.getId(), memberId);
     }
 
 }
