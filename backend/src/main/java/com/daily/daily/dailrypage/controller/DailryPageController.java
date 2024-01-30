@@ -1,6 +1,7 @@
 package com.daily.daily.dailrypage.controller;
 
 import com.daily.daily.common.dto.SuccessResponseDTO;
+import com.daily.daily.dailrypage.dto.DailryPageCreateResponseDTO;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
 import com.daily.daily.dailrypage.dto.DailryPageFindDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
@@ -22,7 +23,7 @@ public class DailryPageController {
 
     @PostMapping("/api/pages")
     @ResponseStatus(HttpStatus.CREATED)
-    public DailryPageDTO createPage() {
+    public DailryPageCreateResponseDTO createPage() {
         return dailryPageService.create();
     }
 

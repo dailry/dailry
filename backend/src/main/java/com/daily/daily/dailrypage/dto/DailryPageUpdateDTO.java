@@ -3,7 +3,9 @@ package com.daily.daily.dailrypage.dto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.Value;
@@ -47,7 +49,9 @@ public class DailryPageUpdateDTO {
 
         @Getter
         @Setter
-        static class PositionDTO {
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class PositionDTO {
             @NotNull(message = "position 값은 비어있을 수 없습니다.")
             private Integer x;
             @NotNull(message = "position 값은 비어있을 수 없습니다.")
@@ -56,7 +60,9 @@ public class DailryPageUpdateDTO {
 
         @Getter
         @Setter
-        static class SizeDTO {
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class SizeDTO {
             @NotNull(message = "size 값은 비어있을 수 없습니다.")
             private Integer width;
 

@@ -4,6 +4,7 @@ import com.daily.daily.dailry.domain.Dailry;
 import com.daily.daily.dailry.exception.DailryNotFoundException;
 import com.daily.daily.dailry.repository.DailryRepository;
 import com.daily.daily.dailrypage.domain.DailryPage;
+import com.daily.daily.dailrypage.dto.DailryPageCreateResponseDTO;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
 import com.daily.daily.dailrypage.dto.DailryPageFindDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
@@ -27,10 +28,10 @@ public class DailryPageService {
     private final DailryPageRepository dailryPageRepository;
     private final DailryRepository dailryRepository;
 
-    public DailryPageDTO create() {
+    public DailryPageCreateResponseDTO create() {
         DailryPage savedPage = dailryPageRepository.save(DailryPage.createEmptyPage());
 
-        return DailryPageDTO.from(savedPage);
+        return DailryPageCreateResponseDTO.from(savedPage);
     }
 
     public DailryPageDTO create2(Long dailryId) {
