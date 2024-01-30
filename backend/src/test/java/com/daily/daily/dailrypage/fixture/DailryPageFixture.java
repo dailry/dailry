@@ -2,6 +2,8 @@ package com.daily.daily.dailrypage.fixture;
 
 import com.daily.daily.dailrypage.dto.DailryPageCreateResponseDTO;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
+import com.daily.daily.dailrypage.dto.DailryPagePreviewDTO;
+import com.daily.daily.dailrypage.dto.DailryPageThumbnailDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 
 import java.util.HashMap;
@@ -10,9 +12,11 @@ import java.util.Map;
 
 public class DailryPageFixture {
 
+    public static final Long DAILRY_PAGE_ID = 5L;
+
     public static DailryPageCreateResponseDTO 비어있는_다일리_페이지_DTO() {
         return DailryPageCreateResponseDTO.builder()
-                .dailryPageId(5L)
+                .dailryPageId(DAILRY_PAGE_ID)
                 .background("grid")
                 .pageNumber(1L)
                 .build();
@@ -22,23 +26,35 @@ public class DailryPageFixture {
         DailryPageUpdateDTO 다일리_페이지_수정요청_DTO = new DailryPageUpdateDTO();
 
         다일리_페이지_수정요청_DTO.setBackground("무지");
-        다일리_페이지_수정요청_DTO.setElements(List.of(첫번째_elementsDTO, 두번째_elementsDTO, 세번째_elementsDTO));
+        다일리_페이지_수정요청_DTO.setElements(List.of(첫번째_elementsDTO(), 두번째_elementsDTO(), 세번째_elementsDTO()));
 
         return 다일리_페이지_수정요청_DTO;
     }
 
     public static DailryPageDTO 다일리_페이지_응답_DTO() {
         return DailryPageDTO.builder()
-                .dailryPageId(5L)
-                .background("grid")
+                .dailryPageId(DAILRY_PAGE_ID)
+                .background("무지")
                 .thumbnail("https://data.da-ily.site/thumbnail/2/awefkaweop")
                 .pageNumber(1)
+                .elements(List.of(첫번째_elementsDTO(), 두번째_elementsDTO(), 세번째_elementsDTO()))
                 .build();
     }
 
-    private static DailryPageUpdateDTO.ElementDTO 첫번째_elementsDTO;
-    {
-        첫번째_elementsDTO = new DailryPageUpdateDTO.ElementDTO();
+    public static DailryPagePreviewDTO 다일리_페이지_미리보기_DTO() {
+        DailryPageThumbnailDTO 썸네일1 = new DailryPageThumbnailDTO(1, "https://data.da-ily.site/32/5/1/awerqlwp33124");
+        DailryPageThumbnailDTO 썸네일2 = new DailryPageThumbnailDTO(2, "https://data.da-ily.site/32/5/2/73123wqrw");
+        DailryPageThumbnailDTO 썸네일3 = new DailryPageThumbnailDTO(3, "https://data.da-ily.site/32/5/3/u12rgf31412");
+
+        DailryPagePreviewDTO 다일리_페이지_미리보기_DTO = new DailryPagePreviewDTO();
+        다일리_페이지_미리보기_DTO.setDailryId(2L);
+        다일리_페이지_미리보기_DTO.setPages(List.of(썸네일1, 썸네일2, 썸네일3));
+
+        return 다일리_페이지_미리보기_DTO;
+    }
+
+    private static DailryPageUpdateDTO.ElementDTO 첫번째_elementsDTO() {
+        DailryPageUpdateDTO.ElementDTO 첫번째_elementsDTO = new DailryPageUpdateDTO.ElementDTO();
 
         첫번째_elementsDTO.setId("asdf");
         첫번째_elementsDTO.setType("textBox");
@@ -56,27 +72,29 @@ public class DailryPageFixture {
         properties.put("backgroundColor", "#ffcc00");
 
         첫번째_elementsDTO.setProperties(properties);
+
+        return 첫번째_elementsDTO;
     }
 
-    private static DailryPageUpdateDTO.ElementDTO 두번째_elementsDTO;
-    {
-        // 네번째 ElementDTO 생성 및 값 설정
-        두번째_elementsDTO = new DailryPageUpdateDTO.ElementDTO();
+    private static DailryPageUpdateDTO.ElementDTO 두번째_elementsDTO() {
+        DailryPageUpdateDTO.ElementDTO 두번째_elementsDTO = new DailryPageUpdateDTO.ElementDTO();
         두번째_elementsDTO.setId("123avxsdf");
         두번째_elementsDTO.setType("drawing");
         두번째_elementsDTO.setOrder(3);
         두번째_elementsDTO.setPosition(new DailryPageUpdateDTO.ElementDTO.PositionDTO(100, 50));
-        두번째_elementsDTO.setSize(new DailryPageUpdateDTO.ElementDTO.SizeDTO(250,150));
+        두번째_elementsDTO.setSize(new DailryPageUpdateDTO.ElementDTO.SizeDTO(250, 150));
         두번째_elementsDTO.setRotation("60deg");
 
         Map<String, Object> properties = new HashMap<>();
         properties.put("base64", "YXNjc2FzYXZmbnJ0bnJ0bnN0");
 
         두번째_elementsDTO.setProperties(properties);
+
+        return 두번째_elementsDTO;
     }
-    private static DailryPageUpdateDTO.ElementDTO 세번째_elementsDTO;
-    {
-        세번째_elementsDTO = new DailryPageUpdateDTO.ElementDTO();
+
+    private static DailryPageUpdateDTO.ElementDTO 세번째_elementsDTO() {
+        DailryPageUpdateDTO.ElementDTO 세번째_elementsDTO = new DailryPageUpdateDTO.ElementDTO();
         세번째_elementsDTO.setId("123a21233df");
         세번째_elementsDTO.setType("sticker");
         세번째_elementsDTO.setOrder(5);
@@ -88,6 +106,7 @@ public class DailryPageFixture {
         properties.put("imageUrl", "https://trboard.game.onstove.com/Data/TR/20180111/13/636512725318200105.jpg");
 
         세번째_elementsDTO.setProperties(properties);
-    }
 
+        return 세번째_elementsDTO;
+    }
 }

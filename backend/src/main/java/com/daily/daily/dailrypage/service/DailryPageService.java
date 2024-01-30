@@ -7,7 +7,8 @@ import com.daily.daily.dailry.repository.DailryRepository;
 import com.daily.daily.dailrypage.domain.DailryPage;
 import com.daily.daily.dailrypage.dto.DailryPageCreateResponseDTO;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
-import com.daily.daily.dailrypage.dto.DailryPageFindDTO;
+import com.daily.daily.dailrypage.dto.DailryPagePreviewDTO;
+import com.daily.daily.dailrypage.dto.DailryPageThumbnailDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 import com.daily.daily.dailrypage.exception.DailryPageNotFoundException;
 import com.daily.daily.dailrypage.repository.DailryPageRepository;
@@ -80,14 +81,17 @@ public class DailryPageService {
         return DailryPageDTO.from(findPage);
     }
 
-    public List<DailryPageFindDTO> findAll(Long memberId, Long dailryId) {
+    public DailryPagePreviewDTO findAll(Long memberId, Long dailryId) {
         Dailry dailry = dailryRepository.findById(dailryId)
                 .orElseThrow(DailryNotFoundException::new);
 
         if (!dailry.belongsTo(memberId)) {
             throw new UnauthorizedAccessException();
         }
-        return dailryPageRepository.findPageNumbersAndThumbnailsByDailryId(dailryId);
+
+        List<DailryPageThumbnailDTO> thumbnails = dailryPageRepository.findPageNumbersAndThumbnailsByDailryId(dailryId);
+
+        return DailryPagePreviewDTO.from(dailryId, thumbnails);
     }
 
     public void delete(Long memberId, Long pageId) {

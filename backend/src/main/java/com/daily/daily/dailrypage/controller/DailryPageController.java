@@ -3,7 +3,8 @@ package com.daily.daily.dailrypage.controller;
 import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.dailrypage.dto.DailryPageCreateResponseDTO;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
-import com.daily.daily.dailrypage.dto.DailryPageFindDTO;
+import com.daily.daily.dailrypage.dto.DailryPagePreviewDTO;
+import com.daily.daily.dailrypage.dto.DailryPageThumbnailDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 import com.daily.daily.dailrypage.service.DailryPageService;
 import jakarta.validation.Valid;
@@ -45,7 +46,7 @@ public class DailryPageController {
     }
 
     @GetMapping("/api/dailry/{dailryId}/pages")
-    public List<DailryPageFindDTO> findAllPage(@AuthenticationPrincipal Long memberId, @PathVariable Long dailryId) {
+    public DailryPagePreviewDTO findAllPage(@AuthenticationPrincipal Long memberId, @PathVariable Long dailryId) {
         return dailryPageService.findAll(memberId, dailryId);
     }
 
