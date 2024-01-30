@@ -272,7 +272,6 @@ include::{snippets}/다일리 삭제/path-parameters.adoc[]
 ==== 응답
 
 include::{snippets}/다일리 삭제/http-response.adoc[]
-include::{snippets}/다일리 삭제/response-fields.adoc[]
 
 == 다일리 페이지
 
