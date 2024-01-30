@@ -274,6 +274,67 @@ include::{snippets}/다일리 삭제/path-parameters.adoc[]
 include::{snippets}/다일리 삭제/http-response.adoc[]
 include::{snippets}/다일리 삭제/response-fields.adoc[]
 
+== 다일리 페이지
+
+=== 페이지 생성
+
+==== 요청
+
+include::{snippets}/다일리 페이지 생성/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 페이지 생성/http-response.adoc[]
+include::{snippets}/다일리 페이지 생성/response-fields.adoc[]
+
+=== 페이지 수정
+
+==== 요청
+
+include::{snippets}/다일리 페이지 수정/http-request.adoc[]
+include::{snippets}/다일리 페이지 수정/path-parameters.adoc[]
+include::{snippets}/다일리 페이지 수정/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 페이지 수정/http-response.adoc[]
+include::{snippets}/다일리 페이지 수정/response-fields.adoc[]
+
+=== 페이지 단건 조회
+
+==== 요청
+
+include::{snippets}/다일리 페이지 단건 조회/http-request.adoc[]
+include::{snippets}/다일리 페이지 단건 조회/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 페이지 단건 조회/http-response.adoc[]
+include::{snippets}/다일리 페이지 단건 조회/response-fields.adoc[]
+
+=== 페이지 미리보기
+
+==== 요청
+
+include::{snippets}/다일리 페이지 미리보기/http-request.adoc[]
+include::{snippets}/다일리 페이지 미리보기/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 페이지 미리보기/http-response.adoc[]
+include::{snippets}/다일리 페이지 미리보기/response-fields.adoc[]
+
+=== 페이지 삭제
+
+==== 요청
+
+include::{snippets}/다일리 페이지 삭제/http-request.adoc[]
+include::{snippets}/다일리 페이지 삭제/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 페이지 삭제/http-response.adoc[]
+
 == 게시글
 
 === 게시글 작성

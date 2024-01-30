@@ -479,6 +479,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_다일리_삭제">다일리 삭제</a></li>
 </ul>
 </li>
+<li><a href="#_다일리_페이지">다일리 페이지</a>
+<ul class="sectlevel2">
+<li><a href="#_페이지_생성">페이지 생성</a></li>
+<li><a href="#_페이지_수정">페이지 수정</a></li>
+<li><a href="#_페이지_단건_조회">페이지 단건 조회</a></li>
+<li><a href="#_페이지_미리보기">페이지 미리보기</a></li>
+<li><a href="#_페이지_삭제">페이지 삭제</a></li>
+</ul>
+</li>
 <li><a href="#_게시글">게시글</a>
 <ul class="sectlevel2">
 <li><a href="#_게시글_작성">게시글 작성</a></li>
@@ -541,8 +550,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA2NjAzMTEzfQ.DbA1tLAuhMQpNLiRYy53jc99TZvJX2M0rK59x_5QDe2kYj6yXMURLpVeup94K2inZWw02kmfF5x-ux0cJHbZ1w
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNjU5OTUxMywiZXhwIjoxNzA3ODA5MTEzfQ.nTjJ-kotPGO4WHcdT15TIUmMYs32KUFAtL70jB5aXbTRoPIPrSwu89GKwguFRp-T5Qm9TzoykNNJ5D1w-l1cLA
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA2NjEzMTE5fQ.4_nIRzzGGnqiJxF4riBpolHeEILiiVZXeT97cTvcOY_1D6Tvdi_dZ54sYhcPU4ZRtFewwDTozthNfna3n83qZw
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNjYwOTUxOSwiZXhwIjoxNzA3ODE5MTE5fQ.F26rECvp49j5LEwFvPq5fXrnaHxEziYjolkdwf5-qcS8Ngkl0avRbEnToFpnh_bW8anMQjCT5Jxbtt__gOZHXA
 
 {
   "username" : "testtest",
@@ -586,8 +595,8 @@ Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNjU5OT
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA2NjAzMTEzfQ.DbA1tLAuhMQpNLiRYy53jc99TZvJX2M0rK59x_5QDe2kYj6yXMURLpVeup94K2inZWw02kmfF5x-ux0cJHbZ1w; Path=/; Secure; HttpOnly; SameSite=None
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNjU5OTUxMywiZXhwIjoxNzA3ODA5MTEzfQ.nTjJ-kotPGO4WHcdT15TIUmMYs32KUFAtL70jB5aXbTRoPIPrSwu89GKwguFRp-T5Qm9TzoykNNJ5D1w-l1cLA; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA2NjEzMTE5fQ.4_nIRzzGGnqiJxF4riBpolHeEILiiVZXeT97cTvcOY_1D6Tvdi_dZ54sYhcPU4ZRtFewwDTozthNfna3n83qZw; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNjYwOTUxOSwiZXhwIjoxNzA3ODE5MTE5fQ.F26rECvp49j5LEwFvPq5fXrnaHxEziYjolkdwf5-qcS8Ngkl0avRbEnToFpnh_bW8anMQjCT5Jxbtt__gOZHXA; Path=/; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -606,8 +615,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDY2MDMxMTF9.8ZNJQej-A1alfPTFdGJwJJFMCTGavTo3XzCZ8_t1i0yiGJleD-ntBounSLhr_JPd-fSZqMuOs2zDImDMrVX1gA
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA2NTk5NTExLCJleHAiOjE3MDc4MDkxMTF9.fg4lM-h7zwkthog4lq3Ty1zliDnE2m9v5RnZeXBNeqd7zlInMLotyuQhoT4vpUVbBa6K9als6xuLfGAJIYUW2Q</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDY2MTMxMTd9.tlXPVggZ-bCv4rO-6q8C1XeDh5iNUBoL5RSC1Ph0VFhMYVymcnKbDC-c0FEIct3w_JUpAckUjrXY-8YQ9KXJdA
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA2NjA5NTE3LCJleHAiOjE3MDc4MTkxMTd9.AoYMViMuo0Eu1YJPVoMKm-LK4ctlvfBB1pHkCsrbzPV3Fw70zU9a51scqrtHFpb595YXXSNKqMtvAo5U0XOq8A</code></pre>
 </div>
 </div>
 </div>
@@ -636,8 +645,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDY2MDMxMTJ9.1D2cmlInDVhFGBYL-Hi2H3wTOlFyQ73b6ZXAwEKwYx8ITNxnHudVB2Rr-E1RdXs5CpeVAofDTVyTb4VmKBXjMw
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA2NTk5NTEyLCJleHAiOjE3MDc4MDkxMTJ9.T_lskNWwNIHr7Q-x7Cx3HJOfwON3ZSa5AShzo6jIPdELu4AUlzrmskMZwQ70tt3khkLc_jy8qTa31acW7wXgpQ</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDY2MTMxMTh9.aUhxwvGe1y1rS_ajx9ywPiWe7OtgwkVaZ-zvHrCnGf5R1e_xaVk8S6hZirJWKsSkcgvOM-YKc9B9tXXYs2pNhg
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA2NjA5NTE4LCJleHAiOjE3MDc4MTkxMTh9.bq1v6kVYu1XE4Bdu3kHeHuCTJilyVkep7gz3pxYnoGw47lmQQaKS7lZrWZoAwftGLqPlFYaEziLcyyvuu-dmHw</code></pre>
 </div>
 </div>
 </div>
@@ -1859,6 +1868,763 @@ Content-Type: application/json;charset=UTF-8
 }</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in api-document.adoc - include::C:\Users\gomud\GitHub\Da-ily\backend\build\generated-snippets/다일리 삭제/response-fields.adoc[]</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_다일리_페이지">다일리 페이지</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_페이지_생성">페이지 생성</h3>
+<div class="sect3">
+<h4 id="_요청_21">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/pages HTTP/1.1
+Content-Type: application/x-www-form-urlencoded</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_21">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Content-Type: application/json;charset=UTF-8
+
+{
+  "dailryPageId" : 5,
+  "background" : "grid",
+  "pageNumber" : 1
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dailryPageId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>background</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 배경</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 번호 (몇 페이지 인지)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_페이지_수정">페이지 수정</h3>
+<div class="sect3">
+<h4 id="_요청_22">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/pages/5 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+
+{
+  "background" : "무지",
+  "elements" : [ {
+    "id" : "asdf",
+    "type" : "textBox",
+    "order" : 1,
+    "position" : {
+      "x" : 100,
+      "y" : 50
+    },
+    "size" : {
+      "width" : 200,
+      "height" : 100
+    },
+    "rotation" : "90deg",
+    "properties" : {
+      "backgroundColor" : "#ffcc00",
+      "color" : "#333333",
+      "fontSize" : 12,
+      "text" : "아 어지럽다.",
+      "fontWeight" : "bold",
+      "font" : "굴림"
+    }
+  }, {
+    "id" : "123avxsdf",
+    "type" : "drawing",
+    "order" : 3,
+    "position" : {
+      "x" : 100,
+      "y" : 50
+    },
+    "size" : {
+      "width" : 250,
+      "height" : 150
+    },
+    "rotation" : "60deg",
+    "properties" : {
+      "base64" : "YXNjc2FzYXZmbnJ0bnJ0bnN0"
+    }
+  }, {
+    "id" : "123a21233df",
+    "type" : "sticker",
+    "order" : 5,
+    "position" : {
+      "x" : 110,
+      "y" : 50
+    },
+    "size" : {
+      "width" : 300,
+      "height" : 150
+    },
+    "rotation" : "45deg",
+    "properties" : {
+      "imageUrl" : "https://trboard.game.onstove.com/Data/TR/20180111/13/636512725318200105.jpg"
+    }
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. /api/pages/{pageId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 id</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>background</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 배경</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 elements 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].order</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 순서</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].position.x</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 x좌표</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].position.y</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 y좌표</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].size.width</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 너비</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].size.height</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 높이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].rotation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 회전정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].properties</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 element 타입별 개별속성</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_22">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+
+{
+  "dailryPageId" : 5,
+  "background" : "무지",
+  "thumbnail" : "https://data.da-ily.site/thumbnail/2/awefkaweop",
+  "pageNumber" : 1,
+  "elements" : [ {
+    "id" : "asdf",
+    "type" : "textBox",
+    "order" : 1,
+    "position" : {
+      "x" : 100,
+      "y" : 50
+    },
+    "size" : {
+      "width" : 200,
+      "height" : 100
+    },
+    "rotation" : "90deg",
+    "properties" : {
+      "backgroundColor" : "#ffcc00",
+      "color" : "#333333",
+      "fontSize" : 12,
+      "text" : "아 어지럽다.",
+      "fontWeight" : "bold",
+      "font" : "굴림"
+    }
+  }, {
+    "id" : "123avxsdf",
+    "type" : "drawing",
+    "order" : 3,
+    "position" : {
+      "x" : 100,
+      "y" : 50
+    },
+    "size" : {
+      "width" : 250,
+      "height" : 150
+    },
+    "rotation" : "60deg",
+    "properties" : {
+      "base64" : "YXNjc2FzYXZmbnJ0bnJ0bnN0"
+    }
+  }, {
+    "id" : "123a21233df",
+    "type" : "sticker",
+    "order" : 5,
+    "position" : {
+      "x" : 110,
+      "y" : 50
+    },
+    "size" : {
+      "width" : 300,
+      "height" : 150
+    },
+    "rotation" : "45deg",
+    "properties" : {
+      "imageUrl" : "https://trboard.game.onstove.com/Data/TR/20180111/13/636512725318200105.jpg"
+    }
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dailryPageId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>background</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 배경</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 번호 (몇 페이지 인지)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>thumbnail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 페이지 썸네일 URL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 elements 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].order</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 순서</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].position.x</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 x좌표</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].position.y</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 y좌표</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].size.width</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 너비</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].size.height</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 높이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].rotation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 회전정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].properties</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 element 타입별 개별속성</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_페이지_단건_조회">페이지 단건 조회</h3>
+<div class="sect3">
+<h4 id="_요청_23">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/pages/5 HTTP/1.1</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. /api/pages/{pageId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_23">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+
+{
+  "dailryPageId" : 5,
+  "background" : "무지",
+  "thumbnail" : "https://data.da-ily.site/thumbnail/2/awefkaweop",
+  "pageNumber" : 1,
+  "elements" : [ {
+    "id" : "asdf",
+    "type" : "textBox",
+    "order" : 1,
+    "position" : {
+      "x" : 100,
+      "y" : 50
+    },
+    "size" : {
+      "width" : 200,
+      "height" : 100
+    },
+    "rotation" : "90deg",
+    "properties" : {
+      "backgroundColor" : "#ffcc00",
+      "color" : "#333333",
+      "fontSize" : 12,
+      "text" : "아 어지럽다.",
+      "fontWeight" : "bold",
+      "font" : "굴림"
+    }
+  }, {
+    "id" : "123avxsdf",
+    "type" : "drawing",
+    "order" : 3,
+    "position" : {
+      "x" : 100,
+      "y" : 50
+    },
+    "size" : {
+      "width" : 250,
+      "height" : 150
+    },
+    "rotation" : "60deg",
+    "properties" : {
+      "base64" : "YXNjc2FzYXZmbnJ0bnJ0bnN0"
+    }
+  }, {
+    "id" : "123a21233df",
+    "type" : "sticker",
+    "order" : 5,
+    "position" : {
+      "x" : 110,
+      "y" : 50
+    },
+    "size" : {
+      "width" : 300,
+      "height" : 150
+    },
+    "rotation" : "45deg",
+    "properties" : {
+      "imageUrl" : "https://trboard.game.onstove.com/Data/TR/20180111/13/636512725318200105.jpg"
+    }
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dailryPageId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>background</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 배경</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 번호 (몇 페이지 인지)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>thumbnail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 페이지 썸네일 URL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 elements 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].order</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 순서</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].position.x</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 x좌표</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].position.y</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 y좌표</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].size.width</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 너비</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].size.height</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 높이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].rotation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element의 회전정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>elements[].properties</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 element 타입별 개별속성</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_페이지_미리보기">페이지 미리보기</h3>
+<div class="sect3">
+<h4 id="_요청_24">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/dailry/5/pages HTTP/1.1</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. /api/dailry/{dailryId}/pages</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dailryId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_24">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+
+{
+  "dailryId" : 2,
+  "pages" : [ {
+    "pageNumber" : 1,
+    "thumbnail" : "https://data.da-ily.site/32/5/1/awerqlwp33124"
+  }, {
+    "pageNumber" : 2,
+    "thumbnail" : "https://data.da-ily.site/32/5/2/73123wqrw"
+  }, {
+    "pageNumber" : 3,
+    "thumbnail" : "https://data.da-ily.site/32/5/3/u12rgf31412"
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dailryId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pages</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">미리보기 페이지 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pages[].pageNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 번호 (몇 페이지 인지)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pages[].thumbnail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">썸네일 이미지 URL</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_페이지_삭제">페이지 삭제</h3>
+<div class="sect3">
+<h4 id="_요청_25">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/pages/5 HTTP/1.1</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. /api/pages/{pageId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_25">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+
+{
+  "statusCode" : 200,
+  "successful" : true
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1869,7 +2635,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_게시글_작성">게시글 작성</h3>
 <div class="sect3">
-<h4 id="_요청_21">요청</h4>
+<h4 id="_요청_26">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts HTTP/1.1
@@ -1941,7 +2707,7 @@ Content-Type: application/json
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_21">응답</h4>
+<h4 id="_응답_26">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -2023,7 +2789,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_게시글_수정">게시글 수정</h3>
 <div class="sect3">
-<h4 id="_요청_22">요청</h4>
+<h4 id="_요청_27">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/31/edit HTTP/1.1
@@ -2043,7 +2809,7 @@ Content-Type: application/json
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. /api/posts/{postId}/edit</caption>
+<caption class="title">Table 7. /api/posts/{postId}/edit</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2114,7 +2880,7 @@ Content-Type: application/json
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_22">응답</h4>
+<h4 id="_응답_27">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2196,14 +2962,14 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_게시글_단건_조회">게시글 단건 조회</h3>
 <div class="sect3">
-<h4 id="_요청_23">요청</h4>
+<h4 id="_요청_28">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/31 HTTP/1.1</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. /api/posts/{postId}</caption>
+<caption class="title">Table 8. /api/posts/{postId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2223,7 +2989,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_23">응답</h4>
+<h4 id="_응답_28">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2312,7 +3078,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_게시글_여러건_조회">게시글 여러건 조회</h3>
 <div class="sect3">
-<h4 id="_요청_24">요청</h4>
+<h4 id="_요청_29">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts?page=0&amp;size=5 HTTP/1.1</code></pre>
@@ -2346,7 +3112,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_24">응답</h4>
+<h4 id="_응답_29">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2493,14 +3259,14 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_게시글_삭제">게시글 삭제</h3>
 <div class="sect3">
-<h4 id="_요청_25">요청</h4>
+<h4 id="_요청_30">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/posts/15 HTTP/1.1</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. /api/posts/{postId}</caption>
+<caption class="title">Table 9. /api/posts/{postId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2520,7 +3286,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_25">응답</h4>
+<h4 id="_응답_30">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2542,7 +3308,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_좋아요_증가">좋아요 증가</h3>
 <div class="sect3">
-<h4 id="_요청_26">요청</h4>
+<h4 id="_요청_31">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/31/likes HTTP/1.1
@@ -2551,7 +3317,7 @@ Content-Type: */*;charset=UTF-8</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_26">응답</h4>
+<h4 id="_응답_31">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2568,7 +3334,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_좋아요_취소">좋아요 취소</h3>
 <div class="sect3">
-<h4 id="_요청_27">요청</h4>
+<h4 id="_요청_32">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/posts/31/likes HTTP/1.1
@@ -2577,7 +3343,7 @@ Content-Type: */*;charset=UTF-8</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_27">응답</h4>
+<h4 id="_응답_32">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2599,7 +3365,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_댓글_작성">댓글 작성</h3>
 <div class="sect3">
-<h4 id="_요청_28">요청</h4>
+<h4 id="_요청_33">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/31/comments HTTP/1.1
@@ -2611,7 +3377,7 @@ Content-Type: application/json;charset=UTF-8
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. /api/posts/{postId}/comments</caption>
+<caption class="title">Table 10. /api/posts/{postId}/comments</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2655,7 +3421,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_28">응답</h4>
+<h4 id="_응답_33">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -2730,7 +3496,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_댓글_수정">댓글 수정</h3>
 <div class="sect3">
-<h4 id="_요청_29">요청</h4>
+<h4 id="_요청_34">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/comments/16 HTTP/1.1
@@ -2742,7 +3508,7 @@ Content-Type: application/json;charset=UTF-8
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. /api/posts/comments/{commentId}</caption>
+<caption class="title">Table 11. /api/posts/comments/{commentId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2786,7 +3552,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_29">응답</h4>
+<h4 id="_응답_34">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2861,14 +3627,14 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_댓글_조회">댓글 조회</h3>
 <div class="sect3">
-<h4 id="_요청_30">요청</h4>
+<h4 id="_요청_35">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/31/comments?page=0&amp;size=3 HTTP/1.1</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. /api/posts/{postId}/comments</caption>
+<caption class="title">Table 12. /api/posts/{postId}/comments</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2914,7 +3680,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_30">응답</h4>
+<h4 id="_응답_35">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3007,14 +3773,14 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_댓글_삭제">댓글 삭제</h3>
 <div class="sect3">
-<h4 id="_요청_31">요청</h4>
+<h4 id="_요청_36">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/posts/comments/16 HTTP/1.1</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. /api/posts/comments/{commentId}</caption>
+<caption class="title">Table 13. /api/posts/comments/{commentId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3034,7 +3800,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_31">응답</h4>
+<h4 id="_응답_36">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3054,7 +3820,7 @@ Content-Type: application/json;charset=UTF-8
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-30 13:36:04 +0900
+Last updated 2024-01-30 19:11:07 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
