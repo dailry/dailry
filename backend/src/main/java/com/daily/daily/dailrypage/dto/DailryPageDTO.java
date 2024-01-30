@@ -15,7 +15,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Builder
 public class DailryPageDTO {
-    private Long id;
+    private Long dailryPageId;
     private String background;
     private String thumbnail;
     private int pageNumber;
@@ -23,7 +23,7 @@ public class DailryPageDTO {
 
     public static DailryPageDTO from(DailryPage dailryPage) {
         return DailryPageDTO.builder()
-                .id(dailryPage.getId())
+                .dailryPageId(dailryPage.getId())
                 .background(dailryPage.getBackground())
                 .thumbnail(dailryPage.getThumbnail())
                 .pageNumber(dailryPage.getPageNumber())
