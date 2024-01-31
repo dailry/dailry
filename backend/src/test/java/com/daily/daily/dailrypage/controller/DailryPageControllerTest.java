@@ -20,28 +20,22 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.daily.daily.dailrypage.fixture.DailryPageFixture.DAILRY_PAGE_ID;
-import static com.daily.daily.dailrypage.fixture.DailryPageFixture.다일리_페이지_미리보기_DTO;
-import static com.daily.daily.dailrypage.fixture.DailryPageFixture.다일리_페이지_수정요청_DTO;
-import static com.daily.daily.dailrypage.fixture.DailryPageFixture.다일리_페이지_응답_DTO;
-import static com.daily.daily.dailrypage.fixture.DailryPageFixture.비어있는_다일리_페이지_DTO;
+import static com.daily.daily.dailrypage.fixture.DailryPageFixture.*;
+import static com.daily.daily.post.fixture.PostFixture.게시글_요청_DTO_JSON_파일;
+import static com.daily.daily.post.fixture.PostFixture.다일리_페이지_이미지_파일;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.OBJECT;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedRequestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
+import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -106,12 +100,13 @@ class DailryPageControllerTest {
         @DisplayName("다일리 페이지 수정 요청이 성공했을 때 응답 값을 검사한다.")
         void test1() throws Exception {
             //given
-            given(dailryPageService.update(any(), any(), any())).willReturn(다일리_페이지_응답_DTO());
+            given(dailryPageService.update(any(), any(), any(), any())).willReturn(다일리_페이지_응답_DTO());
 
             //when
-            ResultActions perform = mockMvc.perform(patch("/api/pages/{pageId}", DAILRY_PAGE_ID)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(다일리_페이지_수정요청_DTO()))
+            ResultActions perform = mockMvc.perform(multipart("/api/pages/{pageId}", DAILRY_PAGE_ID)
+                    .file(다일리_페이지_섬네일_파일())
+                    .file(다일리_페이지_요청_DTO_JSON_파일())
+                    .contentType(MULTIPART_FORM_DATA)
                     .with(csrf().asHeader())
             );
 
@@ -121,7 +116,7 @@ class DailryPageControllerTest {
                     .andExpect(jsonPath("$.dailryPageId").value(DAILRY_PAGE_ID))
                     .andExpect(jsonPath("$.background").value("무지"))
                     .andExpect(jsonPath("$.pageNumber").value(1))
-                    .andExpect(jsonPath("$.thumbnail").value("https://data.da-ily.site/thumbnail/2/awefkaweop"))
+                    .andExpect(jsonPath("$.thumbnail").value("https://data.da-ily.site/thumbnail/5/1/awefkaweop"))
                     .andExpect(jsonPath("$.elements").isNotEmpty());
 
             //restdocs
@@ -129,18 +124,23 @@ class DailryPageControllerTest {
                     pathParameters(
                             parameterWithName("pageId").description("다일리 페이지 id")
                     ),
-                    relaxedRequestFields(
+                    requestParts(
+                            partWithName("thumbnail").description("다일리 페이지 섬네일 파일"),
+                            partWithName("dailryPageRequest").description("다일리 페이지 수정 요청 데이터 (JSON)")
+                    ),
+                    relaxedRequestPartFields(
+                            "dailryPageRequest",
                             fieldWithPath("background").description("다일리 페이지 배경"),
-                            fieldWithPath("elements").type(ARRAY).description("페이지 elements 목록"),
-                            fieldWithPath("elements[].id").type(STRING).description("element의 id"),
-                            fieldWithPath("elements[].type").type(STRING).description("element의 type"),
-                            fieldWithPath("elements[].order").type(NUMBER).description("element의 순서"),
-                            fieldWithPath("elements[].position.x").type(NUMBER).description("element의 x좌표"),
-                            fieldWithPath("elements[].position.y").type(NUMBER).description("element의 y좌표"),
-                            fieldWithPath("elements[].size.width").type(NUMBER).description("element의 너비"),
-                            fieldWithPath("elements[].size.height").type(NUMBER).description("element의 높이"),
-                            fieldWithPath("elements[].rotation").type(STRING).description("element의 회전정보"),
-                            fieldWithPath("elements[].properties").type(OBJECT).description("해당 element 타입별 개별속성")
+                            fieldWithPath("elements").description("페이지 elements 목록"),
+                            fieldWithPath("elements[].id").description("element의 id"),
+                            fieldWithPath("elements[].type").description("element의 type"),
+                            fieldWithPath("elements[].order").description("element의 순서"),
+                            fieldWithPath("elements[].position.x").description("element의 x좌표"),
+                            fieldWithPath("elements[].position.y").description("element의 y좌표"),
+                            fieldWithPath("elements[].size.width").description("element의 너비"),
+                            fieldWithPath("elements[].size.height").description("element의 높이"),
+                            fieldWithPath("elements[].rotation").description("element의 회전정보"),
+                            fieldWithPath("elements[].properties").description("해당 element 타입별 개별속성")
                     ),
                     relaxedResponseFields(
                             fieldWithPath("dailryPageId").type(NUMBER).description("다일리 페이지 id"),
@@ -183,7 +183,7 @@ class DailryPageControllerTest {
                     .andExpect(jsonPath("$.dailryPageId").value(DAILRY_PAGE_ID))
                     .andExpect(jsonPath("$.background").value("무지"))
                     .andExpect(jsonPath("$.pageNumber").value(1))
-                    .andExpect(jsonPath("$.thumbnail").value("https://data.da-ily.site/thumbnail/2/awefkaweop"))
+                    .andExpect(jsonPath("$.thumbnail").value("https://data.da-ily.site/thumbnail/5/1/awefkaweop"))
                     .andExpect(jsonPath("$.elements").isNotEmpty());
             
             //restdocs
