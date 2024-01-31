@@ -40,7 +40,7 @@ public class DailryPageController {
         return dailryPageService.create2(memberId, dailryID);
     }
 
-    @PostMapping("/api/pages/{pageId}")
+    @PostMapping("/api/dailry/pages/{pageId}/edit")
     @Secured(value = "ROLE_MEMBER")
     public DailryPageDTO updatePage(
             @AuthenticationPrincipal Long memberId,
@@ -50,7 +50,7 @@ public class DailryPageController {
         return dailryPageService.update(memberId, pageId, dailryPageRequest, thumbnail);
     }
 
-    @GetMapping("/api/pages/{pageId}")
+    @GetMapping("/api/dailry/pages/{pageId}")
     @Secured(value = "ROLE_MEMBER")
     public DailryPageDTO findPage(@AuthenticationPrincipal Long memberId, @PathVariable Long pageId) {
         return dailryPageService.find(memberId, pageId);
@@ -62,7 +62,7 @@ public class DailryPageController {
         return dailryPageService.findAll(memberId, dailryId);
     }
 
-    @DeleteMapping("/api/pages/{pageId}")
+    @DeleteMapping("/api/dailry/pages/{pageId}")
     @Secured(value = "ROLE_MEMBER")
     public SuccessResponseDTO deletePage(@AuthenticationPrincipal Long memberId, @PathVariable Long pageId) {
         dailryPageService.delete(memberId, pageId);

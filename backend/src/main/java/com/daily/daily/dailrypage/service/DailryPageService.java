@@ -6,17 +6,11 @@ import com.daily.daily.dailry.domain.Dailry;
 import com.daily.daily.dailry.exception.DailryNotFoundException;
 import com.daily.daily.dailry.repository.DailryRepository;
 import com.daily.daily.dailrypage.domain.DailryPage;
-import com.daily.daily.dailrypage.dto.DailryPageCreateResponseDTO;
-import com.daily.daily.dailrypage.dto.DailryPageDTO;
-import com.daily.daily.dailrypage.dto.DailryPagePreviewDTO;
-import com.daily.daily.dailrypage.dto.DailryPageThumbnailDTO;
-import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
+import com.daily.daily.dailrypage.dto.*;
 import com.daily.daily.dailrypage.exception.DailryPageNotFoundException;
+import com.daily.daily.dailrypage.exception.DailryPageThumbnailNotFoundException;
 import com.daily.daily.dailrypage.repository.DailryPageRepository;
-import com.daily.daily.post.domain.Post;
-import com.daily.daily.post.dto.PostWriteResponseDTO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,7 +71,7 @@ public class DailryPageService {
         findPage.updateElements(dailryPageUpdateDTO.getElements());
 
         if (thumbnail == null || thumbnail.isEmpty()) {
-            return DailryPageDTO.from(findPage);
+            throw new DailryPageThumbnailNotFoundException();
         }
 
         uploadThumbnail(findPage, thumbnail, memberId, findPage.getDailry().getId());

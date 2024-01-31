@@ -103,7 +103,7 @@ class DailryPageControllerTest {
             given(dailryPageService.update(any(), any(), any(), any())).willReturn(다일리_페이지_응답_DTO());
 
             //when
-            ResultActions perform = mockMvc.perform(multipart("/api/pages/{pageId}", DAILRY_PAGE_ID)
+            ResultActions perform = mockMvc.perform(multipart("/api/dailry/pages/{pageId}/edit", DAILRY_PAGE_ID)
                     .file(다일리_페이지_섬네일_파일())
                     .file(다일리_페이지_요청_DTO_JSON_파일())
                     .contentType(MULTIPART_FORM_DATA)
@@ -130,17 +130,17 @@ class DailryPageControllerTest {
                     ),
                     relaxedRequestPartFields(
                             "dailryPageRequest",
-                            fieldWithPath("background").description("다일리 페이지 배경"),
-                            fieldWithPath("elements").description("페이지 elements 목록"),
-                            fieldWithPath("elements[].id").description("element의 id"),
-                            fieldWithPath("elements[].type").description("element의 type"),
-                            fieldWithPath("elements[].order").description("element의 순서"),
-                            fieldWithPath("elements[].position.x").description("element의 x좌표"),
-                            fieldWithPath("elements[].position.y").description("element의 y좌표"),
-                            fieldWithPath("elements[].size.width").description("element의 너비"),
-                            fieldWithPath("elements[].size.height").description("element의 높이"),
-                            fieldWithPath("elements[].rotation").description("element의 회전정보"),
-                            fieldWithPath("elements[].properties").description("해당 element 타입별 개별속성")
+                            fieldWithPath("background").type(STRING).description("다일리 페이지 배경"),
+                            fieldWithPath("elements").type(ARRAY).description("페이지 elements 목록"),
+                            fieldWithPath("elements[].id").type(STRING).description("element의 id"),
+                            fieldWithPath("elements[].type").type(STRING).description("element의 type"),
+                            fieldWithPath("elements[].order").type(NUMBER).description("element의 순서"),
+                            fieldWithPath("elements[].position.x").type(NUMBER).description("element의 x좌표"),
+                            fieldWithPath("elements[].position.y").type(NUMBER).description("element의 y좌표"),
+                            fieldWithPath("elements[].size.width").type(NUMBER).description("element의 너비"),
+                            fieldWithPath("elements[].size.height").type(NUMBER).description("element의 높이"),
+                            fieldWithPath("elements[].rotation").type(STRING).description("element의 회전정보"),
+                            fieldWithPath("elements[].properties").type(OBJECT).description("해당 element 타입별 개별속성")
                     ),
                     relaxedResponseFields(
                             fieldWithPath("dailryPageId").type(NUMBER).description("다일리 페이지 id"),
@@ -173,7 +173,7 @@ class DailryPageControllerTest {
             given(dailryPageService.find(any(), any())).willReturn(다일리_페이지_응답_DTO());
 
             //when
-            ResultActions perform = mockMvc.perform(get("/api/pages/{pageId}", DAILRY_PAGE_ID)
+            ResultActions perform = mockMvc.perform(get("/api/dailry/pages/{pageId}", DAILRY_PAGE_ID)
                     .with(csrf().asHeader())
             );
 
@@ -254,7 +254,7 @@ class DailryPageControllerTest {
         @WithMockUser
         @DisplayName("다일리 페이지 삭제가 성공했을 때 응답결과를 검사한다.")
         void test1() throws Exception {
-            ResultActions perform = mockMvc.perform(delete("/api/pages/{pageId}", DAILRY_PAGE_ID)
+            ResultActions perform = mockMvc.perform(delete("/api/dailry/pages/{pageId}", DAILRY_PAGE_ID)
                     .with(csrf().asHeader())
             );
 
