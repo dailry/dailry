@@ -292,7 +292,9 @@ include::{snippets}/다일리 페이지 생성/response-fields.adoc[]
 
 include::{snippets}/다일리 페이지 수정/http-request.adoc[]
 include::{snippets}/다일리 페이지 수정/path-parameters.adoc[]
-include::{snippets}/다일리 페이지 수정/request-fields.adoc[]
+include::{snippets}/다일리 페이지 수정/request-parts.adoc[]
+part : dailryPageRequest
+include::{snippets}/다일리 페이지 수정/request-part-dailryPageRequest-fields.adoc[]
 
 ==== 응답
 
