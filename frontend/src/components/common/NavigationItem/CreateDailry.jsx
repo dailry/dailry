@@ -18,7 +18,8 @@ const CreateDailry = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    postDailry({ title }).then((res) => {
+    const newTitle = title || '새 다일리';
+    postDailry({ title: newTitle }).then((res) => {
       const { id } = res.data;
       setCurrentDailry({ dailryId: id, page: 1 });
       setIsCreating(false);
