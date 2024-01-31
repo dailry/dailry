@@ -6,6 +6,7 @@ export const Background = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 
   width: 100%;
   height: 100dvh;
@@ -14,6 +15,7 @@ export const Background = styled.div`
 
 export const NavigationContainer = styled.div`
   flex-grow: 1;
+  overflow: auto;
   width: 180px;
   max-width: 270px;
   height: calc(100dvh - 20px);

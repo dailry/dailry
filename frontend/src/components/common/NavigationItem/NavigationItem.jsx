@@ -6,8 +6,8 @@ const NavigationItem = (props) => {
 
   return (
     <S.Container current={current} onClick={onClick}>
-      {icon}
-      {children}
+      <S.IconWrapper>{icon}</S.IconWrapper>
+      <S.TextWrapper>{children}</S.TextWrapper>
     </S.Container>
   );
 };

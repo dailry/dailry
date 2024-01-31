@@ -25,6 +25,13 @@ const DailryNavigation = () => {
     setIsCreating(true);
   };
 
+  const isCurrent = (id) => {
+    if (isCreating) {
+      return false;
+    }
+    return currentDailry.dailryId === id;
+  };
+
   return (
     <S.NavigationWrapper>
       <NameArea />
@@ -35,7 +42,7 @@ const DailryNavigation = () => {
           <NavigationItem
             key={id}
             onClick={() => handleItemClick(id)}
-            current={currentDailry.dailryId === id}
+            current={isCurrent(id)}
             icon={<NavigationItemIcon />}
           >
             {title}
