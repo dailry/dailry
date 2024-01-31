@@ -5,7 +5,6 @@ import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import { TOOLS } from '../../constants/toolbar';
 import { DECORATE_TYPE } from '../../constants/decorateComponent';
-import NewTemporaryComponent from '../../components/decorate/NewTemporaryComponent/NewTemporaryComponent';
 import useCreateNewDecorateComponent from '../../hooks/useCreateDecorateComponent/useCreateDecorateComponent';
 import Decorate from '../../components/decorate/Decorate';
 
@@ -16,9 +15,9 @@ const DailryPage = () => {
   const [target, setTarget] = useState(null);
   const [decorateComponents] = useState([]);
   const [selectedTool, setSelectedTool] = useState(null);
+
   const [canEditDecorateComponentId, setCanEditDecorateComponentId] =
     useState(null);
-
   const {
     createNewDecorateComponent,
     newDecorateComponent,
@@ -28,6 +27,7 @@ const DailryPage = () => {
     parentRef,
     setCanEditDecorateComponentId,
   });
+
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
 
   const isNewDecorateComponentEdited =
@@ -76,9 +76,12 @@ const DailryPage = () => {
         })}
 
         {newDecorateComponent && (
-          <NewTemporaryComponent
-            newDecorateComponent={newDecorateComponent}
-            canEditDecorateComponentId={canEditDecorateComponentId}
+          <Decorate
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}
+            canEdit
+            {...newDecorateComponent}
           />
         )}
         {isMoveable() && <Moveable target={moveableRef[target]} />}
