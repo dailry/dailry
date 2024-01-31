@@ -4,11 +4,12 @@ import * as S from '../../pages/DailryPage/DailryPage.styled';
 import { DECORATE_COMPONENT } from '../../constants/decorateComponent';
 
 const Decorate = forwardRef((props, ref) => {
-  const { onMouseDown, position, properties, order, size, canEdit, type } =
+  const { id, type, order, position, size, properties, canEdit, onMouseDown } =
     props;
 
   return (
     <div
+      id={id}
       onMouseDown={onMouseDown}
       ref={ref}
       style={S.ElementStyle({
@@ -29,6 +30,7 @@ Decorate.displayName = 'decorate';
 export default Decorate;
 
 Decorate.propTypes = {
+  id: PropTypes.string,
   setTarget: PropTypes.func,
   index: PropTypes.number,
   type: PropTypes.string,
