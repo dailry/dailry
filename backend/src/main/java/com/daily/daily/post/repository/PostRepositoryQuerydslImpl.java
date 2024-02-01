@@ -50,9 +50,9 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
 
     private List<Long> getLikeCounts(Pageable pageable) {
         return em.createNativeQuery(
-                        "SELECT COUNT(postlike.id) " +
+                        "SELECT COUNT(post_like.id) " +
                                 "FROM post " +
-                                "LEFT JOIN postlike ON post.id = postlike.post_id " +
+                                "LEFT JOIN post_like ON post.id = post_like.post_id " +
                                 "GROUP BY post.id " +
                                 "ORDER BY post.id ASC " +
                                 "LIMIT :pageSize OFFSET :offset", Long.class)
