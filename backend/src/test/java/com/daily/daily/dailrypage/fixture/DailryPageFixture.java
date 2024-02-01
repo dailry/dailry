@@ -89,15 +89,15 @@ public class DailryPageFixture {
         첫번째_elementsDTO.setSize(new DailryPageUpdateDTO.ElementDTO.SizeDTO(200, 100));
         첫번째_elementsDTO.setRotation("90deg");
 
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("font", "굴림");
-        properties.put("text", "아 어지럽다.");
-        properties.put("color", "#333333");
-        properties.put("fontSize", 12);
-        properties.put("fontWeight", "bold");
-        properties.put("backgroundColor", "#ffcc00");
+        Map<String, Object> typeContent = new HashMap<>();
+        typeContent.put("font", "굴림");
+        typeContent.put("text", "아 어지럽다.");
+        typeContent.put("color", "#333333");
+        typeContent.put("fontSize", 12);
+        typeContent.put("fontWeight", "bold");
+        typeContent.put("backgroundColor", "#ffcc00");
 
-        첫번째_elementsDTO.setProperties(properties);
+        첫번째_elementsDTO.setTypeContent(typeContent);
 
         return 첫번째_elementsDTO;
     }
@@ -111,10 +111,10 @@ public class DailryPageFixture {
         두번째_elementsDTO.setSize(new DailryPageUpdateDTO.ElementDTO.SizeDTO(250, 150));
         두번째_elementsDTO.setRotation("60deg");
 
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("base64", "YXNjc2FzYXZmbnJ0bnJ0bnN0");
+        Map<String, Object> typeContent = new HashMap<>();
+        typeContent.put("base64", "YXNjc2FzYXZmbnJ0bnJ0bnN0");
 
-        두번째_elementsDTO.setProperties(properties);
+        두번째_elementsDTO.setTypeContent(typeContent);
 
         return 두번째_elementsDTO;
     }
@@ -128,10 +128,10 @@ public class DailryPageFixture {
         세번째_elementsDTO.setSize(new DailryPageUpdateDTO.ElementDTO.SizeDTO(300, 150));
         세번째_elementsDTO.setRotation("45deg");
 
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("imageUrl", "https://trboard.game.onstove.com/Data/TR/20180111/13/636512725318200105.jpg");
+        Map<String, Object> typeContent = new HashMap<>();
+        typeContent.put("imageUrl", "https://trboard.game.onstove.com/Data/TR/20180111/13/636512725318200105.jpg");
 
-        세번째_elementsDTO.setProperties(properties);
+        세번째_elementsDTO.setTypeContent(typeContent);
 
         return 세번째_elementsDTO;
     }

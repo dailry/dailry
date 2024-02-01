@@ -140,7 +140,7 @@ class DailryPageControllerTest {
                             fieldWithPath("elements[].size.width").type(NUMBER).description("element의 너비"),
                             fieldWithPath("elements[].size.height").type(NUMBER).description("element의 높이"),
                             fieldWithPath("elements[].rotation").type(STRING).description("element의 회전정보"),
-                            fieldWithPath("elements[].properties").type(OBJECT).description("해당 element 타입별 개별속성")
+                            fieldWithPath("elements[].typeContent").type(OBJECT).description("해당 element 타입별 개별속성")
                     ),
                     relaxedResponseFields(
                             fieldWithPath("dailryPageId").type(NUMBER).description("다일리 페이지 id"),
@@ -156,7 +156,7 @@ class DailryPageControllerTest {
                             fieldWithPath("elements[].size.width").type(NUMBER).description("element의 너비"),
                             fieldWithPath("elements[].size.height").type(NUMBER).description("element의 높이"),
                             fieldWithPath("elements[].rotation").type(STRING).description("element의 회전정보"),
-                            fieldWithPath("elements[].properties").type(OBJECT).description("해당 element 타입별 개별속성")
+                            fieldWithPath("elements[].typeContent").type(OBJECT).description("해당 element 타입별 개별속성")
                     )
             ));
         }
@@ -205,7 +205,7 @@ class DailryPageControllerTest {
                             fieldWithPath("elements[].size.width").type(NUMBER).description("element의 너비"),
                             fieldWithPath("elements[].size.height").type(NUMBER).description("element의 높이"),
                             fieldWithPath("elements[].rotation").type(STRING).description("element의 회전정보"),
-                            fieldWithPath("elements[].properties").type(OBJECT).description("해당 element 타입별 개별속성")
+                            fieldWithPath("elements[].typeContent").type(OBJECT).description("해당 element 타입별 개별속성")
                     )
             ));
         }
