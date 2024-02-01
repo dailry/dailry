@@ -86,14 +86,6 @@ public class PostService {
     public PostReadSliceResponseDTO findSlice(Pageable pageable) {
         Slice<Post> posts = postRepository.find(pageable);
 
-        /**
-         * TODO: 이렇게 하면 좋아요 갯수를 조회하기 위해 N+1쿼리가 발생한다. 따라서 최적화가 필요한데... 어떻게 처리할 지 고민이다.
-         */
-        for (Post post : posts) {
-            Long likeCount = likeRepository.countByPost(post);
-            post.setLikeCount(likeCount);
-        }
-
         return PostReadSliceResponseDTO.from(posts);
     }
 
