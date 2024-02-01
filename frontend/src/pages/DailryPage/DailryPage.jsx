@@ -1,13 +1,15 @@
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import { TOOLS } from '../../constants/toolbar';
-import { DECORATE_TYPE } from '../../constants/decorateComponent';
-import Decorate from '../../components/decorate/Decorate';
-import useEditDecorateComponent from '../../hooks/useEditDecorateComponent';
+import {
+  DECORATE_COMPONENT,
+  DECORATE_TYPE,
+} from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
+import DecorateWrapper from '../../components/decorate/DecorateWrapper';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -42,15 +44,16 @@ const DailryPage = () => {
     isEdited,
   } = useNewDecorateComponent(decorateComponents, pageRef);
 
-  const { canEditDecorateComponentId } =
-    useEditDecorateComponent(newDecorateComponent);
-
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
+
+  const [editableDecorateComponent, setEditableDecorateComponent] = useState(
+    {},
+  );
 
   const handleClickPage = (e) => {
     if (selectedTool === null || selectedTool === DECORATE_TYPE.MOVING) return;
 
-    if (canEditDecorateComponentId !== null && isEdited) {
+    if (editableDecorateComponent !== null && isEdited) {
       setNewDecorateComponent(undefined);
       return;
     }
@@ -63,14 +66,20 @@ const DailryPage = () => {
     setTarget(index + 1);
   };
 
+  useEffect(() => {
+    if (newDecorateComponent) {
+      setEditableDecorateComponent(newDecorateComponent);
+    }
+  }, [newDecorateComponent]);
+
   return (
     <S.FlexWrapper>
       <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
         {decorateComponents?.map((element, index) => {
           const { id } = element;
-          const canEdit = canEditDecorateComponentId === id;
+          const canEdit = editableDecorateComponent.id === id;
           return (
-            <Decorate
+            <DecorateWrapper
               key={id}
               onMouseDown={(e) => handleClickDecorate(e, index)}
               setTarget={setTarget}
@@ -80,18 +89,22 @@ const DailryPage = () => {
                 moveableRef[index + 1] = el;
               }}
               {...element}
-            />
+            >
+              {DECORATE_TYPE[element.type]}
+            </DecorateWrapper>
           );
         })}
 
         {newDecorateComponent && (
-          <Decorate
+          <DecorateWrapper
             onMouseDown={(e) => {
               e.stopPropagation();
             }}
             canEdit
             {...newDecorateComponent}
-          />
+          >
+            {DECORATE_COMPONENT[newDecorateComponent.type]}
+          </DecorateWrapper>
         )}
         {isMoveable() && <Moveable target={moveableRef[target]} />}
       </S.CanvasWrapper>

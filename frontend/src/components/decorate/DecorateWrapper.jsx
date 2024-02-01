@@ -1,11 +1,18 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import * as S from '../../pages/DailryPage/DailryPage.styled';
-import { DECORATE_COMPONENT } from '../../constants/decorateComponent';
 
-const Decorate = forwardRef((props, ref) => {
-  const { id, type, order, position, size, typeContent, canEdit, onMouseDown } =
-    props;
+const DecorateWrapper = forwardRef((props, ref) => {
+  const {
+    id,
+    children,
+    order,
+    position,
+    size,
+    typeContent,
+    canEdit,
+    onMouseDown,
+  } = props;
 
   return (
     <div
@@ -20,16 +27,17 @@ const Decorate = forwardRef((props, ref) => {
         canEdit,
       })}
     >
-      {DECORATE_COMPONENT[type]}
+      {children}
     </div>
   );
 });
 
-Decorate.displayName = 'decorate';
+DecorateWrapper.displayName = 'decorate';
 
-export default Decorate;
+export default DecorateWrapper;
 
-Decorate.propTypes = {
+DecorateWrapper.propTypes = {
+  children: PropTypes.node,
   id: PropTypes.string,
   setTarget: PropTypes.func,
   index: PropTypes.number,
