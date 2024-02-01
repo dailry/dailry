@@ -28,7 +28,7 @@ const DailryPage = () => {
         height: 150,
       },
       rotation: '60deg',
-      properties: {
+      typeContent: {
         base64: 'YXNjc2FzYXZmbnJ0bnJ0bnN0',
       },
     },

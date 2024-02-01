@@ -14,7 +14,7 @@ export const commonDecorateComponentProperties = {
 
 export const typedDecorateComponentProperties = {
   textBox: {
-    properties: {
+    typeContent: {
       font: '굴림',
       fontSize: 12,
       text: null,
@@ -25,13 +25,13 @@ export const typedDecorateComponentProperties = {
   },
 
   drawing: {
-    properties: {
+    typeContent: {
       base64: null,
     },
   },
 
   sticker: {
-    properties: {
+    typeContent: {
       imageUrl: null,
     },
   },
