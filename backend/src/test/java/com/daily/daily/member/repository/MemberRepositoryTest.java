@@ -1,5 +1,6 @@
 package com.daily.daily.member.repository;
 
+import com.daily.daily.common.config.QuerydslConfig;
 import com.daily.daily.member.constant.MemberRole;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.validator.Nickname;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
+@Import(QuerydslConfig.class)
 class MemberRepositoryTest {
 
     static final String TEST_USERNAME = "geonwoo123";

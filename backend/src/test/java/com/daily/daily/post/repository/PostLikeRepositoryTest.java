@@ -1,5 +1,6 @@
 package com.daily.daily.post.repository;
 
+import com.daily.daily.common.config.QuerydslConfig;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.domain.PostLike;
@@ -10,8 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
 
 @DataJpaTest
+@Import(QuerydslConfig.class)
 class PostLikeRepositoryTest {
 
     @Autowired
