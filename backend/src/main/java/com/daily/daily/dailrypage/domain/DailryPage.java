@@ -58,6 +58,10 @@ public class DailryPage {
         }
     }
 
+    public void updateThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
     public boolean belongsTo(Long memberId) {
         return Objects.equals(this.dailry.getMember().getId(), memberId);
     }
