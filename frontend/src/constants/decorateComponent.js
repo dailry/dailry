@@ -8,5 +8,5 @@ export const DECORATE_TYPE = {
 };
 
 export const DECORATE_COMPONENT = {
-  [DECORATE_TYPE.DRAWING]: <Drawing />,
+  [DECORATE_TYPE.DRAWING]: Drawing,
 };

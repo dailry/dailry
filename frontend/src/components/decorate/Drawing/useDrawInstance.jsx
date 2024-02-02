@@ -3,7 +3,7 @@ import Draw from './Draw';
 import { createCtx } from './canvas';
 import useDomContentsLoaded from '../../../hooks/useDomContentsLoaded';
 
-const useDrawInstance = (canvas) => {
+const useDrawInstance = (canvas, typeContent) => {
   const contentsLoaded = useDomContentsLoaded();
   const [drawInstance, setDrawInstance] = useState(undefined);
 
@@ -17,8 +17,10 @@ const useDrawInstance = (canvas) => {
   useEffect(() => {
     const ctx = initialize();
     const img = new Image();
-    if (localStorage.getItem('canvasImageUrl')) {
-      img.src = localStorage.getItem('canvasImageUrl');
+
+    if (typeContent) {
+      img.src = typeContent.base64;
+      console.log(img.src);
 
       img.onload = () => {
         if (ctx) {
@@ -27,7 +29,7 @@ const useDrawInstance = (canvas) => {
         }
       };
     }
-  }, [contentsLoaded, initialize]);
+  }, [contentsLoaded, initialize, typeContent]);
 
   return { drawInstance };
 };

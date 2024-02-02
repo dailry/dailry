@@ -4,59 +4,31 @@ import Moveable from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import { TOOLS } from '../../constants/toolbar';
-import {
-  DECORATE_COMPONENT,
-  DECORATE_TYPE,
-} from '../../constants/decorateComponent';
+import { DECORATE_TYPE } from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
+import TypedDecorateComponent from '../../components/decorate/TypedDecorateComponent';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
   const moveableRef = useRef([]);
 
   const [target, setTarget] = useState(null);
-  const [decorateComponents] = useState([
-    {
-      id: '123avxsdf',
-      type: 'drawing',
-      order: 3,
-      position: {
-        x: 100,
-        y: 50,
-      },
-      size: {
-        width: 250,
-        height: 150,
-      },
-      rotation: '60deg',
-      typeContent: {
-        base64: 'YXNjc2FzYXZmbnJ0bnJ0bnN0',
-      },
-    },
-  ]);
+  const [newTypeContent, setNewTypeContent] = useState(undefined);
+  const [decorateComponents, setDecorateComponents] = useState([]);
   const [selectedTool, setSelectedTool] = useState(null);
 
   const {
     createNewDecorateComponent,
     newDecorateComponent,
     setNewDecorateComponent,
-    isEdited,
   } = useNewDecorateComponent(decorateComponents, pageRef);
 
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
-
-  const [editableDecorateComponent, setEditableDecorateComponent] = useState(
-    {},
-  );
+  const editable = () => selectedTool !== DECORATE_TYPE.MOVING;
 
   const handleClickPage = (e) => {
     if (selectedTool === null || selectedTool === DECORATE_TYPE.MOVING) return;
-
-    if (editableDecorateComponent !== null && isEdited) {
-      setNewDecorateComponent(undefined);
-      return;
-    }
 
     createNewDecorateComponent(e, selectedTool);
   };
@@ -67,30 +39,41 @@ const DailryPage = () => {
   };
 
   useEffect(() => {
-    if (newDecorateComponent) {
-      setEditableDecorateComponent(newDecorateComponent);
+    if (selectedTool === 'moving') {
+      return;
     }
-  }, [newDecorateComponent]);
+    if (newTypeContent) {
+      setNewDecorateComponent((prev) => ({
+        ...prev,
+        typeContent: newTypeContent,
+      }));
+    }
+  }, [newTypeContent]);
 
   return (
     <S.FlexWrapper>
       <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
         {decorateComponents?.map((element, index) => {
           const { id } = element;
-          const canEdit = editableDecorateComponent.id === id;
+
           return (
             <DecorateWrapper
               key={id}
               onMouseDown={(e) => handleClickDecorate(e, index)}
               setTarget={setTarget}
               index={index}
-              canEdit={canEdit}
+              canEdit={editable()}
               ref={(el) => {
                 moveableRef[index + 1] = el;
               }}
               {...element}
             >
-              {DECORATE_TYPE[element.type]}
+              <TypedDecorateComponent
+                type={element.type}
+                typeContent={element.typeContent}
+                editable={editable()}
+                setTypeContent={setNewTypeContent}
+              />
             </DecorateWrapper>
           );
         })}
@@ -103,7 +86,11 @@ const DailryPage = () => {
             canEdit
             {...newDecorateComponent}
           >
-            {DECORATE_COMPONENT[newDecorateComponent.type]}
+            <TypedDecorateComponent
+              type={newDecorateComponent.type}
+              editable={true}
+              setTypeContent={setNewTypeContent}
+            />
           </DecorateWrapper>
         )}
         {isMoveable() && <Moveable target={moveableRef[target]} />}
@@ -117,6 +104,11 @@ const DailryPage = () => {
                 icon={icon}
                 selected={selectedTool === type}
                 onSelect={() => {
+                  if (newDecorateComponent?.typeContent) {
+                    setDecorateComponents((prev) =>
+                      prev.concat(newDecorateComponent),
+                    );
+                  }
                   setNewDecorateComponent(undefined);
                   setSelectedTool(selectedTool === type ? null : type);
                 }}
