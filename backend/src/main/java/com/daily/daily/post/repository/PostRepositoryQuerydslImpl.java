@@ -28,7 +28,7 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
         List<Post> posts = queryFactory
                 .selectFrom(post)
                 .leftJoin(post.postWriter, member).fetchJoin()
-                .orderBy(post.id.asc())
+                .orderBy(post.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
@@ -43,8 +43,6 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
             posts.get(i).setLikeCount(likeCounts.get(i));
         }
 
-        System.out.println("querydsl test");
-
         return new SliceImpl<>(posts ,pageable, hasNext);
     }
 
@@ -54,7 +52,7 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
                                 "FROM post " +
                                 "LEFT JOIN post_like ON post.id = post_like.post_id " +
                                 "GROUP BY post.id " +
-                                "ORDER BY post.id ASC " +
+                                "ORDER BY post.id DESC " +
                                 "LIMIT :pageSize OFFSET :offset", Long.class)
                 .setParameter("pageSize", pageable.getPageSize())
                 .setParameter("offset", pageable.getOffset())
