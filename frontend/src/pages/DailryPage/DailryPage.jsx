@@ -25,7 +25,7 @@ const DailryPage = () => {
   } = useNewDecorateComponent(decorateComponents, pageRef);
 
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
-  const editable = () => selectedTool !== DECORATE_TYPE.MOVING;
+  const canEdit = () => selectedTool !== DECORATE_TYPE.MOVING;
 
   const handleClickPage = (e) => {
     if (selectedTool === null || selectedTool === DECORATE_TYPE.MOVING) return;
@@ -62,7 +62,7 @@ const DailryPage = () => {
               onMouseDown={(e) => handleClickDecorate(e, index)}
               setTarget={setTarget}
               index={index}
-              canEdit={editable()}
+              canEdit={canEdit()}
               ref={(el) => {
                 moveableRef[index + 1] = el;
               }}
@@ -71,7 +71,7 @@ const DailryPage = () => {
               <TypedDecorateComponent
                 type={element.type}
                 typeContent={element.typeContent}
-                editable={editable()}
+                canEdit={canEdit()}
                 setTypeContent={setNewTypeContent}
               />
             </DecorateWrapper>
@@ -88,7 +88,7 @@ const DailryPage = () => {
           >
             <TypedDecorateComponent
               type={newDecorateComponent.type}
-              editable={true}
+              canEdit={true}
               setTypeContent={setNewTypeContent}
             />
           </DecorateWrapper>

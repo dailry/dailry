@@ -6,7 +6,7 @@ import useDrawInstance from './useDrawInstance';
 const Drawing = (props) => {
   const canvas = useRef(null);
 
-  const { editable, typeContent, setTypeContent } = props;
+  const { canEdit, typeContent, setTypeContent } = props;
 
   const { drawInstance } = useDrawInstance(canvas, typeContent);
   const { mouseEventHandlers, startMoving, stopMoving, mode } = useDrawUtils(
@@ -18,11 +18,11 @@ const Drawing = (props) => {
     <>
       <canvas
         onMouseDown={(e) => {
-          if (!editable) return;
+          if (!canEdit) return;
           startMoving(e, mouseEventHandlers[mode]);
         }}
         onMouseUp={() => {
-          if (!editable) return;
+          if (!canEdit) return;
           stopMoving(mouseEventHandlers[mode]);
           setTypeContent({ base64: drawInstance.getInfo() });
         }}
@@ -49,7 +49,7 @@ const Drawing = (props) => {
 
 Drawing.propTypes = {
   id: PropTypes.string,
-  editable: PropTypes.bool,
+  canEdit: PropTypes.bool,
   typeContent: PropTypes.object,
   setTypeContent: PropTypes.func,
 };

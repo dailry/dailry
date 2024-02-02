@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { DECORATE_COMPONENT } from '../../constants/decorateComponent';
 
 const TypedDecorateComponent = (props) => {
-  const { type, editable, typeContent, setTypeContent } = props;
+  const { type, canEdit, typeContent, setTypeContent } = props;
   const Com = DECORATE_COMPONENT[type];
 
   return (
     <Com
-      editable={editable}
+      canEdit={canEdit}
       typeContent={typeContent}
       setTypeContent={setTypeContent}
     />
@@ -19,7 +19,7 @@ export default TypedDecorateComponent;
 
 TypedDecorateComponent.propTypes = {
   type: PropTypes.string,
-  editable: PropTypes.bool,
+  canEdit: PropTypes.bool,
   typeContent: PropTypes.object,
   setTypeContent: PropTypes.func,
 };
