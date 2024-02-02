@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.Value;
 
 import java.util.List;
 import java.util.Map;
@@ -45,7 +44,7 @@ public class DailryPageUpdateDTO {
 
         @NotBlank(message = "rotation 값은 비어있을 수 없습니다.")
         private String rotation;
-        private Map<String, Object> properties;
+        private Map<String, Object> typeContent;
 
         @Getter
         @Setter

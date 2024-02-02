@@ -37,6 +37,13 @@ dependencies {
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.0'
 	implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
 
+	//querydsl
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	//aws
 	implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.0")
 	implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.0.0'
 	//jwt library
@@ -45,6 +52,7 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 	implementation 'com.auth0:java-jwt:4.2.1'
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
@@ -102,7 +110,12 @@ tasks.register('copySubmoduleYml', Copy) {
 	}
 }
 
+//querydsl Q타입 비우기 (clean)
+clean {
+	delete file('src/main/generated')
+}
 
 jar {
 	enabled = false
 }
+

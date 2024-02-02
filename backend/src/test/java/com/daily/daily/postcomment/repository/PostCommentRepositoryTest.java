@@ -1,5 +1,6 @@
 package com.daily.daily.postcomment.repository;
 
+import com.daily.daily.common.config.QuerydslConfig;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.repository.PostRepository;
 import com.daily.daily.postcomment.domain.PostComment;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 
@@ -15,6 +17,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@Import(QuerydslConfig.class)
 class PostCommentRepositoryTest {
 
     @Autowired PostCommentRepository commentRepository;
