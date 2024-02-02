@@ -1,5 +1,6 @@
 package com.daily.daily.dailrypage.domain;
 
+import com.daily.daily.common.domain.BaseTimeEntity;
 import com.daily.daily.dailry.domain.Dailry;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
@@ -17,17 +18,13 @@ import java.util.Objects;
 @AllArgsConstructor
 @Getter
 @Builder
-public class DailryPage {
+public class DailryPage extends BaseTimeEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String background;
     private String thumbnail;
-    private int pageNumber;
-
-//    @Type(JsonType.class)
-//    @Column(name = "elements", columnDefinition = "JSON")
-//    private Object elements;
+    private Integer pageNumber;
 
     @Type(JsonType.class)
     @Column(name = "elements", columnDefinition = "JSON")
@@ -45,10 +42,6 @@ public class DailryPage {
     public void updateBackground(String background) {
         this.background = background;
     }
-
-//    public void updateElements(Object elements) {
-//        this.elements = elements;
-//    }
 
     public void updatePageNumber(int pageNumber) { this.pageNumber = pageNumber; }
 
