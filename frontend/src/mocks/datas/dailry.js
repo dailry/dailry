@@ -1,4 +1,4 @@
-export const dailryData = [
+export const dailrys = [
   {
     id: 3,
     title: '오늘의 다일리',

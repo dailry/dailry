@@ -1,5 +1,7 @@
 import { http, HttpResponse } from 'msw';
-import { dailryData } from '../datas/dailry';
+import { dailrys } from '../datas/dailry';
+
+let dailryData = [...dailrys];
 
 export const dailryHandlers = [
   http.get('https://api.da-ily.site/api/dailry', () => {
@@ -23,4 +25,28 @@ export const dailryHandlers = [
     dailryData.push(newDailry);
     return HttpResponse.json(newDailry);
   }),
+
+  http.delete('https://api.da-ily.site/api/dailry/:dailryId', ({ params }) => {
+    const dailryId = Number(params.dailryId);
+    dailryData = dailryData.filter((data) => data.id !== dailryId);
+    return HttpResponse.json({
+      statusCode: 200,
+      successful: true,
+    });
+  }),
+
+  http.patch(
+    'https://api.da-ily.site/api/dailry/:dailryId',
+    async ({ params, request }) => {
+      const dailryId = Number(params.dailryId);
+      const { title } = await request.json();
+      dailryData.forEach((dailry, index) => {
+        if (dailry.id === dailryId) {
+          dailryData[index].title = title;
+          console.log(`${index}번째를 ${title}로`);
+        }
+      });
+      return HttpResponse.json({ dailryId, title });
+    },
+  ),
 ];

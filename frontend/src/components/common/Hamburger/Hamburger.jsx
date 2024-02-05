@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import * as S from './Hamburger.styled';
 
 const Hamburger = (props) => {
-  const { anchor = 'right', children } = props;
+  const { children } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -14,13 +14,12 @@ const Hamburger = (props) => {
         }}
       />
       {isOpen && <S.Overlay onClick={() => setIsOpen(false)} />}
-      {isOpen && <S.HamburgerMenu anchor={anchor}>{children}</S.HamburgerMenu>}
+      {isOpen && children}
     </S.HamburgerContainer>
   );
 };
 
 Hamburger.propTypes = {
-  anchor: 'right' || 'left',
   children: PropTypes.node,
 };
 

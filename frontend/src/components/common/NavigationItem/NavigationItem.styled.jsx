@@ -13,6 +13,7 @@ const containerPropsStyles = (current) => ({
 const BaseContainer = css`
   display: flex;
   align-items: center;
+  justify-content: center;
   column-gap: 14px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -40,12 +41,26 @@ export const Container = styled.button`
 export const CreateForm = styled.form`
   ${BaseContainer};
 
+  z-index: 987654321;
+
   box-sizing: border-box;
   padding: 12px;
   cursor: default;
   border: 2px dashed ${MENU.line};
 
   background-color: ${MENU.boxCurrent};
+`;
+
+export const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 987654320;
+
+  width: 100vw;
+  height: 100vh;
+
+  cursor: default;
 `;
 
 export const IconWrapper = styled.div`
@@ -56,6 +71,8 @@ export const IconWrapper = styled.div`
 export const TextWrapper = styled.div`
   flex-grow: 1;
   text-align: start;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const InputArea = styled.input`

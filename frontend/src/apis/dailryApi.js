@@ -7,7 +7,6 @@ export const getDailry = async (dailryId) => {
       : await customAxios.get('/dailry');
   } catch (e) {
     console.error(e);
-
     return e.response.data;
   }
 };
@@ -15,12 +14,28 @@ export const getDailry = async (dailryId) => {
 export const postDailry = async (dailryData) => {
   try {
     const { title } = dailryData;
-    return await customAxios.post('/dailry', {
-      title,
-    });
+    return await customAxios.post('/dailry', { title });
   } catch (e) {
     console.error(e);
+    return e.response.data;
+  }
+};
 
+export const deleteDailry = async (dailryId) => {
+  try {
+    return await customAxios.delete(`/dailry/${dailryId}`);
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
+export const patchDailry = async (dailryData) => {
+  try {
+    const { title, dailryId } = dailryData;
+    return await customAxios.patch(`/dailry/${dailryId}`, { title });
+  } catch (e) {
+    console.error(e);
     return e.response.data;
   }
 };

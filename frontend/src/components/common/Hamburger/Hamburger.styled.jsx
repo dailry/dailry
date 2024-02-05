@@ -13,6 +13,7 @@ const fadeIn = keyframes`
 export const HamburgerContainer = styled.div`
   position: relative;
 
+  height: 24px;
   width: fit-content;
 `;
 
@@ -25,6 +26,7 @@ export const HamburgerMenu = styled.div`
   top: 30px;
   right: ${({ anchor }) => (anchor === 'left' ? '0px' : 'auto')};
   left: ${({ anchor }) => (anchor === 'right' ? '0px' : 'auto')};
+
   z-index: 2;
 
   width: auto;
@@ -34,8 +36,8 @@ export const HamburgerMenu = styled.div`
   background: #fff;
 
   box-shadow:
-    4px -4px 10px 0px rgba(0, 0, 0, 0.25),
-    -4px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    4px -4px 10px 0 rgba(0, 0, 0, 0.25),
+    -4px 4px 10px 0 rgba(0, 0, 0, 0.25);
   animation: ${fadeIn} 0.3s;
 `;
 
@@ -50,6 +52,10 @@ export const HamburgerItem = styled.div`
 
   cursor: pointer;
   white-space: nowrap;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 `;
 
 export const HamburgerMoreButton = styled(HamburgerMoreIcon)`
@@ -62,11 +68,13 @@ export const HamburgerMoreButton = styled(HamburgerMoreIcon)`
 `;
 
 export const Overlay = styled.div`
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  position: fixed;
+  top: 0;
+  left: 0;
   z-index: 1;
 
   width: 100vw;
   height: 100vh;
+
+  cursor: default;
 `;
