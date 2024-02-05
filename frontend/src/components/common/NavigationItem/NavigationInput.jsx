@@ -17,6 +17,7 @@ const NavigationInput = (props) => {
   const cancelEditing = () => {
     setEditingDailry(null);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputTitle === '') {

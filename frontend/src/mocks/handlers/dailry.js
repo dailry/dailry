@@ -8,9 +8,9 @@ export const dailryHandlers = [
     return HttpResponse.json(dailryData);
   }),
 
-  http.get('https://api.da-ily.site/api/dailry/:id', ({ params }) => {
-    const dailryId = Number(params.id);
-    const foundDailry = dailryData.find((item) => item.id === dailryId);
+  http.get('https://api.da-ily.site/api/dailry/:dailryId', ({ params }) => {
+    const dailryId = Number(params.dailryId);
+    const foundDailry = dailryData.find((item) => item.dailryId === dailryId);
 
     if (foundDailry) {
       return HttpResponse.json(foundDailry);
@@ -20,15 +20,15 @@ export const dailryHandlers = [
 
   http.post('https://api.da-ily.site/api/dailry', async ({ request }) => {
     const { title } = await request.json();
-    const nextId = dailryData[dailryData.length - 1].id + 1;
-    const newDailry = { id: nextId, title };
+    const nextId = dailryData[dailryData.length - 1].dailryId + 1;
+    const newDailry = { dailryId: nextId, title };
     dailryData.push(newDailry);
     return HttpResponse.json(newDailry);
   }),
 
   http.delete('https://api.da-ily.site/api/dailry/:dailryId', ({ params }) => {
     const dailryId = Number(params.dailryId);
-    dailryData = dailryData.filter((data) => data.id !== dailryId);
+    dailryData = dailryData.filter((data) => data.dailryId !== dailryId);
     return HttpResponse.json({
       statusCode: 200,
       successful: true,

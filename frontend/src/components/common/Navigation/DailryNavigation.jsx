@@ -28,8 +28,8 @@ const DailryNavigation = () => {
 
   const handleAddClick = () => {
     postDailry({ title: '새 다일리' }).then((res) => {
-      const { id } = res.data;
-      setEditingDailry(id);
+      const { dailryId } = res.data;
+      setEditingDailry(dailryId);
     });
   };
 
@@ -38,12 +38,12 @@ const DailryNavigation = () => {
       <NameArea />
       <S.Line />
       <Text css={S.ItemName}>My Dailry</Text>
-      {dailryItem.map(({ id, title }) => {
-        if (editingDailry === id) {
+      {dailryItem.map(({ dailryId, title }) => {
+        if (editingDailry === dailryId) {
           return (
             <NavigationInput
-              key={id}
-              dailryId={id}
+              key={dailryId}
+              dailryId={dailryId}
               title={title}
               setEditingDailry={setEditingDailry}
             ></NavigationInput>
@@ -51,14 +51,14 @@ const DailryNavigation = () => {
         }
         return (
           <NavigationItem
-            key={id}
-            onClick={() => handleItemClick(id)}
-            current={isCurrent(id)}
+            key={dailryId}
+            onClick={() => handleItemClick(dailryId)}
+            current={isCurrent(dailryId)}
             icon={<NavigationItemIcon />}
             hamburger={
               <DailryHamburger
                 setEditingDailry={setEditingDailry}
-                dailryId={id}
+                dailryId={dailryId}
               />
             }
           >
