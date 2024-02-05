@@ -43,6 +43,7 @@ export const BUTTON = Object.freeze({
 // 닉네임은 TEXT.white, 그 밑의 아이디와 새 다일리는 text
 export const MENU = Object.freeze({
   text: 'rgba(0, 0, 0, 0.4)',
+  textMouseOver: 'rgba(0, 0, 0, 0.3)',
   line: '#ab7aa8',
   title: '#303030',
   box: 'rgba(0, 0, 0, 0)',

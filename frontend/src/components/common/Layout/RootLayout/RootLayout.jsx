@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 
 import { Outlet } from 'react-router-dom';
 import * as S from './RootLayout.styled';
+import Navigation from '../../Navigation/Navigation';
 
 const RootLayout = (props) => {
-  const { navigation: Navigation } = props;
+  const { hasTemplate } = props;
+
   return (
     <S.Background>
       {Navigation && (
@@ -13,14 +15,20 @@ const RootLayout = (props) => {
         </S.NavigationContainer>
       )}
       <S.PageContainer>
-        <Outlet />
+        {hasTemplate ? (
+          <S.BrightColoredPageTemplate>
+            <Outlet />
+          </S.BrightColoredPageTemplate>
+        ) : (
+          <Outlet />
+        )}
       </S.PageContainer>
     </S.Background>
   );
 };
-export default RootLayout;
 
 RootLayout.propTypes = {
-  navigation: PropTypes.elementType,
-  pageTemplate: PropTypes.elementType,
+  hasTemplate: PropTypes.bool,
 };
+
+export default RootLayout;

@@ -3,24 +3,24 @@ import PropTypes from 'prop-types';
 import * as S from './Hamburger.styled';
 
 const Hamburger = (props) => {
-  const { anchor = 'right', children } = props;
+  const { children } = props;
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleHamburgerClick = (e) => {
+    e.stopPropagation();
+    setIsOpen((prev) => !prev);
+  };
 
   return (
     <S.HamburgerContainer>
-      <S.HamburgerMoreButton
-        onClick={() => {
-          setIsOpen((prev) => !prev);
-        }}
-      />
+      <S.HamburgerMoreButton onClick={handleHamburgerClick} />
       {isOpen && <S.Overlay onClick={() => setIsOpen(false)} />}
-      {isOpen && <S.HamburgerMenu anchor={anchor}>{children}</S.HamburgerMenu>}
+      {isOpen && children}
     </S.HamburgerContainer>
   );
 };
 
 Hamburger.propTypes = {
-  anchor: 'right' || 'left',
   children: PropTypes.node,
 };
 
