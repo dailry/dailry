@@ -5,7 +5,7 @@ import { MENU } from '../../../styles/color';
 export const NavigationWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
 
   width: 100%;
 `;

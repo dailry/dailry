@@ -12,6 +12,7 @@ const fadeIn = keyframes`
 
 export const HamburgerContainer = styled.div`
   position: relative;
+  overflow: visible;
 
   height: 24px;
   width: fit-content;

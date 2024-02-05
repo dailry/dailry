@@ -3,7 +3,7 @@ import * as S from './Hamburger.styled';
 import { deleteDailry } from '../../../apis/dailryApi';
 
 const DailryHamburger = (props) => {
-  const { dailryId, setEditingDailry, anchor = 'right' } = props;
+  const { dailryId, setEditingDailry, anchor = 'left' } = props;
   const handleDeleteClick = () => {
     deleteDailry(dailryId).then(setEditingDailry(dailryId));
   };

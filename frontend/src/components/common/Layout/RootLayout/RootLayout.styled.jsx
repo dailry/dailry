@@ -15,7 +15,8 @@ export const Background = styled.div`
 
 export const NavigationContainer = styled.div`
   flex-grow: 1;
-  overflow: auto;
+  overflow-x: visible;
+  overflow-y: auto;
   width: 180px;
   max-width: 270px;
   height: calc(100dvh - 20px);
