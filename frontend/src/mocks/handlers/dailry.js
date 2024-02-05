@@ -41,9 +41,8 @@ export const dailryHandlers = [
       const dailryId = Number(params.dailryId);
       const { title } = await request.json();
       dailryData.forEach((dailry, index) => {
-        if (dailry.id === dailryId) {
+        if (dailry.dailryId === dailryId) {
           dailryData[index].title = title;
-          console.log(`${index}번째를 ${title}로`);
         }
       });
       return HttpResponse.json({ dailryId, title });
