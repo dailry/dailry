@@ -5,7 +5,7 @@ import { deleteDailry } from '../../../apis/dailryApi';
 const DailryHamburger = (props) => {
   const { dailryId, setEditingDailry, anchor = 'left' } = props;
   const handleDeleteClick = () => {
-    deleteDailry(dailryId).then(setEditingDailry(dailryId));
+    deleteDailry(dailryId).then(setEditingDailry(0));
   };
 
   const handlePatchClick = () => {
