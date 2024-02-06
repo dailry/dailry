@@ -33,7 +33,7 @@ public class DailryPageService {
 
     public DailryPageCreateResponseDTO create(Long memberId, Long dailryId) {
         Dailry dailry = dailryRepository.findById(dailryId)
-                .orElseThrow(DailryPageNotFoundException::new);
+                .orElseThrow(DailryNotFoundException::new);
 
         if (!dailry.belongsTo(memberId)) {
             throw new UnauthorizedAccessException();
