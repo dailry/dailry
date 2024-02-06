@@ -23,6 +23,7 @@ import static com.daily.daily.dailrypage.fixture.DailryPageFixture.*;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.description;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
@@ -72,6 +73,7 @@ class DailryPageControllerTest {
             //then
             perform.andExpect(status().isCreated())
                     .andDo(print())
+                    .andExpect(jsonPath("$.dailryId").value(DAILRY_ID))
                     .andExpect(jsonPath("$.pageId").value(DAILRY_PAGE_ID))
                     .andExpect(jsonPath("$.background").value("grid"))
                     .andExpect(jsonPath("$.pageNumber").value(1));
@@ -79,6 +81,7 @@ class DailryPageControllerTest {
             //restdocs
             perform.andDo(document("다일리 페이지 생성",
                     responseFields(
+                            fieldWithPath("dailryId").type(NUMBER).description("다일리 id"),
                             fieldWithPath("pageId").type(NUMBER).description("다일리 페이지 id"),
                             fieldWithPath("background").type(STRING).description("페이지 배경"),
                             fieldWithPath("pageNumber").type(NUMBER).description("다일리 페이지 번호 (몇 페이지 인지)")
@@ -235,6 +238,7 @@ class DailryPageControllerTest {
                     responseFields(
                             fieldWithPath("dailryId").type(NUMBER).description("다일리 id"),
                             fieldWithPath("pages").type(ARRAY).description("미리보기 페이지 목록"),
+                            fieldWithPath("pages[].pageId").type(NUMBER).description("다일리 페이지 id"),
                             fieldWithPath("pages[].pageNumber").type(NUMBER).description("다일리 페이지 번호 (몇 페이지 인지)"),
                             fieldWithPath("pages[].thumbnail").type(STRING).description("썸네일 이미지 URL")
                     )

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.daily.daily.dailry.fixture.DailryFixture.DAILRY_ID;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 
@@ -24,6 +25,7 @@ public class DailryPageFixture {
 
     public static DailryPageCreateResponseDTO 비어있는_다일리_페이지_DTO() {
         return DailryPageCreateResponseDTO.builder()
+                .dailryId(DAILRY_ID)
                 .pageId(DAILRY_PAGE_ID)
                 .background("grid")
                 .pageNumber(1L)
@@ -68,9 +70,9 @@ public class DailryPageFixture {
     }
 
     public static DailryPagePreviewDTO 다일리_페이지_미리보기_DTO() {
-        DailryPageThumbnailDTO 썸네일1 = new DailryPageThumbnailDTO(1, "https://data.da-ily.site/thumbnail/5/1/awerqlwp33124");
-        DailryPageThumbnailDTO 썸네일2 = new DailryPageThumbnailDTO(2, "https://data.da-ily.site/thumbnail/5/2/73123wqrw");
-        DailryPageThumbnailDTO 썸네일3 = new DailryPageThumbnailDTO(3, "https://data.da-ily.site/thumbnail/5/3/u12rgf31412");
+        DailryPageThumbnailDTO 썸네일1 = new DailryPageThumbnailDTO(1,1, "https://data.da-ily.site/thumbnail/5/1/awerqlwp33124");
+        DailryPageThumbnailDTO 썸네일2 = new DailryPageThumbnailDTO(2,2, "https://data.da-ily.site/thumbnail/5/2/73123wqrw");
+        DailryPageThumbnailDTO 썸네일3 = new DailryPageThumbnailDTO(3,3, "https://data.da-ily.site/thumbnail/5/3/u12rgf31412");
 
         DailryPagePreviewDTO 다일리_페이지_미리보기_DTO = new DailryPagePreviewDTO();
         다일리_페이지_미리보기_DTO.setDailryId(2L);
