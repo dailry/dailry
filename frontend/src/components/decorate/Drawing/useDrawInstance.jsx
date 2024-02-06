@@ -9,6 +9,7 @@ const useDrawInstance = (canvas, typeContent) => {
 
   useEffect(() => {
     const { ctx } = createCtx(canvas.current);
+
     const img = new Image();
 
     if (typeContent) {
@@ -23,7 +24,7 @@ const useDrawInstance = (canvas, typeContent) => {
     }
 
     setDrawInstance(new Draw(canvas.current, ctx));
-  }, [contentsLoaded, typeContent]);
+  }, [contentsLoaded]);
 
   return { drawInstance };
 };
