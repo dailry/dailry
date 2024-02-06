@@ -20,20 +20,19 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-//@RequestMapping("/api/dailry/{dailryID}/pages")
-//@RequestMapping("/api/pages")
+@RequestMapping("/api/dailry")
 public class DailryPageController {
 
     private final DailryPageService dailryPageService;
 
-    @PostMapping("/api/dailry/{dailryID}/pages")
+    @PostMapping("/{dailryID}/pages")
     @Secured(value = "ROLE_MEMBER")
     @ResponseStatus(HttpStatus.CREATED)
     public DailryPageCreateResponseDTO createPage2(@AuthenticationPrincipal Long memberId, @PathVariable Long dailryID) {
         return dailryPageService.create2(memberId, dailryID);
     }
 
-    @PostMapping("/api/dailry/pages/{pageId}/edit")
+    @PostMapping("/pages/{pageId}/edit")
     @Secured(value = "ROLE_MEMBER")
     public DailryPageDTO updatePage(
             @AuthenticationPrincipal Long memberId,
@@ -43,19 +42,19 @@ public class DailryPageController {
         return dailryPageService.update(memberId, pageId, dailryPageRequest, thumbnail);
     }
 
-    @GetMapping("/api/dailry/pages/{pageId}")
+    @GetMapping("/pages/{pageId}")
     @Secured(value = "ROLE_MEMBER")
     public DailryPageDTO findPage(@AuthenticationPrincipal Long memberId, @PathVariable Long pageId) {
         return dailryPageService.find(memberId, pageId);
     }
 
-    @GetMapping("/api/dailry/{dailryId}/pages")
+    @GetMapping("/{dailryId}/pages")
     @Secured(value = "ROLE_MEMBER")
     public DailryPagePreviewDTO findAllPage(@AuthenticationPrincipal Long memberId, @PathVariable Long dailryId) {
         return dailryPageService.findAll(memberId, dailryId);
     }
 
-    @DeleteMapping("/api/dailry/pages/{pageId}")
+    @DeleteMapping("/pages/{pageId}")
     @Secured(value = "ROLE_MEMBER")
     public SuccessResponseDTO deletePage(@AuthenticationPrincipal Long memberId, @PathVariable Long pageId) {
         dailryPageService.delete(memberId, pageId);
