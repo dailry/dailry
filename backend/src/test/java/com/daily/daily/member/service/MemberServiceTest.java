@@ -24,6 +24,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -82,13 +83,12 @@ class MemberServiceTest {
     void updateNickname() {
         //given
         Member member = Member.builder()
-                .id(1L)
                 .username("username1")
                 .nickname("임시닉네임")
                 .build();
 
         when(memberRepository.existsByNickname("바꾸고 싶은 닉네임")).thenReturn(true);
-        when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
+        when(memberRepository.findById(any())).thenReturn(Optional.of(member));
 
         //when, then
         assertThatThrownBy(() -> memberService.updateNickname(1L, "바꾸고 싶은 닉네임"))
@@ -124,7 +124,6 @@ class MemberServiceTest {
 
     private Member createTestMember(String password) {
         return Member.builder()
-                .id(1L)
                 .username("username1")
                 .nickname("nickname")
                 .password(new BCryptPasswordEncoder().encode(password))

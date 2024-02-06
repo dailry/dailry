@@ -79,19 +79,19 @@ class PostCommentServiceTest {
         @DisplayName("파라미터에 들어온 값들을 토대로 댓글을 수정해야 한다.")
         void test1() {
             //given
-            Member 댓글_수정_요청자 = 일반회원2();
             PostComment 댓글 = 일반회원2가_작성한_댓글_to_일반회원1이_작성한_게시글();
             PostCommentRequestDTO 댓글_요청_DTO = 댓글_수정_DTO();
 
-            when(commentRepository.findById(any(Long.class))).thenReturn(Optional.of(댓글));
+            when(commentRepository.findById(any())).thenReturn(Optional.of(댓글));
 
             //when
-            PostCommentResponseDTO 결과 = commentService.update(댓글_수정_요청자.getId(), 댓글.getId(), 댓글_요청_DTO);
+            PostCommentResponseDTO 결과 = commentService.update(댓글.getWriterId(), 댓글.getId(), 댓글_요청_DTO);
 
             //then
+            assertThat(결과.getWriterNickname()).isEqualTo(댓글.getWriterNickname());
             assertThat(결과.getCommentId()).isEqualTo(댓글.getId());
             assertThat(결과.getContent()).isEqualTo(댓글_요청_DTO.getContent());
-            assertThat(결과.getWriterId()).isEqualTo(댓글_수정_요청자.getId());
+            assertThat(결과.getWriterId()).isEqualTo(댓글.getWriterId());
         }
 
         @Test
