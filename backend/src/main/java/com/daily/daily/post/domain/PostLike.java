@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostLike extends BaseTimeEntity {
 
     @Id
@@ -34,5 +33,8 @@ public class PostLike extends BaseTimeEntity {
     public PostLike(Post post, Member member) {
         this.post = post;
         this.member = member;
+    }
+
+    protected PostLike() {
     }
 }

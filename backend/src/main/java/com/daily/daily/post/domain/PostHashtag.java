@@ -13,7 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class PostHashtag extends BaseTimeEntity {
     @Id
@@ -32,6 +31,9 @@ public class PostHashtag extends BaseTimeEntity {
     private PostHashtag(Post post, Hashtag hashtag) {
         this.post = post;
         this.hashtag = hashtag;
+    }
+
+    protected PostHashtag() {
     }
 
     public static PostHashtag of(Post post, Hashtag hashtag) {
