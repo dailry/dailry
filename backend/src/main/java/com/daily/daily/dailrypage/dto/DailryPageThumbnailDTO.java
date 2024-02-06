@@ -8,7 +8,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class DailryPageThumbnailDTO {
-    private int pageNumber;
+    private Long pageId;
+    private Integer pageNumber;
     private String thumbnail;
+
+    public DailryPageThumbnailDTO() {
+    }
 }
 
