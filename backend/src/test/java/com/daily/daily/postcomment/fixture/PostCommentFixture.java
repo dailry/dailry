@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,10 +35,16 @@ public class PostCommentFixture {
     }
 
     public static PostCommentResponseDTO 댓글_응답_DTO() {
-        PostCommentResponseDTO result = PostCommentResponseDTO.from(일반회원2가_작성한_댓글_to_일반회원1이_작성한_게시글());
-        result.setCreatedTime(댓글_생성_시간);
+        PostCommentResponseDTO 댓글_응답_DTO = PostCommentResponseDTO.builder()
+                .commentId(COMMENT_ID)
+                .postId(4L)
+                .writerId(10L)
+                .writerNickname("gomudayya")
+                .content("오오 멋있어요")
+                .createdTime(댓글_생성_시간)
+                .build();
 
-        return result;
+        return 댓글_응답_DTO;
     }
 
     public static PostCommentResponseDTO 수정된_댓글_응답_DTO() {
@@ -48,21 +55,48 @@ public class PostCommentFixture {
     }
 
     public static PostCommentSliceDTO 댓글_조회_페이징_DTO() {
-        PostCommentSliceDTO result = PostCommentSliceDTO.from(댓글_페이징_결과());
+        PostCommentSliceDTO.SingleCommentDTO 첫번째_댓글 = PostCommentSliceDTO.SingleCommentDTO.builder()
+                .commentId(2L)
+                .createdTime(댓글_생성_시간)
+                .content("와우")
+                .writerNickname("뚱냥이")
+                .build();
 
-        result.getComments()
-                .forEach(commentDTO -> commentDTO.setCreatedTime(댓글_생성_시간)); //생성시간 설정
+        PostCommentSliceDTO.SingleCommentDTO 두번째_댓글 = PostCommentSliceDTO.SingleCommentDTO.builder()
+                .commentId(5L)
+                .createdTime(댓글_생성_시간)
+                .content("허걱")
+                .writerNickname("돼냥이")
+                .build();
 
-        return result;
+        PostCommentSliceDTO.SingleCommentDTO 세번째_댓글 = PostCommentSliceDTO.SingleCommentDTO.builder()
+                .commentId(16L)
+                .createdTime(댓글_생성_시간)
+                .content("오오 멋있어요")
+                .writerNickname("gomudayya")
+                .build();
+
+        PostCommentSliceDTO 댓글_조회_페이징_DTO = PostCommentSliceDTO.builder()
+                .hasNext(true)
+                .presentPage(요청_페이지_숫자)
+                .comments(List.of(첫번째_댓글, 두번째_댓글, 세번째_댓글))
+                .build();
+
+        return 댓글_조회_페이징_DTO;
     }
 
     public static PostComment 일반회원2가_작성한_댓글_to_일반회원1이_작성한_게시글() {
-        return PostComment.builder()
-                .id(COMMENT_ID)
+        PostComment build = PostComment.builder()
+//                .id(COMMENT_ID)
                 .content(댓글_내용)
                 .post(일반회원1이_작성한_게시글())
                 .commentWriter(일반회원2())
                 .build();
+
+        ReflectionTestUtils.setField(build, "id", COMMENT_ID);
+        return build;
+
+
     }
 
     public static Pageable 댓글_페이징_요청_객체() {
@@ -83,7 +117,7 @@ public class PostCommentFixture {
     }
     private static PostComment 일반회원2가_작성한_댓글_to_일반회원1이_작성한_게시글(Long id, String content) {
         return PostComment.builder()
-                .id(id)
+//                .id(id)
                 .content(content)
                 .post(일반회원1이_작성한_게시글())
                 .commentWriter(일반회원2())

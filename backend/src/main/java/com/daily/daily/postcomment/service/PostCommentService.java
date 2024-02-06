@@ -49,7 +49,7 @@ public class PostCommentService {
 
         validateAuthorityToComment(findComment, writerId);
 
-        if (writerId.longValue() != findComment.getWriterId().longValue()) {
+        if (!findComment.isWrittenBy(writerId)) {
             throw new UnauthorizedAccessException();
         }
 
