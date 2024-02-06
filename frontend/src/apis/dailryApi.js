@@ -40,6 +40,15 @@ export const patchDailry = async (dailryData) => {
   }
 };
 
+export const postPage = async (dailryId) => {
+  try {
+    return await customAxios.post(`dailry/${dailryId}/pages`);
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
 export const getPages = async (dailryId) => {
   try {
     return await customAxios.get(`/dailry/${dailryId}/pages`);

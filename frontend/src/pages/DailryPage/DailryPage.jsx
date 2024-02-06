@@ -12,7 +12,7 @@ import {
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
 import Text from '../../components/common/Text/Text';
 import { useDailryContext } from '../../hooks/useDailryContext';
-import { getPages } from '../../apis/dailryApi';
+import { postPage, getPages } from '../../apis/dailryApi';
 
 const DailryPage = () => {
   const parentRef = useRef(null);
@@ -78,14 +78,21 @@ const DailryPage = () => {
       <S.SideWrapper>
         <S.ToolWrapper>
           {TOOLS.map(({ icon, type }, index) => {
+            const onSelect = (t) => {
+              if (t === 'page') {
+                postPage(dailryId).then((response) =>
+                  setCurrentDailry({ dailryId, pageId: response.data.pageId }),
+                );
+                setTimeout(() => setSelectedTool(null), 150);
+              }
+              setSelectedTool(selectedTool === t ? null : t);
+            };
             return (
               <ToolButton
                 key={index}
                 icon={icon}
                 selected={selectedTool === type}
-                onSelect={() =>
-                  setSelectedTool(selectedTool === type ? null : type)
-                }
+                onSelect={() => onSelect(type)}
               />
             );
           })}
