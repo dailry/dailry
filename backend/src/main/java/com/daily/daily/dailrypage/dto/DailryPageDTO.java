@@ -1,13 +1,10 @@
 package com.daily.daily.dailrypage.dto;
 
-import com.daily.daily.dailry.domain.Dailry;
 import com.daily.daily.dailrypage.domain.DailryPage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Collection;
 
 
 @Getter
@@ -15,7 +12,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Builder
 public class DailryPageDTO {
-    private Long dailryPageId;
+    private Long pageId;
     private String background;
     private String thumbnail;
     private int pageNumber;
@@ -23,7 +20,7 @@ public class DailryPageDTO {
 
     public static DailryPageDTO from(DailryPage dailryPage) {
         return DailryPageDTO.builder()
-                .dailryPageId(dailryPage.getId())
+                .pageId(dailryPage.getId())
                 .background(dailryPage.getBackground())
                 .thumbnail(dailryPage.getThumbnail())
                 .pageNumber(dailryPage.getPageNumber())

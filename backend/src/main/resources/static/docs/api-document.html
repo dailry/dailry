@@ -617,6 +617,7 @@ Content-Type: application/json;charset=UTF-8
 Content-Type: application/json;charset=UTF-8
 Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDcyMzMzMzR9.sfhlU14geE6C5D6IE-NuQz7bfMPxb89SkHKctN0LlY_GXX8Mvs1ezLwOtAY42GR09jQtKi6Ti-uAV8fsbi5NMQ
 Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA3MjI5NzM0LCJleHAiOjE3MDg0MzkzMzR9.WSahQdXoAQEqEWp-mcRPFF8DBhv7hyQB-07l7ja2eY-jiig1osiOcOzPxReTh9-_W5EojqMdzb5QoOwQ-UDwtw</code></pre>
+
 </div>
 </div>
 </div>
@@ -647,6 +648,7 @@ Content-Type: application/json;charset=UTF-8
 Content-Type: application/json;charset=UTF-8
 Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDcyMzMzMzV9.wNESdHoHxtKILjklUD_UlbrPjSsPuehNhjxIFwf7sMApzQ1EI-kelChWMN4M5q7WZ5MeDiZFo_WxIiwqQeZHXQ
 Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA3MjI5NzM1LCJleHAiOjE3MDg0MzkzMzV9.3yG1xQwPLKmtu1anqrYlD4JmUQXng1fAnusSWwZn4NZeo3WclnDGHWHVW2wLXliCWf9GFxBlD7N6eP56v_xFqQ</code></pre>
+
 </div>
 </div>
 </div>
@@ -1881,7 +1883,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_요청_21">요청</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/pages HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/dailry/16/pages HTTP/1.1
 Content-Type: application/x-www-form-urlencoded</code></pre>
 </div>
 </div>
@@ -1894,7 +1896,8 @@ Content-Type: application/x-www-form-urlencoded</code></pre>
 Content-Type: application/json;charset=UTF-8
 
 {
-  "dailryPageId" : 5,
+  "dailryId" : 16,
+  "pageId" : 5,
   "background" : "grid",
   "pageNumber" : 1
 }</code></pre>
@@ -1917,7 +1920,13 @@ Content-Type: application/json;charset=UTF-8
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dailryPageId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dailryId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 id</p></td>
@@ -2084,7 +2093,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "dailryPageId" : 5,
+  "pageId" : 5,
   "background" : "무지",
   "thumbnail" : "https://data.da-ily.site/thumbnail/5/1/awefkaweop",
   "pageNumber" : 1,
@@ -2162,7 +2171,7 @@ Content-Type: application/json;charset=UTF-8
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dailryPageId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 id</p></td>
@@ -2286,7 +2295,7 @@ Content-Type: application/json;charset=UTF-8
 Content-Type: application/json;charset=UTF-8
 
 {
-  "dailryPageId" : 5,
+  "pageId" : 5,
   "background" : "무지",
   "thumbnail" : "https://data.da-ily.site/thumbnail/5/1/awefkaweop",
   "pageNumber" : 1,
@@ -2364,7 +2373,7 @@ Content-Type: application/json;charset=UTF-8
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dailryPageId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 id</p></td>
@@ -2490,12 +2499,15 @@ Content-Type: application/json;charset=UTF-8
 {
   "dailryId" : 2,
   "pages" : [ {
+    "pageId" : 1,
     "pageNumber" : 1,
     "thumbnail" : "https://data.da-ily.site/thumbnail/5/1/awerqlwp33124"
   }, {
+    "pageId" : 2,
     "pageNumber" : 2,
     "thumbnail" : "https://data.da-ily.site/thumbnail/5/2/73123wqrw"
   }, {
+    "pageId" : 3,
     "pageNumber" : 3,
     "thumbnail" : "https://data.da-ily.site/thumbnail/5/3/u12rgf31412"
   } ]
@@ -2529,6 +2541,12 @@ Content-Type: application/json;charset=UTF-8
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">미리보기 페이지 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pages[].pageId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 id</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>pages[].pageNumber</code></p></td>
