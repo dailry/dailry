@@ -26,13 +26,6 @@ public class DailryPageController {
 
     private final DailryPageService dailryPageService;
 
-    @PostMapping("/api/pages")
-    @Secured(value = "ROLE_MEMBER")
-    @ResponseStatus(HttpStatus.CREATED)
-    public DailryPageCreateResponseDTO createPage() {
-        return dailryPageService.create();
-    }
-
     @PostMapping("/api/dailry/{dailryID}/pages")
     @Secured(value = "ROLE_MEMBER")
     @ResponseStatus(HttpStatus.CREATED)

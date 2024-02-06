@@ -31,13 +31,6 @@ public class DailryPageService {
 
     private final S3StorageService storageService;
 
-
-    public DailryPageCreateResponseDTO create() {
-        DailryPage savedPage = dailryPageRepository.save(DailryPage.createEmptyPage());
-
-        return DailryPageCreateResponseDTO.from(savedPage);
-    }
-
     public DailryPageDTO create2(Long memberId, Long dailryId) {
         Dailry dailry = dailryRepository.findById(dailryId)
                 .orElseThrow(DailryPageNotFoundException::new);

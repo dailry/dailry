@@ -66,7 +66,7 @@ class DailryPageControllerTest {
         @DisplayName("다일리 페이지 생성 요청이 성공했을 때 응답값을 검사한다.")
         void test1() throws Exception {
             //given
-            given(dailryPageService.create()).willReturn(비어있는_다일리_페이지_DTO());
+            given(dailryPageService.create2(any(), any())).willReturn(비어있는_다일리_페이지_DTO());
 
             //when
             ResultActions perform = mockMvc.perform(post("/api/pages")
