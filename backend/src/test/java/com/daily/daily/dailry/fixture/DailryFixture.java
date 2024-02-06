@@ -4,6 +4,7 @@ import com.daily.daily.dailry.domain.Dailry;
 import com.daily.daily.dailry.dto.DailryDTO;
 import com.daily.daily.dailry.dto.DailryFindDTO;
 import com.daily.daily.dailry.dto.DailryUpdateDTO;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,19 +63,23 @@ public class DailryFixture {
     }
 
     public static Dailry 일반회원1이_작성한_다일리() {
-        return Dailry.builder()
-                .id(DAILRY_ID)
+        Dailry 다일리 = Dailry.builder()
                 .title(다일리_제목)
                 .member(일반회원1())
                 .build();
+
+        ReflectionTestUtils.setField(다일리, "id", DAILRY_ID);
+        return 다일리;
     }
 
     public static Dailry 일반회원1이_작성한_2번째_다일리() {
-        return Dailry.builder()
-                .id(DAILRY_ID_2)
+        Dailry 다일리 = Dailry.builder()
                 .title(다일리_제목)
                 .member(일반회원1())
                 .build();
+
+        ReflectionTestUtils.setField(다일리, "id", DAILRY_ID);
+        return 다일리;
     }
 
 }
