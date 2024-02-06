@@ -96,7 +96,7 @@ public class DailryPageService {
             throw new UnauthorizedAccessException();
         }
 
-        List<DailryPageThumbnailDTO> thumbnails = dailryPageRepository.findThumbnail(dailryId);
+        List<DailryPageThumbnailDTO> thumbnails = dailryPageRepository.findThumbnails(dailryId);
 
         return DailryPagePreviewDTO.from(dailryId, thumbnails);
     }

@@ -8,9 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface DailryPageRepository extends JpaRepository<DailryPage, Long> {
+public interface DailryPageRepository extends JpaRepository<DailryPage, Long>, DailryPageQuerydsl {
     int countByDailry(Dailry dailry);
-
-    @Query("select dp.id as pageId, dp.pageNumber, dp.thumbnail from DailryPage dp where dp.dailry.id = :dailryId")
-    List<DailryPageThumbnailDTO> findThumbnail(Long dailryId);
 }
