@@ -29,7 +29,7 @@ public class DailryPageController {
     @PostMapping("/api/dailry/{dailryID}/pages")
     @Secured(value = "ROLE_MEMBER")
     @ResponseStatus(HttpStatus.CREATED)
-    public DailryPageDTO createPage2(@AuthenticationPrincipal Long memberId, @PathVariable Long dailryID) {
+    public DailryPageCreateResponseDTO createPage2(@AuthenticationPrincipal Long memberId, @PathVariable Long dailryID) {
         return dailryPageService.create2(memberId, dailryID);
     }
 

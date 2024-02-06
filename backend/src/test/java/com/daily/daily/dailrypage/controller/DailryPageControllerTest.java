@@ -20,6 +20,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.daily.daily.dailry.fixture.DailryFixture.DAILRY_ID;
 import static com.daily.daily.dailrypage.fixture.DailryPageFixture.*;
 import static com.daily.daily.post.fixture.PostFixture.게시글_요청_DTO_JSON_파일;
 import static com.daily.daily.post.fixture.PostFixture.다일리_페이지_이미지_파일;
@@ -69,7 +70,7 @@ class DailryPageControllerTest {
             given(dailryPageService.create2(any(), any())).willReturn(비어있는_다일리_페이지_DTO());
 
             //when
-            ResultActions perform = mockMvc.perform(post("/api/pages")
+            ResultActions perform = mockMvc.perform(post("/api/dailry/{dailryID}/pages", DAILRY_ID)
                     .with(csrf().asHeader())
             );
 
