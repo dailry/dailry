@@ -97,6 +97,7 @@ const DailryPage = () => {
         {decorateComponents?.map((element, index) => {
           const canEdit =
             selectedTool !== DECORATE_TYPE.MOVING &&
+            element.type === selectedTool &&
             canEditDecorateComponent?.id === element.id;
           return (
             <DecorateWrapper
