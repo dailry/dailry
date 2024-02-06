@@ -4,7 +4,6 @@ import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.dailrypage.dto.DailryPageCreateResponseDTO;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
 import com.daily.daily.dailrypage.dto.DailryPagePreviewDTO;
-import com.daily.daily.dailrypage.dto.DailryPageThumbnailDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 import com.daily.daily.dailrypage.service.DailryPageService;
 import jakarta.validation.Valid;
@@ -16,8 +15,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/dailry")
@@ -28,8 +25,8 @@ public class DailryPageController {
     @PostMapping("/{dailryID}/pages")
     @Secured(value = "ROLE_MEMBER")
     @ResponseStatus(HttpStatus.CREATED)
-    public DailryPageCreateResponseDTO createPage2(@AuthenticationPrincipal Long memberId, @PathVariable Long dailryID) {
-        return dailryPageService.create2(memberId, dailryID);
+    public DailryPageCreateResponseDTO createPage(@AuthenticationPrincipal Long memberId, @PathVariable Long dailryID) {
+        return dailryPageService.create(memberId, dailryID);
     }
 
     @PostMapping("/pages/{pageId}/edit")

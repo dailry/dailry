@@ -31,7 +31,7 @@ public class DailryPageService {
 
     private final S3StorageService storageService;
 
-    public DailryPageCreateResponseDTO create2(Long memberId, Long dailryId) {
+    public DailryPageCreateResponseDTO create(Long memberId, Long dailryId) {
         Dailry dailry = dailryRepository.findById(dailryId)
                 .orElseThrow(DailryPageNotFoundException::new);
 

@@ -14,16 +14,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static com.daily.daily.dailry.fixture.DailryFixture.DAILRY_ID;
 import static com.daily.daily.dailrypage.fixture.DailryPageFixture.*;
-import static com.daily.daily.post.fixture.PostFixture.게시글_요청_DTO_JSON_파일;
-import static com.daily.daily.post.fixture.PostFixture.다일리_페이지_이미지_파일;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -36,7 +32,6 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
-import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -67,7 +62,7 @@ class DailryPageControllerTest {
         @DisplayName("다일리 페이지 생성 요청이 성공했을 때 응답값을 검사한다.")
         void test1() throws Exception {
             //given
-            given(dailryPageService.create2(any(), any())).willReturn(비어있는_다일리_페이지_DTO());
+            given(dailryPageService.create(any(), any())).willReturn(비어있는_다일리_페이지_DTO());
 
             //when
             ResultActions perform = mockMvc.perform(post("/api/dailry/{dailryID}/pages", DAILRY_ID)
