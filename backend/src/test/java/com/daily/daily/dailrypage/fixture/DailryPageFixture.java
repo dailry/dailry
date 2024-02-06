@@ -24,7 +24,7 @@ public class DailryPageFixture {
 
     public static DailryPageCreateResponseDTO 비어있는_다일리_페이지_DTO() {
         return DailryPageCreateResponseDTO.builder()
-                .dailryPageId(DAILRY_PAGE_ID)
+                .pageId(DAILRY_PAGE_ID)
                 .background("grid")
                 .pageNumber(1L)
                 .build();
@@ -59,7 +59,7 @@ public class DailryPageFixture {
 
     public static DailryPageDTO 다일리_페이지_응답_DTO() {
         return DailryPageDTO.builder()
-                .dailryPageId(DAILRY_PAGE_ID)
+                .pageId(DAILRY_PAGE_ID)
                 .background("무지")
                 .thumbnail("https://data.da-ily.site/thumbnail/5/1/awefkaweop")
                 .pageNumber(1)

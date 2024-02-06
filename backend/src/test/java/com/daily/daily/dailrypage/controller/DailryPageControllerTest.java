@@ -72,14 +72,14 @@ class DailryPageControllerTest {
             //then
             perform.andExpect(status().isCreated())
                     .andDo(print())
-                    .andExpect(jsonPath("$.dailryPageId").value(DAILRY_PAGE_ID))
+                    .andExpect(jsonPath("$.pageId").value(DAILRY_PAGE_ID))
                     .andExpect(jsonPath("$.background").value("grid"))
                     .andExpect(jsonPath("$.pageNumber").value(1));
 
             //restdocs
             perform.andDo(document("다일리 페이지 생성",
                     responseFields(
-                            fieldWithPath("dailryPageId").type(NUMBER).description("다일리 페이지 id"),
+                            fieldWithPath("pageId").type(NUMBER).description("다일리 페이지 id"),
                             fieldWithPath("background").type(STRING).description("페이지 배경"),
                             fieldWithPath("pageNumber").type(NUMBER).description("다일리 페이지 번호 (몇 페이지 인지)")
                     )
@@ -108,7 +108,7 @@ class DailryPageControllerTest {
             //then
             perform.andExpect(status().isOk())
                     .andDo(print())
-                    .andExpect(jsonPath("$.dailryPageId").value(DAILRY_PAGE_ID))
+                    .andExpect(jsonPath("$.pageId").value(DAILRY_PAGE_ID))
                     .andExpect(jsonPath("$.background").value("무지"))
                     .andExpect(jsonPath("$.pageNumber").value(1))
                     .andExpect(jsonPath("$.thumbnail").value("https://data.da-ily.site/thumbnail/5/1/awefkaweop"))
@@ -138,7 +138,7 @@ class DailryPageControllerTest {
                             fieldWithPath("elements[].typeContent").type(OBJECT).description("해당 element 타입별 개별속성")
                     ),
                     relaxedResponseFields(
-                            fieldWithPath("dailryPageId").type(NUMBER).description("다일리 페이지 id"),
+                            fieldWithPath("pageId").type(NUMBER).description("다일리 페이지 id"),
                             fieldWithPath("background").type(STRING).description("다일리 페이지 배경"),
                             fieldWithPath("pageNumber").type(NUMBER).description("다일리 페이지 번호 (몇 페이지 인지)"),
                             fieldWithPath("thumbnail").type(STRING).description("해당 페이지 썸네일 URL"),
@@ -175,7 +175,7 @@ class DailryPageControllerTest {
             //then
             perform.andExpect(status().isOk())
                     .andDo(print())
-                    .andExpect(jsonPath("$.dailryPageId").value(DAILRY_PAGE_ID))
+                    .andExpect(jsonPath("$.pageId").value(DAILRY_PAGE_ID))
                     .andExpect(jsonPath("$.background").value("무지"))
                     .andExpect(jsonPath("$.pageNumber").value(1))
                     .andExpect(jsonPath("$.thumbnail").value("https://data.da-ily.site/thumbnail/5/1/awefkaweop"))
@@ -187,7 +187,7 @@ class DailryPageControllerTest {
                             parameterWithName("pageId").description("다일리 페이지 id")
                     ),
                     relaxedResponseFields(
-                            fieldWithPath("dailryPageId").type(NUMBER).description("다일리 페이지 id"),
+                            fieldWithPath("pageId").type(NUMBER).description("다일리 페이지 id"),
                             fieldWithPath("background").type(STRING).description("다일리 페이지 배경"),
                             fieldWithPath("pageNumber").type(NUMBER).description("다일리 페이지 번호 (몇 페이지 인지)"),
                             fieldWithPath("thumbnail").type(STRING).description("해당 페이지 썸네일 URL"),

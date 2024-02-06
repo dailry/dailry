@@ -9,12 +9,12 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class DailryPageCreateResponseDTO {
-    private Long dailryPageId;
+    private Long pageId;
     private String background;
     private Long pageNumber;
     public static DailryPageCreateResponseDTO from(DailryPage dailryPage) {
         return DailryPageCreateResponseDTO.builder()
-                .dailryPageId(dailryPage.getId())
+                .pageId(dailryPage.getId())
                 .background(dailryPage.getBackground())
                 .build();
     }
