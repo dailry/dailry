@@ -12,12 +12,14 @@ const DecorateWrapper = forwardRef((props, ref) => {
     typeContent,
     canEdit,
     onMouseDown,
+    onMouseUp,
   } = props;
 
   return (
     <div
       id={id}
       onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
       ref={ref}
       style={S.ElementStyle({
         position,
@@ -48,4 +50,5 @@ DecorateWrapper.propTypes = {
   size: PropTypes.object,
   canEdit: PropTypes.bool,
   onMouseDown: PropTypes.func,
+  onMouseUp: PropTypes.func,
 };

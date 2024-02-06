@@ -16,6 +16,8 @@ const DailryPage = () => {
   const [target, setTarget] = useState(null);
   const [newTypeContent, setNewTypeContent] = useState(undefined);
   const [decorateComponents, setDecorateComponents] = useState([]);
+  const [canEditDecorateComponent, setCanEditDecorateComponent] =
+    useState(undefined);
   const [selectedTool, setSelectedTool] = useState(null);
 
   const {
@@ -25,10 +27,44 @@ const DailryPage = () => {
   } = useNewDecorateComponent(decorateComponents, pageRef);
 
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
-  const canEdit = () => selectedTool !== DECORATE_TYPE.MOVING;
+
+  const isNewDecorateComponentCompleted =
+    newDecorateComponent?.typeContent &&
+    Object.values(newDecorateComponent?.typeContent).every((v) => v !== null);
+
+  const addNewDecorateComponent = () => {
+    if (isNewDecorateComponentCompleted) {
+      setDecorateComponents((prev) => prev.concat(newDecorateComponent));
+    }
+    setNewDecorateComponent(undefined);
+  };
+
+  const setNewDecorateComponentTypeContent = () => {
+    setNewDecorateComponent((prev) => ({
+      ...prev,
+      typeContent: newTypeContent,
+    }));
+  };
+
+  const modifyDecorateComponentTypeContent = () => {
+    setDecorateComponents((prev) =>
+      prev.map((c) => {
+        return c.id === canEditDecorateComponent.id
+          ? { ...c, typeContent: newTypeContent }
+          : c;
+      }),
+    );
+  };
 
   const handleClickPage = (e) => {
     if (selectedTool === null || selectedTool === DECORATE_TYPE.MOVING) return;
+
+    if (canEditDecorateComponent) setCanEditDecorateComponent(undefined);
+
+    if (newDecorateComponent) {
+      addNewDecorateComponent();
+      return;
+    }
 
     createNewDecorateComponent(e, selectedTool);
   };
@@ -36,33 +72,43 @@ const DailryPage = () => {
   const handleClickDecorate = (e, index) => {
     e.stopPropagation();
     setTarget(index + 1);
+
+    if (newDecorateComponent) {
+      addNewDecorateComponent();
+    }
   };
 
   useEffect(() => {
-    if (selectedTool === 'moving') {
+    if (selectedTool === DECORATE_TYPE.MOVING) {
       return;
     }
-    if (newTypeContent) {
-      setNewDecorateComponent((prev) => ({
-        ...prev,
-        typeContent: newTypeContent,
-      }));
+    if (newDecorateComponent && newTypeContent) {
+      setNewDecorateComponentTypeContent();
+
+      return;
     }
+
+    modifyDecorateComponentTypeContent();
   }, [newTypeContent]);
 
   return (
     <S.FlexWrapper>
       <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
         {decorateComponents?.map((element, index) => {
-          const { id } = element;
-
+          const canEdit =
+            selectedTool !== DECORATE_TYPE.MOVING &&
+            canEditDecorateComponent?.id === element.id;
           return (
             <DecorateWrapper
-              key={id}
-              onMouseDown={(e) => handleClickDecorate(e, index)}
+              key={element.id}
+              onMouseDown={(e) => handleClickDecorate(e, index, element)}
+              onMouseUp={() => {
+                if (selectedTool !== DECORATE_TYPE.MOVING)
+                  setCanEditDecorateComponent(element);
+              }}
               setTarget={setTarget}
               index={index}
-              canEdit={canEdit()}
+              canEdit={canEdit}
               ref={(el) => {
                 moveableRef[index + 1] = el;
               }}
@@ -71,7 +117,7 @@ const DailryPage = () => {
               <TypedDecorateComponent
                 type={element.type}
                 typeContent={element.typeContent}
-                canEdit={canEdit()}
+                canEdit={canEdit}
                 setTypeContent={setNewTypeContent}
               />
             </DecorateWrapper>
@@ -88,7 +134,7 @@ const DailryPage = () => {
           >
             <TypedDecorateComponent
               type={newDecorateComponent.type}
-              canEdit={true}
+              canEdit
               setTypeContent={setNewTypeContent}
             />
           </DecorateWrapper>
@@ -104,13 +150,11 @@ const DailryPage = () => {
                 icon={icon}
                 selected={selectedTool === type}
                 onSelect={() => {
-                  if (newDecorateComponent?.typeContent) {
-                    setDecorateComponents((prev) =>
-                      prev.concat(newDecorateComponent),
-                    );
+                  if (newDecorateComponent) {
+                    addNewDecorateComponent();
                   }
-                  setNewDecorateComponent(undefined);
                   setSelectedTool(selectedTool === type ? null : type);
+                  setCanEditDecorateComponent(undefined);
                 }}
               />
             );
