@@ -9,6 +9,10 @@ import {
   DECORATE_COMPONENT,
   DECORATE_TYPE,
 } from '../../constants/decorateComponent';
+import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
+import Text from '../../components/common/Text/Text';
+import { useDailryContext } from '../../hooks/useDailryContext';
+import { getPages } from '../../apis/dailryApi';
 
 const DailryPage = () => {
   const parentRef = useRef(null);
@@ -17,6 +21,7 @@ const DailryPage = () => {
   const [target, setTarget] = useState(null);
   const [decorateComponents, setDecorateComponents] = useState([]);
   const [selectedTool, setSelectedTool] = useState(null);
+  const { currentDailry, setCurrentDailry } = useDailryContext();
 
   const { createNewDecorateComponent } = useCreateDecorateComponent(
     decorateComponents,
@@ -25,6 +30,26 @@ const DailryPage = () => {
   );
 
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
+
+  const { dailryId, pageId } = currentDailry;
+
+  const handleLeftArrowClick = () => {
+    if (pageId === 1) {
+      console.log('첫 번째 페이지입니다');
+      return;
+    }
+    setCurrentDailry({ dailryId, pageId: pageId - 1 });
+  };
+
+  const handleRightArrowClick = async () => {
+    getPages(dailryId).then((response) => {
+      if (response.data.pages.length === pageId) {
+        console.log('마지막 페이지입니다');
+        return;
+      }
+      setCurrentDailry({ dailryId, pageId: pageId + 1 });
+    });
+  };
 
   return (
     <S.FlexWrapper>
@@ -65,6 +90,17 @@ const DailryPage = () => {
             );
           })}
         </S.ToolWrapper>
+        <S.ArrowWrapper>
+          <S.ArrowButton direction={'left'} onClick={handleLeftArrowClick}>
+            <LeftArrowIcon />
+          </S.ArrowButton>
+          <Text bold color={'#ffffff'} size={24}>
+            {pageId}
+          </Text>
+          <S.ArrowButton direction={'right'} onClick={handleRightArrowClick}>
+            <RightArrowIcon />
+          </S.ArrowButton>
+        </S.ArrowWrapper>
       </S.SideWrapper>
     </S.FlexWrapper>
   );
