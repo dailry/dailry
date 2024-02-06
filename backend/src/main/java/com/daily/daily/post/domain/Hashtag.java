@@ -12,13 +12,14 @@ import lombok.ToString;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 public class Hashtag extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String tagName;
+
+    protected Hashtag() {
+    }
 
     public static Hashtag of(String tagName) {
         return new Hashtag(tagName);

@@ -12,11 +12,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +22,6 @@ import java.util.stream.Collectors;
 
 @Entity
 @Getter
-@AllArgsConstructor
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseTimeEntity {
 
 
@@ -48,6 +42,15 @@ public class Post extends BaseTimeEntity {
     @Transient
     private Long likeCount;
 
+    @Builder
+    public Post(String content, String pageImage, Member postWriter) {
+        this.content = content;
+        this.pageImage = pageImage;
+        this.postWriter = postWriter;
+    }
+
+    protected Post() {
+    }
 
     public void updatePageImage(String pageImage) {
         this.pageImage = pageImage;

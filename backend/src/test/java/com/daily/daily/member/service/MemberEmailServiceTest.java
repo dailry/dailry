@@ -83,7 +83,6 @@ class MemberEmailServiceTest {
 
         //when
         Member mockMember = Member.builder()
-                .id(1L)
                 .socialType(SocialType.NONE)
                 .build();
 
@@ -102,7 +101,6 @@ class MemberEmailServiceTest {
 
         //when
         Member mockMember = Member.builder()
-                .id(1L)
                 .socialType(SocialType.GOOGLE)
                 .build();
 
@@ -122,7 +120,6 @@ class MemberEmailServiceTest {
 
         //when
         Member mockMember = Member.builder()
-                .id(1L)
                 .email("test@example.com")
                 .username("test")
                 .socialType(SocialType.NONE)
@@ -144,7 +141,6 @@ class MemberEmailServiceTest {
 
         //when
         Member mockMember = Member.builder()
-                .id(1L)
                 .email("test@example.com")
                 .username("test123")  // 이메일과 매칭되는 username 정보가 다를 때
                 .build();

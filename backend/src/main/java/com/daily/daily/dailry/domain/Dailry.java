@@ -8,10 +8,7 @@ import lombok.*;
 import java.util.Objects;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
-@Builder
 public class Dailry extends BaseTimeEntity {
 
     @Id
@@ -22,6 +19,15 @@ public class Dailry extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+    protected Dailry() {
+    }
+
+    @Builder
+    public Dailry(String title, Member member) {
+        this.title = title;
+        this.member = member;
+    }
 
     public void updateTitle(String title) {
         this.title = title;
