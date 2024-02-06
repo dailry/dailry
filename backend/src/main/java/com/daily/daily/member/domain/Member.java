@@ -9,9 +9,6 @@ import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class Member extends BaseTimeEntity {
 
     @Id
@@ -27,6 +24,19 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
+    @Builder
+    public Member(String username, String password, String nickname, String email, MemberRole role, String socialId, SocialType socialType) {
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.email = email;
+        this.role = role;
+        this.socialId = socialId;
+        this.socialType = socialType;
+    }
+
+    protected Member() {
+    }
 
     public void updateNickname(String nickname) {
         this.nickname = nickname;

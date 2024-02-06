@@ -19,8 +19,6 @@ import lombok.ToString;
 
 @Entity
 @Getter
-@AllArgsConstructor @Builder @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 public class PostComment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +33,16 @@ public class PostComment extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member commentWriter;
+
+    @Builder
+    public PostComment(String content, Post post, Member commentWriter) {
+        this.content = content;
+        this.post = post;
+        this.commentWriter = commentWriter;
+    }
+
+    protected PostComment() {
+    }
 
     public Long getPostId() {
         return post.getId();

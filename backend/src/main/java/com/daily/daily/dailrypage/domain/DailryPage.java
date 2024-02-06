@@ -4,8 +4,15 @@ import com.daily.daily.common.domain.BaseTimeEntity;
 import com.daily.daily.dailry.domain.Dailry;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Builder;
+import lombok.Getter;
 import org.hibernate.annotations.Type;
 
 import java.util.HashMap;
@@ -14,10 +21,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
-@Builder
 public class DailryPage extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +39,14 @@ public class DailryPage extends BaseTimeEntity {
     @JoinColumn(name = "dailry_id")
     private Dailry dailry;
 
+    @Builder
+    public DailryPage(Integer pageNumber, Dailry dailry) {
+        this.pageNumber = pageNumber;
+        this.dailry = dailry;
+    }
+    protected DailryPage() {
+    }
+
     public static DailryPage createEmptyPage() {
         return new DailryPage();
     }
@@ -43,7 +55,9 @@ public class DailryPage extends BaseTimeEntity {
         this.background = background;
     }
 
-    public void updatePageNumber(int pageNumber) { this.pageNumber = pageNumber; }
+    public void updatePageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
+    }
 
     public void updateElements(List<DailryPageUpdateDTO.ElementDTO> elements) {
         for (DailryPageUpdateDTO.ElementDTO element : elements) {

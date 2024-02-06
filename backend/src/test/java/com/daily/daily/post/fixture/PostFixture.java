@@ -9,6 +9,7 @@ import com.daily.daily.post.dto.PostReadSliceResponseDTO;
 import com.daily.daily.post.dto.PostWriteRequestDTO;
 import com.daily.daily.post.dto.PostWriteResponseDTO;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -151,14 +152,13 @@ public class PostFixture {
 
     public static Post 일반회원1이_작성한_게시글() {
         Post post = Post.builder()
-                .id(3L)
                 .content(POST_CONTENT)
                 .pageImage(PAGE_IMAGE_URL)
                 .postWriter(일반회원1())
                 .build();
 
         HASHTAGS.forEach(hashtag -> post.addPostHashtag(PostHashtag.of(post, hashtag)));
-
+        ReflectionTestUtils.setField(post, "id", POST_ID);
         return post;
     }
 }
