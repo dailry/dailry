@@ -1,4 +1,5 @@
 import Drawing from '../components/decorate/Drawing/Drawing';
+import TextBox from '../components/decorate/TextBox/TextBox';
 
 export const DECORATE_TYPE = {
   MOVING: 'moving',
@@ -9,4 +10,5 @@ export const DECORATE_TYPE = {
 
 export const DECORATE_COMPONENT = {
   [DECORATE_TYPE.DRAWING]: Drawing,
+  [DECORATE_TYPE.TEXT_BOX]: TextBox,
 };
