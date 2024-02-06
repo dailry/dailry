@@ -10,7 +10,7 @@ import lombok.Setter;
 public class DailryPageThumbnailDTO {
     //TODO: pageId 추가 필요
     private Integer pageId;
-    private int pageNumber;
+    private Integer pageNumber;
     private String thumbnail;
 }
 
