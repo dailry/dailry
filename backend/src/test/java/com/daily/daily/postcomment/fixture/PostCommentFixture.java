@@ -86,17 +86,14 @@ public class PostCommentFixture {
     }
 
     public static PostComment 일반회원2가_작성한_댓글_to_일반회원1이_작성한_게시글() {
-        PostComment build = PostComment.builder()
-//                .id(COMMENT_ID)
+        PostComment 댓글 = PostComment.builder()
                 .content(댓글_내용)
                 .post(일반회원1이_작성한_게시글())
                 .commentWriter(일반회원2())
                 .build();
 
-        ReflectionTestUtils.setField(build, "id", COMMENT_ID);
-        return build;
-
-
+        ReflectionTestUtils.setField(댓글, "id", COMMENT_ID);
+        return 댓글;
     }
 
     public static Pageable 댓글_페이징_요청_객체() {
@@ -110,11 +107,12 @@ public class PostCommentFixture {
         long end = start + 요청_페이지_사이즈;
 
         for (long i = start; i < end; i++) {
-            result.add(일반회원2가_작성한_댓글_to_일반회원1이_작성한_게시글(i+5* i, i + "번째 댓글입니다."));
+            result.add(일반회원2가_작성한_댓글_to_일반회원1이_작성한_게시글(i + 5 * i, i + "번째 댓글입니다."));
         }
 
         return new SliceImpl<>(result, 댓글_페이징_요청_객체(), true);
     }
+
     private static PostComment 일반회원2가_작성한_댓글_to_일반회원1이_작성한_게시글(Long id, String content) {
         return PostComment.builder()
 //                .id(id)
