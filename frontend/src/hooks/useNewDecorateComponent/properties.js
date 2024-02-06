@@ -2,8 +2,8 @@ export const commonDecorateComponentProperties = {
   id: '',
   order: null,
   size: {
-    width: 300,
-    height: 150,
+    width: 'auto',
+    height: 'auto',
   },
   position: {
     x: null,
