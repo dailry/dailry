@@ -27,9 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
-
-//TODO: 게시글 수정과 삭제는, 요청을 보낸사람의 신원을 확인해야 한다.
-// 자신이 작성한 게시글에 한해서, 수정과 삭제를 요청할 수 있다.
 public class PostController {
 
     private final PostService postService;

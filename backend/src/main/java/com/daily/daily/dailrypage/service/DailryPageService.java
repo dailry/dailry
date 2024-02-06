@@ -31,16 +31,9 @@ public class DailryPageService {
 
     private final S3StorageService storageService;
 
-
-    public DailryPageCreateResponseDTO create() {
-        DailryPage savedPage = dailryPageRepository.save(DailryPage.createEmptyPage());
-
-        return DailryPageCreateResponseDTO.from(savedPage);
-    }
-
-    public DailryPageDTO create2(Long memberId, Long dailryId) {
+    public DailryPageCreateResponseDTO create(Long memberId, Long dailryId) {
         Dailry dailry = dailryRepository.findById(dailryId)
-                .orElseThrow(DailryPageNotFoundException::new);
+                .orElseThrow(DailryNotFoundException::new);
 
         if (!dailry.belongsTo(memberId)) {
             throw new UnauthorizedAccessException();
@@ -56,7 +49,7 @@ public class DailryPageService {
 
         DailryPage savedPage = dailryPageRepository.save(dailryPage);
 
-        return DailryPageDTO.from(savedPage);
+        return DailryPageCreateResponseDTO.from(savedPage);
     }
 
     public DailryPageDTO update(Long memberId, Long pageId, DailryPageUpdateDTO dailryPageUpdateDTO, MultipartFile thumbnail) {
@@ -103,7 +96,7 @@ public class DailryPageService {
             throw new UnauthorizedAccessException();
         }
 
-        List<DailryPageThumbnailDTO> thumbnails = dailryPageRepository.findPageNumbersAndThumbnailsByDailryId(dailryId);
+        List<DailryPageThumbnailDTO> thumbnails = dailryPageRepository.findThumbnails(dailryId);
 
         return DailryPagePreviewDTO.from(dailryId, thumbnails);
     }
