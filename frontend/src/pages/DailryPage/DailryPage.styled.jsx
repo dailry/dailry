@@ -43,7 +43,14 @@ export const ElementStyle = ({ position, order, size, canEdit }) => {
 };
 
 export const SideWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   flex-grow: 1;
+
+  @media (max-aspect-ratio: ${MEDIA_RATIO}) {
+    flex-direction: row;
+  }
 `;
 
 export const ToolWrapper = styled.div`
@@ -65,4 +72,31 @@ export const ToolWrapper = styled.div`
     height: 100%;
     max-height: 76px;
   }
+`;
+
+export const ArrowWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 5px;
+
+  @media (min-aspect-ratio: ${MEDIA_RATIO}) {
+    width: 100%;
+    max-width: 76px;
+  }
+
+  @media (max-aspect-ratio: ${MEDIA_RATIO}) {
+    flex-direction: row;
+    width: 76px;
+    height: 76px;
+  }
+`;
+
+export const ArrowButton = styled.button`
+  display: flex;
+  flex-grow: 1;
+  height: 28px;
+
+  justify-content: ${({ direction }) =>
+    direction === 'left' ? 'start' : 'end'};
 `;

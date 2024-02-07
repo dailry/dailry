@@ -1,4 +1,10 @@
-import { CursorIcon, DrawIcon, StickerIcon, TextIcon } from '../assets/svg';
+import {
+  CursorIcon,
+  DrawIcon,
+  StickerIcon,
+  TextIcon,
+  AddPageIcon,
+} from '../assets/svg';
 import { DECORATE_TYPE } from './decorateComponent';
 
 export const TOOLS = [
@@ -11,5 +17,9 @@ export const TOOLS = [
   {
     icon: (props) => <StickerIcon {...props} />,
     type: DECORATE_TYPE.STICKER,
+  },
+  {
+    icon: (props) => <AddPageIcon {...props} />,
+    type: 'page',
   },
 ];
