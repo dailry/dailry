@@ -182,8 +182,8 @@ const DailryPage = () => {
                 setTimeout(() => setSelectedTool(null), 150);
               }
               if (newDecorateComponent) {
-                    addNewDecorateComponent();
-                  }
+                addNewDecorateComponent();
+              }
               setSelectedTool(selectedTool === t ? null : t);
               setCanEditDecorateComponent(undefined);
             };

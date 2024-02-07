@@ -86,13 +86,13 @@ export const dailryHandlers = [
     },
   ),
 
-  http.post(
-    'https://api.da-ily.site/api/dailry/pages/:pageId/edit',
-    async ({ params, request }) => {
-      const pageId = Number(params.pageId);
-      const { thumbnail, dailryPageRequest } = await request.json();
-    },
-  ),
+  // http.post(
+  //   'https://api.da-ily.site/api/dailry/pages/:pageId/edit',
+  //   async ({ params, request }) => {
+  //     const pageId = Number(params.pageId);
+  //     const { thumbnail, dailryPageRequest } = await request.json();
+  //   },
+  // ),
 
   http.get('https://api.da-ily.site/api/dailry/pages/:pageId', ({ params }) => {
     const { pageId } = Number(params.pageId);
