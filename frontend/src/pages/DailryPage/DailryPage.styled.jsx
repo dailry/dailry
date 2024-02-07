@@ -30,15 +30,15 @@ export const CanvasWrapper = styled.div`
   }
 `;
 
-export const ElementStyle = ({ position, properties, order, size }) => {
+export const ElementStyle = ({ position, order, size, canEdit }) => {
   return {
     position: 'absolute',
     left: position.x,
     top: position.y,
     width: size.width,
     height: size.height,
-    backgroundColor: properties.backgroundColor,
     zIndex: order,
+    border: canEdit ? `2px dashed #74ABD9` : '',
   };
 };
 

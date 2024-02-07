@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import * as S from './TextBox.styled';
 
 const TextBox = (props) => {
-  const { text, setText } = props;
+  const { typeContent, setTypeContent } = props;
   const textRef = useRef(null);
-  const [height, setHeight] = useState(text?.current?.scrollHeight);
+  const [height, setHeight] = useState(typeContent?.current?.scrollHeight);
 
   useEffect(() => {
     setHeight(textRef?.current.scrollHeight);
@@ -14,16 +14,16 @@ const TextBox = (props) => {
   return (
     <S.TextArea
       ref={textRef}
-      value={text}
+      value={typeContent}
       height={height}
-      onChange={(e) => setText(e.target.value)}
+      onChange={(e) => setTypeContent(e.target.value)}
     />
   );
 };
 
 TextBox.propTypes = {
-  text: PropTypes.string,
-  setText: PropTypes.func,
+  typeContent: PropTypes.string,
+  setTypeContent: PropTypes.func,
 };
 
 export default TextBox;

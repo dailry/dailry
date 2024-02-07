@@ -36,7 +36,7 @@ class Draw {
   }
 
   getInfo() {
-    const imgBase64 = this.canvas.toDataURL('image/jpeg', 'image/octet-stream');
+    const imgBase64 = this.canvas.toDataURL();
     const decodeImg = atob(imgBase64.split(',')[1]);
 
     const array = [];

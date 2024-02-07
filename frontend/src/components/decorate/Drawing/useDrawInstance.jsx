@@ -1,24 +1,19 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Draw from './Draw';
 import { createCtx } from './canvas';
 import useDomContentsLoaded from '../../../hooks/useDomContentsLoaded';
 
-const useDrawInstance = (canvas) => {
+const useDrawInstance = (canvas, typeContent) => {
   const contentsLoaded = useDomContentsLoaded();
   const [drawInstance, setDrawInstance] = useState(undefined);
 
-  const initialize = useCallback(() => {
-    const { ctx } = createCtx(canvas.current);
-    setDrawInstance(new Draw(canvas.current, ctx));
-
-    return ctx;
-  }, [canvas]);
-
   useEffect(() => {
-    const ctx = initialize();
+    const { ctx } = createCtx(canvas.current);
+
     const img = new Image();
-    if (localStorage.getItem('canvasImageUrl')) {
-      img.src = localStorage.getItem('canvasImageUrl');
+
+    if (typeContent) {
+      img.src = typeContent.base64;
 
       img.onload = () => {
         if (ctx) {
@@ -27,7 +22,9 @@ const useDrawInstance = (canvas) => {
         }
       };
     }
-  }, [contentsLoaded, initialize]);
+
+    setDrawInstance(new Draw(canvas.current, ctx));
+  }, [contentsLoaded]);
 
   return { drawInstance };
 };

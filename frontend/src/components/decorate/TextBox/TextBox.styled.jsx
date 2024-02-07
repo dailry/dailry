@@ -8,5 +8,6 @@ export const TextArea = styled.textarea`
   border-radius: 0px;
 
   outline: none;
+  border: none;
   resize: none;
 `;
