@@ -14,18 +14,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.daily.daily.dailry.fixture.DailryFixture.DAILRY_ID;
 import static com.daily.daily.dailrypage.fixture.DailryPageFixture.*;
-import static com.daily.daily.post.fixture.PostFixture.게시글_요청_DTO_JSON_파일;
-import static com.daily.daily.post.fixture.PostFixture.다일리_페이지_이미지_파일;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.description;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
@@ -35,7 +33,6 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
-import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -66,24 +63,26 @@ class DailryPageControllerTest {
         @DisplayName("다일리 페이지 생성 요청이 성공했을 때 응답값을 검사한다.")
         void test1() throws Exception {
             //given
-            given(dailryPageService.create()).willReturn(비어있는_다일리_페이지_DTO());
+            given(dailryPageService.create(any(), any())).willReturn(비어있는_다일리_페이지_DTO());
 
             //when
-            ResultActions perform = mockMvc.perform(post("/api/pages")
+            ResultActions perform = mockMvc.perform(post("/api/dailry/{dailryID}/pages", DAILRY_ID)
                     .with(csrf().asHeader())
             );
 
             //then
             perform.andExpect(status().isCreated())
                     .andDo(print())
-                    .andExpect(jsonPath("$.dailryPageId").value(DAILRY_PAGE_ID))
+                    .andExpect(jsonPath("$.dailryId").value(DAILRY_ID))
+                    .andExpect(jsonPath("$.pageId").value(DAILRY_PAGE_ID))
                     .andExpect(jsonPath("$.background").value("grid"))
                     .andExpect(jsonPath("$.pageNumber").value(1));
 
             //restdocs
             perform.andDo(document("다일리 페이지 생성",
                     responseFields(
-                            fieldWithPath("dailryPageId").type(NUMBER).description("다일리 페이지 id"),
+                            fieldWithPath("dailryId").type(NUMBER).description("다일리 id"),
+                            fieldWithPath("pageId").type(NUMBER).description("다일리 페이지 id"),
                             fieldWithPath("background").type(STRING).description("페이지 배경"),
                             fieldWithPath("pageNumber").type(NUMBER).description("다일리 페이지 번호 (몇 페이지 인지)")
                     )
@@ -112,7 +111,7 @@ class DailryPageControllerTest {
             //then
             perform.andExpect(status().isOk())
                     .andDo(print())
-                    .andExpect(jsonPath("$.dailryPageId").value(DAILRY_PAGE_ID))
+                    .andExpect(jsonPath("$.pageId").value(DAILRY_PAGE_ID))
                     .andExpect(jsonPath("$.background").value("무지"))
                     .andExpect(jsonPath("$.pageNumber").value(1))
                     .andExpect(jsonPath("$.thumbnail").value("https://data.da-ily.site/thumbnail/5/1/awefkaweop"))
@@ -142,7 +141,7 @@ class DailryPageControllerTest {
                             fieldWithPath("elements[].typeContent").type(OBJECT).description("해당 element 타입별 개별속성")
                     ),
                     relaxedResponseFields(
-                            fieldWithPath("dailryPageId").type(NUMBER).description("다일리 페이지 id"),
+                            fieldWithPath("pageId").type(NUMBER).description("다일리 페이지 id"),
                             fieldWithPath("background").type(STRING).description("다일리 페이지 배경"),
                             fieldWithPath("pageNumber").type(NUMBER).description("다일리 페이지 번호 (몇 페이지 인지)"),
                             fieldWithPath("thumbnail").type(STRING).description("해당 페이지 썸네일 URL"),
@@ -179,7 +178,7 @@ class DailryPageControllerTest {
             //then
             perform.andExpect(status().isOk())
                     .andDo(print())
-                    .andExpect(jsonPath("$.dailryPageId").value(DAILRY_PAGE_ID))
+                    .andExpect(jsonPath("$.pageId").value(DAILRY_PAGE_ID))
                     .andExpect(jsonPath("$.background").value("무지"))
                     .andExpect(jsonPath("$.pageNumber").value(1))
                     .andExpect(jsonPath("$.thumbnail").value("https://data.da-ily.site/thumbnail/5/1/awefkaweop"))
@@ -191,7 +190,7 @@ class DailryPageControllerTest {
                             parameterWithName("pageId").description("다일리 페이지 id")
                     ),
                     relaxedResponseFields(
-                            fieldWithPath("dailryPageId").type(NUMBER).description("다일리 페이지 id"),
+                            fieldWithPath("pageId").type(NUMBER).description("다일리 페이지 id"),
                             fieldWithPath("background").type(STRING).description("다일리 페이지 배경"),
                             fieldWithPath("pageNumber").type(NUMBER).description("다일리 페이지 번호 (몇 페이지 인지)"),
                             fieldWithPath("thumbnail").type(STRING).description("해당 페이지 썸네일 URL"),
@@ -239,6 +238,7 @@ class DailryPageControllerTest {
                     responseFields(
                             fieldWithPath("dailryId").type(NUMBER).description("다일리 id"),
                             fieldWithPath("pages").type(ARRAY).description("미리보기 페이지 목록"),
+                            fieldWithPath("pages[].pageId").type(NUMBER).description("다일리 페이지 id"),
                             fieldWithPath("pages[].pageNumber").type(NUMBER).description("다일리 페이지 번호 (몇 페이지 인지)"),
                             fieldWithPath("pages[].thumbnail").type(STRING).description("썸네일 이미지 URL")
                     )

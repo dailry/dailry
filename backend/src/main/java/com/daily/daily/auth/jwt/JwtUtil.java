@@ -24,10 +24,6 @@ import static org.springframework.http.HttpHeaders.SET_COOKIE;
 @Slf4j
 @Getter
 public class JwtUtil {
-    public static final String BEARER_PREFIX = "Bearer ";
-    //request header
-    public static final String ACCESS_HEADER = "Authorization";
-    public static final String REFRESH_HEADER = "Authorization-refresh";
     //claim
     private static final String ROLE_CLAIM = "role";
     private static final String MEMBER_ID_CLAIM = "memberId";
@@ -42,8 +38,10 @@ public class JwtUtil {
 
     @Value("${jwt.secret-key}")
     private String secretCode;
-    private SecretKey secretKey;
+    @Value("${app.properties.mainDomain}")
+    private String mainDomain;
 
+    private SecretKey secretKey;
     @PostConstruct
     public void init() {
         secretKey = Keys.hmacShaKeyFor(secretCode.getBytes(StandardCharsets.UTF_8));
@@ -123,6 +121,7 @@ public class JwtUtil {
 
     public ResponseCookie createTokenCookie(String cookieName, String token) {
         return ResponseCookie.from(cookieName, token)
+                .domain(mainDomain)
                 .path("/")
                 .secure(true)
                 .httpOnly(true)

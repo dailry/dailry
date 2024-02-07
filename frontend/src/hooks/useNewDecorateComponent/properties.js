@@ -2,8 +2,8 @@ export const commonDecorateComponentProperties = {
   id: '',
   order: null,
   size: {
-    width: 300,
-    height: 150,
+    width: 'auto',
+    height: 'auto',
   },
   position: {
     x: null,
@@ -14,10 +14,10 @@ export const commonDecorateComponentProperties = {
 
 export const typedDecorateComponentProperties = {
   textBox: {
-    properties: {
+    typeContent: {
       font: '굴림',
       fontSize: 12,
-      text: '',
+      text: null,
       fontWeight: 'bold',
       backgroundColor: '#ffcc00',
       color: '#333333',
@@ -25,15 +25,14 @@ export const typedDecorateComponentProperties = {
   },
 
   drawing: {
-    properties: {
-      base64: '[255, 255, 255, 255, 255]',
+    typeContent: {
+      base64: null,
     },
   },
 
   sticker: {
-    properties: {
-      imageUrl:
-        'https://trboard.game.onstove.com/Data/TR/20180111/13/636512725318200105.jpg',
+    typeContent: {
+      imageUrl: null,
     },
   },
 };
