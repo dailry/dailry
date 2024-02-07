@@ -57,9 +57,13 @@ const DailryPage = () => {
   };
 
   const handleClickPage = (e) => {
-    if (selectedTool === null || selectedTool === DECORATE_TYPE.MOVING) return;
+    if (selectedTool === null || selectedTool === DECORATE_TYPE.MOVING) {
+      return;
+    }
 
-    if (canEditDecorateComponent) setCanEditDecorateComponent(undefined);
+    if (canEditDecorateComponent) {
+      setCanEditDecorateComponent(undefined);
+    }
 
     if (newDecorateComponent) {
       addNewDecorateComponent();
