@@ -97,7 +97,7 @@ class PostControllerTest {
         //restdocs
         perform.andDo(document("게시글 작성",
                 requestParts(
-                        partWithName("pageImage").description("다일리 페이지 이미지 파일"),
+                        partWithName("pageImage").description("다일리 페이지 이미지 파일 (MIME 타입 'image/**' 만가능)"),
                         partWithName("request").description("게시글 작성 요청 데이터 (JSON)")
                 ),
                 requestPartFields(
@@ -151,7 +151,7 @@ class PostControllerTest {
                             parameterWithName("postId").description("게시글 id")
                     ),
                     requestParts(
-                            partWithName("pageImage").description("다일리 페이지 이미지 파일"),
+                            partWithName("pageImage").description("다일리 페이지 이미지 파일 (MIME 타입 'image/**' 만가능)"),
                             partWithName("request").description("게시글 수정 요청 데이터 (JSON)")
                     ),
                     requestPartFields(
