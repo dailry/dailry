@@ -1,5 +1,5 @@
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
@@ -14,13 +14,13 @@ import DecorateWrapper from '../../components/decorate/DecorateWrapper';
 import TypedDecorateComponent from '../../components/decorate/TypedDecorateComponent';
 import useCompleteCreation from '../../hooks/useNewDecorateComponent/useCompleteCreation';
 import useModifyDecorateComponent from '../../hooks/useModifyDecorateComponent';
+import useSetTypeContent from '../../hooks/useSetTypeContent';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
   const moveableRef = useRef([]);
 
   const [target, setTarget] = useState(null);
-  const [newTypeContent, setNewTypeContent] = useState(undefined);
   const [decorateComponents, setDecorateComponents] = useState([]);
 
   const [selectedTool, setSelectedTool] = useState(null);
@@ -42,6 +42,13 @@ const DailryPage = () => {
     setCanEditDecorateComponent,
     modifyDecorateComponentTypeContent,
   } = useModifyDecorateComponent(setDecorateComponents);
+
+  const { setNewTypeContent } = useSetTypeContent(
+    selectedTool,
+    newDecorateComponent,
+    setNewDecorateComponentTypeContent,
+    modifyDecorateComponentTypeContent,
+  );
 
   const { setIsOtherActionTriggered } = useCompleteCreation(
     newDecorateComponent,
@@ -96,19 +103,6 @@ const DailryPage = () => {
       setIsOtherActionTriggered((prev) => !prev);
     }
   };
-
-  useEffect(() => {
-    if (selectedTool === DECORATE_TYPE.MOVING) {
-      return;
-    }
-    if (newDecorateComponent && newTypeContent) {
-      setNewDecorateComponentTypeContent(newTypeContent);
-
-      return;
-    }
-
-    modifyDecorateComponentTypeContent();
-  }, [newTypeContent]);
 
   return (
     <S.FlexWrapper>
