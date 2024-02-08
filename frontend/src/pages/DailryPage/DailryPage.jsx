@@ -13,6 +13,7 @@ import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewD
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
 import TypedDecorateComponent from '../../components/decorate/TypedDecorateComponent';
 import useCompleteCreation from '../../hooks/useNewDecorateComponent/useCompleteCreation';
+import useModifyDecorateComponent from '../../hooks/useModifyDecorateComponent';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -21,8 +22,7 @@ const DailryPage = () => {
   const [target, setTarget] = useState(null);
   const [newTypeContent, setNewTypeContent] = useState(undefined);
   const [decorateComponents, setDecorateComponents] = useState([]);
-  const [canEditDecorateComponent, setCanEditDecorateComponent] =
-    useState(undefined);
+
   const [selectedTool, setSelectedTool] = useState(null);
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
@@ -36,6 +36,12 @@ const DailryPage = () => {
     setDecorateComponents,
     pageRef,
   );
+
+  const {
+    canEditDecorateComponent,
+    setCanEditDecorateComponent,
+    modifyDecorateComponentTypeContent,
+  } = useModifyDecorateComponent(setDecorateComponents);
 
   const { setIsOtherActionTriggered } = useCompleteCreation(
     newDecorateComponent,
@@ -63,16 +69,6 @@ const DailryPage = () => {
       }
       setCurrentDailry({ dailryId, pageId: pageId + 1 });
     });
-  };
-
-  const modifyDecorateComponentTypeContent = () => {
-    setDecorateComponents((prev) =>
-      prev.map((c) => {
-        return c.id === canEditDecorateComponent.id
-          ? { ...c, typeContent: newTypeContent }
-          : c;
-      }),
-    );
   };
 
   const handleClickPage = (e) => {
