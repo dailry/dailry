@@ -1,9 +1,11 @@
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
 import { useState, useRef, useEffect } from 'react';
+import html2canvas from 'html2canvas';
+import saveAs from 'file-saver';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
-import { TOOLS } from '../../constants/toolbar';
+import { DECORATE_TOOLS, PAGE_TOOLS } from '../../constants/toolbar';
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
 import Text from '../../components/common/Text/Text';
 import { useDailryContext } from '../../hooks/useDailryContext';
@@ -51,6 +53,19 @@ const DailryPage = () => {
       }
       setCurrentDailry({ dailryId, pageId: pageId + 1 });
     });
+  };
+
+  const handleDownloadClick = async () => {
+    try {
+      const pageImg = await html2canvas(pageRef.current);
+      pageImg.toBlob((blob) => {
+        if (blob !== null) {
+          saveAs(blob, `${dailryId}_${pageId}.png`);
+        }
+      });
+    } catch (e) {
+      console.error('이미지 변환 오류', e);
+    }
   };
 
   const isNewDecorateComponentCompleted =
@@ -173,19 +188,40 @@ const DailryPage = () => {
       </S.CanvasWrapper>
       <S.SideWrapper>
         <S.ToolWrapper>
-          {TOOLS.map(({ icon, type }, index) => {
+          {DECORATE_TOOLS.map(({ icon, type }, index) => {
             const onSelect = (t) => {
-              if (t === 'page') {
+              if (newDecorateComponent) {
+                addNewDecorateComponent();
+              }
+              setSelectedTool(selectedTool === t ? null : t);
+              setCanEditDecorateComponent(undefined);
+            };
+            return (
+              <ToolButton
+                key={index}
+                icon={icon}
+                selected={selectedTool === type}
+                onSelect={() => onSelect(type)}
+              />
+            );
+          })}
+          {PAGE_TOOLS.map(({ icon, type }, index) => {
+            const onSelect = (t) => {
+              if (newDecorateComponent) {
+                addNewDecorateComponent();
+              }
+              setSelectedTool(t);
+              if (t === 'add') {
                 postPage(dailryId).then((response) =>
                   setCurrentDailry({ dailryId, pageId: response.data.pageId }),
                 );
-                setTimeout(() => setSelectedTool(null), 150);
               }
-              if (newDecorateComponent) {
-                    addNewDecorateComponent();
-                  }
-              setSelectedTool(selectedTool === t ? null : t);
-              setCanEditDecorateComponent(undefined);
+              if (t === 'download') {
+                handleDownloadClick();
+              }
+              setTimeout(() => {
+                setSelectedTool(null);
+              }, 150);
             };
             return (
               <ToolButton
