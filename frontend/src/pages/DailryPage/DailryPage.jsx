@@ -12,6 +12,7 @@ import { DECORATE_TYPE } from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
 import TypedDecorateComponent from '../../components/decorate/TypedDecorateComponent';
+import useCompleteCreation from '../../hooks/useNewDecorateComponent/useCompleteCreation';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -28,8 +29,19 @@ const DailryPage = () => {
   const {
     createNewDecorateComponent,
     newDecorateComponent,
-    setNewDecorateComponent,
-  } = useNewDecorateComponent(decorateComponents, pageRef);
+    initializeNewDecorateComponent,
+    setNewDecorateComponentTypeContent,
+  } = useNewDecorateComponent(
+    decorateComponents,
+    setDecorateComponents,
+    pageRef,
+  );
+
+  const { setIsOtherActionTriggered } = useCompleteCreation(
+    newDecorateComponent,
+    setDecorateComponents,
+    initializeNewDecorateComponent,
+  );
 
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
 
@@ -53,24 +65,6 @@ const DailryPage = () => {
     });
   };
 
-  const isNewDecorateComponentCompleted =
-    newDecorateComponent?.typeContent &&
-    Object.values(newDecorateComponent?.typeContent).every((v) => v !== null);
-
-  const addNewDecorateComponent = () => {
-    if (isNewDecorateComponentCompleted) {
-      setDecorateComponents((prev) => prev.concat(newDecorateComponent));
-    }
-    setNewDecorateComponent(undefined);
-  };
-
-  const setNewDecorateComponentTypeContent = () => {
-    setNewDecorateComponent((prev) => ({
-      ...prev,
-      typeContent: newTypeContent,
-    }));
-  };
-
   const modifyDecorateComponentTypeContent = () => {
     setDecorateComponents((prev) =>
       prev.map((c) => {
@@ -91,7 +85,7 @@ const DailryPage = () => {
     }
 
     if (newDecorateComponent) {
-      addNewDecorateComponent();
+      setIsOtherActionTriggered((prev) => !prev);
       return;
     }
 
@@ -103,7 +97,7 @@ const DailryPage = () => {
     setTarget(index + 1);
 
     if (newDecorateComponent) {
-      addNewDecorateComponent();
+      setIsOtherActionTriggered((prev) => !prev);
     }
   };
 
@@ -112,7 +106,7 @@ const DailryPage = () => {
       return;
     }
     if (newDecorateComponent && newTypeContent) {
-      setNewDecorateComponentTypeContent();
+      setNewDecorateComponentTypeContent(newTypeContent);
 
       return;
     }
@@ -182,8 +176,8 @@ const DailryPage = () => {
                 setTimeout(() => setSelectedTool(null), 150);
               }
               if (newDecorateComponent) {
-                    addNewDecorateComponent();
-                  }
+                setIsOtherActionTriggered((prev) => !prev);
+              }
               setSelectedTool(selectedTool === t ? null : t);
               setCanEditDecorateComponent(undefined);
             };
