@@ -123,7 +123,7 @@ class DailryPageControllerTest {
                             parameterWithName("pageId").description("다일리 페이지 id")
                     ),
                     requestParts(
-                            partWithName("thumbnail").description("다일리 페이지 섬네일 파일"),
+                            partWithName("thumbnail").description("다일리 페이지 썸네일 파일 (MIME 타입 'image/**' 만가능)"),
                             partWithName("dailryPageRequest").description("다일리 페이지 수정 요청 데이터 (JSON)")
                     ),
                     relaxedRequestPartFields(
