@@ -60,3 +60,8 @@ export const LOGIN = Object.freeze({
   kakaoText: 'rgba(0, 0, 0, 0.85)',
   kakaoBackground: '#fee500',
 });
+
+export const MODAL = Object.freeze({
+  background: 'rgba(0, 0, 0, 0.7)',
+  box: '#ffffff',
+});

@@ -7,13 +7,13 @@ import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import { DECORATE_TOOLS, PAGE_TOOLS } from '../../constants/toolbar';
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
-import Text from '../../components/common/Text/Text';
 import { useDailryContext } from '../../hooks/useDailryContext';
 import { postPage, getPages } from '../../apis/dailryApi';
 import { DECORATE_TYPE } from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
 import TypedDecorateComponent from '../../components/decorate/TypedDecorateComponent';
+import PageListModal from '../../components/da-ily/PageListModal/PageListModal';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -25,6 +25,8 @@ const DailryPage = () => {
   const [canEditDecorateComponent, setCanEditDecorateComponent] =
     useState(undefined);
   const [selectedTool, setSelectedTool] = useState(null);
+  const [showPageModal, setShowPageModal] = useState(false);
+  const [pageList, setPageList] = useState(null);
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
   const {
@@ -37,6 +39,10 @@ const DailryPage = () => {
 
   const { dailryId, pageId } = currentDailry;
 
+  useEffect(() => {
+    getPages(dailryId).then((response) => setPageList(response.data.pages));
+  }, [dailryId, showPageModal]);
+
   const handleLeftArrowClick = () => {
     if (pageId === 1) {
       console.log('첫 번째 페이지입니다');
@@ -45,14 +51,12 @@ const DailryPage = () => {
     setCurrentDailry({ dailryId, pageId: pageId - 1 });
   };
 
-  const handleRightArrowClick = async () => {
-    getPages(dailryId).then((response) => {
-      if (response.data.pages.length === pageId) {
-        console.log('마지막 페이지입니다');
-        return;
-      }
-      setCurrentDailry({ dailryId, pageId: pageId + 1 });
-    });
+  const handleRightArrowClick = () => {
+    if (pageList.length === pageId) {
+      console.log('마지막 페이지입니다');
+      return;
+    }
+    setCurrentDailry({ dailryId, pageId: pageId + 1 });
   };
 
   const handleDownloadClick = async () => {
@@ -137,6 +141,13 @@ const DailryPage = () => {
 
   return (
     <S.FlexWrapper>
+      {showPageModal && (
+        <PageListModal
+          pageList={pageList}
+          onClose={() => setShowPageModal(false)}
+          setCurrentDailry={setCurrentDailry}
+        />
+      )}
       <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
         {decorateComponents?.map((element, index) => {
           const canEdit =
@@ -211,6 +222,9 @@ const DailryPage = () => {
                 addNewDecorateComponent();
               }
               setSelectedTool(t);
+              setTimeout(() => {
+                setSelectedTool(null);
+              }, 150);
               if (t === 'add') {
                 postPage(dailryId).then((response) =>
                   setCurrentDailry({ dailryId, pageId: response.data.pageId }),
@@ -219,9 +233,6 @@ const DailryPage = () => {
               if (t === 'download') {
                 handleDownloadClick();
               }
-              setTimeout(() => {
-                setSelectedTool(null);
-              }, 150);
             };
             return (
               <ToolButton
@@ -237,9 +248,9 @@ const DailryPage = () => {
           <S.ArrowButton direction={'left'} onClick={handleLeftArrowClick}>
             <LeftArrowIcon />
           </S.ArrowButton>
-          <Text bold color={'#ffffff'} size={24}>
+          <S.NumberButton onClick={() => setShowPageModal(true)}>
             {pageId}
-          </Text>
+          </S.NumberButton>
           <S.ArrowButton direction={'right'} onClick={handleRightArrowClick}>
             <RightArrowIcon />
           </S.ArrowButton>
