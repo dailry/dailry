@@ -47,11 +47,18 @@ export const ItemArea = styled.div`
 export const ItemWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 4px;
   width: 25%;
-  border: 1px solid #000000;
+  border-radius: 4px;
   cursor: pointer;
+  box-sizing: border-box;
+
+  border: 2px solid
+    ${({ selected }) => (selected ? MODAL.selectedItem : MODAL.item)};
 `;
 
-export const PageNumberArea = styled.div``;
+export const PageNumberArea = styled.div`
+  text-align: center;
+`;
 
 export const ThumbnailArea = styled.div``;

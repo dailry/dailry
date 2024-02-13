@@ -64,4 +64,6 @@ export const LOGIN = Object.freeze({
 export const MODAL = Object.freeze({
   background: 'rgba(0, 0, 0, 0.7)',
   box: '#ffffff',
+  item: '#616161',
+  selectedItem: '#87a5eb',
 });

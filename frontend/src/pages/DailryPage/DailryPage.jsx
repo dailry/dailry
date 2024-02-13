@@ -41,7 +41,7 @@ const DailryPage = () => {
 
   useEffect(() => {
     getPages(dailryId).then((response) => setPageList(response.data.pages));
-  }, [dailryId, showPageModal]);
+  }, [dailryId, pageId, showPageModal]);
 
   const handleLeftArrowClick = () => {
     if (pageId === 1) {
@@ -145,7 +145,6 @@ const DailryPage = () => {
         <PageListModal
           pageList={pageList}
           onClose={() => setShowPageModal(false)}
-          setCurrentDailry={setCurrentDailry}
         />
       )}
       <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>

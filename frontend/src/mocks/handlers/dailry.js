@@ -86,13 +86,13 @@ export const dailryHandlers = [
     },
   ),
 
-  http.post(
-    'https://api.da-ily.site/api/dailry/pages/:pageId/edit',
-    async ({ params, request }) => {
-      const pageId = Number(params.pageId);
-      const { thumbnail, dailryPageRequest } = await request.json();
-    },
-  ),
+  // http.post(
+  //   'https://api.da-ily.site/api/dailry/pages/:pageId/edit',
+  //   async ({ params, request }) => {
+  //     const pageId = Number(params.pageId);
+  //     const { thumbnail, dailryPageRequest } = await request.json();
+  //   },
+  // ),
 
   http.get('https://api.da-ily.site/api/dailry/pages/:pageId', ({ params }) => {
     const { pageId } = Number(params.pageId);
@@ -119,6 +119,20 @@ export const dailryHandlers = [
         },
       );
       return HttpResponse.json({ dailryId, pages: newPages });
+    },
+  ),
+
+  http.delete(
+    'https://api.da-ily.site/api/dailry/pages/:pageId',
+    ({ params }) => {
+      const pageId = Number(params.pageId);
+      dailryData = dailryData.map((dailry) => {
+        return {
+          ...dailry,
+          pages: dailry.pages.filter((page) => page.pageId !== pageId),
+        };
+      });
+      return HttpResponse.json({ statusCode: 200, successful: true });
     },
   ),
 ];
