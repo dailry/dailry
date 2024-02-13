@@ -84,7 +84,7 @@ const DailryPage = () => {
     }
 
     if (canEditDecorateComponent) {
-      setCanEditDecorateComponent(undefined);
+      setCanEditDecorateComponent(null);
     }
 
     if (newDecorateComponent) {
@@ -169,7 +169,7 @@ const DailryPage = () => {
                 setIsOtherActionTriggered((prev) => !prev);
               }
               setSelectedTool(selectedTool === t ? null : t);
-              setCanEditDecorateComponent(undefined);
+              setCanEditDecorateComponent(null);
             };
             return (
               <ToolButton

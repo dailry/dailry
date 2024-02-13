@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const useModifyDecorateComponent = (setDecorateComponents) => {
   const [canEditDecorateComponent, setCanEditDecorateComponent] =
-    useState(undefined);
+    useState(null);
   const modifyDecorateComponentTypeContent = (newTypeContent) => {
     setDecorateComponents((prev) =>
       prev.map((decorateComponent) => {
