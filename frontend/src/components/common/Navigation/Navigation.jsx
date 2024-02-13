@@ -3,15 +3,20 @@ import { useLocation } from 'react-router-dom';
 import DailryNavigation from './DailryNavigation';
 import CommunityNavigation from './CommunityNavigation';
 import AdminNavigation from './AdminNavigation';
+import { PATH_NAME } from '../../../constants/routes';
 
 const Navigation = () => {
   const location = useLocation();
 
   return (
     <>
-      {location.pathname.startsWith('/dailry') && <DailryNavigation />}
-      {location.pathname.startsWith('/community') && <CommunityNavigation />}
-      {location.pathname.startsWith('/admin') && <AdminNavigation />}
+      {location.pathname.startsWith(PATH_NAME.Dailry) && <DailryNavigation />}
+      {location.pathname.startsWith(PATH_NAME.Community) && (
+        <CommunityNavigation />
+      )}
+      {location.pathname.startsWith(PATH_NAME.AdminMembers) && (
+        <AdminNavigation />
+      )}
     </>
   );
 };

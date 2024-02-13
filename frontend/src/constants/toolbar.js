@@ -4,10 +4,11 @@ import {
   StickerIcon,
   TextIcon,
   AddPageIcon,
+  DownloadIcon,
 } from '../assets/svg';
 import { DECORATE_TYPE } from './decorateComponent';
 
-export const TOOLS = [
+export const DECORATE_TOOLS = [
   {
     icon: (props) => <CursorIcon {...props} />,
     type: DECORATE_TYPE.MOVING,
@@ -18,8 +19,15 @@ export const TOOLS = [
     icon: (props) => <StickerIcon {...props} />,
     type: DECORATE_TYPE.STICKER,
   },
+];
+
+export const PAGE_TOOLS = [
   {
     icon: (props) => <AddPageIcon {...props} />,
-    type: 'page',
+    type: 'add',
+  },
+  {
+    icon: (props) => <DownloadIcon {...props} />,
+    type: 'download',
   },
 ];
