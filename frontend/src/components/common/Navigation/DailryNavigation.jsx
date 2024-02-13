@@ -15,7 +15,10 @@ const DailryNavigation = () => {
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
   useEffect(() => {
-    getDailry().then((response) => setDailryItems(response.data));
+    (async () => {
+      const response = await getDailry();
+      setDailryItems(await response.data);
+    })();
   }, [editingDailry]);
 
   const handleItemClick = (dailryId) => {
@@ -26,11 +29,10 @@ const DailryNavigation = () => {
     return currentDailry.dailryId === id;
   };
 
-  const handleAddClick = () => {
-    postDailry({ title: '새 다일리' }).then((res) => {
-      const { dailryId } = res.data;
-      setEditingDailry(dailryId);
-    });
+  const handleAddClick = async () => {
+    const response = await postDailry({ title: '새 다일리' });
+    const { dailryId } = await response.data;
+    setEditingDailry(dailryId);
   };
 
   return (
