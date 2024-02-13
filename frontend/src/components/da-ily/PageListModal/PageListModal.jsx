@@ -22,16 +22,16 @@ const PageListModal = (props) => {
     setCurrentDailry({ ...currentDailry, pageId: 1 });
   };
 
-  const handleItemClick = ({ pageId, pageNumber }) => {
-    if (!canSelect) {
-      setCurrentDailry({
-        ...currentDailry,
-        pageId,
-        pageNumber,
-      });
-      onClose();
-      return;
-    }
+  const selectPage = ({ pageId, pageNumber }) => {
+    setCurrentDailry({
+      ...currentDailry,
+      pageId,
+      pageNumber,
+    });
+    onClose();
+  };
+
+  const togglePage = ({ pageId, pageNumber }) => {
     const tmpSelectedPages = [...selectedPages];
     if (tmpSelectedPages[pageNumber] === 0) {
       tmpSelectedPages[pageNumber] = pageId;
@@ -40,6 +40,14 @@ const PageListModal = (props) => {
     }
     tmpSelectedPages[pageNumber] = 0;
     setSelectedPages(tmpSelectedPages);
+  };
+
+  const handleItemClick = (page) => {
+    if (!canSelect) {
+      selectPage(page);
+      return;
+    }
+    togglePage(page);
   };
 
   return (
