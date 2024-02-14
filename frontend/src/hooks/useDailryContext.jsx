@@ -8,6 +8,7 @@ export const DailryProvider = (props) => {
   const [currentDailry, setCurrentDailry] = useState({
     dailryId: 3,
     pageId: 1,
+    pageNumber: null,
   });
 
   return (

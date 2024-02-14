@@ -100,3 +100,9 @@ export const ArrowButton = styled.button`
   justify-content: ${({ direction }) =>
     direction === 'left' ? 'start' : 'end'};
 `;
+
+export const NumberButton = styled.button`
+  flex-grow: 2;
+  font-size: 24px;
+  color: #ffffff;
+`;

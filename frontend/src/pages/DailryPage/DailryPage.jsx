@@ -1,39 +1,72 @@
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
 import { useState, useRef, useEffect } from 'react';
+import html2canvas from 'html2canvas';
+import saveAs from 'file-saver';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
-import { TOOLS } from '../../constants/toolbar';
+import { DECORATE_TOOLS, PAGE_TOOLS } from '../../constants/toolbar';
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
-import Text from '../../components/common/Text/Text';
 import { useDailryContext } from '../../hooks/useDailryContext';
 import { postPage, getPages } from '../../apis/dailryApi';
 import { DECORATE_TYPE } from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
 import TypedDecorateComponent from '../../components/decorate/TypedDecorateComponent';
+import PageListModal from '../../components/da-ily/PageListModal/PageListModal';
+import useCompleteCreation from '../../hooks/useNewDecorateComponent/useCompleteCreation';
+import useModifyDecorateComponent from '../../hooks/useModifyDecorateComponent';
+import useSetTypeContent from '../../hooks/useSetTypeContent';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
   const moveableRef = useRef([]);
 
   const [target, setTarget] = useState(null);
-  const [newTypeContent, setNewTypeContent] = useState(undefined);
   const [decorateComponents, setDecorateComponents] = useState([]);
-  const [canEditDecorateComponent, setCanEditDecorateComponent] =
-    useState(undefined);
+
   const [selectedTool, setSelectedTool] = useState(null);
+  const [showPageModal, setShowPageModal] = useState(false);
+  const [pageList, setPageList] = useState(null);
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
   const {
     createNewDecorateComponent,
     newDecorateComponent,
-    setNewDecorateComponent,
-  } = useNewDecorateComponent(decorateComponents, pageRef);
+    initializeNewDecorateComponent,
+    setNewDecorateComponentTypeContent,
+  } = useNewDecorateComponent(
+    decorateComponents,
+    setDecorateComponents,
+    pageRef,
+  );
+
+  const {
+    canEditDecorateComponent,
+    setCanEditDecorateComponent,
+    modifyDecorateComponentTypeContent,
+  } = useModifyDecorateComponent(setDecorateComponents);
+
+  const { setNewTypeContent } = useSetTypeContent(
+    selectedTool,
+    newDecorateComponent,
+    setNewDecorateComponentTypeContent,
+    modifyDecorateComponentTypeContent,
+  );
+
+  const { setIsOtherActionTriggered } = useCompleteCreation(
+    newDecorateComponent,
+    setDecorateComponents,
+    initializeNewDecorateComponent,
+  );
 
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
 
   const { dailryId, pageId } = currentDailry;
+
+  useEffect(() => {
+    getPages(dailryId).then((response) => setPageList(response.data.pages));
+  }, [dailryId, pageId, showPageModal]);
 
   const handleLeftArrowClick = () => {
     if (pageId === 1) {
@@ -43,42 +76,25 @@ const DailryPage = () => {
     setCurrentDailry({ dailryId, pageId: pageId - 1 });
   };
 
-  const handleRightArrowClick = async () => {
-    getPages(dailryId).then((response) => {
-      if (response.data.pages.length === pageId) {
-        console.log('마지막 페이지입니다');
-        return;
-      }
-      setCurrentDailry({ dailryId, pageId: pageId + 1 });
-    });
-  };
-
-  const isNewDecorateComponentCompleted =
-    newDecorateComponent?.typeContent &&
-    Object.values(newDecorateComponent?.typeContent).every((v) => v !== null);
-
-  const addNewDecorateComponent = () => {
-    if (isNewDecorateComponentCompleted) {
-      setDecorateComponents((prev) => prev.concat(newDecorateComponent));
+  const handleRightArrowClick = () => {
+    if (pageList.length === pageId) {
+      console.log('마지막 페이지입니다');
+      return;
     }
-    setNewDecorateComponent(undefined);
+    setCurrentDailry({ dailryId, pageId: pageId + 1 });
   };
 
-  const setNewDecorateComponentTypeContent = () => {
-    setNewDecorateComponent((prev) => ({
-      ...prev,
-      typeContent: newTypeContent,
-    }));
-  };
-
-  const modifyDecorateComponentTypeContent = () => {
-    setDecorateComponents((prev) =>
-      prev.map((c) => {
-        return c.id === canEditDecorateComponent.id
-          ? { ...c, typeContent: newTypeContent }
-          : c;
-      }),
-    );
+  const handleDownloadClick = async () => {
+    try {
+      const pageImg = await html2canvas(pageRef.current);
+      pageImg.toBlob((blob) => {
+        if (blob !== null) {
+          saveAs(blob, `${dailryId}_${pageId}.png`);
+        }
+      });
+    } catch (e) {
+      console.error('이미지 변환 오류', e);
+    }
   };
 
   const handleClickPage = (e) => {
@@ -87,11 +103,11 @@ const DailryPage = () => {
     }
 
     if (canEditDecorateComponent) {
-      setCanEditDecorateComponent(undefined);
+      setCanEditDecorateComponent(null);
     }
 
     if (newDecorateComponent) {
-      addNewDecorateComponent();
+      setIsOtherActionTriggered((prev) => !prev);
       return;
     }
 
@@ -103,25 +119,18 @@ const DailryPage = () => {
     setTarget(index + 1);
 
     if (newDecorateComponent) {
-      addNewDecorateComponent();
+      setIsOtherActionTriggered((prev) => !prev);
     }
   };
 
-  useEffect(() => {
-    if (selectedTool === DECORATE_TYPE.MOVING) {
-      return;
-    }
-    if (newDecorateComponent && newTypeContent) {
-      setNewDecorateComponentTypeContent();
-
-      return;
-    }
-
-    modifyDecorateComponentTypeContent();
-  }, [newTypeContent]);
-
   return (
     <S.FlexWrapper>
+      {showPageModal && (
+        <PageListModal
+          pageList={pageList}
+          onClose={() => setShowPageModal(false)}
+        />
+      )}
       <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
         {decorateComponents?.map((element, index) => {
           const canEdit =
@@ -173,19 +182,41 @@ const DailryPage = () => {
       </S.CanvasWrapper>
       <S.SideWrapper>
         <S.ToolWrapper>
-          {TOOLS.map(({ icon, type }, index) => {
+          {DECORATE_TOOLS.map(({ icon, type }, index) => {
             const onSelect = (t) => {
-              if (t === 'page') {
-                postPage(dailryId).then((response) =>
-                  setCurrentDailry({ dailryId, pageId: response.data.pageId }),
-                );
-                setTimeout(() => setSelectedTool(null), 150);
-              }
               if (newDecorateComponent) {
-                addNewDecorateComponent();
+                setIsOtherActionTriggered((prev) => !prev);
               }
               setSelectedTool(selectedTool === t ? null : t);
               setCanEditDecorateComponent(undefined);
+            };
+            return (
+              <ToolButton
+                key={index}
+                icon={icon}
+                selected={selectedTool === type}
+                onSelect={() => onSelect(type)}
+              />
+            );
+          })}
+          {PAGE_TOOLS.map(({ icon, type }, index) => {
+            const onSelect = (t) => {
+              if (newDecorateComponent) {
+                setIsOtherActionTriggered((prev) => !prev);
+              }
+              setSelectedTool(selectedTool === t ? null : t);
+              setCanEditDecorateComponent(null);
+              setTimeout(() => {
+                setSelectedTool(null);
+              }, 150);
+              if (t === 'add') {
+                postPage(dailryId).then((response) =>
+                  setCurrentDailry({ dailryId, pageId: response.data.pageId }),
+                );
+              }
+              if (t === 'download') {
+                handleDownloadClick();
+              }
             };
             return (
               <ToolButton
@@ -201,9 +232,9 @@ const DailryPage = () => {
           <S.ArrowButton direction={'left'} onClick={handleLeftArrowClick}>
             <LeftArrowIcon />
           </S.ArrowButton>
-          <Text bold color={'#ffffff'} size={24}>
+          <S.NumberButton onClick={() => setShowPageModal(true)}>
             {pageId}
-          </Text>
+          </S.NumberButton>
           <S.ArrowButton direction={'right'} onClick={handleRightArrowClick}>
             <RightArrowIcon />
           </S.ArrowButton>

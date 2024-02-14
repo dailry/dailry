@@ -57,3 +57,12 @@ export const getPages = async (dailryId) => {
     return e.response.data;
   }
 };
+
+export const deletePage = async (pageId) => {
+  try {
+    return await customAxios.delete(`/dailry/pages/${pageId}`);
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};

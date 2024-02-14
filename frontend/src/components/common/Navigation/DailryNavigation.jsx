@@ -10,12 +10,15 @@ import { useDailryContext } from '../../../hooks/useDailryContext';
 import DailryHamburger from '../Hamburger/DailryHamburger';
 
 const DailryNavigation = () => {
-  const [dailryItem, setDailryItem] = useState([]);
+  const [dailryItems, setDailryItems] = useState([]);
   const [editingDailry, setEditingDailry] = useState(null);
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
   useEffect(() => {
-    getDailry().then((response) => setDailryItem(response.data));
+    (async () => {
+      const response = await getDailry();
+      setDailryItems(await response.data);
+    })();
   }, [editingDailry]);
 
   const handleItemClick = (dailryId) => {
@@ -26,11 +29,10 @@ const DailryNavigation = () => {
     return currentDailry.dailryId === id;
   };
 
-  const handleAddClick = () => {
-    postDailry({ title: '새 다일리' }).then((res) => {
-      const { dailryId } = res.data;
-      setEditingDailry(dailryId);
-    });
+  const handleAddClick = async () => {
+    const response = await postDailry({ title: '새 다일리' });
+    const { dailryId } = await response.data;
+    setEditingDailry(dailryId);
   };
 
   return (
@@ -38,7 +40,7 @@ const DailryNavigation = () => {
       <NameArea />
       <S.Line />
       <Text css={S.ItemName}>My Dailry</Text>
-      {dailryItem.map(({ dailryId, title }) => {
+      {dailryItems.map(({ dailryId, title }) => {
         if (editingDailry === dailryId) {
           return (
             <NavigationInput
@@ -46,7 +48,7 @@ const DailryNavigation = () => {
               dailryId={dailryId}
               title={title}
               setEditingDailry={setEditingDailry}
-            ></NavigationInput>
+            />
           );
         }
         return (

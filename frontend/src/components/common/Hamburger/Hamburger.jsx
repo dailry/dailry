@@ -11,10 +11,15 @@ const Hamburger = (props) => {
     setIsOpen((prev) => !prev);
   };
 
+  const handleOverlayClick = (e) => {
+    e.stopPropagation();
+    setIsOpen(false);
+  };
+
   return (
     <S.HamburgerContainer>
       <S.HamburgerMoreButton onClick={handleHamburgerClick} />
-      {isOpen && <S.Overlay onClick={() => setIsOpen(false)} />}
+      {isOpen && <S.Overlay onClick={handleOverlayClick} />}
       {isOpen && children}
     </S.HamburgerContainer>
   );
