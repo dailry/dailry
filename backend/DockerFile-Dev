@@ -1,0 +1,3 @@
+FROM openjdk:17
+COPY build/libs/*.jar dailry.jar
+CMD ["java", "-Duser.timezone=Asia/Seoul", "-Dspring.profiles.active=dev", "-jar", "dailry.jar"]
