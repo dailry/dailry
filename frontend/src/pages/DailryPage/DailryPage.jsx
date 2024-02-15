@@ -2,6 +2,8 @@
 import { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
@@ -68,9 +70,19 @@ const DailryPage = () => {
     getPages(dailryId).then((response) => setPageList(response.data.pages));
   }, [dailryId, pageId, showPageModal]);
 
+  const toastify = (message) => {
+    toast(message, {
+      position: 'bottom-right',
+      autoClose: 300,
+      hideProgressBar: true,
+      closeOnClick: true,
+      transition: Zoom,
+    });
+  };
+
   const handleLeftArrowClick = () => {
     if (pageId === 1) {
-      console.log('첫 번째 페이지입니다');
+      toastify('첫 번째 페이지입니다');
       return;
     }
     setCurrentDailry({ dailryId, pageId: pageId - 1 });
@@ -78,7 +90,7 @@ const DailryPage = () => {
 
   const handleRightArrowClick = () => {
     if (pageList.length === pageId) {
-      console.log('마지막 페이지입니다');
+      toastify('마지막 페이지입니다');
       return;
     }
     setCurrentDailry({ dailryId, pageId: pageId + 1 });
@@ -228,6 +240,7 @@ const DailryPage = () => {
           })}
         </S.ToolWrapper>
         <S.ArrowWrapper>
+          <ToastContainer />
           <S.ArrowButton direction={'left'} onClick={handleLeftArrowClick}>
             <LeftArrowIcon />
           </S.ArrowButton>
