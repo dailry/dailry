@@ -2,10 +2,9 @@ name: backend-dev-ci-cd
 on:
   push:
     branches:
-      - 'chore/be/#227'
+      - 'develop'
     paths:
       - 'backend/**'
-      - '.github/**'
 
 jobs:
   build:
