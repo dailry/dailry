@@ -4,6 +4,7 @@ const useCompleteCreation = (
   newDecorateComponent,
   addNewDecorateComponent,
   initializeNewDecorateComponent,
+  addUpdatedDecorateComponent,
 ) => {
   const [isOtherActionTriggered, setIsOtherActionTriggered] = useState(false);
   const isCreationCompleted =
@@ -13,6 +14,7 @@ const useCompleteCreation = (
   useEffect(() => {
     if (isCreationCompleted) {
       addNewDecorateComponent(newDecorateComponent);
+      addUpdatedDecorateComponent(newDecorateComponent);
     }
     initializeNewDecorateComponent();
   }, [isOtherActionTriggered]);

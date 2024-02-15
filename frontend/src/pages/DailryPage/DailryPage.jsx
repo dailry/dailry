@@ -18,6 +18,7 @@ import useCompleteCreation from '../../hooks/useNewDecorateComponent/useComplete
 import useModifyDecorateComponent from '../../hooks/useModifyDecorateComponent';
 import useSetTypeContent from '../../hooks/useSetTypeContent';
 import useDecorateComponents from '../../hooks/useDecorateComponents';
+import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponents';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -29,6 +30,9 @@ const DailryPage = () => {
   const [showPageModal, setShowPageModal] = useState(false);
   const [pageList, setPageList] = useState(null);
   const { currentDailry, setCurrentDailry } = useDailryContext();
+
+  const { addUpdatedDecorateComponent, modifyUpdatedDecorateComponent } =
+    useUpdatedDecorateComponents();
 
   const {
     decorateComponents,
@@ -48,23 +52,27 @@ const DailryPage = () => {
     pageRef,
   );
 
+  const { setIsOtherActionTriggered } = useCompleteCreation(
+    newDecorateComponent,
+    addNewDecorateComponent,
+    initializeNewDecorateComponent,
+    addUpdatedDecorateComponent,
+  );
+
   const {
     canEditDecorateComponent,
     setCanEditDecorateComponent,
     setCanEditDecorateComponentTypeContent,
-  } = useModifyDecorateComponent(modifyDecorateComponentTypeContent);
+  } = useModifyDecorateComponent(
+    modifyDecorateComponentTypeContent,
+    modifyUpdatedDecorateComponent,
+  );
 
   const { setNewTypeContent } = useSetTypeContent(
     selectedTool,
     newDecorateComponent,
     setNewDecorateComponentTypeContent,
     setCanEditDecorateComponentTypeContent,
-  );
-
-  const { setIsOtherActionTriggered } = useCompleteCreation(
-    newDecorateComponent,
-    addNewDecorateComponent,
-    initializeNewDecorateComponent,
   );
 
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;

@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 
-const useModifyDecorateComponent = (modifyDecorateComponentTypeContent) => {
+const useModifyDecorateComponent = (
+  modifyDecorateComponentTypeContent,
+  modifyUpdatedDecorateComponent,
+) => {
   const [canEditDecorateComponent, setCanEditDecorateComponent] =
     useState(null);
 
@@ -19,6 +22,7 @@ const useModifyDecorateComponent = (modifyDecorateComponentTypeContent) => {
       )
     ) {
       modifyDecorateComponentTypeContent(canEditDecorateComponent);
+      modifyUpdatedDecorateComponent(canEditDecorateComponent);
     }
   }, [canEditDecorateComponent?.typeContent]);
 
