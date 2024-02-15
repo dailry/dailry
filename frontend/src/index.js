@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import GlobalStyles from './styles/GlobalStyle';
 import App from './App';
 import { worker } from './mocks/worker';
@@ -17,6 +18,7 @@ root.render(
     <DailryProvider>
       <BrowserRouter>
         <App />
+        <ToastContainer />
       </BrowserRouter>
     </DailryProvider>
   </StrictMode>,

@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import { ToastContainer, toast, Zoom } from 'react-toastify';
+import { toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
@@ -240,7 +240,6 @@ const DailryPage = () => {
           })}
         </S.ToolWrapper>
         <S.ArrowWrapper>
-          <ToastContainer />
           <S.ArrowButton direction={'left'} onClick={handleLeftArrowClick}>
             <LeftArrowIcon />
           </S.ArrowButton>
