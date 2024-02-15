@@ -19,12 +19,10 @@ public class S3StorageService {
 
     @Value("${spring.cloud.aws.s3.bucket}")
     private String BUCKET_NAME;
-
-    private final S3Operations s3Operations;
-
     @Value("${app.properties.dataStorageDomain}")
     private String dataStorageDomain;
 
+    private final S3Operations s3Operations;
     /**
      * 파일을 업로드하고 파일의 URL를 반환합니다.
      * @param imageFile 업로드 하고 싶은 파일. 이미지 형식이 아닐경우 예외 발생.
@@ -46,7 +44,7 @@ public class S3StorageService {
 
         try {
             s3Operations.upload(BUCKET_NAME, filePath, imageFile.getInputStream());
-            return dataStorageDomain + "/" + filePath;
+            return "https://" + dataStorageDomain + "/" + filePath;
         } catch (IOException e) {
             throw new FileUploadFailureException(e);
         }
