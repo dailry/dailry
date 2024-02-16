@@ -8,7 +8,8 @@ const DailryHamburger = (props) => {
     deleteDailry(dailryId).then(setEditingDailry(Math.random()));
   };
 
-  const handlePatchClick = () => {
+  const handlePatchClick = (e) => {
+    e.stopPropagation();
     setEditingDailry(dailryId);
   };
 
