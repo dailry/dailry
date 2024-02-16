@@ -3,10 +3,10 @@ import { typedDecorateComponentProperties } from './properties';
 import { getCommonDecorateComponentProperties } from './createNewDecorateComponent';
 
 const useNewDecorateComponent = (decorateComponents, pageRef) => {
-  const [newDecorateComponent, setNewDecorateComponent] = useState(undefined);
+  const [newDecorateComponent, setNewDecorateComponent] = useState(null);
 
-  const initializeNewDecorateComponent = () => {
-    setNewDecorateComponent(undefined);
+  const removeNewDecorateComponent = () => {
+    setNewDecorateComponent(null);
   };
 
   const createNewDecorateComponent = (e, type) => {
@@ -28,7 +28,7 @@ const useNewDecorateComponent = (decorateComponents, pageRef) => {
   return {
     createNewDecorateComponent,
     newDecorateComponent,
-    initializeNewDecorateComponent,
+    removeNewDecorateComponent,
     setNewDecorateComponentTypeContent,
   };
 };

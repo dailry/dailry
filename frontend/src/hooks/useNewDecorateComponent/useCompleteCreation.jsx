@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 const useCompleteCreation = (
   newDecorateComponent,
   addNewDecorateComponent,
-  initializeNewDecorateComponent,
+  removeNewDecorateComponent,
   addUpdatedDecorateComponent,
 ) => {
   const [isOtherActionTriggered, setIsOtherActionTriggered] = useState(false);
@@ -16,7 +16,7 @@ const useCompleteCreation = (
       addNewDecorateComponent(newDecorateComponent);
       addUpdatedDecorateComponent(newDecorateComponent);
     }
-    initializeNewDecorateComponent();
+    removeNewDecorateComponent();
   }, [isOtherActionTriggered]);
 
   return { setIsOtherActionTriggered };

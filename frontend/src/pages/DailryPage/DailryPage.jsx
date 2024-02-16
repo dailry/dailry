@@ -45,14 +45,14 @@ const DailryPage = () => {
   const {
     newDecorateComponent,
     createNewDecorateComponent,
-    initializeNewDecorateComponent,
+    removeNewDecorateComponent,
     setNewDecorateComponentTypeContent,
   } = useNewDecorateComponent(decorateComponents, pageRef);
 
   const { setIsOtherActionTriggered } = useCompleteCreation(
     newDecorateComponent,
     addNewDecorateComponent,
-    initializeNewDecorateComponent,
+    removeNewDecorateComponent,
     addUpdatedDecorateComponent,
   );
 
