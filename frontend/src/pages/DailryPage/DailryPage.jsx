@@ -19,22 +19,33 @@ import PageListModal from '../../components/da-ily/PageListModal/PageListModal';
 import useCompleteCreation from '../../hooks/useNewDecorateComponent/useCompleteCreation';
 import useModifyDecorateComponent from '../../hooks/useModifyDecorateComponent';
 import useSetTypeContent from '../../hooks/useSetTypeContent';
+import useDecorateComponents from '../../hooks/useDecorateComponents';
+import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponents';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
   const moveableRef = useRef([]);
 
   const [target, setTarget] = useState(null);
-  const [decorateComponents, setDecorateComponents] = useState([]);
 
   const [selectedTool, setSelectedTool] = useState(null);
   const [showPageModal, setShowPageModal] = useState(false);
   const [pageList, setPageList] = useState(null);
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
+  const { addUpdatedDecorateComponent, modifyUpdatedDecorateComponent } =
+    useUpdatedDecorateComponents();
+
   const {
-    createNewDecorateComponent,
+    decorateComponents,
+    setDecorateComponents,
+    addNewDecorateComponent,
+    modifyDecorateComponentTypeContent,
+  } = useDecorateComponents();
+
+  const {
     newDecorateComponent,
+    createNewDecorateComponent,
     initializeNewDecorateComponent,
     setNewDecorateComponentTypeContent,
   } = useNewDecorateComponent(
@@ -43,23 +54,27 @@ const DailryPage = () => {
     pageRef,
   );
 
+  const { setIsOtherActionTriggered } = useCompleteCreation(
+    newDecorateComponent,
+    addNewDecorateComponent,
+    initializeNewDecorateComponent,
+    addUpdatedDecorateComponent,
+  );
+
   const {
     canEditDecorateComponent,
     setCanEditDecorateComponent,
+    setCanEditDecorateComponentTypeContent,
+  } = useModifyDecorateComponent(
     modifyDecorateComponentTypeContent,
-  } = useModifyDecorateComponent(setDecorateComponents);
+    modifyUpdatedDecorateComponent,
+  );
 
   const { setNewTypeContent } = useSetTypeContent(
     selectedTool,
     newDecorateComponent,
     setNewDecorateComponentTypeContent,
-    modifyDecorateComponentTypeContent,
-  );
-
-  const { setIsOtherActionTriggered } = useCompleteCreation(
-    newDecorateComponent,
-    setDecorateComponents,
-    initializeNewDecorateComponent,
+    setCanEditDecorateComponentTypeContent,
   );
 
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
@@ -216,7 +231,8 @@ const DailryPage = () => {
               if (newDecorateComponent) {
                 setIsOtherActionTriggered((prev) => !prev);
               }
-              setSelectedTool(t);
+              setSelectedTool(selectedTool === t ? null : t);
+              setCanEditDecorateComponent(null);
               setTimeout(() => {
                 setSelectedTool(null);
               }, 150);
