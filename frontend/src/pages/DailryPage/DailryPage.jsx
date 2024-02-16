@@ -31,8 +31,11 @@ const DailryPage = () => {
   const [pageList, setPageList] = useState(null);
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
-  const { addUpdatedDecorateComponent, modifyUpdatedDecorateComponent } =
-    useUpdatedDecorateComponents();
+  const {
+    updatedDecorateComponents,
+    addUpdatedDecorateComponent,
+    modifyUpdatedDecorateComponent,
+  } = useUpdatedDecorateComponents();
 
   const {
     decorateComponents,
@@ -138,6 +141,33 @@ const DailryPage = () => {
     }
   };
 
+  const [file, setFile] = useState(null);
+
+  const saveDecorateComponent = async () => {
+    const formData = new FormData();
+
+    const blob = new Blob(
+      [
+        JSON.stringify({
+          background: '무지',
+          elements: updatedDecorateComponents,
+        }),
+      ],
+      { type: 'application/json' },
+    );
+
+    formData.append('thumbnail', file);
+    formData.append('dailryPageRequest', blob);
+  };
+
+  const onUploadFile = (e) => {
+    if (!e.target.files) {
+      return;
+    }
+
+    setFile(e.target.files[0]);
+  };
+
   return (
     <S.FlexWrapper>
       {showPageModal && (
@@ -146,6 +176,7 @@ const DailryPage = () => {
           onClose={() => setShowPageModal(false)}
         />
       )}
+      <input type="file" alt="what" onChange={onUploadFile} />
       <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
         {decorateComponents?.map((element, index) => {
           const canEdit =
@@ -231,6 +262,9 @@ const DailryPage = () => {
               }
               if (t === 'download') {
                 handleDownloadClick();
+              }
+              if (t === 'save') {
+                saveDecorateComponent();
               }
             };
             return (
