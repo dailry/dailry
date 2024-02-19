@@ -2,23 +2,19 @@ import { useState } from 'react';
 import { typedDecorateComponentProperties } from './properties';
 import { getCommonDecorateComponentProperties } from './createNewDecorateComponent';
 
-const useNewDecorateComponent = (
-  decorateComponents,
-  setDecorateComponents,
-  pageRef,
-) => {
-  const [newDecorateComponent, setNewDecorateComponent] = useState(undefined);
+const useNewDecorateComponent = (decorateComponents, pageRef) => {
+  const [newDecorateComponent, setNewDecorateComponent] = useState(null);
 
-  const initializeNewDecorateComponent = () => {
-    setNewDecorateComponent(undefined);
+  const removeNewDecorateComponent = () => {
+    setNewDecorateComponent(null);
   };
 
   const createNewDecorateComponent = (e, type) => {
     setNewDecorateComponent({
-      type,
-      order: decorateComponents.length,
       ...getCommonDecorateComponentProperties(e, pageRef),
       ...typedDecorateComponentProperties[type],
+      type,
+      order: decorateComponents.length,
     });
   };
 
@@ -32,7 +28,7 @@ const useNewDecorateComponent = (
   return {
     createNewDecorateComponent,
     newDecorateComponent,
-    initializeNewDecorateComponent,
+    removeNewDecorateComponent,
     setNewDecorateComponentTypeContent,
   };
 };

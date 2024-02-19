@@ -9,6 +9,7 @@ const DecorateWrapper = forwardRef((props, ref) => {
     order,
     position,
     size,
+    rotation,
     typeContent,
     canEdit,
     onMouseDown,
@@ -27,6 +28,7 @@ const DecorateWrapper = forwardRef((props, ref) => {
         order,
         size,
         canEdit,
+        rotation,
       })}
     >
       {children}
@@ -47,6 +49,7 @@ DecorateWrapper.propTypes = {
   position: PropTypes.object,
   typeContent: PropTypes.object,
   order: PropTypes.number,
+  rotation: PropTypes.string,
   size: PropTypes.object,
   canEdit: PropTypes.bool,
   onMouseDown: PropTypes.func,

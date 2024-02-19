@@ -38,7 +38,6 @@ const DailryPage = () => {
 
   const {
     decorateComponents,
-    setDecorateComponents,
     addNewDecorateComponent,
     modifyDecorateComponentTypeContent,
   } = useDecorateComponents();
@@ -46,18 +45,14 @@ const DailryPage = () => {
   const {
     newDecorateComponent,
     createNewDecorateComponent,
-    initializeNewDecorateComponent,
+    removeNewDecorateComponent,
     setNewDecorateComponentTypeContent,
-  } = useNewDecorateComponent(
-    decorateComponents,
-    setDecorateComponents,
-    pageRef,
-  );
+  } = useNewDecorateComponent(decorateComponents, pageRef);
 
   const { setIsOtherActionTriggered } = useCompleteCreation(
     newDecorateComponent,
     addNewDecorateComponent,
-    initializeNewDecorateComponent,
+    removeNewDecorateComponent,
     addUpdatedDecorateComponent,
   );
 
