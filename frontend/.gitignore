@@ -35,3 +35,5 @@ sketch
 storybook-static
 build-storybook.log
 .env
+cert.pem
+key.pem
