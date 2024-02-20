@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 
 const useCompleteCreation = (
   newDecorateComponent,
-  setDecorateComponents,
-  initializeNewDecorateComponent,
+  addNewDecorateComponent,
+  removeNewDecorateComponent,
+  addUpdatedDecorateComponent,
 ) => {
   const [isOtherActionTriggered, setIsOtherActionTriggered] = useState(false);
   const isCreationCompleted =
@@ -12,9 +13,10 @@ const useCompleteCreation = (
 
   useEffect(() => {
     if (isCreationCompleted) {
-      setDecorateComponents((prev) => prev.concat(newDecorateComponent));
+      addNewDecorateComponent(newDecorateComponent);
+      addUpdatedDecorateComponent(newDecorateComponent);
     }
-    initializeNewDecorateComponent();
+    removeNewDecorateComponent();
   }, [isOtherActionTriggered]);
 
   return { setIsOtherActionTriggered };

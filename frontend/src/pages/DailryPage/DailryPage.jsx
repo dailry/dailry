@@ -2,6 +2,8 @@
 import { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
+import { toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
@@ -17,47 +19,57 @@ import PageListModal from '../../components/da-ily/PageListModal/PageListModal';
 import useCompleteCreation from '../../hooks/useNewDecorateComponent/useCompleteCreation';
 import useModifyDecorateComponent from '../../hooks/useModifyDecorateComponent';
 import useSetTypeContent from '../../hooks/useSetTypeContent';
+import useDecorateComponents from '../../hooks/useDecorateComponents';
+import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponents';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
   const moveableRef = useRef([]);
 
   const [target, setTarget] = useState(null);
-  const [decorateComponents, setDecorateComponents] = useState([]);
 
   const [selectedTool, setSelectedTool] = useState(null);
   const [showPageModal, setShowPageModal] = useState(false);
   const [pageList, setPageList] = useState(null);
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
+  const { addUpdatedDecorateComponent, modifyUpdatedDecorateComponent } =
+    useUpdatedDecorateComponents();
+
   const {
-    createNewDecorateComponent,
-    newDecorateComponent,
-    initializeNewDecorateComponent,
-    setNewDecorateComponentTypeContent,
-  } = useNewDecorateComponent(
     decorateComponents,
-    setDecorateComponents,
-    pageRef,
+    addNewDecorateComponent,
+    modifyDecorateComponentTypeContent,
+  } = useDecorateComponents();
+
+  const {
+    newDecorateComponent,
+    createNewDecorateComponent,
+    removeNewDecorateComponent,
+    setNewDecorateComponentTypeContent,
+  } = useNewDecorateComponent(decorateComponents, pageRef);
+
+  const { setIsOtherActionTriggered } = useCompleteCreation(
+    newDecorateComponent,
+    addNewDecorateComponent,
+    removeNewDecorateComponent,
+    addUpdatedDecorateComponent,
   );
 
   const {
     canEditDecorateComponent,
     setCanEditDecorateComponent,
+    setCanEditDecorateComponentTypeContent,
+  } = useModifyDecorateComponent(
     modifyDecorateComponentTypeContent,
-  } = useModifyDecorateComponent(setDecorateComponents);
+    modifyUpdatedDecorateComponent,
+  );
 
   const { setNewTypeContent } = useSetTypeContent(
     selectedTool,
     newDecorateComponent,
     setNewDecorateComponentTypeContent,
-    modifyDecorateComponentTypeContent,
-  );
-
-  const { setIsOtherActionTriggered } = useCompleteCreation(
-    newDecorateComponent,
-    setDecorateComponents,
-    initializeNewDecorateComponent,
+    setCanEditDecorateComponentTypeContent,
   );
 
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
@@ -68,9 +80,19 @@ const DailryPage = () => {
     getPages(dailryId).then((response) => setPageList(response.data.pages));
   }, [dailryId, pageId, showPageModal]);
 
+  const toastify = (message) => {
+    toast(message, {
+      position: 'bottom-right',
+      autoClose: 300,
+      hideProgressBar: true,
+      closeOnClick: true,
+      transition: Zoom,
+    });
+  };
+
   const handleLeftArrowClick = () => {
     if (pageId === 1) {
-      console.log('첫 번째 페이지입니다');
+      toastify('첫 번째 페이지입니다');
       return;
     }
     setCurrentDailry({ dailryId, pageId: pageId - 1 });
@@ -78,7 +100,7 @@ const DailryPage = () => {
 
   const handleRightArrowClick = () => {
     if (pageList.length === pageId) {
-      console.log('마지막 페이지입니다');
+      toastify('마지막 페이지입니다');
       return;
     }
     setCurrentDailry({ dailryId, pageId: pageId + 1 });
@@ -204,7 +226,8 @@ const DailryPage = () => {
               if (newDecorateComponent) {
                 setIsOtherActionTriggered((prev) => !prev);
               }
-              setSelectedTool(t);
+              setSelectedTool(selectedTool === t ? null : t);
+              setCanEditDecorateComponent(null);
               setTimeout(() => {
                 setSelectedTool(null);
               }, 150);

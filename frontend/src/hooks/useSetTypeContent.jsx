@@ -5,7 +5,7 @@ const useSetTypeContent = (
   selectedTool,
   newDecorateComponent,
   setNewDecorateComponentTypeContent,
-  modifyDecorateComponentTypeContent,
+  setCanEditDecorateComponentTypeContent,
 ) => {
   const [newTypeContent, setNewTypeContent] = useState(undefined);
   useEffect(() => {
@@ -18,7 +18,7 @@ const useSetTypeContent = (
       return;
     }
 
-    modifyDecorateComponentTypeContent();
+    setCanEditDecorateComponentTypeContent(newTypeContent);
   }, [newTypeContent]);
 
   return { setNewTypeContent };
