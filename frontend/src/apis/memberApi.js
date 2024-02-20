@@ -4,7 +4,7 @@ export const postJoinMember = async (memberInformation) => {
   try {
     const { username, password, nickname } = memberInformation;
 
-    const joinedMember = await customAxios.post('/member/join', {
+    const joinedMember = await customAxios.post('/members/join', {
       username,
       password,
       nickname,
@@ -20,7 +20,7 @@ export const postJoinMember = async (memberInformation) => {
 
 export const getMember = async () => {
   try {
-    const member = await customAxios.get('/member');
+    const member = await customAxios.get('/members');
 
     return member;
   } catch (e) {
@@ -33,7 +33,7 @@ export const getMember = async () => {
 export const getCheckUserName = async (userName) => {
   try {
     const isUserNameDuplicated = await customAxios.get(
-      `/member/check-username?username=${userName}`,
+      `/members/check-username?username=${userName}`,
     );
 
     return isUserNameDuplicated.data.duplicated;
@@ -49,7 +49,7 @@ export const getCheckUserName = async (userName) => {
 export const getCheckNickName = async (nickName) => {
   try {
     const isNickNameDuplicated = await customAxios.get(
-      `/member/check-nickname?nickname=${nickName}`,
+      `/members/check-nickname?nickname=${nickName}`,
     );
 
     return isNickNameDuplicated.data.duplicated;
