@@ -4,7 +4,7 @@ import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
 import { toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Moveable from '../../components/da-ily/Moveable/Moveable';
+import MoveableComponent from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import { DECORATE_TOOLS, PAGE_TOOLS } from '../../constants/toolbar';
@@ -200,7 +200,7 @@ const DailryPage = () => {
             />
           </DecorateWrapper>
         )}
-        {isMoveable() && <Moveable target={moveableRef[target]} />}
+        {isMoveable() && <MoveableComponent target={moveableRef[target]} />}
       </S.CanvasWrapper>
       <S.SideWrapper>
         <S.ToolWrapper>

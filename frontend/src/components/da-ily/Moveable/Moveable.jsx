@@ -1,18 +1,16 @@
-import { makeMoveable, Rotatable, Draggable, Resizable } from 'react-moveable';
+import Moveable from 'react-moveable';
 import PropTypes from 'prop-types';
 import MoveableHelper from 'moveable-helper';
 import { useState } from 'react';
 
-const MoveableInstance = makeMoveable([Draggable, Rotatable, Resizable]);
-
-const Moveable = (props) => {
+const MoveableComponent = (props) => {
   const { target } = props;
   const [helper] = useState(() => {
     return new MoveableHelper();
   });
 
   return (
-    <MoveableInstance
+    <Moveable
       target={target}
       draggable={true}
       resizable={true}
@@ -30,7 +28,7 @@ const Moveable = (props) => {
   );
 };
 
-Moveable.propTypes = {
+MoveableComponent.propTypes = {
   target: PropTypes.object,
 };
-export default Moveable;
+export default MoveableComponent;
