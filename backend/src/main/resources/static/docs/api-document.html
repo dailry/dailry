@@ -550,8 +550,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA3MjMzMzM2fQ.3oSxkWY66Bu9nP6ciZHYvE9ntFvyL73qvtCKAtYacLGEc7kSZtOo7-1zTrbZQGLCs01xm0Fy3-j21uWfgpxlYQ
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNzIyOTczNiwiZXhwIjoxNzA4NDM5MzM2fQ.rcle9ZLqQRwYwqQzkZcvGsKVoTNZrGF_LS1iAvg9wJZBZyburAF6F0QINhPk-ucKb4F2ABK4sPbNQQ9MLSv2cg
 
 {
   "username" : "testtest",
@@ -595,8 +593,8 @@ Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNzIyOT
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA3MjMzMzM2fQ.3oSxkWY66Bu9nP6ciZHYvE9ntFvyL73qvtCKAtYacLGEc7kSZtOo7-1zTrbZQGLCs01xm0Fy3-j21uWfgpxlYQ; Path=/; Secure; HttpOnly; SameSite=None
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwNzIyOTczNiwiZXhwIjoxNzA4NDM5MzM2fQ.rcle9ZLqQRwYwqQzkZcvGsKVoTNZrGF_LS1iAvg9wJZBZyburAF6F0QINhPk-ucKb4F2ABK4sPbNQQ9MLSv2cg; Path=/; Secure; HttpOnly; SameSite=None
+Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA4NTgxOTMzfQ.vil93Hb4UtjMN1VBCWBOBBgrPu8Oo8vdusDXXUmIMpBfNPpoQjcMeGKFQXFYtKn62WHAm8fJE9E9ixWAjG6Q-w; Path=/; Domain=da-ily.site; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwODU3ODMzMywiZXhwIjoxNzA5Nzg3OTMzfQ.4gVF81dA5qc-Z_TPrW7HPODhu4-Qlv6eFycXyN_qzM5a7ciowOiOPcE7xbah9daH5es7Jheue_nHvHsBeH_qSA; Path=/; Domain=da-ily.site; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -610,14 +608,13 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_로그아웃">로그아웃</h3>
 <div class="sect3">
-<h4 id="_요청_2">요청</h4>
+<h4 id="_요청_로그인_필요">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDcyMzMzMzR9.sfhlU14geE6C5D6IE-NuQz7bfMPxb89SkHKctN0LlY_GXX8Mvs1ezLwOtAY42GR09jQtKi6Ti-uAV8fsbi5NMQ
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA3MjI5NzM0LCJleHAiOjE3MDg0MzkzMzR9.WSahQdXoAQEqEWp-mcRPFF8DBhv7hyQB-07l7ja2eY-jiig1osiOcOzPxReTh9-_W5EojqMdzb5QoOwQ-UDwtw</code></pre>
-
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDg1ODE5MzF9.LW1mP8vG2zGLLI0pC7GYiVunhZcxG4nr3Upe2tVfXvNY1xis7atQB8Zb6Ub_M7QGDRljdIn-nj1NfipcwBVB2A
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA4NTc4MzMxLCJleHAiOjE3MDk3ODc5MzF9.FBd6wpmGlN7oQShQyZ5OnogXqP--gkH97rbDIX9V9KYGaqzQtDGVkEAVE-jJxYOAC31bHJUNJ8fmcstBGQPdBg</code></pre>
 </div>
 </div>
 </div>
@@ -641,14 +638,13 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_access_token_갱신">access token 갱신</h3>
 <div class="sect3">
-<h4 id="_요청_3">요청</h4>
+<h4 id="_요청_로그인_필요_2">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDcyMzMzMzV9.wNESdHoHxtKILjklUD_UlbrPjSsPuehNhjxIFwf7sMApzQ1EI-kelChWMN4M5q7WZ5MeDiZFo_WxIiwqQeZHXQ
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA3MjI5NzM1LCJleHAiOjE3MDg0MzkzMzV9.3yG1xQwPLKmtu1anqrYlD4JmUQXng1fAnusSWwZn4NZeo3WclnDGHWHVW2wLXliCWf9GFxBlD7N6eP56v_xFqQ</code></pre>
-
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDg1ODE5MzJ9.cd_mzCtxWeodUDcMgLeBew1g6azpRjS13hsfambAYs9CnVVT3PWNn_VoGtGrL50O_rmLquWpoEv37_PQGCUIFQ
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA4NTc4MzMyLCJleHAiOjE3MDk3ODc5MzJ9.ojsJHZXTqPYuCuhoSQPa4-wMHnBmdNL5yo2GTjnM8fDEWCkKKVEw6aRxPwzdFMwf49I8ttYxBTLFopkapvUcUQ</code></pre>
 </div>
 </div>
 </div>
@@ -705,7 +701,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_회원가입">회원가입</h3>
 <div class="sect3">
-<h4 id="_요청_4">요청</h4>
+<h4 id="_요청_2">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/join HTTP/1.1
@@ -817,11 +813,10 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_회원정보_조회">회원정보 조회</h3>
 <div class="sect3">
-<h4 id="_요청_5">요청</h4>
+<h4 id="_요청_로그인_필요_3">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/members HTTP/1.1
-Authorization: Bearer AccessToken</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/members HTTP/1.1</code></pre>
 </div>
 </div>
 </div>
@@ -887,7 +882,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_아이디_중복_검사">아이디 중복 검사</h3>
 <div class="sect3">
-<h4 id="_요청_6">요청</h4>
+<h4 id="_요청_3">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/members/check-username?username=username123 HTTP/1.1</code></pre>
@@ -956,7 +951,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_닉네임_중복_검사">닉네임 중복 검사</h3>
 <div class="sect3">
-<h4 id="_요청_7">요청</h4>
+<h4 id="_요청_4">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/members/check-nickname?nickname=nickname HTTP/1.1</code></pre>
@@ -1025,12 +1020,11 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_닉네임_변경">닉네임 변경</h3>
 <div class="sect3">
-<h4 id="_요청_8">요청</h4>
+<h4 id="_요청_로그인_필요_4">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/members/nickname HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer AccessToken
 
 {
   "nickname" : "mynickname"
@@ -1124,12 +1118,11 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_비밀번호_변경_마이페이지">비밀번호 변경 (마이페이지)</h3>
 <div class="sect3">
-<h4 id="_요청_9">요청</h4>
+<h4 id="_요청_로그인_필요_5">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/members/password HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer AccessToken
 
 {
   "presentPassword" : "12345678",
@@ -1186,12 +1179,11 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_이메일_인증번호_전송">이메일 인증번호 전송</h3>
 <div class="sect3">
-<h4 id="_요청_10">요청</h4>
+<h4 id="_요청_로그인_필요_6">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/email-verification/request HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer AccessToken
 
 {
   "email" : "qkrrjsdn123@naver.com"
@@ -1241,12 +1233,11 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_이메일_인증번호_검증_이메일_등록">이메일 인증번호 검증 &amp; 이메일 등록</h3>
 <div class="sect3">
-<h4 id="_요청_11">요청</h4>
+<h4 id="_요청_로그인_필요_7">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/email-verification/confirm HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer AccessToken
 
 {
   "email" : "qkrrjsdn123@naver.com",
@@ -1303,7 +1294,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_아이디_찾기">아이디 찾기</h3>
 <div class="sect3">
-<h4 id="_요청_12">요청</h4>
+<h4 id="_요청_5">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/recover-username HTTP/1.1
@@ -1357,7 +1348,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_비밀번호_변경링크_전송">비밀번호 변경링크 전송</h3>
 <div class="sect3">
-<h4 id="_요청_13">요청</h4>
+<h4 id="_요청_6">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/recover-password HTTP/1.1
@@ -1418,7 +1409,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_비밀번호_변경_비밀번호_찾기">비밀번호 변경 (비밀번호 찾기)</h3>
 <div class="sect3">
-<h4 id="_요청_14">요청</h4>
+<h4 id="_요청_7">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/members/recover-password HTTP/1.1
@@ -1479,7 +1470,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_회원탈퇴">회원탈퇴</h3>
 <div class="sect3">
-<h4 id="_요청_15">요청</h4>
+<h4 id="_요청_로그인_필요_8">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/withdrawal HTTP/1.1
@@ -1540,7 +1531,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_다일리_생성">다일리 생성</h3>
 <div class="sect3">
-<h4 id="_요청_16">요청</h4>
+<h4 id="_요청_로그인_필요_9">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/dailry HTTP/1.1
@@ -1624,7 +1615,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_다일리_수정">다일리 수정</h3>
 <div class="sect3">
-<h4 id="_요청_17">요청</h4>
+<h4 id="_요청_로그인_필요_10">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/dailry/16 HTTP/1.1
@@ -1708,7 +1699,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_다일리_조회">다일리 조회</h3>
 <div class="sect3">
-<h4 id="_요청_18">요청</h4>
+<h4 id="_요청_로그인_필요_11">요청 (로그인 필요)</h4>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. /api/dailry/{dailryId}</caption>
 <colgroup>
@@ -1777,7 +1768,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_전체_다일리_조회">전체 다일리 조회</h3>
 <div class="sect3">
-<h4 id="_요청_19">요청</h4>
+<h4 id="_요청_로그인_필요_12">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/dailry HTTP/1.1
@@ -1836,7 +1827,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_다일리_삭제">다일리 삭제</h3>
 <div class="sect3">
-<h4 id="_요청_20">요청</h4>
+<h4 id="_요청_로그인_필요_13">요청 (로그인 필요)</h4>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 2. /api/dailry/{dailryId}</caption>
 <colgroup>
@@ -1880,7 +1871,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_페이지_생성">페이지 생성</h3>
 <div class="sect3">
-<h4 id="_요청_21">요청</h4>
+<h4 id="_요청_로그인_필요_14">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/dailry/16/pages HTTP/1.1
@@ -1950,7 +1941,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_페이지_수정">페이지 수정</h3>
 <div class="sect3">
-<h4 id="_요청_22">요청</h4>
+<h4 id="_요청_로그인_필요_15">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/dailry/pages/5/edit HTTP/1.1
@@ -2002,7 +1993,7 @@ Content-Type: application/json
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>thumbnail</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 섬네일 파일</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 썸네일 파일 (MIME 타입 'image/**' 만가능)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>dailryPageRequest</code></p></td>
@@ -2261,7 +2252,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_페이지_단건_조회">페이지 단건 조회</h3>
 <div class="sect3">
-<h4 id="_요청_23">요청</h4>
+<h4 id="_요청_로그인_필요_16">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/dailry/pages/5 HTTP/1.1</code></pre>
@@ -2463,7 +2454,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_페이지_목록_미리보기">페이지 목록 미리보기</h3>
 <div class="sect3">
-<h4 id="_요청_24">요청</h4>
+<h4 id="_요청_로그인_필요_17">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/dailry/5/pages HTTP/1.1</code></pre>
@@ -2567,7 +2558,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_페이지_삭제">페이지 삭제</h3>
 <div class="sect3">
-<h4 id="_요청_25">요청</h4>
+<h4 id="_요청_로그인_필요_18">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/dailry/pages/5 HTTP/1.1</code></pre>
@@ -2616,7 +2607,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_게시글_작성">게시글 작성</h3>
 <div class="sect3">
-<h4 id="_요청_26">요청</h4>
+<h4 id="_요청_로그인_필요_19">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts HTTP/1.1
@@ -2649,7 +2640,7 @@ Content-Type: application/json
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageImage</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 이미지 파일</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 이미지 파일 (MIME 타입 'image/**' 만가능)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
@@ -2770,7 +2761,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_게시글_수정">게시글 수정</h3>
 <div class="sect3">
-<h4 id="_요청_27">요청</h4>
+<h4 id="_요청_로그인_필요_20">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/31/edit HTTP/1.1
@@ -2822,7 +2813,7 @@ Content-Type: application/json
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageImage</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 이미지 파일</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다일리 페이지 이미지 파일 (MIME 타입 'image/**' 만가능)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
@@ -2943,7 +2934,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_게시글_단건_조회">게시글 단건 조회</h3>
 <div class="sect3">
-<h4 id="_요청_28">요청</h4>
+<h4 id="_요청_8">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/31 HTTP/1.1</code></pre>
@@ -3059,7 +3050,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_게시글_여러건_조회">게시글 여러건 조회</h3>
 <div class="sect3">
-<h4 id="_요청_29">요청</h4>
+<h4 id="_요청_9">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts?page=0&amp;size=5 HTTP/1.1</code></pre>
@@ -3240,7 +3231,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_게시글_삭제">게시글 삭제</h3>
 <div class="sect3">
-<h4 id="_요청_30">요청</h4>
+<h4 id="_요청_로그인_필요_21">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/posts/15 HTTP/1.1</code></pre>
@@ -3289,7 +3280,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_좋아요_증가">좋아요 증가</h3>
 <div class="sect3">
-<h4 id="_요청_31">요청</h4>
+<h4 id="_요청_로그인_필요_22">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/31/likes HTTP/1.1
@@ -3315,7 +3306,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_좋아요_취소">좋아요 취소</h3>
 <div class="sect3">
-<h4 id="_요청_32">요청</h4>
+<h4 id="_요청_로그인_필요_23">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/posts/31/likes HTTP/1.1
@@ -3346,7 +3337,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_댓글_작성">댓글 작성</h3>
 <div class="sect3">
-<h4 id="_요청_33">요청</h4>
+<h4 id="_요청_로그인_필요_24">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/posts/31/comments HTTP/1.1
@@ -3477,7 +3468,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_댓글_수정">댓글 수정</h3>
 <div class="sect3">
-<h4 id="_요청_34">요청</h4>
+<h4 id="_요청_로그인_필요_25">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/posts/comments/16 HTTP/1.1
@@ -3608,7 +3599,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_댓글_조회">댓글 조회</h3>
 <div class="sect3">
-<h4 id="_요청_35">요청</h4>
+<h4 id="_요청_10">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/31/comments?page=0&amp;size=3 HTTP/1.1</code></pre>
@@ -3754,7 +3745,7 @@ Content-Type: application/json;charset=UTF-8
 <div class="sect2">
 <h3 id="_댓글_삭제">댓글 삭제</h3>
 <div class="sect3">
-<h4 id="_요청_36">요청</h4>
+<h4 id="_요청_로그인_필요_26">요청 (로그인 필요)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/posts/comments/16 HTTP/1.1</code></pre>
@@ -3801,7 +3792,7 @@ Content-Type: application/json;charset=UTF-8
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-02-02 14:38:26 +0900
+Last updated 2024-02-22 13:57:55 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
