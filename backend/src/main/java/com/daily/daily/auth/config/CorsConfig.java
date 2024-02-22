@@ -11,7 +11,7 @@ import java.util.List;
 
 @Configuration
 public class CorsConfig {
-    @Bean
+    @Bean(name = "corsConfigurationSource")
     @Profile({"local", "dev"})
     public CorsConfigurationSource localDevCorsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -28,7 +28,7 @@ public class CorsConfig {
         return source;
     }
 
-    @Bean
+    @Bean(name = "corsConfigurationSource")
     @Profile({"prod"})
     public CorsConfigurationSource prodCorsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
