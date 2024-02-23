@@ -1,5 +1,6 @@
 package com.daily.daily.oauth.handler;
 
+import com.daily.daily.auth.dto.CookieDTO;
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.common.service.CookieService;
 import com.daily.daily.oauth.OAuth2CustomUser;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
 
 @Slf4j
 @Component
@@ -33,7 +36,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             String accessToken = jwtUtil.generateAccessToken(oAuth2User.getMember().getId(), oAuth2User.getMember().getRole());
             String refreshToken = jwtUtil.generateRefreshToken(oAuth2User.getMember().getId());
 
-            cookieService.setTokensInCookie(response, accessToken, refreshToken);
+            CookieDTO cookieDTO = cookieService.setTokensInCookie(accessToken, refreshToken);
+
+            response.addHeader(SET_COOKIE, cookieDTO.getAccessCookie().toString());
+            response.addHeader(SET_COOKIE, cookieDTO.getRefreshCookie().toString());
 
             response.sendRedirect(frontendDomain);
         } catch (Exception e) {

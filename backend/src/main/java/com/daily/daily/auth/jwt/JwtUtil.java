@@ -24,8 +24,8 @@ public class JwtUtil {
     private static final String ROLE_CLAIM = "role";
     private static final String MEMBER_ID_CLAIM = "memberId";
     //subject, cookie name
-    private static final String ACCESS_TOKEN = "AccessToken";
-    private static final String REFRESH_TOKEN = "RefreshToken";
+    public static final String ACCESS_TOKEN = "AccessToken";
+    public static final String REFRESH_TOKEN = "RefreshToken";
 
     @Value("${jwt.access.expiration}")
     private long accessTokenExpiration;

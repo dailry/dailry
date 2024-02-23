@@ -1,5 +1,8 @@
 package com.daily.daily.common.service;
 
+import com.daily.daily.auth.dto.CookieDTO;
+import com.daily.daily.auth.dto.TokenDTO;
+import com.daily.daily.auth.jwt.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,27 +17,28 @@ import static org.springframework.http.HttpHeaders.SET_COOKIE;
 @RequiredArgsConstructor
 @Slf4j
 public class CookieService {
-
-    private static final String ACCESS_TOKEN = "AccessToken";
-    private static final String REFRESH_TOKEN = "RefreshToken";
-
     @Value("${app.properties.mainDomain}")
     private String mainDomain;
 
-    public void setTokensInCookie(HttpServletResponse response, String accessToken, String refreshToken) {
-        ResponseCookie accessCookie = createTokenCookie(ACCESS_TOKEN, accessToken);
-        ResponseCookie refreshCookie = createTokenCookie(REFRESH_TOKEN, refreshToken);
-        response.addHeader(SET_COOKIE, accessCookie.toString());
-        response.addHeader(SET_COOKIE, refreshCookie.toString());
+    @Value("${app.properties.cookie.sameSite}")
+    private String sameSite;
+
+    public CookieDTO setTokensInCookie(String accessToken, String refreshToken) {
+        ResponseCookie accessCookie = createTokenCookie(JwtUtil.ACCESS_TOKEN, accessToken);
+        ResponseCookie refreshCookie = createTokenCookie(JwtUtil.REFRESH_TOKEN, refreshToken);
+        return new CookieDTO(
+                accessCookie,
+                refreshCookie
+        );
     }
 
-    public ResponseCookie createTokenCookie(String cookieName, String token) {
-        return ResponseCookie.from(cookieName, token)
+    public ResponseCookie createTokenCookie(String cookieName, String cookieValue) {
+        return ResponseCookie.from(cookieName, cookieValue)
                 .domain(mainDomain)
                 .path("/")
                 .secure(true)
                 .httpOnly(true)
-                .sameSite("None")
+                .sameSite(sameSite)
                 .build();
     }
 

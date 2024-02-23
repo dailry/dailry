@@ -1,5 +1,6 @@
 package com.daily.daily.integration.auth.jwt;
 
+import com.daily.daily.auth.dto.CookieDTO;
 import com.daily.daily.auth.dto.JwtClaimDTO;
 import com.daily.daily.auth.dto.LoginDTO;
 import com.daily.daily.auth.dto.TokenDTO;
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -60,7 +62,10 @@ public class JwtUtilTest {
         String accessToken = jwtUtil.generateAccessToken(3L, MemberRole.ROLE_MEMBER);
         String refreshToken = jwtUtil.generateRefreshToken(3L);
 
-        cookieService.setTokensInCookie(mockResponse, accessToken, refreshToken);
+        CookieDTO cookieDTO = cookieService.setTokensInCookie(accessToken, refreshToken);
+
+        mockResponse.addHeader(SET_COOKIE, cookieDTO.getAccessCookie().toString());
+        mockResponse.addHeader(SET_COOKIE, cookieDTO.getRefreshCookie().toString());
 
         Cookie test = mockResponse.getCookie("AccessToken");
         System.out.println("test:" + test);

@@ -1,5 +1,6 @@
 package com.daily.daily.auth.controller;
 
+import com.daily.daily.auth.dto.CookieDTO;
 import com.daily.daily.auth.dto.LoginDTO;
 import com.daily.daily.auth.dto.TokenDTO;
 import com.daily.daily.auth.jwt.RefreshToken;
@@ -10,6 +11,8 @@ import com.daily.daily.common.service.CookieService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
 
 @RestController
 @RequestMapping("/api")
@@ -23,7 +26,10 @@ public class AuthController {
     public SuccessResponseDTO login(@RequestBody LoginDTO loginDto, HttpServletResponse response) {
         TokenDTO tokenDto = authService.login(loginDto);
 
-        cookieService.setTokensInCookie(response, tokenDto.getAccessToken(), tokenDto.getRefreshToken());
+        CookieDTO cookieDTO = cookieService.setTokensInCookie(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
+
+        response.addHeader(SET_COOKIE, cookieDTO.getAccessCookie().toString());
+        response.addHeader(SET_COOKIE, cookieDTO.getRefreshCookie().toString());
 
         return new SuccessResponseDTO();
     }
