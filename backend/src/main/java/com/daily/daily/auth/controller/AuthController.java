@@ -1,8 +1,8 @@
 package com.daily.daily.auth.controller;
 
-import com.daily.daily.auth.dto.CookieDTO;
 import com.daily.daily.auth.dto.LoginDTO;
 import com.daily.daily.auth.dto.TokenDTO;
+import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.auth.jwt.RefreshToken;
 import com.daily.daily.auth.service.AuthService;
 import com.daily.daily.auth.service.TokenService;
@@ -10,6 +10,8 @@ import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.common.service.CookieService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpHeaders.SET_COOKIE;
@@ -23,15 +25,16 @@ public class AuthController {
     private final CookieService cookieService;
 
     @PostMapping("/login")
-    public SuccessResponseDTO login(@RequestBody LoginDTO loginDto, HttpServletResponse response) {
+    public ResponseEntity<SuccessResponseDTO> login(@RequestBody LoginDTO loginDto) {
         TokenDTO tokenDto = authService.login(loginDto);
 
-        CookieDTO cookieDTO = cookieService.setTokensInCookie(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
+        ResponseCookie accessTokenCookie = cookieService.createCookie(JwtUtil.ACCESS_TOKEN, tokenDto.getAccessToken());
+        ResponseCookie refreshTokenCookie = cookieService.createCookie(JwtUtil.REFRESH_TOKEN, tokenDto.getRefreshToken());
 
-        response.addHeader(SET_COOKIE, cookieDTO.getAccessCookie().toString());
-        response.addHeader(SET_COOKIE, cookieDTO.getRefreshCookie().toString());
-
-        return new SuccessResponseDTO();
+        return ResponseEntity.ok()
+                .header(SET_COOKIE, accessTokenCookie.toString())
+                .header(SET_COOKIE, refreshTokenCookie.toString())
+                .body(new SuccessResponseDTO());
     }
 
     @PostMapping("/logout")

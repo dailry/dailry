@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -36,10 +37,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             String accessToken = jwtUtil.generateAccessToken(oAuth2User.getMember().getId(), oAuth2User.getMember().getRole());
             String refreshToken = jwtUtil.generateRefreshToken(oAuth2User.getMember().getId());
 
-            CookieDTO cookieDTO = cookieService.setTokensInCookie(accessToken, refreshToken);
+            ResponseCookie accessTokenCookie = cookieService.createCookie(JwtUtil.ACCESS_TOKEN, accessToken);
+            ResponseCookie refreshTokenCookie = cookieService.createCookie(JwtUtil.REFRESH_TOKEN, refreshToken);
 
-            response.addHeader(SET_COOKIE, cookieDTO.getAccessCookie().toString());
-            response.addHeader(SET_COOKIE, cookieDTO.getRefreshCookie().toString());
+            response.addHeader(SET_COOKIE, accessTokenCookie.toString());
+            response.addHeader(SET_COOKIE, refreshTokenCookie.toString());
 
             response.sendRedirect(frontendDomain);
         } catch (Exception e) {

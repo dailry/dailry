@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseCookie;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -62,10 +63,11 @@ public class JwtUtilTest {
         String accessToken = jwtUtil.generateAccessToken(3L, MemberRole.ROLE_MEMBER);
         String refreshToken = jwtUtil.generateRefreshToken(3L);
 
-        CookieDTO cookieDTO = cookieService.setTokensInCookie(accessToken, refreshToken);
+        ResponseCookie accessTokenCookie = cookieService.createCookie(JwtUtil.ACCESS_TOKEN, accessToken);
+        ResponseCookie refreshTokenCookie = cookieService.createCookie(JwtUtil.REFRESH_TOKEN, refreshToken);
 
-        mockResponse.addHeader(SET_COOKIE, cookieDTO.getAccessCookie().toString());
-        mockResponse.addHeader(SET_COOKIE, cookieDTO.getRefreshCookie().toString());
+        mockResponse.addHeader(SET_COOKIE, accessTokenCookie.toString());
+        mockResponse.addHeader(SET_COOKIE, refreshTokenCookie.toString());
 
         Cookie test = mockResponse.getCookie("AccessToken");
         System.out.println("test:" + test);

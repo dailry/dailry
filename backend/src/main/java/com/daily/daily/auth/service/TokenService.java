@@ -37,7 +37,7 @@ public class TokenService {
 
         if(isAccessTokenExpired) {
             String renewAccessToken = createAccessToken(refreshToken);
-            ResponseCookie accessCookie = cookieService.createTokenCookie(ACCESS_TOKEN, renewAccessToken);
+            ResponseCookie accessCookie = cookieService.createCookie(ACCESS_TOKEN, renewAccessToken);
             response.addHeader(SET_COOKIE, accessCookie.toString());
         }
     }
