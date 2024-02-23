@@ -24,7 +24,6 @@ public class CookieService {
     public void setTokensInCookie(HttpServletResponse response, String accessToken, String refreshToken) {
         ResponseCookie accessCookie = createTokenCookie(ACCESS_TOKEN, accessToken);
         ResponseCookie refreshCookie = createTokenCookie(REFRESH_TOKEN, refreshToken);
-
         response.addHeader(SET_COOKIE, accessCookie.toString());
         response.addHeader(SET_COOKIE, refreshCookie.toString());
     }

@@ -17,13 +17,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+    private static final String ACCESS_TOKEN = "AccessToken";
+    private static final String REFRESH_TOKEN = "RefreshToken";
 
     private final MemberRepository memberRepository;
-
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
     private final CookieService cookieService;
+
     public TokenDTO login(LoginDTO loginDto) {
         String username = loginDto.getUsername();
         String password = loginDto.getPassword();
@@ -48,8 +50,8 @@ public class AuthService {
     }
 
     public void logout(HttpServletResponse response, TokenDTO tokenDto) {
-        cookieService.deleteCookie(response, "AccessToken");
-        cookieService.deleteCookie(response, "RefreshToken");
+        cookieService.deleteCookie(response, ACCESS_TOKEN);
+        cookieService.deleteCookie(response, REFRESH_TOKEN);
         refreshTokenRepository.deleteById(tokenDto.getRefreshToken());
     }
 }
