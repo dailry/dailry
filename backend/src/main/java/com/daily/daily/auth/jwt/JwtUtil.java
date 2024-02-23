@@ -6,18 +6,14 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
 import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-
-import static org.springframework.http.HttpHeaders.SET_COOKIE;
 
 
 @Component
@@ -28,8 +24,8 @@ public class JwtUtil {
     private static final String ROLE_CLAIM = "role";
     private static final String MEMBER_ID_CLAIM = "memberId";
     //subject, cookie name
-    private static final String ACCESS_TOKEN = "AccessToken";
-    private static final String REFRESH_TOKEN = "RefreshToken";
+    public static final String ACCESS_TOKEN = "AccessToken";
+    public static final String REFRESH_TOKEN = "RefreshToken";
 
     @Value("${jwt.access.expiration}")
     private long accessTokenExpiration;
@@ -102,14 +98,6 @@ public class JwtUtil {
         return new JwtClaimDTO(memberId, memberRole);
     }
 
-    public void setTokensInCookie(HttpServletResponse response, String accessToken, String refreshToken) {
-        ResponseCookie accessCookie = createTokenCookie(ACCESS_TOKEN, accessToken);
-        ResponseCookie refreshCookie = createTokenCookie(REFRESH_TOKEN, refreshToken);
-
-        response.addHeader(SET_COOKIE, accessCookie.toString());
-        response.addHeader(SET_COOKIE, refreshCookie.toString());
-    }
-
     public boolean isExpired(String token) {
         return Jwts.parser()
                 .verifyWith(secretKey)
@@ -117,15 +105,5 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload().getExpiration()
                 .before(new Date());
-    }
-
-    public ResponseCookie createTokenCookie(String cookieName, String token) {
-        return ResponseCookie.from(cookieName, token)
-                .domain(mainDomain)
-                .path("/")
-                .secure(true)
-                .httpOnly(true)
-                .sameSite("None")
-                .build();
     }
 }
