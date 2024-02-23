@@ -2,9 +2,9 @@ name: backend-prod-ci-cd
 on:
   push:
     branches:
-      - 'refactor/be/#242'
-#    paths:
-#     - 'backend/**'
+      - 'main'
+    paths:
+     - 'backend/**'
 jobs:
   build:
     runs-on: ubuntu-22.04
