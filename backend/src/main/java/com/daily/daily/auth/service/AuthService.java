@@ -6,9 +6,9 @@ import com.daily.daily.auth.exception.LoginFailureException;
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.auth.jwt.RefreshToken;
 import com.daily.daily.auth.jwt.RefreshTokenRepository;
+import com.daily.daily.common.service.CookieService;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.repository.MemberRepository;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +23,7 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final CookieService cookieService;
     public TokenDTO login(LoginDTO loginDto) {
         String username = loginDto.getUsername();
         String password = loginDto.getPassword();
@@ -47,15 +48,8 @@ public class AuthService {
     }
 
     public void logout(HttpServletResponse response, TokenDTO tokenDto) {
-        deleteCookie(response, "AccessToken");
-        deleteCookie(response, "RefreshToken");
+        cookieService.deleteCookie(response, "AccessToken");
+        cookieService.deleteCookie(response, "RefreshToken");
         refreshTokenRepository.deleteById(tokenDto.getRefreshToken());
-    }
-
-    private static void deleteCookie(HttpServletResponse response, String cookieName) {
-        Cookie cookie = new Cookie(cookieName, "");
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
     }
 }
