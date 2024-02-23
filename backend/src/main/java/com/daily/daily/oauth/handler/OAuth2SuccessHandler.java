@@ -1,6 +1,7 @@
 package com.daily.daily.oauth.handler;
 
 import com.daily.daily.auth.jwt.JwtUtil;
+import com.daily.daily.common.service.CookieService;
 import com.daily.daily.oauth.OAuth2CustomUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private String frontendDomain;
 
     private final JwtUtil jwtUtil;
+    private final CookieService cookieService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
@@ -31,7 +33,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             String accessToken = jwtUtil.generateAccessToken(oAuth2User.getMember().getId(), oAuth2User.getMember().getRole());
             String refreshToken = jwtUtil.generateRefreshToken(oAuth2User.getMember().getId());
 
-            jwtUtil.setTokensInCookie(response, accessToken, refreshToken);
+            cookieService.setTokensInCookie(response, accessToken, refreshToken);
 
             response.sendRedirect(frontendDomain);
         } catch (Exception e) {

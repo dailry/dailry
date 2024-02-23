@@ -5,6 +5,7 @@ import com.daily.daily.auth.dto.LoginDTO;
 import com.daily.daily.auth.dto.TokenDTO;
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.auth.service.AuthService;
+import com.daily.daily.common.service.CookieService;
 import com.daily.daily.member.constant.MemberRole;
 import com.daily.daily.member.controller.MemberController;
 import com.daily.daily.member.dto.JoinDTO;
@@ -44,6 +45,9 @@ public class JwtUtilTest {
     MemberController memberController;
 
     @Autowired
+    CookieService cookieService;
+
+    @Autowired
     AuthService authService;
 
     @Test
@@ -56,7 +60,7 @@ public class JwtUtilTest {
         String accessToken = jwtUtil.generateAccessToken(3L, MemberRole.ROLE_MEMBER);
         String refreshToken = jwtUtil.generateRefreshToken(3L);
 
-        jwtUtil.setTokensInCookie(mockResponse, accessToken, refreshToken);
+        cookieService.setTokensInCookie(mockResponse, accessToken, refreshToken);
 
         Cookie test = mockResponse.getCookie("AccessToken");
         System.out.println("test:" + test);
