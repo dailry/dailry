@@ -1,4 +1,5 @@
 name: backend-ci
+on: 
   pull_request:
     paths:
       - 'backend/**'
