@@ -1,42 +1,17 @@
-import * as S from './LoginPage.styled';
-import Text from '../../components/common/Text/Text';
-import Input from '../../components/common/Input/Input';
-import Button from '../../components/common/Button/Button';
-import { TEXT } from '../../styles/color';
+import { useState } from 'react';
+import FindIdForm from './FindIdForm';
+import SentId from './SentId';
+import SentPassword from './SentPassword';
 
 const FindIdPage = () => {
-  return (
-    <S.LoginContainer>
-      <S.FormWrapper>
-        <Text as={'h1'} size={24}>
-          아이디 찾기
-        </Text>
-        <Input placeholder={'이메일'} />
-        <Button onClick={() => alert('아이디를 이메일로 보냈습니다!')}>
-          아이디 찾기
-        </Button>
-      </S.FormWrapper>
-      <Text size={12} color={TEXT.purple}>
-        회원가입 | 로그인
-      </Text>
-      <S.LineWrapper>
-        <S.Line />
-        <Text size={12} color={TEXT.line}>
-          or
-        </Text>
-        <S.Line />
-      </S.LineWrapper>
-      <S.FormWrapper>
-        <Text as={'h1'} size={24}>
-          비밀번호 찾기
-        </Text>
-        <Input placeholder={'아이디'} />
-        <Input placeholder={'이메일'} />
-        <Button onClick={() => alert('비밀번호를 이메일로 보냈습니다!')}>
-          비밀번호 찾기
-        </Button>
-      </S.FormWrapper>
-    </S.LoginContainer>
+  const [userInfo, setUserInfo] = useState({});
+  if (userInfo.username) {
+    return <SentPassword email={userInfo.email} />;
+  }
+  return userInfo.email ? (
+    <SentId email={userInfo.email} />
+  ) : (
+    <FindIdForm setUserInfo={setUserInfo} />
   );
 };
 
