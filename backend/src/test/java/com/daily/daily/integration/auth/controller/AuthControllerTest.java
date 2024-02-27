@@ -98,17 +98,12 @@ class AuthControllerTest {
     void loginReturn() throws Exception  {
         String username = "testtest";
         String password = "12341234";
+
         LoginDTO loginDto = new LoginDTO();
         loginDto.setUsername(username);
         loginDto.setPassword(password);
-        TokenDTO tokenDto = authService.login(loginDto);
-
-        String accessToken = tokenDto.getAccessToken();
-        String refreshToken = tokenDto.getRefreshToken();
 
         ResultActions resultActions =  mockMvc.perform(post("/api/login")
-                        .cookie(new Cookie("AccessToken", accessToken))
-                        .cookie(new Cookie("RefreshToken", refreshToken))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginDto)))
                         .andExpect(status().isOk())

@@ -1,14 +1,13 @@
 package com.daily.daily.auth.service;
 
-import com.daily.daily.auth.exception.LoginFailureException;
 import com.daily.daily.auth.exception.TokenExpiredException;
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.auth.jwt.RefreshToken;
 import com.daily.daily.auth.jwt.RefreshTokenRepository;
+import com.daily.daily.common.service.CookieService;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.repository.MemberRepository;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +23,7 @@ public class TokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
+    private final CookieService cookieService;
 
     private static final String ACCESS_TOKEN = "AccessToken";
 
@@ -37,7 +37,7 @@ public class TokenService {
 
         if(isAccessTokenExpired) {
             String renewAccessToken = createAccessToken(refreshToken);
-            ResponseCookie accessCookie = jwtUtil.createTokenCookie(ACCESS_TOKEN, renewAccessToken);
+            ResponseCookie accessCookie = cookieService.createCookie(ACCESS_TOKEN, renewAccessToken);
             response.addHeader(SET_COOKIE, accessCookie.toString());
         }
     }

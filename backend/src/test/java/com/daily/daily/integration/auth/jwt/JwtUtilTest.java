@@ -1,10 +1,12 @@
 package com.daily.daily.integration.auth.jwt;
 
+import com.daily.daily.auth.dto.CookieDTO;
 import com.daily.daily.auth.dto.JwtClaimDTO;
 import com.daily.daily.auth.dto.LoginDTO;
 import com.daily.daily.auth.dto.TokenDTO;
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.auth.service.AuthService;
+import com.daily.daily.common.service.CookieService;
 import com.daily.daily.member.constant.MemberRole;
 import com.daily.daily.member.controller.MemberController;
 import com.daily.daily.member.dto.JoinDTO;
@@ -16,12 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseCookie;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,6 +48,9 @@ public class JwtUtilTest {
     MemberController memberController;
 
     @Autowired
+    CookieService cookieService;
+
+    @Autowired
     AuthService authService;
 
     @Test
@@ -56,7 +63,11 @@ public class JwtUtilTest {
         String accessToken = jwtUtil.generateAccessToken(3L, MemberRole.ROLE_MEMBER);
         String refreshToken = jwtUtil.generateRefreshToken(3L);
 
-        jwtUtil.setTokensInCookie(mockResponse, accessToken, refreshToken);
+        ResponseCookie accessTokenCookie = cookieService.createCookie(JwtUtil.ACCESS_TOKEN, accessToken);
+        ResponseCookie refreshTokenCookie = cookieService.createCookie(JwtUtil.REFRESH_TOKEN, refreshToken);
+
+        mockResponse.addHeader(SET_COOKIE, accessTokenCookie.toString());
+        mockResponse.addHeader(SET_COOKIE, refreshTokenCookie.toString());
 
         Cookie test = mockResponse.getCookie("AccessToken");
         System.out.println("test:" + test);
