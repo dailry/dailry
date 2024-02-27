@@ -120,10 +120,6 @@ const DailryPage = () => {
       return;
     }
 
-    if (canEditDecorateComponent) {
-      setCanEditDecorateComponent(null);
-    }
-
     if (newDecorateComponent) {
       completeCreateNewDecorateComponent();
       return;
@@ -136,22 +132,29 @@ const DailryPage = () => {
     e.stopPropagation();
     setTarget(index + 1);
 
-    if (!canEditDecorateComponent) {
-      setCanEditDecorateComponent(element);
-    }
-
-    if (canEditDecorateComponent) {
-      completeModifyDecorateComponent();
-    }
-
     if (newDecorateComponent) {
       completeCreateNewDecorateComponent();
-    }
-  };
 
-  useEffect(() => {
-    console.log(decorateComponents);
-  }, [decorateComponents]);
+      return;
+    }
+
+    if (
+      canEditDecorateComponent &&
+      canEditDecorateComponent?.id !== element.id
+    ) {
+      console.log(
+        'this is canEdit',
+        canEditDecorateComponent,
+        'this is current element',
+        element,
+        moveableRef[target],
+      );
+      completeModifyDecorateComponent();
+      moveableRef[target].style.transform = 'translate(0px, 0px)';
+    }
+
+    setCanEditDecorateComponent(element);
+  };
 
   return (
     <S.FlexWrapper>
@@ -220,6 +223,8 @@ const DailryPage = () => {
               }
               if (canEditDecorateComponent) {
                 completeModifyDecorateComponent();
+                setCanEditDecorateComponent(null);
+                moveableRef[target].style.transform = 'translate(0px, 0px)';
               }
               setSelectedTool(selectedTool === t ? null : t);
               if (t === DECORATE_TYPE.MOVING) {
@@ -227,7 +232,6 @@ const DailryPage = () => {
               } else {
                 setEditMode(EDIT_MODE.TYPE_CONTENT);
               }
-              setCanEditDecorateComponent(null);
               setTarget(null);
             };
             return (
@@ -246,9 +250,10 @@ const DailryPage = () => {
               }
               if (canEditDecorateComponent) {
                 completeModifyDecorateComponent();
+                setCanEditDecorateComponent(null);
+                moveableRef[target].style.transform = 'translate(0px, 0px)';
               }
               setSelectedTool(selectedTool === t ? null : t);
-              setCanEditDecorateComponent(null);
               setTimeout(() => {
                 setSelectedTool(null);
               }, 150);
