@@ -30,7 +30,7 @@ export const CanvasWrapper = styled.div`
   }
 `;
 
-export const ElementStyle = ({ position, order, size, rotation, canEdit }) => {
+export const ElementStyle = ({ position, order, size, canEdit }) => {
   return {
     position: 'absolute',
     left: `${position.x}px`,
@@ -39,7 +39,6 @@ export const ElementStyle = ({ position, order, size, rotation, canEdit }) => {
     height: size.height,
     zIndex: order,
     border: canEdit ? `2px dashed #74ABD9` : '',
-    transform: `rotate(${rotation})`,
   };
 };
 
