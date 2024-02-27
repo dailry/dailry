@@ -33,8 +33,8 @@ export const CanvasWrapper = styled.div`
 export const ElementStyle = ({ position, order, size, rotation, canEdit }) => {
   return {
     position: 'absolute',
-    left: position.x,
-    top: position.y,
+    left: `${position.x}px`,
+    top: `${position.y}px`,
     width: size.width,
     height: size.height,
     zIndex: order,

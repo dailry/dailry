@@ -4,23 +4,22 @@ import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
 import { toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import MoveableComponent from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import { DECORATE_TOOLS, PAGE_TOOLS } from '../../constants/toolbar';
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
 import { useDailryContext } from '../../hooks/useDailryContext';
 import { postPage, getPages } from '../../apis/dailryApi';
-import { DECORATE_TYPE } from '../../constants/decorateComponent';
+import { DECORATE_TYPE, EDIT_MODE } from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
 import TypedDecorateComponent from '../../components/decorate/TypedDecorateComponent';
 import PageListModal from '../../components/da-ily/PageListModal/PageListModal';
 import useCompleteCreation from '../../hooks/useNewDecorateComponent/useCompleteCreation';
-import useModifyDecorateComponent from '../../hooks/useModifyDecorateComponent';
-import useSetTypeContent from '../../hooks/useSetTypeContent';
+import useEditDecorateComponent from '../../hooks/useEditDecorateComponent';
 import useDecorateComponents from '../../hooks/useDecorateComponents';
 import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponents';
+import MoveableComponent from '../../components/da-ily/Moveable/Moveable';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -39,7 +38,7 @@ const DailryPage = () => {
   const {
     decorateComponents,
     addNewDecorateComponent,
-    modifyDecorateComponentTypeContent,
+    modifyDecorateComponent,
   } = useDecorateComponents();
 
   const {
@@ -49,7 +48,7 @@ const DailryPage = () => {
     setNewDecorateComponentTypeContent,
   } = useNewDecorateComponent(decorateComponents, pageRef);
 
-  const { setIsOtherActionTriggered } = useCompleteCreation(
+  const { completeCreateNewDecorateComponent } = useCompleteCreation(
     newDecorateComponent,
     addNewDecorateComponent,
     removeNewDecorateComponent,
@@ -57,22 +56,19 @@ const DailryPage = () => {
   );
 
   const {
+    editMode,
+    setEditMode,
     canEditDecorateComponent,
     setCanEditDecorateComponent,
     setCanEditDecorateComponentTypeContent,
-  } = useModifyDecorateComponent(
-    modifyDecorateComponentTypeContent,
+    setCanEditDecorateComponentCommonProperty,
+    completeModifyDecorateComponent,
+  } = useEditDecorateComponent(
+    modifyDecorateComponent,
     modifyUpdatedDecorateComponent,
   );
 
-  const { setNewTypeContent } = useSetTypeContent(
-    selectedTool,
-    newDecorateComponent,
-    setNewDecorateComponentTypeContent,
-    setCanEditDecorateComponentTypeContent,
-  );
-
-  const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
+  const isMoveable = () => target && editMode === EDIT_MODE.COMMON_PROPERTY;
 
   const { dailryId, pageId } = currentDailry;
 
@@ -120,7 +116,7 @@ const DailryPage = () => {
   };
 
   const handleClickPage = (e) => {
-    if (selectedTool === null || selectedTool === DECORATE_TYPE.MOVING) {
+    if (selectedTool === null || editMode === EDIT_MODE.COMMON_PROPERTY) {
       return;
     }
 
@@ -129,21 +125,33 @@ const DailryPage = () => {
     }
 
     if (newDecorateComponent) {
-      setIsOtherActionTriggered((prev) => !prev);
+      completeCreateNewDecorateComponent();
       return;
     }
 
     createNewDecorateComponent(e, selectedTool);
   };
 
-  const handleClickDecorate = (e, index) => {
+  const handleClickDecorate = (e, index, element) => {
     e.stopPropagation();
     setTarget(index + 1);
 
+    if (!canEditDecorateComponent) {
+      setCanEditDecorateComponent(element);
+    }
+
+    if (canEditDecorateComponent) {
+      completeModifyDecorateComponent();
+    }
+
     if (newDecorateComponent) {
-      setIsOtherActionTriggered((prev) => !prev);
+      completeCreateNewDecorateComponent();
     }
   };
+
+  useEffect(() => {
+    console.log(decorateComponents);
+  }, [decorateComponents]);
 
   return (
     <S.FlexWrapper>
@@ -156,17 +164,13 @@ const DailryPage = () => {
       <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
         {decorateComponents?.map((element, index) => {
           const canEdit =
-            selectedTool !== DECORATE_TYPE.MOVING &&
+            editMode === EDIT_MODE.TYPE_CONTENT &&
             element.type === selectedTool &&
             canEditDecorateComponent?.id === element.id;
           return (
             <DecorateWrapper
               key={element.id}
               onMouseDown={(e) => handleClickDecorate(e, index, element)}
-              onMouseUp={() => {
-                if (selectedTool !== DECORATE_TYPE.MOVING)
-                  setCanEditDecorateComponent(element);
-              }}
               setTarget={setTarget}
               index={index}
               canEdit={canEdit}
@@ -179,7 +183,7 @@ const DailryPage = () => {
                 type={element.type}
                 typeContent={element.typeContent}
                 canEdit={canEdit}
-                setTypeContent={setNewTypeContent}
+                setTypeContent={setCanEditDecorateComponentTypeContent}
               />
             </DecorateWrapper>
           );
@@ -196,21 +200,35 @@ const DailryPage = () => {
             <TypedDecorateComponent
               type={newDecorateComponent.type}
               canEdit
-              setTypeContent={setNewTypeContent}
+              setTypeContent={setNewDecorateComponentTypeContent}
             />
           </DecorateWrapper>
         )}
-        {isMoveable() && <MoveableComponent target={moveableRef[target]} />}
+        {isMoveable() && (
+          <MoveableComponent
+            target={moveableRef[target]}
+            setCommonProperty={setCanEditDecorateComponentCommonProperty}
+          />
+        )}
       </S.CanvasWrapper>
       <S.SideWrapper>
         <S.ToolWrapper>
           {DECORATE_TOOLS.map(({ icon, type }, index) => {
             const onSelect = (t) => {
               if (newDecorateComponent) {
-                setIsOtherActionTriggered((prev) => !prev);
+                completeCreateNewDecorateComponent();
+              }
+              if (canEditDecorateComponent) {
+                completeModifyDecorateComponent();
               }
               setSelectedTool(selectedTool === t ? null : t);
-              setCanEditDecorateComponent(undefined);
+              if (t === DECORATE_TYPE.MOVING) {
+                setEditMode(EDIT_MODE.COMMON_PROPERTY);
+              } else {
+                setEditMode(EDIT_MODE.TYPE_CONTENT);
+              }
+              setCanEditDecorateComponent(null);
+              setTarget(null);
             };
             return (
               <ToolButton
@@ -224,7 +242,10 @@ const DailryPage = () => {
           {PAGE_TOOLS.map(({ icon, type }, index) => {
             const onSelect = (t) => {
               if (newDecorateComponent) {
-                setIsOtherActionTriggered((prev) => !prev);
+                completeCreateNewDecorateComponent();
+              }
+              if (canEditDecorateComponent) {
+                completeModifyDecorateComponent();
               }
               setSelectedTool(selectedTool === t ? null : t);
               setCanEditDecorateComponent(null);
