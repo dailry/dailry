@@ -9,7 +9,7 @@ const FindIdPage = () => {
     return <SentPassword email={userInfo.email} />;
   }
   return userInfo.email ? (
-    <SentId email={userInfo.email} />
+    <SentId email={userInfo.email} setUserInfo={setUserInfo} />
   ) : (
     <FindIdForm setUserInfo={setUserInfo} />
   );
