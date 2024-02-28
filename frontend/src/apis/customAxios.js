@@ -5,6 +5,7 @@ const customAxios = axios.create({
   headers: {
     Authorization: '',
   },
+  withCredentials: true,
 });
 
 customAxios.defaults.headers.post['Content-Type'] =
