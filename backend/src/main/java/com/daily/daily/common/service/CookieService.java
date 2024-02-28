@@ -17,7 +17,7 @@ public class CookieService {
     @Value("${app.properties.mainDomain}")
     private String mainDomain;
 
-    @Value("${app.properties.cookie.sameSite}")
+    @Value("${app.properties.cookie.sameSite: Strict}")
     private String sameSite;
 
     public ResponseCookie createCookie(String cookieName, String cookieValue) {
