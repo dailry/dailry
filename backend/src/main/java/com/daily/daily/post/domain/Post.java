@@ -11,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Transient;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -39,7 +38,6 @@ public class Post extends BaseTimeEntity {
     @Builder.Default
     private List<PostHashtag> postHashtags = new ArrayList<>();
 
-    @Transient
     private Long likeCount;
 
     @Builder
@@ -58,10 +56,6 @@ public class Post extends BaseTimeEntity {
 
     public void updateContent(String content) {
         this.content = content;
-    }
-
-    public void setLikeCount(Long likeCount) {
-        this.likeCount = likeCount;
     }
 
     public void addPostHashtag(PostHashtag postHashtag) {

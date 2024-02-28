@@ -20,11 +20,8 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
 
     private final JPAQueryFactory queryFactory;
 
-    private final EntityManager em;
-
     @Override
-    public Slice<Post> find(Pageable pageable) {
-        List<Long> likeCounts = getLikeCounts(pageable);
+    public Slice<Post> findSlice(Pageable pageable) {
         List<Post> posts = queryFactory
                 .selectFrom(post)
                 .leftJoin(post.postWriter, member).fetchJoin()
@@ -39,23 +36,6 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
             posts.remove(posts.size() - 1); // 마지막 항목 제거
         }
 
-        for (int i = 0; i < posts.size(); i++) {
-            posts.get(i).setLikeCount(likeCounts.get(i));
-        }
-
         return new SliceImpl<>(posts ,pageable, hasNext);
-    }
-
-    private List<Long> getLikeCounts(Pageable pageable) {
-        return em.createNativeQuery(
-                        "SELECT COUNT(post_like.id) " +
-                                "FROM post " +
-                                "LEFT JOIN post_like ON post.id = post_like.post_id " +
-                                "GROUP BY post.id " +
-                                "ORDER BY post.id DESC " +
-                                "LIMIT :pageSize OFFSET :offset", Long.class)
-                .setParameter("pageSize", pageable.getPageSize())
-                .setParameter("offset", pageable.getOffset())
-                .getResultList();
     }
 }
