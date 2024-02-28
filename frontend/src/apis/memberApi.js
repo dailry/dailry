@@ -62,10 +62,35 @@ export const getCheckNickName = async (nickName) => {
   }
 };
 
+export const postEmailVerificationRequest = async (email) => {
+  try {
+    console.log(email);
+    return await customAxios.post('/members/email-verification/request', {
+      email,
+    });
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
+export const postEmailVerificationConfirm = async (confirmData) => {
+  try {
+    const { email, certificationNumber } = confirmData;
+    return await customAxios.post('/members/email-verification/confirm', {
+      email,
+      certificationNumber,
+    });
+  } catch (e) {
+    return e.response.data;
+  }
+};
+
 export const postRecoverUsername = async (email) => {
   try {
     return await customAxios.post(`/members/recover-username`, { email });
   } catch (e) {
+    console.error(e);
     return e.response.data;
   }
 };
