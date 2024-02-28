@@ -30,7 +30,7 @@ const FindIdForm = (props) => {
 
   const handleFindIdSubmit = async (e) => {
     e.preventDefault();
-    const response = await postRecoverUsername({ email: findIdEmail });
+    const response = await postRecoverUsername(findIdEmail);
     const { status } = await response;
     if (status === 200) {
       return setUserInfo({ email: findIdEmail });
