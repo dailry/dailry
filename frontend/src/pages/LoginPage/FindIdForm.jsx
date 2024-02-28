@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import * as S from './LoginPage.styled';
 import Text from '../../components/common/Text/Text';
@@ -109,6 +110,10 @@ const FindIdForm = (props) => {
       </S.FormWrapper>
     </S.LoginContainer>
   );
+};
+
+FindIdForm.propTypes = {
+  setUserInfo: PropTypes.func,
 };
 
 export default FindIdForm;
