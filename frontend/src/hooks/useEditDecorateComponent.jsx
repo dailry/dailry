@@ -10,6 +10,13 @@ const useEditDecorateComponent = (
 
   const [editMode, setEditMode] = useState('');
 
+  const isTypeContentEdited =
+    editMode === EDIT_MODE.TYPE_CONTENT &&
+    canEditDecorateComponent?.typeContent &&
+    Object.values(canEditDecorateComponent?.typeContent).every(
+      (v) => v !== null,
+    );
+
   const setCanEditDecorateComponentTypeContent = (newTypeContent) => {
     setCanEditDecorateComponent((prev) => ({
       ...prev,
@@ -43,13 +50,7 @@ const useEditDecorateComponent = (
       return;
     }
 
-    if (
-      editMode === EDIT_MODE.TYPE_CONTENT &&
-      canEditDecorateComponent?.typeContent &&
-      Object.values(canEditDecorateComponent?.typeContent).every(
-        (v) => v !== null,
-      )
-    ) {
+    if (isTypeContentEdited) {
       completeModifyDecorateComponent();
     }
   }, [canEditDecorateComponent]);
