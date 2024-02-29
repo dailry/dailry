@@ -4,6 +4,7 @@ import com.daily.daily.common.config.QuerydslConfig;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.domain.PostLike;
+import com.daily.daily.testutil.config.JpaTest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -13,9 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 
-@DataJpaTest
-@Import(QuerydslConfig.class)
-class PostLikeRepositoryTest {
+class PostLikeRepositoryTest extends JpaTest {
 
     @Autowired
     PostLikeRepository likeRepository;

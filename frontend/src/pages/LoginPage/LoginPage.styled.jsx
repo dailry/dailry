@@ -1,4 +1,5 @@
 import { css, styled } from 'styled-components';
+import { Link } from 'react-router-dom';
 import { TEXT, LOGIN } from '../../styles/color';
 
 export const LoginContainer = styled.div`
@@ -9,12 +10,23 @@ export const LoginContainer = styled.div`
   gap: 25px;
 `;
 
-export const FormWrapper = styled.div`
+export const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 8px;
+`;
+
+export const LinkContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+`;
+
+export const LinkWrapper = styled(Link)`
+  color: ${TEXT.purple};
+  font-size: 12px;
 `;
 
 export const LineWrapper = styled.div`
