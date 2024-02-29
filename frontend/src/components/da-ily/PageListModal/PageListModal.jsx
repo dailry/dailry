@@ -19,7 +19,7 @@ const PageListModal = (props) => {
         deletePage(pageId);
       }
     });
-    setCurrentDailry({ ...currentDailry, pageId: 1 });
+    setCurrentDailry({ ...currentDailry, pageNumber: 1 });
   };
 
   const selectPage = ({ pageId, pageNumber }) => {

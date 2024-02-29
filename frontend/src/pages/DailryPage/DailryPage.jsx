@@ -74,11 +74,14 @@ const DailryPage = () => {
 
   const isMoveable = () => target && selectedTool === DECORATE_TYPE.MOVING;
 
-  const { dailryId, pageId } = currentDailry;
+  const { dailryId, pageId, pageNumber } = currentDailry;
 
   useEffect(() => {
-    getPages(dailryId).then((response) => setPageList(response.data.pages));
-  }, [dailryId, pageId, showPageModal]);
+    (async () => {
+      const response = await getPages(dailryId);
+      setPageList(await response.data.pages);
+    })();
+  }, [dailryId, pageNumber, showPageModal]);
 
   const toastify = (message) => {
     toast(message, {
@@ -91,19 +94,19 @@ const DailryPage = () => {
   };
 
   const handleLeftArrowClick = () => {
-    if (pageId === 1) {
+    if (pageNumber === 1) {
       toastify('첫 번째 페이지입니다');
       return;
     }
-    setCurrentDailry({ dailryId, pageId: pageId - 1 });
+    setCurrentDailry({ ...currentDailry, pageNumber: pageNumber - 1 });
   };
 
   const handleRightArrowClick = () => {
-    if (pageList.length === pageId) {
+    if (pageList.length === pageNumber) {
       toastify('마지막 페이지입니다');
       return;
     }
-    setCurrentDailry({ dailryId, pageId: pageId + 1 });
+    setCurrentDailry({ ...currentDailry, pageNumber: pageNumber + 1 });
   };
 
   const handleDownloadClick = async () => {
@@ -222,7 +225,7 @@ const DailryPage = () => {
             );
           })}
           {PAGE_TOOLS.map(({ icon, type }, index) => {
-            const onSelect = (t) => {
+            const onSelect = async (t) => {
               if (newDecorateComponent) {
                 setIsOtherActionTriggered((prev) => !prev);
               }
@@ -232,12 +235,16 @@ const DailryPage = () => {
                 setSelectedTool(null);
               }, 150);
               if (t === 'add') {
-                postPage(dailryId).then((response) =>
-                  setCurrentDailry({ dailryId, pageId: response.data.pageId }),
-                );
+                const response = await postPage(dailryId);
+                console.log(response);
+                setCurrentDailry({
+                  ...currentDailry,
+                  pageId: response.data.pageId,
+                  pageNumber: response.data.pageNumber,
+                });
               }
               if (t === 'download') {
-                handleDownloadClick();
+                await handleDownloadClick();
               }
             };
             return (
@@ -255,7 +262,7 @@ const DailryPage = () => {
             <LeftArrowIcon />
           </S.ArrowButton>
           <S.NumberButton onClick={() => setShowPageModal(true)}>
-            {pageId}
+            {pageNumber}
           </S.NumberButton>
           <S.ArrowButton direction={'right'} onClick={handleRightArrowClick}>
             <RightArrowIcon />

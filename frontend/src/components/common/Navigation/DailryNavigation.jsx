@@ -5,7 +5,12 @@ import Text from '../Text/Text';
 import NavigationItem from '../NavigationItem/NavigationItem';
 import NavigationInput from '../NavigationItem/NavigationInput';
 import { NavigationItemIcon } from '../../../assets/svg';
-import { getDailry, postDailry } from '../../../apis/dailryApi';
+import {
+  getDailry,
+  getPages,
+  postDailry,
+  postPage,
+} from '../../../apis/dailryApi';
 import { useDailryContext } from '../../../hooks/useDailryContext';
 import DailryHamburger from '../Hamburger/DailryHamburger';
 
@@ -21,8 +26,11 @@ const DailryNavigation = () => {
     })();
   }, [editingDailry]);
 
-  const handleItemClick = (dailryId) => {
-    setCurrentDailry({ dailryId, pageId: 1 });
+  const handleItemClick = async (dailryId) => {
+    const response = await getPages(dailryId);
+    const pageIds = response.data.pages.map(({ pageId }) => pageId);
+    pageIds.unshift(0);
+    setCurrentDailry({ dailryId, pageNumber: 1, pageIds });
   };
 
   const isCurrent = (id) => {
@@ -33,6 +41,7 @@ const DailryNavigation = () => {
     const response = await postDailry({ title: '새 다일리' });
     const { dailryId } = await response.data;
     setEditingDailry(dailryId);
+    await postPage(dailryId);
   };
 
   return (
