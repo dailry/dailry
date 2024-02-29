@@ -5,6 +5,7 @@ import com.daily.daily.member.constant.MemberRole;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.validator.Nickname;
 import com.daily.daily.oauth.constant.SocialType;
+import com.daily.daily.testutil.config.JpaTest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,9 +22,7 @@ import java.util.NoSuchElementException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
-@Import(QuerydslConfig.class)
-class MemberRepositoryTest {
+class MemberRepositoryTest extends JpaTest {
 
     static final String TEST_USERNAME = "geonwoo123";
     static final String TEST_NICKNAME = "다일리123";
