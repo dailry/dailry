@@ -12,6 +12,7 @@ import com.daily.daily.post.repository.PostLikeRepository;
 import com.daily.daily.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -28,7 +29,8 @@ public class PostLikeService {
         }
 
         Member findMember = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
-        Post findPost = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+//        Post findPost = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        Post findPost = postRepository.findWithPessimisticLock(postId).orElseThrow(PostNotFoundException::new);
 
         PostLike like = PostLike.builder()
                 .member(findMember)
@@ -36,6 +38,9 @@ public class PostLikeService {
                 .build();
 
         likeRepository.save(like);
+
+//        postRepository.increaseLikeCount(postId);
+        findPost.increaseLikeCount();
     }
 
     public void decreaseLikeCount(Long memberId, Long postId) {
