@@ -19,9 +19,8 @@ public class DailryPageGenerator {
         List<DailryPage> dailryPages = new ArrayList<>();
         
         for (int i = 1; i <= count; i++) {
-            dailryPages.add(dailryPageRepository.save(
-                    DailryPage.builder().dailry(dailry).build())
-            );
+            DailryPage dailryPage = DailryPage.builder().dailry(dailry).build();
+            dailryPages.add(dailryPageRepository.save(dailryPage));
         }
 
         return dailryPages;
