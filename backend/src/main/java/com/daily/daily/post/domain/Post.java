@@ -38,7 +38,7 @@ public class Post extends BaseTimeEntity {
     @Builder.Default
     private List<PostHashtag> postHashtags = new ArrayList<>();
 
-    private Long likeCount;
+    private long likeCount;
 
     @Builder
     public Post(String content, String pageImage, Member postWriter) {
@@ -85,4 +85,11 @@ public class Post extends BaseTimeEntity {
         return postWriter.getNickname();
     }
 
+    public void increaseLikeCount() {
+        likeCount++;
+    }
+
+    public void decreaseLikeCount() {
+        likeCount--;
+    }
 }
