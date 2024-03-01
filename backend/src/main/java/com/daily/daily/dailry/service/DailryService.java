@@ -7,6 +7,7 @@ import com.daily.daily.dailry.dto.DailryFindDTO;
 import com.daily.daily.dailry.dto.DailryUpdateDTO;
 import com.daily.daily.dailry.exception.DailryNotFoundException;
 import com.daily.daily.dailry.repository.DailryRepository;
+import com.daily.daily.dailrypage.repository.DailryPageRepository;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.repository.MemberRepository;
@@ -23,6 +24,7 @@ public class DailryService {
 
     private final DailryRepository dailryRepository;
     private final MemberRepository memberRepository;
+    private final DailryPageRepository dailryPageRepository;
 
     public DailryDTO create(Long memberId, DailryUpdateDTO dailryUpdateDTO) {
         Member member = memberRepository.findById(memberId)
@@ -71,6 +73,8 @@ public class DailryService {
         if (!dailry.belongsTo(memberId)) {
             throw new UnauthorizedAccessException();
         }
+
+        dailryPageRepository.deleteByDailry_Id(dailryId);
         dailryRepository.deleteById(dailryId);
     }
 
