@@ -18,6 +18,7 @@ public class DailryPageCreateResponseDTO {
                 .dailryId(dailryPage.getDailry().getId())
                 .pageId(dailryPage.getId())
                 .background(dailryPage.getBackground())
+                .pageNumber(Long.valueOf(dailryPage.getPageNumber()))
                 .build();
     }
 }
