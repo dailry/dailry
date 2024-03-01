@@ -6,6 +6,5 @@ import org.springframework.data.domain.Slice;
 
 public interface PostRepositoryQuerydsl {
 
-    Slice<Post> find(Pageable pageable);
-
+    Slice<Post> findSlice(Pageable pageable);
 }

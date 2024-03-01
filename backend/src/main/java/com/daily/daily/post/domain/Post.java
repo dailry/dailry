@@ -11,9 +11,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,10 @@ public class Post extends BaseTimeEntity {
     @Builder.Default
     private List<PostHashtag> postHashtags = new ArrayList<>();
 
-    @Transient
-    private Long likeCount;
+    private long likeCount;
+
+    @Version
+    private Long version;
 
     @Builder
     public Post(String content, String pageImage, Member postWriter) {
@@ -58,10 +61,6 @@ public class Post extends BaseTimeEntity {
 
     public void updateContent(String content) {
         this.content = content;
-    }
-
-    public void setLikeCount(Long likeCount) {
-        this.likeCount = likeCount;
     }
 
     public void addPostHashtag(PostHashtag postHashtag) {
@@ -91,4 +90,11 @@ public class Post extends BaseTimeEntity {
         return postWriter.getNickname();
     }
 
+    public void increaseLikeCount() {
+        likeCount++;
+    }
+
+    public void decreaseLikeCount() {
+        likeCount--;
+    }
 }
