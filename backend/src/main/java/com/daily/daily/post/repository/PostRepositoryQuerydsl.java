@@ -7,4 +7,5 @@ import org.springframework.data.domain.Slice;
 public interface PostRepositoryQuerydsl {
 
     Slice<Post> findSlice(Pageable pageable);
+    void deletePostAndRelatedEntities(Long postId);
 }
