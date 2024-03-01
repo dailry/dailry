@@ -2,7 +2,6 @@ package com.daily.daily.post.repository;
 
 import com.daily.daily.post.domain.Post;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -13,6 +12,9 @@ import java.util.List;
 
 import static com.daily.daily.member.domain.QMember.member;
 import static com.daily.daily.post.domain.QPost.post;
+import static com.daily.daily.post.domain.QPostHashtag.postHashtag;
+import static com.daily.daily.post.domain.QPostLike.postLike;
+import static com.daily.daily.postcomment.domain.QPostComment.postComment;
 
 @Repository
 @RequiredArgsConstructor
@@ -37,5 +39,17 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
         }
 
         return new SliceImpl<>(posts ,pageable, hasNext);
+    }
+
+    @Override
+    public void deletePostAndRelatedEntities(Long postId) {
+        queryFactory.delete(postLike)
+                .where(postLike.post.id.eq(postId)).execute();
+        queryFactory.delete(postHashtag)
+                .where(postHashtag.post.id.eq(postId)).execute();
+        queryFactory.delete(postComment)
+                .where(postComment.post.id.eq(postId)).execute();
+        queryFactory.delete(post)
+                .where(post.id.eq(postId)).execute();
     }
 }

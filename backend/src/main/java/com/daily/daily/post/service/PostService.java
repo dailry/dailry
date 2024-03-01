@@ -11,7 +11,6 @@ import com.daily.daily.post.dto.PostReadSliceResponseDTO;
 import com.daily.daily.post.dto.PostWriteRequestDTO;
 import com.daily.daily.post.dto.PostWriteResponseDTO;
 import com.daily.daily.post.exception.PostNotFoundException;
-import com.daily.daily.post.repository.PostLikeRepository;
 import com.daily.daily.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -87,7 +86,8 @@ public class PostService {
     public void delete(Long memberId, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         validateAuthorityToPost(post, memberId);
-        postRepository.deleteById(postId);
+
+        postRepository.deletePostAndRelatedEntities(postId);
     }
 
 
