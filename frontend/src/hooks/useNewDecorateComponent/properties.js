@@ -6,8 +6,8 @@ export const commonDecorateComponentProperties = {
     height: 'auto',
   },
   position: {
-    x: null,
-    y: null,
+    x: 0,
+    y: 0,
   },
   rotation: '0deg',
 };
