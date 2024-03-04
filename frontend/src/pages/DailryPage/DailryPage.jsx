@@ -6,6 +6,7 @@ import { toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Moveable from '../../components/da-ily/Moveable/Moveable';
 import * as S from './DailryPage.styled';
+import Text from '../../components/common/Text/Text';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import { DECORATE_TOOLS, PAGE_TOOLS } from '../../constants/toolbar';
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
@@ -21,6 +22,7 @@ import useModifyDecorateComponent from '../../hooks/useModifyDecorateComponent';
 import useSetTypeContent from '../../hooks/useSetTypeContent';
 import useDecorateComponents from '../../hooks/useDecorateComponents';
 import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponents';
+import { TEXT } from '../../styles/color';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -31,6 +33,7 @@ const DailryPage = () => {
   const [selectedTool, setSelectedTool] = useState(null);
   const [showPageModal, setShowPageModal] = useState(false);
   const [pageList, setPageList] = useState(null);
+  const [havePage, setHavePage] = useState(true);
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
   const { addUpdatedDecorateComponent, modifyUpdatedDecorateComponent } =
@@ -78,8 +81,17 @@ const DailryPage = () => {
 
   useEffect(() => {
     (async () => {
+      setHavePage(true);
       const response = await getPages(dailryId);
-      setPageList(await response.data.pages);
+      if (response.status === 200) {
+        setPageList(response.data.pages);
+        if (response.data.pages.length === 0) {
+          setCurrentDailry({ ...currentDailry, pageNumber: null });
+          setHavePage(false);
+        }
+      } else {
+        setHavePage(false);
+      }
     })();
   }, [dailryId, pageNumber, showPageModal]);
 
@@ -114,7 +126,7 @@ const DailryPage = () => {
       const pageImg = await html2canvas(pageRef.current);
       pageImg.toBlob((blob) => {
         if (blob !== null) {
-          saveAs(blob, `${dailryId}_${pageId}.png`);
+          saveAs(blob, `dailry${dailryId}_${pageId}.png`);
         }
       });
     } catch (e) {
@@ -156,55 +168,63 @@ const DailryPage = () => {
           onClose={() => setShowPageModal(false)}
         />
       )}
-      <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
-        {decorateComponents?.map((element, index) => {
-          const canEdit =
-            selectedTool !== DECORATE_TYPE.MOVING &&
-            element.type === selectedTool &&
-            canEditDecorateComponent?.id === element.id;
-          return (
+      {havePage ? (
+        <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
+          {decorateComponents?.map((element, index) => {
+            const canEdit =
+              selectedTool !== DECORATE_TYPE.MOVING &&
+              element.type === selectedTool &&
+              canEditDecorateComponent?.id === element.id;
+            return (
+              <DecorateWrapper
+                key={element.id}
+                onMouseDown={(e) => handleClickDecorate(e, index, element)}
+                onMouseUp={() => {
+                  if (selectedTool !== DECORATE_TYPE.MOVING)
+                    setCanEditDecorateComponent(element);
+                }}
+                setTarget={setTarget}
+                index={index}
+                canEdit={canEdit}
+                ref={(el) => {
+                  moveableRef[index + 1] = el;
+                }}
+                {...element}
+              >
+                <TypedDecorateComponent
+                  type={element.type}
+                  typeContent={element.typeContent}
+                  canEdit={canEdit}
+                  setTypeContent={setNewTypeContent}
+                />
+              </DecorateWrapper>
+            );
+          })}
+
+          {newDecorateComponent && (
             <DecorateWrapper
-              key={element.id}
-              onMouseDown={(e) => handleClickDecorate(e, index, element)}
-              onMouseUp={() => {
-                if (selectedTool !== DECORATE_TYPE.MOVING)
-                  setCanEditDecorateComponent(element);
+              onMouseDown={(e) => {
+                e.stopPropagation();
               }}
-              setTarget={setTarget}
-              index={index}
-              canEdit={canEdit}
-              ref={(el) => {
-                moveableRef[index + 1] = el;
-              }}
-              {...element}
+              canEdit
+              {...newDecorateComponent}
             >
               <TypedDecorateComponent
-                type={element.type}
-                typeContent={element.typeContent}
-                canEdit={canEdit}
+                type={newDecorateComponent.type}
+                canEdit
                 setTypeContent={setNewTypeContent}
               />
             </DecorateWrapper>
-          );
-        })}
-
-        {newDecorateComponent && (
-          <DecorateWrapper
-            onMouseDown={(e) => {
-              e.stopPropagation();
-            }}
-            canEdit
-            {...newDecorateComponent}
-          >
-            <TypedDecorateComponent
-              type={newDecorateComponent.type}
-              canEdit
-              setTypeContent={setNewTypeContent}
-            />
-          </DecorateWrapper>
-        )}
-        {isMoveable() && <Moveable target={moveableRef[target]} />}
-      </S.CanvasWrapper>
+          )}
+          {isMoveable() && <Moveable target={moveableRef[target]} />}
+        </S.CanvasWrapper>
+      ) : (
+        <S.NoCanvas>
+          <Text size={30} weight={1000} color={TEXT.disabled}>
+            다일리 또는 페이지를 만들어주세요
+          </Text>
+        </S.NoCanvas>
+      )}
       <S.SideWrapper>
         <S.ToolWrapper>
           {DECORATE_TOOLS.map(({ icon, type }, index) => {
