@@ -11,7 +11,6 @@ import com.daily.daily.post.dto.PostReadSliceResponseDTO;
 import com.daily.daily.post.dto.PostWriteRequestDTO;
 import com.daily.daily.post.dto.PostWriteResponseDTO;
 import com.daily.daily.post.exception.PostNotFoundException;
-import com.daily.daily.post.repository.PostLikeRepository;
 import com.daily.daily.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -33,8 +32,6 @@ public class PostService {
     private final PostRepository postRepository;
 
     private final MemberRepository memberRepository;
-
-    private final PostLikeRepository likeRepository;
 
     private final S3StorageService storageService;
 
@@ -78,24 +75,19 @@ public class PostService {
 
     public PostReadResponseDTO find(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        Long likeCount = likeRepository.countByPost(post);
-
-        return PostReadResponseDTO.from(post, likeCount);
+        return PostReadResponseDTO.from(post);
     }
 
     public PostReadSliceResponseDTO findSlice(Pageable pageable) {
-        Slice<Post> posts = postRepository.find(pageable);
-
+        Slice<Post> posts = postRepository.findSlice(pageable);
         return PostReadSliceResponseDTO.from(posts);
     }
 
     public void delete(Long memberId, Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(PostNotFoundException::new);
-
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         validateAuthorityToPost(post, memberId);
 
-        postRepository.deleteById(postId);
+        postRepository.deletePostAndRelatedEntities(postId);
     }
 
 

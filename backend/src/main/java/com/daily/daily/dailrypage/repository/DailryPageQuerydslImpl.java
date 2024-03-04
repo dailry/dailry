@@ -24,6 +24,7 @@ public class DailryPageQuerydslImpl implements DailryPageQuerydsl {
                         dailryPage.pageNumber,
                         dailryPage.thumbnail))
                 .from(dailryPage)
+                .where(dailryPage.dailry.id.eq(dailryId))
                 .fetch();
     }
 }

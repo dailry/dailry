@@ -7,7 +7,7 @@ const useDecorateComponents = () => {
     setDecorateComponents((prev) => prev.concat(newDecorateComponent));
   };
 
-  const modifyDecorateComponentTypeContent = (modifiedDecorateComponent) => {
+  const modifyDecorateComponent = (modifiedDecorateComponent) => {
     setDecorateComponents((prev) =>
       prev.map((decorateComponent) => {
         return decorateComponent.id === modifiedDecorateComponent.id
@@ -20,7 +20,7 @@ const useDecorateComponents = () => {
   return {
     decorateComponents,
     addNewDecorateComponent,
-    modifyDecorateComponentTypeContent,
+    modifyDecorateComponent,
   };
 };
 

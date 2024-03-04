@@ -5,7 +5,7 @@ import com.daily.daily.member.repository.MemberRepository;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.domain.PostLike;
 import com.daily.daily.post.exception.AlreadyLikeException;
-import com.daily.daily.post.exception.LikeDecreaseNotAllowedException;
+import com.daily.daily.post.exception.NotPreviouslyLikedException;
 import com.daily.daily.post.repository.PostLikeRepository;
 import com.daily.daily.post.repository.PostRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -95,7 +95,7 @@ class PostLikeServiceTest {
 
             //when
             assertThatThrownBy(() -> postLikeService.decreaseLikeCount(any(Long.class), any(Long.class)))
-                    .isInstanceOf(LikeDecreaseNotAllowedException.class);
+                    .isInstanceOf(NotPreviouslyLikedException.class);
         }
     }
 

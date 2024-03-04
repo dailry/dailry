@@ -18,10 +18,14 @@ public class Member extends BaseTimeEntity {
     private String password;
     private String nickname;
     private String email;
-    @Enumerated(EnumType.STRING)
-    private MemberRole role;
     private String socialId;
+
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum")
+    private MemberRole role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum")
     private SocialType socialType;
 
     @Builder

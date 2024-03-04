@@ -46,16 +46,15 @@ export const NoCanvas = styled.div`
   }
 `;
 
-export const ElementStyle = ({ position, order, size, rotation, canEdit }) => {
+export const ElementStyle = ({ position, order, size, canEdit }) => {
   return {
     position: 'absolute',
-    left: position.x,
-    top: position.y,
-    width: size.width,
-    height: size.height,
+    left: `${position.x}px`,
+    top: `${position.y}px`,
+    width: `${size.width}px`,
+    height: `${size.height}px`,
     zIndex: order,
     border: canEdit ? `2px dashed #74ABD9` : '',
-    transform: `rotate(${rotation})`,
   };
 };
 
