@@ -2,7 +2,14 @@ package com.daily.daily.member.controller;
 
 import com.daily.daily.auth.jwt.JwtAuthorizationFilter;
 import com.daily.daily.auth.jwt.JwtUtil;
-import com.daily.daily.member.dto.*;
+import com.daily.daily.member.dto.EmailDTO;
+import com.daily.daily.member.dto.EmailVerifyDTO;
+import com.daily.daily.member.dto.JoinDTO;
+import com.daily.daily.member.dto.MemberInfoDTO;
+import com.daily.daily.member.dto.NicknameDTO;
+import com.daily.daily.member.dto.PasswordRecoverDTO;
+import com.daily.daily.member.dto.PasswordTokenDTO;
+import com.daily.daily.member.dto.PasswordUpdateDTO;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
 import com.daily.daily.member.service.MemberEmailService;
 import com.daily.daily.member.service.MemberService;
@@ -15,7 +22,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,22 +30,23 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.nio.charset.StandardCharsets;
 
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
-import static com.daily.daily.testutil.mockmvc.MockMvcConstant.AccessToken;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 
 @WebMvcTest(value = MemberController.class, excludeFilters = {
@@ -139,7 +146,6 @@ class MemberControllerTest {
 
         //when
         ResultActions actions = mockMvc.perform(get("/api/members")
-                .header(AUTHORIZATION, AccessToken)
                 .with(csrf().asHeader())
         );
 
@@ -272,7 +278,6 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(patch("/api/members/nickname")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(nicknameDTO))
-                .header(AUTHORIZATION, AccessToken)
                 .with(csrf().asHeader())
         );
         //then
@@ -309,7 +314,6 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(patch("/api/members/password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(passwordUpdateDTO))
-                .header(AUTHORIZATION, AccessToken)
                 .with(csrf().asHeader())
         );
         //then
@@ -337,7 +341,6 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(post("/api/members/email-verification/request")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emailDTO))
-                .header(AUTHORIZATION, AccessToken)
                 .with(csrf().asHeader())
         );
         //then
@@ -364,7 +367,6 @@ class MemberControllerTest {
         ResultActions perform = mockMvc.perform(post("/api/members/email-verification/confirm")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emailVerifyDTO))
-                .header(AUTHORIZATION, AccessToken)
                 .with(csrf().asHeader())
         );
         //then

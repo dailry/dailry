@@ -121,25 +121,6 @@ class PostServiceTest {
     }
 
     @Nested
-    @DisplayName("find() - 게시글 단건 조회 테스트")
-    class find {
-
-        @Test
-        @DisplayName("likeRepository에서 반환한 좋아요 갯수와, 반환하는 DTO의 좋아요 갯수는 같아야한다.")
-        void test1() {
-            //given
-            when(postRepository.findById(any())).thenReturn(Optional.of(일반회원1이_작성한_게시글()));
-            when(likeRepository.countByPost(any())).thenReturn(5L);
-
-            //when
-            PostReadResponseDTO result = postService.find(POST_ID);
-
-            //then
-            assertThat(result.getLikeCount()).isEqualTo(5L);
-        }
-    }
-
-    @Nested
     @DisplayName("delete() - 게시글 삭제 테스트")
     class delete {
         @Test

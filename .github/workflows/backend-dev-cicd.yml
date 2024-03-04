@@ -14,6 +14,14 @@ jobs:
     defaults:
       run:
         working-directory: backend
+    services:
+      mysql:
+        image: mysql:8.0.33
+        env:
+          MYSQL_ROOT_PASSWORD: 1234
+          MYSQL_DATABASE: dailry
+        ports:
+          - 3306:3306
     steps:
       - uses: actions/checkout@v4
         with:
@@ -46,7 +54,7 @@ jobs:
           platforms: linux/amd64
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dailry:dev_${{ steps.get-timestamp.outputs.timestamp }}
 
-  deploy: 
+  deploy:
     needs: build
     runs-on: [ self-hosted, dailry-dev ]
     steps:

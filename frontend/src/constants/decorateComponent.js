@@ -12,3 +12,8 @@ export const DECORATE_COMPONENT = {
   [DECORATE_TYPE.DRAWING]: Drawing,
   [DECORATE_TYPE.TEXT_BOX]: TextBox,
 };
+
+export const EDIT_MODE = {
+  TYPE_CONTENT: 'typeContent',
+  COMMON_PROPERTY: 'commonProperty',
+};

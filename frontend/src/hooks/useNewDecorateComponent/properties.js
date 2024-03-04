@@ -2,14 +2,14 @@ export const commonDecorateComponentProperties = {
   id: '',
   order: null,
   size: {
-    width: 'auto',
-    height: 'auto',
+    width: 200,
+    height: 150,
   },
   position: {
-    x: null,
-    y: null,
+    x: 0,
+    y: 0,
   },
-  rotation: '0deg',
+  rotation: 0,
 };
 
 export const typedDecorateComponentProperties = {

@@ -1,18 +1,16 @@
-import { makeMoveable, Rotatable, Draggable, Resizable } from 'react-moveable';
+import Moveable from 'react-moveable';
 import PropTypes from 'prop-types';
 import MoveableHelper from 'moveable-helper';
 import { useState } from 'react';
 
-const MoveableInstance = makeMoveable([Draggable, Rotatable, Resizable]);
-
-const Moveable = (props) => {
-  const { target } = props;
+const MoveableComponent = (props) => {
+  const { target, setCommonProperty } = props;
   const [helper] = useState(() => {
     return new MoveableHelper();
   });
 
   return (
-    <MoveableInstance
+    <Moveable
       target={target}
       draggable={true}
       resizable={true}
@@ -22,15 +20,43 @@ const Moveable = (props) => {
       throttleRotate={0}
       onDragStart={helper.onDragStart}
       onDrag={helper.onDrag}
+      onDragEnd={(e) => {
+        if (e.isDrag) {
+          const movedX = parseInt(e.lastEvent.translate[0], 10);
+          const movedY = parseInt(e.lastEvent.translate[1], 10);
+
+          setCommonProperty({
+            position: {
+              x: movedX,
+              y: movedY,
+            },
+          });
+        }
+      }}
       onRotateStart={helper.onRotateStart}
       onRotate={helper.onRotate}
+      onRotateEnd={(e) => {
+        const transformString = e.target.style.transform;
+        const deg = transformString.split('rotate(')[1].split('deg')[0];
+
+        setCommonProperty({ rotation: deg });
+      }}
       onResizeStart={helper.onResizeStart}
       onResize={helper.onResize}
+      onResizeEnd={(e) =>
+        setCommonProperty({
+          size: {
+            width: e.target.style.width,
+            height: e.target.style.height,
+          },
+        })
+      }
     />
   );
 };
 
-Moveable.propTypes = {
+MoveableComponent.propTypes = {
   target: PropTypes.object,
+  setCommonProperty: PropTypes.func,
 };
-export default Moveable;
+export default MoveableComponent;

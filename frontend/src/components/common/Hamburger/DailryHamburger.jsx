@@ -4,8 +4,10 @@ import { deleteDailry } from '../../../apis/dailryApi';
 
 const DailryHamburger = (props) => {
   const { dailryId, setEditingDailry, anchor = 'left' } = props;
-  const handleDeleteClick = () => {
-    deleteDailry(dailryId).then(setEditingDailry(Math.random()));
+  const handleDeleteClick = async (e) => {
+    e.stopPropagation();
+    await deleteDailry(dailryId);
+    setEditingDailry(Math.random());
   };
 
   const handlePatchClick = (e) => {

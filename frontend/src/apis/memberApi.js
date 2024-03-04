@@ -61,3 +61,68 @@ export const getCheckNickName = async (nickName) => {
     return e.response.data;
   }
 };
+
+export const postEmailVerificationRequest = async (email) => {
+  try {
+    console.log(email);
+    return await customAxios.post('/members/email-verification/request', {
+      email,
+    });
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
+export const postEmailVerificationConfirm = async (confirmData) => {
+  try {
+    const { email, certificationNumber } = confirmData;
+    return await customAxios.post('/members/email-verification/confirm', {
+      email,
+      certificationNumber,
+    });
+  } catch (e) {
+    return e.response.data;
+  }
+};
+
+export const postRecoverUsername = async (email) => {
+  try {
+    return await customAxios.post(`/members/recover-username`, { email });
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
+export const postRecoverPassword = async (userInfo) => {
+  try {
+    const { username, email } = userInfo;
+    return await customAxios.post(`/members/recover-password`, {
+      username,
+      email,
+    });
+  } catch (e) {
+    return e.response.data;
+  }
+};
+
+export const patchRecoverPassword = async (passwordInfo) => {
+  try {
+    const { passwordResetToken, password } = passwordInfo;
+    return await customAxios.patch(`/members/recover-password`, {
+      passwordResetToken,
+      password,
+    });
+  } catch (e) {
+    return e.response.data;
+  }
+};
+
+export const postWithdrawl = async () => {
+  try {
+    return await customAxios.post('/members/withdrawal');
+  } catch (e) {
+    return e.response.data;
+  }
+};

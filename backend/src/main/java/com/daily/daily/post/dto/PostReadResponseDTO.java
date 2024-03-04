@@ -24,7 +24,7 @@ public class PostReadResponseDTO {
     private Long likeCount;
     private LocalDateTime createdTime;
 
-    public static PostReadResponseDTO from(Post post, Long likeCount) {
+    public static PostReadResponseDTO from(Post post) {
 
         return PostReadResponseDTO.builder()
                 .postId(post.getId())
@@ -34,7 +34,7 @@ public class PostReadResponseDTO {
                 .writerNickname(post.getWriterNickname())
                 .hashtags(post.getTagNames())
                 .createdTime(post.getCreatedTime())
-                .likeCount(likeCount)
+                .likeCount(post.getLikeCount())
                 .build();
     }
 }
