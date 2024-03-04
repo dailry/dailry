@@ -22,14 +22,24 @@ const DailryNavigation = () => {
   useEffect(() => {
     (async () => {
       const response = await getDailry();
-      setDailryItems(await response.data);
+      const updatedDailryItems = response.data;
+      setDailryItems(updatedDailryItems);
+      if (
+        !updatedDailryItems
+          .map(({ dailryId }) => dailryId)
+          .find((id) => id === currentDailry.dailryId)
+      ) {
+        setCurrentDailry({
+          ...currentDailry,
+          dailryId: updatedDailryItems[0].dailryId,
+        });
+      }
     })();
   }, [editingDailry]);
 
   const handleItemClick = async (dailryId) => {
     const response = await getPages(dailryId);
     const pageIds = response.data.pages.map(({ pageId }) => pageId);
-    pageIds.unshift(0);
     setCurrentDailry({ dailryId, pageNumber: 1, pageIds });
   };
 
