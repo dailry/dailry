@@ -5,6 +5,7 @@ import saveAs from 'file-saver';
 import { toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as S from './DailryPage.styled';
+import Text from '../../components/common/Text/Text';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import { DECORATE_TOOLS, PAGE_TOOLS } from '../../constants/toolbar';
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
@@ -19,6 +20,7 @@ import useCompleteCreation from '../../hooks/useNewDecorateComponent/useComplete
 import useEditDecorateComponent from '../../hooks/useEditDecorateComponent';
 import useDecorateComponents from '../../hooks/useDecorateComponents';
 import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponents';
+import { TEXT } from '../../styles/color';
 import MoveableComponent from '../../components/da-ily/Moveable/Moveable';
 import usePageData from '../../hooks/usePageData';
 
@@ -30,7 +32,8 @@ const DailryPage = () => {
 
   const [selectedTool, setSelectedTool] = useState(null);
   const [showPageModal, setShowPageModal] = useState(false);
-  const [pageList, setPageList] = useState(null);
+  const [pageList, setPageList] = useState([]);
+  const [havePage, setHavePage] = useState(true);
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
   const {
@@ -78,11 +81,26 @@ const DailryPage = () => {
 
   const isMoveable = () => target && editMode === EDIT_MODE.COMMON_PROPERTY;
 
-  const { dailryId, pageId } = currentDailry;
+  const { dailryId, pageId, pageNumber } = currentDailry;
 
   useEffect(() => {
-    getPages(dailryId).then((response) => setPageList(response.data?.pages));
-  }, [dailryId, pageId, showPageModal]);
+    (async () => {
+      const response = await getPages(dailryId);
+      const { status, data } = response;
+      if (status === 200 && data.pages.length !== 0) {
+        const { pages } = data;
+        const pageIds = pages.map((page) => page.pageId);
+        setPageList(pages);
+        setCurrentDailry({
+          ...currentDailry,
+          pageNumber: pageNumber ?? 1,
+          pageIds,
+        });
+        return setHavePage(true);
+      }
+      return setHavePage(false);
+    })();
+  }, [dailryId, pageNumber, showPageModal]);
 
   const toastify = (message) => {
     toast(message, {
@@ -102,19 +120,19 @@ const DailryPage = () => {
   };
 
   const handleLeftArrowClick = () => {
-    if (pageId === 1) {
+    if (pageNumber === 1) {
       toastify('첫 번째 페이지입니다');
       return;
     }
-    setCurrentDailry({ dailryId, pageId: pageId - 1 });
+    setCurrentDailry({ ...currentDailry, pageNumber: pageNumber - 1 });
   };
 
   const handleRightArrowClick = () => {
-    if (pageList.length === pageId) {
+    if (pageList.length === pageNumber) {
       toastify('마지막 페이지입니다');
       return;
     }
-    setCurrentDailry({ dailryId, pageId: pageId + 1 });
+    setCurrentDailry({ ...currentDailry, pageNumber: pageNumber + 1 });
   };
 
   const handleDownloadClick = async () => {
@@ -122,7 +140,7 @@ const DailryPage = () => {
       const pageImg = await html2canvas(pageRef.current);
       pageImg.toBlob((blob) => {
         if (blob !== null) {
-          saveAs(blob, `${dailryId}_${pageId}.png`);
+          saveAs(blob, `dailry${dailryId}_${pageId}.png`);
         }
       });
     } catch (e) {
@@ -192,57 +210,66 @@ const DailryPage = () => {
           onClose={() => setShowPageModal(false)}
         />
       )}
-      <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
-        <input type="file" alt="what" onChange={onUploadFile} />
-        {decorateComponents?.map((element, index) => {
-          const canEdit =
-            editMode === EDIT_MODE.TYPE_CONTENT &&
-            element.type === selectedTool &&
-            canEditDecorateComponent?.id === element.id;
-          return (
+
+      {havePage ? (
+        <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
+          <input type="file" alt="what" onChange={onUploadFile} />
+          {decorateComponents?.map((element, index) => {
+            const canEdit =
+              editMode === EDIT_MODE.TYPE_CONTENT &&
+              element.type === selectedTool &&
+              canEditDecorateComponent?.id === element.id;
+            return (
+              <DecorateWrapper
+                key={element.id}
+                onMouseDown={(e) => handleClickDecorate(e, index, element)}
+                setTarget={setTarget}
+                index={index}
+                canEdit={canEdit}
+                ref={(el) => {
+                  moveableRef[index + 1] = el;
+                }}
+                {...element}
+              >
+                <TypedDecorateComponent
+                  type={element.type}
+                  typeContent={element.typeContent}
+                  canEdit={canEdit}
+                  setTypeContent={setCanEditDecorateComponentTypeContent}
+                />
+              </DecorateWrapper>
+            );
+          })}
+
+          {newDecorateComponent && (
             <DecorateWrapper
-              key={element.id}
-              onMouseDown={(e) => handleClickDecorate(e, index, element)}
-              setTarget={setTarget}
-              index={index}
-              canEdit={canEdit}
-              ref={(el) => {
-                moveableRef[index + 1] = el;
+              onMouseDown={(e) => {
+                e.stopPropagation();
               }}
-              {...element}
+              canEdit
+              {...newDecorateComponent}
             >
               <TypedDecorateComponent
-                type={element.type}
-                typeContent={element.typeContent}
-                canEdit={canEdit}
-                setTypeContent={setCanEditDecorateComponentTypeContent}
+                type={newDecorateComponent.type}
+                canEdit
+                setTypeContent={setNewDecorateComponentTypeContent}
               />
             </DecorateWrapper>
-          );
-        })}
-
-        {newDecorateComponent && (
-          <DecorateWrapper
-            onMouseDown={(e) => {
-              e.stopPropagation();
-            }}
-            canEdit
-            {...newDecorateComponent}
-          >
-            <TypedDecorateComponent
-              type={newDecorateComponent.type}
-              canEdit
-              setTypeContent={setNewDecorateComponentTypeContent}
+          )}
+          {isMoveable() && (
+            <MoveableComponent
+              target={moveableRef[target]}
+              setCommonProperty={setCanEditDecorateComponentCommonProperty}
             />
-          </DecorateWrapper>
-        )}
-        {isMoveable() && (
-          <MoveableComponent
-            target={moveableRef[target]}
-            setCommonProperty={setCanEditDecorateComponentCommonProperty}
-          />
-        )}
-      </S.CanvasWrapper>
+          )}
+        </S.CanvasWrapper>
+      ) : (
+        <S.NoCanvas>
+          <Text size={30} weight={1000} color={TEXT.disabled}>
+            다일리 또는 페이지를 만들어주세요
+          </Text>
+        </S.NoCanvas>
+      )}
       <S.SideWrapper>
         <S.ToolWrapper>
           {DECORATE_TOOLS.map(({ icon, type }, index) => {
@@ -286,12 +313,16 @@ const DailryPage = () => {
                 setSelectedTool(null);
               }, 150);
               if (t === 'add') {
-                postPage(dailryId).then((response) =>
-                  setCurrentDailry({ dailryId, pageId: response.data.pageId }),
-                );
+                const response = await postPage(dailryId);
+                console.log(response);
+                setCurrentDailry({
+                  ...currentDailry,
+                  pageId: response.data.pageId,
+                  pageNumber: response.data.pageNumber,
+                });
               }
               if (t === 'download') {
-                handleDownloadClick();
+                await handleDownloadClick();
               }
               if (t === 'save') {
                 const formData = getPageFormData(updatedDecorateComponents);
@@ -313,7 +344,7 @@ const DailryPage = () => {
             <LeftArrowIcon />
           </S.ArrowButton>
           <S.NumberButton onClick={() => setShowPageModal(true)}>
-            {pageId}
+            {pageNumber}
           </S.NumberButton>
           <S.ArrowButton direction={'right'} onClick={handleRightArrowClick}>
             <RightArrowIcon />

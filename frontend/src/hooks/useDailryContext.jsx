@@ -6,9 +6,9 @@ const DailryContext = createContext();
 export const DailryProvider = (props) => {
   const { children } = props;
   const [currentDailry, setCurrentDailry] = useState({
-    dailryId: 3,
-    pageId: 1,
+    dailryId: null,
     pageNumber: null,
+    pageIds: [],
   });
 
   return (
