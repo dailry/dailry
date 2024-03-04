@@ -32,7 +32,7 @@ const DailryPage = () => {
 
   const [selectedTool, setSelectedTool] = useState(null);
   const [showPageModal, setShowPageModal] = useState(false);
-  const [pageList, setPageList] = useState(null);
+  const [pageList, setPageList] = useState([]);
   const [havePage, setHavePage] = useState(true);
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
@@ -81,17 +81,20 @@ const DailryPage = () => {
 
   useEffect(() => {
     (async () => {
-      setHavePage(true);
       const response = await getPages(dailryId);
-      if (response.status === 200) {
-        setPageList(response.data.pages);
-        if (response.data.pages.length === 0) {
-          setCurrentDailry({ ...currentDailry, pageNumber: null });
-          setHavePage(false);
-        }
-      } else {
-        setHavePage(false);
+      const { status, data } = response;
+      if (status === 200 && data.pages.length !== 0) {
+        const { pages } = data;
+        const pageIds = pages.map((page) => page.pageId);
+        setPageList(pages);
+        setCurrentDailry({
+          ...currentDailry,
+          pageNumber: 1,
+          pageIds,
+        });
+        return setHavePage(true);
       }
+      return setHavePage(false);
     })();
   }, [dailryId, pageNumber, showPageModal]);
 

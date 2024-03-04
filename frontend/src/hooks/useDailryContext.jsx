@@ -7,7 +7,7 @@ export const DailryProvider = (props) => {
   const { children } = props;
   const [currentDailry, setCurrentDailry] = useState({
     dailryId: null,
-    pageNumber: 1,
+    pageNumber: null,
     pageIds: [],
   });
 
