@@ -25,13 +25,14 @@ const DailryNavigation = () => {
       const updatedDailryItems = response.data;
       setDailryItems(updatedDailryItems);
       if (
-        !updatedDailryItems
-          .map(({ dailryId }) => dailryId)
-          .find((id) => id === currentDailry.dailryId)
+        updatedDailryItems.every(
+          (dailryItem) => dailryItem.dailryId !== currentDailry.dailryId,
+        )
       ) {
         setCurrentDailry({
           ...currentDailry,
           dailryId: updatedDailryItems[0].dailryId,
+          pageNumber: null,
         });
       }
     })();
