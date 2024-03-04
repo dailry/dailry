@@ -2,6 +2,7 @@ package com.daily.daily.post.controller;
 
 import com.daily.daily.auth.jwt.JwtAuthorizationFilter;
 import com.daily.daily.auth.jwt.JwtUtil;
+import com.daily.daily.post.service.PostLikeFacade;
 import com.daily.daily.post.service.PostLikeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -42,8 +43,11 @@ class PostLikeControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+//    @MockBean
+//    PostLikeService postLikeService;
+
     @MockBean
-    PostLikeService postLikeService;
+    PostLikeFacade postLikeFacade;
 
     @Nested
     @DisplayName("increaseLikeCount() - 좋아요 증가 메서드 테스트")

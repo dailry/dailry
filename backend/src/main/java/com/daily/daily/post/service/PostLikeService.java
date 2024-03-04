@@ -6,7 +6,7 @@ import com.daily.daily.member.repository.MemberRepository;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.domain.PostLike;
 import com.daily.daily.post.exception.AlreadyLikeException;
-import com.daily.daily.post.exception.LikeDecreaseNotAllowedException;
+import com.daily.daily.post.exception.NotPreviouslyLikedException;
 import com.daily.daily.post.exception.PostNotFoundException;
 import com.daily.daily.post.repository.PostLikeRepository;
 import com.daily.daily.post.repository.PostRepository;
@@ -30,6 +30,9 @@ public class PostLikeService {
         Member findMember = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         Post findPost = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
 
+        findPost.increaseLikeCount();
+        postRepository.saveAndFlush(findPost); // 낙관적락 예외 발생 가능성 존재
+
         PostLike like = PostLike.builder()
                 .member(findMember)
                 .post(findPost)
@@ -39,9 +42,11 @@ public class PostLikeService {
     }
 
     public void decreaseLikeCount(Long memberId, Long postId) {
-        PostLike like = likeRepository.findBy(memberId, postId)
-                .orElseThrow(LikeDecreaseNotAllowedException::new);
+        PostLike like = likeRepository.findBy(memberId, postId).orElseThrow(NotPreviouslyLikedException::new);
+        Post findPost = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
 
+        findPost.decreaseLikeCount();
+        postRepository.saveAndFlush(findPost); // 낙관적 락 예외 가능성 존재
         likeRepository.delete(like);
     }
 }

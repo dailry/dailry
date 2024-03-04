@@ -2,7 +2,7 @@ package com.daily.daily.post;
 
 import com.daily.daily.common.dto.ExceptionResponseDTO;
 import com.daily.daily.post.exception.AlreadyLikeException;
-import com.daily.daily.post.exception.LikeDecreaseNotAllowedException;
+import com.daily.daily.post.exception.NotPreviouslyLikedException;
 import com.daily.daily.post.exception.PostNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class PostExceptionHandler {
 
     @ExceptionHandler({
             AlreadyLikeException.class,
-            LikeDecreaseNotAllowedException.class
+            NotPreviouslyLikedException.class
     })
     public ResponseEntity<ExceptionResponseDTO> handleLikeException(RuntimeException e) {
         return new ResponseEntity<>(new ExceptionResponseDTO(e.getMessage(), 409), HttpStatus.CONFLICT);

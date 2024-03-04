@@ -40,6 +40,24 @@ export const patchDailry = async (dailryData) => {
   }
 };
 
+export const getPages = async (dailryId) => {
+  try {
+    return await customAxios.get(`/dailry/${dailryId}/pages`);
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
+export const getPage = async (pageId) => {
+  try {
+    return await customAxios.get(`/dailry/pages/${pageId}`);
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
 export const postPage = async (dailryId) => {
   try {
     return await customAxios.post(`dailry/${dailryId}/pages`);
@@ -49,9 +67,13 @@ export const postPage = async (dailryId) => {
   }
 };
 
-export const getPages = async (dailryId) => {
+export const patchPage = async (dailryId, pageData) => {
   try {
-    return await customAxios.get(`/dailry/${dailryId}/pages`);
+    return await customAxios.post(`dailry/pages/${dailryId}/edit`, pageData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   } catch (e) {
     console.error(e);
     return e.response.data;
