@@ -89,7 +89,7 @@ const DailryPage = () => {
         setPageList(pages);
         setCurrentDailry({
           ...currentDailry,
-          pageNumber: 1,
+          pageNumber: pageNumber ?? 1,
           pageIds,
         });
         return setHavePage(true);
