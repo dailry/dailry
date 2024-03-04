@@ -9,7 +9,7 @@ import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import { DECORATE_TOOLS, PAGE_TOOLS } from '../../constants/toolbar';
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
 import { useDailryContext } from '../../hooks/useDailryContext';
-import { postPage, getPages } from '../../apis/dailryApi';
+import { postPage, getPages, patchPage } from '../../apis/dailryApi';
 import { DECORATE_TYPE, EDIT_MODE } from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
@@ -20,6 +20,7 @@ import useEditDecorateComponent from '../../hooks/useEditDecorateComponent';
 import useDecorateComponents from '../../hooks/useDecorateComponents';
 import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponents';
 import MoveableComponent from '../../components/da-ily/Moveable/Moveable';
+import usePageData from '../../hooks/usePageData';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -32,8 +33,15 @@ const DailryPage = () => {
   const [pageList, setPageList] = useState(null);
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
-  const { addUpdatedDecorateComponent, modifyUpdatedDecorateComponent } =
-    useUpdatedDecorateComponents();
+  const {
+    updatedDecorateComponents,
+    addUpdatedDecorateComponent,
+    modifyUpdatedDecorateComponent,
+  } = useUpdatedDecorateComponents();
+
+  const { getPageFormData, onUploadFile } = usePageData(
+    updatedDecorateComponents,
+  );
 
   const {
     decorateComponents,
@@ -73,7 +81,7 @@ const DailryPage = () => {
   const { dailryId, pageId } = currentDailry;
 
   useEffect(() => {
-    getPages(dailryId).then((response) => setPageList(response.data.pages));
+    getPages(dailryId).then((response) => setPageList(response.data?.pages));
   }, [dailryId, pageId, showPageModal]);
 
   const toastify = (message) => {
@@ -185,6 +193,7 @@ const DailryPage = () => {
         />
       )}
       <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
+        <input type="file" alt="what" onChange={onUploadFile} />
         {decorateComponents?.map((element, index) => {
           const canEdit =
             editMode === EDIT_MODE.TYPE_CONTENT &&
@@ -263,7 +272,7 @@ const DailryPage = () => {
             );
           })}
           {PAGE_TOOLS.map(({ icon, type }, index) => {
-            const onSelect = (t) => {
+            const onSelect = async (t) => {
               if (newDecorateComponent) {
                 completeCreateNewDecorateComponent();
               }
@@ -283,6 +292,10 @@ const DailryPage = () => {
               }
               if (t === 'download') {
                 handleDownloadClick();
+              }
+              if (t === 'save') {
+                const formData = getPageFormData(updatedDecorateComponents);
+                await patchPage(48, formData);
               }
             };
             return (
