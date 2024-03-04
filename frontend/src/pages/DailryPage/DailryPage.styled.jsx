@@ -35,8 +35,8 @@ export const ElementStyle = ({ position, order, size, canEdit }) => {
     position: 'absolute',
     left: `${position.x}px`,
     top: `${position.y}px`,
-    width: size.width,
-    height: size.height,
+    width: `${size.width}px`,
+    height: `${size.height}px`,
     zIndex: order,
     border: canEdit ? `2px dashed #74ABD9` : '',
   };
