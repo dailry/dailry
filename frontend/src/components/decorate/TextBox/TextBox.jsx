@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as S from './TextBox.styled';
+import useDebounce from '../../../hooks/useDebounce';
 
 const TextBox = (props) => {
   const { typeContent, setTypeContent } = props;
+
   const [text, setText] = useState('');
+  const debouncedText = useDebounce(text, 500);
   const textRef = useRef(null);
   const [height, setHeight] = useState(typeContent?.current?.scrollHeight);
 
@@ -16,7 +19,7 @@ const TextBox = (props) => {
     if (typeContent?.text.length > 0) {
       setText(typeContent.text);
     }
-  }, [typeContent]);
+  }, []);
 
   return (
     <S.TextArea
@@ -25,9 +28,7 @@ const TextBox = (props) => {
       height={height}
       onChange={(e) => {
         setText(e.target.value);
-        setTimeout(() => {
-          setTypeContent({ text });
-        }, 500);
+        setTypeContent({ text: debouncedText });
       }}
     />
   );
