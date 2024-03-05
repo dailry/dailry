@@ -202,12 +202,22 @@ const DailryPage = () => {
     }
   };
 
+  const handleModalClick = (page) => {
+    setCurrentDailry({
+      ...currentDailry,
+      pageId: page.pageId,
+      pageNumber: page.pageNumber,
+    });
+  };
+
   return (
     <S.FlexWrapper>
       {showPageModal && (
         <PageListModal
           pageList={pageList}
           onClose={() => setShowPageModal(false)}
+          deletable={true}
+          onSelect={handleModalClick}
         />
       )}
 

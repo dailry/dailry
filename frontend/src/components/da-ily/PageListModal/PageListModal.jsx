@@ -5,8 +5,8 @@ import { useDailryContext } from '../../../hooks/useDailryContext';
 import { deletePage } from '../../../apis/dailryApi';
 
 const PageListModal = (props) => {
-  const { onClose, pageList } = props;
-  const [canSelect, setCanSelect] = useState(false);
+  const { onClose, pageList, deletable, onSelect } = props;
+  const [canToggle, setCanToggle] = useState(false);
   const [selectedPages, setSelectedPages] = useState(
     Array.from({ length: pageList.length + 1 }, () => 0),
   );
@@ -14,20 +14,12 @@ const PageListModal = (props) => {
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
   const handleDeleteClick = () => {
-    selectedPages.forEach((pageId) => {
+    selectedPages.forEach(async (pageId) => {
       if (pageId !== 0) {
-        deletePage(pageId);
+        await deletePage(pageId);
       }
     });
-    setCurrentDailry({ ...currentDailry, pageNumber: 1 });
-  };
-
-  const selectPage = ({ pageId, pageNumber }) => {
-    setCurrentDailry({
-      ...currentDailry,
-      pageId,
-      pageNumber,
-    });
+    setCurrentDailry({ ...currentDailry, pageNumber: null });
     onClose();
   };
 
@@ -43,8 +35,9 @@ const PageListModal = (props) => {
   };
 
   const handleItemClick = (page) => {
-    if (!canSelect) {
-      selectPage(page);
+    if (!canToggle) {
+      onSelect(page);
+      onClose();
       return;
     }
     togglePage(page);
@@ -54,10 +47,12 @@ const PageListModal = (props) => {
     <S.ModalBackground>
       <S.ModalWrapper>
         <S.TopArea>
-          <button onClick={() => setCanSelect(!canSelect)}>
-            {canSelect ? '선택취소' : '다중선택'}
-          </button>
-          {canSelect && <button onClick={handleDeleteClick}>선택삭제</button>}
+          {deletable && (
+            <button onClick={() => setCanToggle(!canToggle)}>
+              {canToggle ? '선택취소' : '다중선택'}
+            </button>
+          )}
+          {canToggle && <button onClick={handleDeleteClick}>선택삭제</button>}
           <button onClick={onClose}>닫기</button>
         </S.TopArea>
         <S.ItemArea>
@@ -67,7 +62,7 @@ const PageListModal = (props) => {
               <S.ItemWrapper
                 key={pageNumber}
                 onClick={() => handleItemClick(page)}
-                selected={canSelect && !!selectedPages[pageNumber]}
+                selected={canToggle && !!selectedPages[pageNumber]}
               >
                 <S.PageNumberArea>{pageNumber}</S.PageNumberArea>
                 <S.ThumbnailArea>{thumbnail}</S.ThumbnailArea>
@@ -83,5 +78,7 @@ const PageListModal = (props) => {
 PageListModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   pageList: PropTypes.object,
+  deletable: PropTypes.bool,
+  onSelect: PropTypes.func,
 };
 export default PageListModal;
