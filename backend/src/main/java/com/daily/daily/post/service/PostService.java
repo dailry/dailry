@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 
 @Service
 @Transactional
@@ -95,5 +96,10 @@ public class PostService {
         if (!post.isWrittenBy(writerId)) {
             throw new UnauthorizedAccessException();
         }
+    }
+
+    public PostReadSliceResponseDTO findPostByHashtag(List<String> hashtag, Pageable pageable) {
+        Slice<Post> posts = postRepository.findPostsByHashtag(hashtag, pageable);
+        return PostReadSliceResponseDTO.from(posts);
     }
 }
