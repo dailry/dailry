@@ -329,7 +329,6 @@ const DailryPage = () => {
               }, 150);
               if (t === 'add') {
                 const response = await postPage(dailryId);
-                console.log(response);
                 setCurrentDailry({
                   ...currentDailry,
                   pageId: response.data.pageId,
@@ -341,7 +340,7 @@ const DailryPage = () => {
               }
               if (t === 'save') {
                 const formData = getPageFormData(updatedDecorateComponents);
-                await patchPage(48, formData);
+                await patchPage(pageIds[pageNumber - 1], formData);
               }
             };
             return (
