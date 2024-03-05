@@ -9,7 +9,7 @@ export const commonDecorateComponentProperties = {
     x: 0,
     y: 0,
   },
-  rotation: 0,
+  rotation: '0',
 };
 
 export const typedDecorateComponentProperties = {
