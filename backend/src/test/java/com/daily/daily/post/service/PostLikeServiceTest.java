@@ -6,6 +6,7 @@ import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.domain.PostLike;
 import com.daily.daily.post.exception.AlreadyLikeException;
 import com.daily.daily.post.exception.NotPreviouslyLikedException;
+import com.daily.daily.post.repository.HotPostRepository;
 import com.daily.daily.post.repository.PostLikeRepository;
 import com.daily.daily.post.repository.PostRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +17,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -37,6 +39,8 @@ class PostLikeServiceTest {
     MemberRepository memberRepository;
     @Mock
     PostRepository postRepository;
+    @Mock
+    HotPostRepository hotPostRepository;
     @InjectMocks
     PostLikeService postLikeService;
 
@@ -65,8 +69,8 @@ class PostLikeServiceTest {
             Member 일반회원2 = 일반회원2();
             Post 일반회원1이_작성한_게시글 = 일반회원1이_작성한_게시글();
 
-            when(memberRepository.findById(일반회원2.getId())).thenReturn(Optional.of(일반회원2()));
-            when(postRepository.findById(일반회원1이_작성한_게시글.getId())).thenReturn(Optional.of(일반회원1이_작성한_게시글));
+            when(memberRepository.findById(any())).thenReturn(Optional.of(일반회원2));
+            when(postRepository.findById(any())).thenReturn(Optional.of(일반회원1이_작성한_게시글));
 
             ArgumentCaptor<PostLike> postLikeCaptor = ArgumentCaptor.forClass(PostLike.class);
 
@@ -74,12 +78,49 @@ class PostLikeServiceTest {
             postLikeService.increaseLikeCount(일반회원2.getId(), 일반회원1이_작성한_게시글.getId());
 
             //then
-            verify(likeRepository, times(1)).save(postLikeCaptor.capture());
+            verify(likeRepository, times(1)).save(postLikeCaptor.capture()); // 무엇을 저장했는지 캡쳐
 
-            PostLike savedPostLike = postLikeCaptor.getValue();
+            PostLike savedPostLike = postLikeCaptor.getValue(); // 캡쳐한 값을 테스트 검증에 활용
 
-            assertThat(savedPostLike.getMember().getId()).isEqualTo(일반회원2.getId());
-            assertThat(savedPostLike.getPost().getId()).isEqualTo(일반회원1이_작성한_게시글.getId());
+            assertThat(savedPostLike.getMember().getId()).isEqualTo(일반회원2.getId()); // 캡쳐한 값을 테스트 검증에 활용
+            assertThat(savedPostLike.getPost().getId()).isEqualTo(일반회원1이_작성한_게시글.getId()); // 캡쳐한 값을 테스트 검증에 활용
+        }
+
+        @Test
+        @DisplayName("게시글의 좋아요 갯수가 15가 되면 해당 게시글은 HotPost 테이블에 저장되어야 한다.")
+        void test3() {
+            //given
+            Member 일반회원2 = 일반회원2();
+            Post 일반회원1이_작성한_게시글 = 일반회원1이_작성한_게시글();
+            ReflectionTestUtils.setField(일반회원1이_작성한_게시글, "likeCount", 14); // 좋아요 갯수를 14로 설정
+
+            when(memberRepository.findById(any())).thenReturn(Optional.of(일반회원2));
+            when(postRepository.findById(any())).thenReturn(Optional.of(일반회원1이_작성한_게시글));
+
+            //when
+            postLikeService.increaseLikeCount(일반회원2.getId(), 일반회원1이_작성한_게시글.getId());
+
+            //then
+            verify(hotPostRepository, times(1)).save(any());
+        }
+
+        @Test
+        @DisplayName("게시글의 좋아요 갯수가 15이상이더라도, 이미 인기글에 올라간 게시글의 경우에는 HotPost 테이블에 저장하지 않는다.")
+        void test4() {
+            //given
+            Member 일반회원2 = 일반회원2();
+            Post 일반회원1이_작성한_게시글 = 일반회원1이_작성한_게시글();
+            ReflectionTestUtils.setField(일반회원1이_작성한_게시글, "likeCount", 16); // 좋아요 갯수를 16으로 설정
+            ReflectionTestUtils.setField(일반회원1이_작성한_게시글, "isHotPost", true); // 이미 HotPost 인 경우.
+
+            when(memberRepository.findById(any())).thenReturn(Optional.of(일반회원2));
+            when(postRepository.findById(any())).thenReturn(Optional.of(일반회원1이_작성한_게시글));
+
+            //when
+            postLikeService.increaseLikeCount(일반회원2.getId(), 일반회원1이_작성한_게시글.getId());
+
+            //then
+            verify(hotPostRepository, times(0)).save(any());
         }
     }
 

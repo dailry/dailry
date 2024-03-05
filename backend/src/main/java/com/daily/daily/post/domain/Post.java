@@ -14,7 +14,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Version;
 import lombok.Builder;
 import lombok.Getter;
-import org.hibernate.annotations.SQLDelete;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +23,6 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 public class Post extends BaseTimeEntity {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,9 +38,11 @@ public class Post extends BaseTimeEntity {
     private List<PostHashtag> postHashtags = new ArrayList<>();
 
     private long likeCount;
-
+    private boolean isHotPost = false;
     @Version
     private Long version;
+
+    private static final int hotPostThreadHold = 15;
 
     @Builder
     public Post(String content, String pageImage, Member postWriter) {
@@ -96,5 +95,13 @@ public class Post extends BaseTimeEntity {
 
     public void decreaseLikeCount() {
         likeCount--;
+    }
+
+    public boolean satisfyHotPostCondition() {
+        return likeCount >= hotPostThreadHold;
+    }
+
+    public void makeHotPost() {
+        isHotPost = true;
     }
 }
