@@ -23,6 +23,7 @@ import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponen
 import { TEXT } from '../../styles/color';
 import MoveableComponent from '../../components/da-ily/Moveable/Moveable';
 import usePageData from '../../hooks/usePageData';
+import { useModalContext } from '../../hooks/useModalContext';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -31,10 +32,11 @@ const DailryPage = () => {
   const [target, setTarget] = useState(null);
 
   const [selectedTool, setSelectedTool] = useState(null);
-  const [showPageModal, setShowPageModal] = useState(false);
   const [pageList, setPageList] = useState([]);
   const [havePage, setHavePage] = useState(true);
+
   const { currentDailry, setCurrentDailry } = useDailryContext();
+  const { modalType, setModalType, closeModal } = useModalContext();
 
   const {
     updatedDecorateComponents,
@@ -100,7 +102,7 @@ const DailryPage = () => {
       }
       return setHavePage(false);
     })();
-  }, [dailryId, pageNumber, showPageModal]);
+  }, [dailryId, pageNumber, modalType]);
 
   const toastify = (message) => {
     toast(message, {
@@ -202,22 +204,25 @@ const DailryPage = () => {
     }
   };
 
-  const handleModalClick = (page) => {
-    setCurrentDailry({
-      ...currentDailry,
-      pageId: page.pageId,
-      pageNumber: page.pageNumber,
-    });
+  const handleModalSelect = {
+    select: (page) => {
+      setCurrentDailry({
+        ...currentDailry,
+        pageId: page.pageId,
+        pageNumber: page.pageNumber,
+      });
+    },
+    download: () => {},
+    share: () => {},
   };
 
   return (
     <S.FlexWrapper>
-      {showPageModal && (
+      {modalType && (
         <PageListModal
           pageList={pageList}
-          onClose={() => setShowPageModal(false)}
-          deletable={true}
-          onSelect={handleModalClick}
+          onClose={closeModal}
+          onSelect={handleModalSelect[modalType]}
         />
       )}
 
@@ -353,7 +358,7 @@ const DailryPage = () => {
           <S.ArrowButton direction={'left'} onClick={handleLeftArrowClick}>
             <LeftArrowIcon />
           </S.ArrowButton>
-          <S.NumberButton onClick={() => setShowPageModal(true)}>
+          <S.NumberButton onClick={() => setModalType('select')}>
             {pageNumber}
           </S.NumberButton>
           <S.ArrowButton direction={'right'} onClick={handleRightArrowClick}>

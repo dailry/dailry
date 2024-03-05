@@ -5,7 +5,7 @@ import { useDailryContext } from '../../../hooks/useDailryContext';
 import { deletePage } from '../../../apis/dailryApi';
 
 const PageListModal = (props) => {
-  const { onClose, pageList, deletable, onSelect } = props;
+  const { onClose, pageList, onSelect } = props;
   const [canToggle, setCanToggle] = useState(false);
   const [selectedPages, setSelectedPages] = useState(
     Array.from({ length: pageList.length + 1 }, () => 0),
@@ -47,11 +47,9 @@ const PageListModal = (props) => {
     <S.ModalBackground>
       <S.ModalWrapper>
         <S.TopArea>
-          {deletable && (
-            <button onClick={() => setCanToggle(!canToggle)}>
-              {canToggle ? '선택취소' : '다중선택'}
-            </button>
-          )}
+          <button onClick={() => setCanToggle(!canToggle)}>
+            {canToggle ? '선택취소' : '다중선택'}
+          </button>
           {canToggle && <button onClick={handleDeleteClick}>선택삭제</button>}
           <button onClick={onClose}>닫기</button>
         </S.TopArea>
