@@ -40,7 +40,7 @@ public class Post extends BaseTimeEntity {
     private long likeCount;
     private boolean isHotPost = false;
     @Version
-    private Long version;
+    private long version;
 
     private static final int hotPostThreadHold = 15;
 
