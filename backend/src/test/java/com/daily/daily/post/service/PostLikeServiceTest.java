@@ -172,7 +172,7 @@ class PostLikeServiceTest {
     @DisplayName("decreaseLikeCount() - 좋아요 감소 메서드 테스트")
     class decreaseLikeCount{
         @Test
-        @DisplayName("memberId와 postId로 좋아요 이력을 조회 했을 때, 좋아요를 누른 이력이 없는데, 좋아요를 감소시키려고 하는 경우 LikeDecreaseNotAllowedException 예외를 발생한다")
+        @DisplayName("memberId와 postId로 좋아요 이력을 조회 했을 때, 좋아요를 누른 이력이 없는데, 좋아요를 감소시키려고 하는 경우 NotPreviouslyLikedException 예외를 발생한다")
         void test1() {
             //given
             when(likeRepository.findBy(any(Long.class), any(Long.class))).thenReturn(Optional.empty());
