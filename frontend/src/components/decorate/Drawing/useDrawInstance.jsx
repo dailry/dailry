@@ -8,10 +8,10 @@ const useDrawInstance = (canvas, typeContent) => {
   const [drawInstance, setDrawInstance] = useState(undefined);
 
   useEffect(() => {
-    if (canvas.current && typeContent?.base64) {
-      const { ctx } = createCtx(canvas.current);
+    const { ctx } = createCtx(canvas.current);
 
-      const img = new Image();
+    const img = new Image();
+    if (canvas.current && typeContent?.base64) {
       img.src = typeContent.base64;
 
       img.onload = () => {
@@ -26,8 +26,8 @@ const useDrawInstance = (canvas, typeContent) => {
           );
         }
       };
-      setDrawInstance(new Draw(canvas.current, ctx));
     }
+    setDrawInstance(new Draw(canvas.current, ctx));
   }, [contentsLoaded, canvas, typeContent?.base64]);
 
   return { drawInstance };
