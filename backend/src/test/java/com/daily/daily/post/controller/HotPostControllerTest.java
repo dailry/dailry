@@ -22,9 +22,18 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.nio.charset.StandardCharsets;
 
+import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
+import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,6 +79,28 @@ class HotPostControllerTest {
 
             HotPostReadSliceResponseDTO 테스트_조회_결과 = objectMapper.readValue(content, HotPostReadSliceResponseDTO.class);
             assertThat(테스트_조회_결과).isEqualTo(인기_게시글_여러건_조회_DTO);
+            
+            //restdocs
+            perform.andDo(document("인기 게시글 여러건 조회",
+                    queryParameters(
+                            parameterWithName("page").description("페이지 번호(0부터 시작)"),
+                            parameterWithName("size").description("페이지별 게시글 갯수")
+                    ),
+                    responseFields(
+                            fieldWithPath("presentPage").type(NUMBER).description("현재 페이지 번호"),
+                            fieldWithPath("hasNext").type(BOOLEAN).description("다음 게시글이 존재하는지 유무"),
+                            fieldWithPath("hotPosts").type(ARRAY).description("인기 게시글 목록 배열"),
+                            fieldWithPath("hotPosts[].postId").type(NUMBER).description("게시글 id"),
+                            fieldWithPath("hotPosts[].content").type(STRING).description("게시글 본문 내용"),
+                            fieldWithPath("hotPosts[].pageImage").type(STRING).description("게시된 다일리 이미지 URL"),
+                            fieldWithPath("hotPosts[].hashtags").type(ARRAY).description("게시글 해시태그"),
+                            fieldWithPath("hotPosts[].writerId").type(NUMBER).description("게시글 작성자 고유 식별자"),
+                            fieldWithPath("hotPosts[].writerNickname").type(STRING).description("게시글 작성자 닉네임"),
+                            fieldWithPath("hotPosts[].likeCount").type(NUMBER).description("좋아요 숫자"),
+                            fieldWithPath("hotPosts[].createdTime").type(STRING).description("게시글 생성 시간"),
+                            fieldWithPath("hotPosts[].hotPostCreatedTime").type(STRING).description("인기 게시글로 올라간 시간")
+                    )
+            ));
         }
     }
 }
