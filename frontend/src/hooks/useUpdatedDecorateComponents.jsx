@@ -10,6 +10,14 @@ const useUpdatedDecorateComponents = () => {
   };
 
   const modifyUpdatedDecorateComponent = (updatedDecorateComponent) => {
+    if (
+      !updatedDecorateComponents.some(
+        (id) => id === updatedDecorateComponent.id,
+      )
+    ) {
+      addUpdatedDecorateComponent(updatedDecorateComponent);
+      return;
+    }
     setUpdatedDecorateComponents((prev) =>
       prev.map((decorateComponent) => {
         return decorateComponent.id === updatedDecorateComponent.id

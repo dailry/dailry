@@ -10,7 +10,7 @@ import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import { DECORATE_TOOLS, PAGE_TOOLS } from '../../constants/toolbar';
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
 import { useDailryContext } from '../../hooks/useDailryContext';
-import { postPage, getPages, patchPage } from '../../apis/dailryApi';
+import { postPage, getPages, patchPage, getPage } from '../../apis/dailryApi';
 import { DECORATE_TYPE, EDIT_MODE } from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
@@ -48,6 +48,7 @@ const DailryPage = () => {
 
   const {
     decorateComponents,
+    setDecorateComponents,
     addNewDecorateComponent,
     modifyDecorateComponent,
   } = useDecorateComponents();
@@ -81,26 +82,40 @@ const DailryPage = () => {
 
   const isMoveable = () => target && editMode === EDIT_MODE.COMMON_PROPERTY;
 
-  const { dailryId, pageId, pageNumber } = currentDailry;
+  const { dailryId, pageId, pageIds, pageNumber } = currentDailry;
 
   useEffect(() => {
     (async () => {
-      const response = await getPages(dailryId);
-      const { status, data } = response;
+      const { status, data } = await getPages(dailryId);
+
       if (status === 200 && data.pages.length !== 0) {
         const { pages } = data;
-        const pageIds = pages.map((page) => page.pageId);
-        setPageList(pages);
+        const pageIdList = pages.map((page) => page.pageId);
+        setPageList(pageIdList);
+
         setCurrentDailry({
           ...currentDailry,
-          pageNumber: pageNumber ?? 1,
-          pageIds,
+          pageIds: pageIdList,
+          pageNumber: pageIds ? 1 : null,
         });
+
         return setHavePage(true);
       }
+
       return setHavePage(false);
     })();
-  }, [dailryId, pageNumber, showPageModal]);
+  }, [dailryId]);
+
+  useEffect(() => {
+    (async () => {
+      setDecorateComponents([]);
+      const page = await getPage(pageIds[pageNumber - 1]);
+
+      if (page.data?.elements.length > 0) {
+        setDecorateComponents(page.data?.elements);
+      }
+    })();
+  }, [pageIds, pageNumber]);
 
   const toastify = (message) => {
     toast(message, {
@@ -314,7 +329,6 @@ const DailryPage = () => {
               }, 150);
               if (t === 'add') {
                 const response = await postPage(dailryId);
-                console.log(response);
                 setCurrentDailry({
                   ...currentDailry,
                   pageId: response.data.pageId,
@@ -326,7 +340,7 @@ const DailryPage = () => {
               }
               if (t === 'save') {
                 const formData = getPageFormData(updatedDecorateComponents);
-                await patchPage(48, formData);
+                await patchPage(pageIds[pageNumber - 1], formData);
               }
             };
             return (

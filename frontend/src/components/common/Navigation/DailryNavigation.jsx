@@ -32,7 +32,6 @@ const DailryNavigation = () => {
         setCurrentDailry({
           ...currentDailry,
           dailryId: updatedDailryItems[0].dailryId,
-          pageNumber: null,
         });
       }
     })();
