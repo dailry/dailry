@@ -258,18 +258,18 @@ class PostControllerTest {
         @WithMockUser
         @DisplayName("게시글 Slice 조회가 성공했을 때 응답 결과를 검사한다.")
         void test1() throws Exception {
-
+            //given
             PostReadSliceResponseDTO 게시글_여러건_조회_dto = 게시글_여러건_조회_DTO();
             given(postService.findSlice(PageRequest.of(0, 5))).willReturn(게시글_여러건_조회_dto);
 
-
+            //when
             ResultActions perform = mockMvc.perform(get("/api/posts")
                     .with(csrf().asHeader())
                     .queryParam("page", "0")
                     .queryParam("size", "5")
             );
 
-
+            //then
             String content = perform.andExpect(status().isOk())
                     .andReturn()
                     .getResponse()
@@ -313,14 +313,14 @@ class PostControllerTest {
             given(postService.findPostByHashtag(List.of("대학생", "시험기간"), PageRequest.of(0, 2))).willReturn(게시글_해시태그로_조회_dto);
 
             //when
-            ResultActions perform = mockMvc.perform(get("/api/posts/hashtags")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(회원이_검색한_해시태그()))
+            ResultActions perform = mockMvc.perform(get("/api/posts/search")
                     .with(csrf().asHeader())
+                    .queryParam("hashtags", "대학생", "시험기간")
                     .queryParam("page", "0")
                     .queryParam("size", "2")
             );
 
+            //then
             String content = perform.andExpect(status().isOk())
                     .andReturn()
                     .getResponse()
@@ -331,10 +331,8 @@ class PostControllerTest {
 
             //restdocs
             perform.andDo(RestDocsUtil.document("게시글 해시태그로 조회",
-                    requestFields(
-                            fieldWithPath("hashtags").description("게시글 해시태그")
-                    ),
                     queryParameters(
+                            parameterWithName("hashtags").description("검색할 해시태그"),
                             parameterWithName("page").description("페이지 번호(0부터 시작)"),
                             parameterWithName("size").description("페이지 사이즈")
                     ),

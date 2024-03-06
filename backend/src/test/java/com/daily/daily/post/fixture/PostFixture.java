@@ -187,11 +187,4 @@ public class PostFixture {
         ReflectionTestUtils.setField(post, "id", POST_ID);
         return post;
     }
-
-    public static PostReadByHashTagRequestDTO 회원이_검색한_해시태그() {
-        PostReadByHashTagRequestDTO 해시태그 = PostReadByHashTagRequestDTO.builder()
-                .hashtags(List.of("대학생", "시험기간"))
-                .build();
-        return 해시태그;
-    }
 }

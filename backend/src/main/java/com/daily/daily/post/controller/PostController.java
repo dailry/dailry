@@ -14,6 +14,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
@@ -64,8 +66,8 @@ public class PostController {
         return new SuccessResponseDTO();
     }
 
-    @GetMapping("/hashtags")
-    public PostReadSliceResponseDTO readPostByHashTag(@RequestBody @Valid PostReadByHashTagRequestDTO postReadByHashTagRequestDTO, Pageable pageable) {
-        return postService.findPostByHashtag(postReadByHashTagRequestDTO.getHashtags(), pageable);
+    @GetMapping("/search")
+    public PostReadSliceResponseDTO readPostByHashTag(@RequestParam("hashtags") List<String> hashtags, Pageable pageable) {
+        return postService.findPostByHashtag(hashtags, pageable);
     }
 }
