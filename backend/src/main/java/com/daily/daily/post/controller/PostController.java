@@ -66,7 +66,6 @@ public class PostController {
 
     @GetMapping("/hashtags")
     public PostReadSliceResponseDTO readPostByHashTag(@RequestBody @Valid PostReadByHashTagRequestDTO postReadByHashTagRequestDTO, Pageable pageable) {
-        System.out.println("hashtags : " + postReadByHashTagRequestDTO.getHashtags());
         return postService.findPostByHashtag(postReadByHashTagRequestDTO.getHashtags(), pageable);
     }
 }

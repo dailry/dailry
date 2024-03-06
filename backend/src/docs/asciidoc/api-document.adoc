@@ -391,6 +391,19 @@ include::{snippets}/게시글 여러건 조회/query-parameters.adoc[]
 include::{snippets}/게시글 여러건 조회/http-response.adoc[]
 include::{snippets}/게시글 여러건 조회/response-fields.adoc[]
 
+=== 게시글 해시태그로 조회
+
+==== 요청
+
+include::{snippets}/게시글 해시태그로 조회/http-request.adoc[]
+include::{snippets}/게시글 해시태그로 조회/request-fields.adoc[]
+include::{snippets}/게시글 해시태그로 조회/query-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/게시글 해시태그로 조회/http-response.adoc[]
+include::{snippets}/게시글 해시태그로 조회/response-fields.adoc[]
+
 === 게시글 삭제
 
 ==== 요청 (로그인 필요)
