@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.daily.daily.common.config.BusinessConfig.HOT_POST_LIKE_THRESHOLD;
-import static com.daily.daily.common.config.BusinessConfig.HOT_POST_CREATED_TIME_CONDITION;
+import static com.daily.daily.common.config.Business.BusinessConfig.HOT_POST_LIKE_THRESHOLD;
+import static com.daily.daily.common.config.Business.BusinessConfig.HOT_POST_CREATED_TIME_CONDITION;
 
 
 @Entity

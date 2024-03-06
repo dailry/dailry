@@ -1,6 +1,6 @@
 package com.daily.daily.post.service;
 
-import com.daily.daily.common.config.BusinessConfig;
+import com.daily.daily.common.config.Business.BusinessConfig;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.exception.PostNotFoundException;

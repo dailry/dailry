@@ -20,8 +20,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static com.daily.daily.common.config.BusinessConfig.HOT_POST_LIKE_THRESHOLD;
-import static com.daily.daily.common.config.BusinessConfig.HOT_POST_CREATED_TIME_CONDITION;
+import static com.daily.daily.common.config.Business.BusinessConfig.HOT_POST_LIKE_THRESHOLD;
+import static com.daily.daily.common.config.Business.BusinessConfig.HOT_POST_CREATED_TIME_CONDITION;
 import static com.daily.daily.member.fixture.MemberFixture.일반회원2;
 import static com.daily.daily.post.fixture.PostFixture.일반회원1이_작성한_게시글;
 import static java.time.LocalDateTime.now;

@@ -1,4 +1,4 @@
-package com.daily.daily.common.config;
+package com.daily.daily.common.config.Business;
 
 public class BusinessConfig {
     public static final int HOT_POST_LIKE_THRESHOLD = 15; // 인기게시글로 올라가는 좋아요 갯수
