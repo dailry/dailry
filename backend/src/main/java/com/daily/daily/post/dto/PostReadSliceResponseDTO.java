@@ -32,16 +32,7 @@ public class PostReadSliceResponseDTO {
 
     private static List<PostReadResponseDTO> convertToDTO(List<Post> posts) {
         return posts.stream()
-                .map(post -> PostReadResponseDTO.builder()
-                        .postId(post.getId())
-                        .content(post.getContent())
-                        .pageImage(post.getPageImage())
-                        .writerId(post.getWriterId())
-                        .writerNickname(post.getWriterNickname())
-                        .hashtags(post.getTagNames())
-                        .createdTime(post.getCreatedTime())
-                        .likeCount(post.getLikeCount())
-                        .build()
-                ).collect(Collectors.toList());
+                .map(PostReadResponseDTO::from)
+                .collect(Collectors.toList());
     }
 }

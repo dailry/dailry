@@ -14,18 +14,19 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Version;
 import lombok.Builder;
 import lombok.Getter;
-import org.hibernate.annotations.SQLDelete;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.daily.daily.common.config.Business.BusinessConfig.HOT_POST_LIKE_THRESHOLD;
+import static com.daily.daily.common.config.Business.BusinessConfig.HOT_POST_CREATED_TIME_CONDITION;
 
 
 @Entity
 @Getter
 public class Post extends BaseTimeEntity {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,9 +42,9 @@ public class Post extends BaseTimeEntity {
     private List<PostHashtag> postHashtags = new ArrayList<>();
 
     private long likeCount;
-
+    private boolean isHotPost = false;
     @Version
-    private Long version;
+    private long version;
 
     @Builder
     public Post(String content, String pageImage, Member postWriter) {
@@ -96,5 +97,14 @@ public class Post extends BaseTimeEntity {
 
     public void decreaseLikeCount() {
         likeCount--;
+    }
+
+    public boolean satisfyHotPostCondition() {
+        return likeCount >= HOT_POST_LIKE_THRESHOLD
+                && getCreatedTime().isAfter(LocalDateTime.now().minusDays(HOT_POST_CREATED_TIME_CONDITION));
+    }
+
+    public void makeHotPost() {
+        isHotPost = true;
     }
 }

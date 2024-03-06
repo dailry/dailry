@@ -282,7 +282,7 @@ class PostControllerTest {
             perform.andDo(RestDocsUtil.document("게시글 여러건 조회",
                     queryParameters(
                             parameterWithName("page").description("페이지 번호(0부터 시작)"),
-                            parameterWithName("size").description("페이지 사이즈")
+                            parameterWithName("size").description("페이지별 게시글 갯수")
                     ),
                     responseFields(
                             fieldWithPath("presentPage").type(NUMBER).description("현재 페이지 번호"),

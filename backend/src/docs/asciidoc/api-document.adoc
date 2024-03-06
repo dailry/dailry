@@ -415,6 +415,20 @@ include::{snippets}/게시글 삭제/path-parameters.adoc[]
 include::{snippets}/게시글 삭제/http-response.adoc[]
 
 
+== 인기 게시글
+
+=== 인기게시글 여러건 조회
+
+==== 요청
+
+include::{snippets}/인기 게시글 여러건 조회/http-request.adoc[]
+include::{snippets}/인기 게시글 여러건 조회/query-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/인기 게시글 여러건 조회/http-response.adoc[]
+include::{snippets}/인기 게시글 여러건 조회/response-fields.adoc[]
+
 == 게시글 좋아요
 
 === 좋아요 증가

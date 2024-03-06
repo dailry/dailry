@@ -498,6 +498,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_게시글_삭제">게시글 삭제</a></li>
 </ul>
 </li>
+<li><a href="#_인기_게시글">인기 게시글</a>
+<ul class="sectlevel2">
+<li><a href="#_인기게시글_여러건_조회">인기게시글 여러건 조회</a></li>
+</ul>
+</li>
 <li><a href="#_게시글_좋아요">게시글 좋아요</a>
 <ul class="sectlevel2">
 <li><a href="#_좋아요_증가">좋아요 증가</a></li>
@@ -594,8 +599,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA5OTM4NjgzfQ.FH3BEK94FWRLVnLKp-_Ezt9NNN4Cbs81a6dNXVXYFNtPe612sUfy9Eq8nSjbSw72RtWjY0cYSXmPC2SUnCglMw; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwOTcwNDQ0OCwiZXhwIjoxOTQzOTM4NjgzfQ.0WN1kbbjF4Ztluj5hTobAXaxeKvDKSs_y_td3pmABGulA_kApVM5TLtANLhabZqIsrMzifvRx-VRj_1mFY9H5A; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
+Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzA5OTUyNzkzfQ.pwM-qN2YQLZGRx0n4w2NEzqipZewo2Fyl65W10wfys41SdJsTntn6fq0Ln4RqqVBgZ6jgRnAJHQA0Qe31nVsqQ; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcwOTcxODU1OSwiZXhwIjoxOTQzOTUyNzkzfQ.1hQlHBI1aW83FA9NIzofM5-MkFVfjf69gXCZGVcHTKfMzP4fiBkBkAwsn-m_T2wcqZaO8zs5sFp9f-4P_6VrNg; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
 Content-Type: application/json
 
 {
@@ -614,8 +619,8 @@ Content-Type: application/json
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDk5Mzg2ODB9.hRMx-jrVxpMbd5hkR1eZmu6mLBq_GF72eLGXHHFPBV-EBICdTIfNLZYagss4WzjCaW9oJLuoR70xgamd70HRkA
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA5NzA0NDQ2LCJleHAiOjE5NDM5Mzg2ODB9.XSmg-wxKzVleGMwY7ZwjIBDQ9ACbfP3MeM-58AQ0QyHZFiNRgJ1KXaeheKFR5wIjlqApWshEnOnWFEGc3dhWwQ</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDk5NTI3OTJ9.NwogX239UTsQ-tcXXFFMtCu6z7eXoq6rW3VE03BAi2PUiUuyaaXzAGv9HR1OY5ZFLSidssvZ9koWA7ly5SK43w
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzA5NzE4NTU4LCJleHAiOjE5NDM5NTI3OTJ9._16-kRlFpSe1BuPyE4mvfHIPLA27HNMx7aKEb05mbpXLNZOAU68aVdjcAVBoEYmv52_Am_7LMro1NkUZqJ5txA</code></pre>
 </div>
 </div>
 </div>
@@ -644,8 +649,8 @@ Content-Type: application/json
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDk5Mzg2ODJ9.Pn1jDOsFr595Pe-s1Ys8SH3u2cdX2goChms6k-bsduwcd4QNu20Ka4IF7R92zuiEN5vPT708_YTWW28BjGQ0ow
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA5NzA0NDQ3LCJleHAiOjE5NDM5Mzg2ODJ9.-V1Ms3c93b9a6H3tbb58p9vNUjBKBoos8D5277hH89GqyPu_fCElvhMtJgr5vcc4lpDr0fnJdbdSLaNfj08ulg</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MDk5NTI3OTJ9.A-xKJk9_Lx_2ZXi_3KGzMtrmccQm2_u5ERzp0gIHU4aKORKHPq1rQ0wJixmcjGyUEpBogsgzVpMzhPp1IF3H5A
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzA5NzE4NTU4LCJleHAiOjE5NDM5NTI3OTJ9.T--T2t5bEXf9mIJcX6xnjVwKxfyXRFDCYYGzB0z5_hMcGoznwmMbvYn5x2JSla5Phq16s65jfBnUkCr5NI9q5g</code></pre>
 </div>
 </div>
 </div>
@@ -3079,7 +3084,7 @@ Content-Type: application/json
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 사이즈</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지별 게시글 갯수</p></td>
 </tr>
 </tbody>
 </table>
@@ -3430,6 +3435,203 @@ Content-Type: application/json
 }</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_인기_게시글">인기 게시글</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_인기게시글_여러건_조회">인기게시글 여러건 조회</h3>
+<div class="sect3">
+<h4 id="_요청_10">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/hotPosts?page=0&amp;size=5 HTTP/1.1</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 번호(0부터 시작)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지별 게시글 갯수</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_31">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "presentPage" : 7,
+  "hasNext" : true,
+  "hotPosts" : [ {
+    "postId" : 36,
+    "content" : "오늘 다일리 어떤가요?",
+    "pageImage" : "https://imageURL123.com",
+    "writerId" : 3,
+    "writerNickname" : "신입생123",
+    "hashtags" : [ "대학생", "시험기간" ],
+    "likeCount" : 5,
+    "createdTime" : "2024-01-18T15:38:32.000000042",
+    "hotPostCreatedTime" : "2024-03-06T17:30:32.000000042"
+  }, {
+    "postId" : 37,
+    "content" : "오늘 다일리 어떤가요~~",
+    "pageImage" : "https://imageURL13.com",
+    "writerId" : 4,
+    "writerNickname" : "다솔맘",
+    "hashtags" : [ "육아" ],
+    "likeCount" : 8,
+    "createdTime" : "2024-01-18T15:38:32.000000042",
+    "hotPostCreatedTime" : "2024-03-06T17:30:32.000000042"
+  }, {
+    "postId" : 38,
+    "content" : "오늘 업무량 실화냐..",
+    "pageImage" : "https://imageURL123.com",
+    "writerId" : 31,
+    "writerNickname" : "다일리개발자",
+    "hashtags" : [ "개발자", "회사", "퇴사" ],
+    "likeCount" : 33,
+    "createdTime" : "2024-01-18T15:38:32.000000042",
+    "hotPostCreatedTime" : "2024-03-06T17:30:32.000000042"
+  }, {
+    "postId" : 39,
+    "content" : "주말 다일리 어떤가요?",
+    "pageImage" : "https://imageURL1413.com",
+    "writerId" : 83,
+    "writerNickname" : "주말좋아",
+    "hashtags" : [ "주말", "휴식" ],
+    "likeCount" : 23,
+    "createdTime" : "2024-01-18T15:38:32.000000042",
+    "hotPostCreatedTime" : "2024-03-06T17:30:32.000000042"
+  }, {
+    "postId" : 40,
+    "content" : "유럽여행 25일차 일정 짜봤습니다.",
+    "pageImage" : "https://imageURL23123.com",
+    "writerId" : 512,
+    "writerNickname" : "여행유튜버",
+    "hashtags" : [ "여행", "유럽여행" ],
+    "likeCount" : 212,
+    "createdTime" : "2024-01-18T15:38:32.000000042",
+    "hotPostCreatedTime" : "2024-03-06T17:30:32.000000042"
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>presentPage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hasNext</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다음 게시글이 존재하는지 유무</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hotPosts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인기 게시글 목록 배열</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hotPosts[].postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hotPosts[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 본문 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hotPosts[].pageImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시된 다일리 이미지 URL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hotPosts[].hashtags</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 해시태그</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hotPosts[].writerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성자 고유 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hotPosts[].writerNickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성자 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hotPosts[].likeCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 숫자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hotPosts[].createdTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 생성 시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hotPosts[].hotPostCreatedTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인기 게시글로 올라간 시간</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -3952,7 +4154,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-03-06 13:30:41 +0900
+Last updated 2024-03-06 18:48:55 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
