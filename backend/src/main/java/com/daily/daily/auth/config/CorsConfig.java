@@ -17,7 +17,9 @@ public class CorsConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(List.of("http://127.0.0.1:3000", "http://localhost:3000", "https://localhost:3000", "https://da-ily.site"));
+        configuration.setAllowedOrigins(List.of("http://127.0.0.1:3000", "http://localhost:3000",
+                "https://localhost:3000", "https://da-ily.site",
+                "https://dailry-3yqoncc16-hangooksaram.vercel.app"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("*"));
