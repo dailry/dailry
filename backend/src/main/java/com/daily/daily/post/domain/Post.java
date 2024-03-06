@@ -97,8 +97,8 @@ public class Post extends BaseTimeEntity {
         likeCount--;
     }
 
-    public boolean satisfyHotPostCondition() {
-        return likeCount >= hotPostThreadHold;
+    public boolean satisfyHotPostCondition() {return
+            likeCount >= hotPostThreadHold;
     }
 
     public void makeHotPost() {

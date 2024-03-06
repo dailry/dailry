@@ -3,6 +3,7 @@ package com.daily.daily.post.dto;
 import com.daily.daily.post.domain.HotPost;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Slice;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Builder
+@EqualsAndHashCode
 public class HotPostReadSliceResponseDTO {
     private Integer presentPage;
     private Boolean hasNext;
@@ -33,6 +35,4 @@ public class HotPostReadSliceResponseDTO {
                 .map(HotPostReadResponseDTO::from)
                 .collect(Collectors.toList());
     }
-
-
 }

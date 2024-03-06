@@ -18,6 +18,6 @@ public class HotPostService {
 
     public HotPostReadSliceResponseDTO findSlice(Pageable pageable) {
         Slice<HotPost> hotPosts = hotPostRepository.findSlice(pageable);
-        return null;
+        return HotPostReadSliceResponseDTO.from(hotPosts);
     }
 }

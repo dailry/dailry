@@ -5,6 +5,7 @@ import com.daily.daily.post.domain.Post;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@EqualsAndHashCode
 public class HotPostReadResponseDTO{
     //기존 PostReadDTO
     private Long postId;

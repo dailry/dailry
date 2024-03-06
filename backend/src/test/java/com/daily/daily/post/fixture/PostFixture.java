@@ -14,10 +14,8 @@ import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingExcept
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.daily.daily.member.fixture.MemberFixture.일반회원1;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -29,7 +27,7 @@ public class PostFixture {
     public static final Long POST_ID = 31L;
     private static final String POST_CONTENT = "오늘 저의 다일리입니다.";
     private static final String PAGE_IMAGE_URL = "imageURL";
-    private static final LocalDateTime POST_CREATED_TIME = LocalDateTime.of(2024,1,18,15,38,32,42);
+    public static final LocalDateTime POST_CREATED_TIME = LocalDateTime.of(2024,1,18,15,38,32,42);
     private static final List<String> HASHTAG_NAMES = List.of("일반", "음식", "대학생");
     private static final List<Hashtag> HASHTAGS = HASHTAG_NAMES.stream()
             .map(Hashtag::of)
