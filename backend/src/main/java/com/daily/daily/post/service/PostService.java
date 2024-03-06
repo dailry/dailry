@@ -98,8 +98,8 @@ public class PostService {
         }
     }
 
-    public PostReadSliceResponseDTO findPostByHashtag(List<String> hashtag, Pageable pageable) {
-        Slice<Post> posts = postRepository.findPostsByHashtag(hashtag, pageable);
+    public PostReadSliceResponseDTO findPostByHashtag(List<String> hashtags, Pageable pageable) {
+        Slice<Post> posts = postRepository.findPostsByHashtag(hashtags, pageable);
         return PostReadSliceResponseDTO.from(posts);
     }
 }
