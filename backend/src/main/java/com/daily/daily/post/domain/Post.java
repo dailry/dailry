@@ -100,7 +100,8 @@ public class Post extends BaseTimeEntity {
     }
 
     public boolean satisfyHotPostCondition() {
-        return likeCount >= HOT_POST_LIKE_THRESHOLD && getCreatedTime().isAfter(LocalDateTime.now().minusDays(HOT_POST_CREATED_TIME_CONDITION));
+        return likeCount >= HOT_POST_LIKE_THRESHOLD
+                && getCreatedTime().isAfter(LocalDateTime.now().minusDays(HOT_POST_CREATED_TIME_CONDITION));
     }
 
     public void makeHotPost() {
