@@ -17,18 +17,21 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
+import static com.daily.daily.common.config.BusinessConfig.HOT_POST_LIKE_THRESHOLD;
+import static com.daily.daily.common.config.BusinessConfig.HOT_POST_CREATED_TIME_CONDITION;
 import static com.daily.daily.member.fixture.MemberFixture.일반회원2;
 import static com.daily.daily.post.fixture.PostFixture.일반회원1이_작성한_게시글;
+import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 @ExtendWith(MockitoExtension.class)
 class PostLikeServiceTest {
@@ -87,12 +90,33 @@ class PostLikeServiceTest {
         }
 
         @Test
-        @DisplayName("게시글의 좋아요 갯수가 15가 되면 해당 게시글은 HotPost 테이블에 저장되어야 한다.")
+        @DisplayName("게시글의 좋아요 갯수가 기준치에 만족하고, 생성시간 조건도 만족한다면 해당 게시글은 HotPost 테이블에 저장되어야 한다.")
         void test3() {
             //given
             Member 일반회원2 = 일반회원2();
             Post 일반회원1이_작성한_게시글 = 일반회원1이_작성한_게시글();
-            ReflectionTestUtils.setField(일반회원1이_작성한_게시글, "likeCount", 14); // 좋아요 갯수를 14로 설정
+            setField(일반회원1이_작성한_게시글, "likeCount", HOT_POST_LIKE_THRESHOLD -1); // 좋아요 갯수를 기준에 1못미치게 설정
+            setField(일반회원1이_작성한_게시글, "createdTime", now().minusDays(HOT_POST_CREATED_TIME_CONDITION).plusSeconds(1));
+
+            when(memberRepository.findById(any())).thenReturn(Optional.of(일반회원2));
+            when(postRepository.findById(any())).thenReturn(Optional.of(일반회원1이_작성한_게시글));
+
+            //when
+            postLikeService.increaseLikeCount(일반회원2.getId(), 일반회원1이_작성한_게시글.getId()); // 좋아요를 누름으로써 인기글 생성
+
+            //then
+            verify(hotPostRepository, times(1)).save(any());
+        }
+
+        @Test
+        @DisplayName("게시글의 좋아요 갯수가 기준치를 만족하더라도, 이미 인기글에 올라간 게시글의 경우에는 HotPost 테이블에 저장하지 않는다.")
+        void test4() {
+            //given
+            Member 일반회원2 = 일반회원2();
+            Post 일반회원1이_작성한_게시글 = 일반회원1이_작성한_게시글();
+            setField(일반회원1이_작성한_게시글, "likeCount", HOT_POST_LIKE_THRESHOLD -1);
+            setField(일반회원1이_작성한_게시글, "createdTime", now().minusDays(HOT_POST_CREATED_TIME_CONDITION).plusSeconds(1));
+            setField(일반회원1이_작성한_게시글, "isHotPost", true); // 이미 HotPost 인 경우.
 
             when(memberRepository.findById(any())).thenReturn(Optional.of(일반회원2));
             when(postRepository.findById(any())).thenReturn(Optional.of(일반회원1이_작성한_게시글));
@@ -101,17 +125,36 @@ class PostLikeServiceTest {
             postLikeService.increaseLikeCount(일반회원2.getId(), 일반회원1이_작성한_게시글.getId());
 
             //then
-            verify(hotPostRepository, times(1)).save(any());
+            verify(hotPostRepository, times(0)).save(any());
         }
-
+        
         @Test
-        @DisplayName("게시글의 좋아요 갯수가 15이상이더라도, 이미 인기글에 올라간 게시글의 경우에는 HotPost 테이블에 저장하지 않는다.")
-        void test4() {
+        @DisplayName("게시글의 좋아요 갯수가 기준치를 만족하더라도, 생성된지 7일이 넘은 게시글의 경우에는 HotPost 테이블에 저장하지 않는다.")
+        void test5() {
             //given
             Member 일반회원2 = 일반회원2();
             Post 일반회원1이_작성한_게시글 = 일반회원1이_작성한_게시글();
-            ReflectionTestUtils.setField(일반회원1이_작성한_게시글, "likeCount", 16); // 좋아요 갯수를 16으로 설정
-            ReflectionTestUtils.setField(일반회원1이_작성한_게시글, "isHotPost", true); // 이미 HotPost 인 경우.
+            setField(일반회원1이_작성한_게시글, "likeCount", HOT_POST_LIKE_THRESHOLD -1);
+            setField(일반회원1이_작성한_게시글, "createdTime", now().minusDays(HOT_POST_CREATED_TIME_CONDITION));
+
+            when(memberRepository.findById(any())).thenReturn(Optional.of(일반회원2));
+            when(postRepository.findById(any())).thenReturn(Optional.of(일반회원1이_작성한_게시글));
+
+            //when
+            postLikeService.increaseLikeCount(일반회원2.getId(), 일반회원1이_작성한_게시글.getId());
+
+            //then
+            verify(hotPostRepository, times(0)).save(any());
+        }
+
+        @Test
+        @DisplayName("게시글의 좋아요 갯수가 기준치에 만족하지 않으면, HotPost 테이블에 저장되지 않는다.")
+        void test6() {
+            //given
+            Member 일반회원2 = 일반회원2();
+            Post 일반회원1이_작성한_게시글 = 일반회원1이_작성한_게시글();
+            setField(일반회원1이_작성한_게시글, "likeCount", HOT_POST_LIKE_THRESHOLD - 2);
+            setField(일반회원1이_작성한_게시글, "createdTime", now().minusDays(HOT_POST_CREATED_TIME_CONDITION).plusSeconds(1));
 
             when(memberRepository.findById(any())).thenReturn(Optional.of(일반회원2));
             when(postRepository.findById(any())).thenReturn(Optional.of(일반회원1이_작성한_게시글));

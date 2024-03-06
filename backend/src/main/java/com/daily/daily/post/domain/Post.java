@@ -15,9 +15,13 @@ import jakarta.persistence.Version;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.daily.daily.common.config.BusinessConfig.HOT_POST_LIKE_THRESHOLD;
+import static com.daily.daily.common.config.BusinessConfig.HOT_POST_CREATED_TIME_CONDITION;
 
 
 @Entity
@@ -41,8 +45,6 @@ public class Post extends BaseTimeEntity {
     private boolean isHotPost = false;
     @Version
     private long version;
-
-    private static final int hotPostThreadHold = 15;
 
     @Builder
     public Post(String content, String pageImage, Member postWriter) {
@@ -97,8 +99,8 @@ public class Post extends BaseTimeEntity {
         likeCount--;
     }
 
-    public boolean satisfyHotPostCondition() {return
-            likeCount >= hotPostThreadHold;
+    public boolean satisfyHotPostCondition() {
+        return likeCount >= HOT_POST_LIKE_THRESHOLD && getCreatedTime().isAfter(LocalDateTime.now().minusDays(HOT_POST_CREATED_TIME_CONDITION));
     }
 
     public void makeHotPost() {

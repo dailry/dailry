@@ -1,5 +1,6 @@
 package com.daily.daily.post.service;
 
+import com.daily.daily.common.config.BusinessConfig;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.exception.PostNotFoundException;
@@ -99,13 +100,13 @@ public class PostLikeServiceConcurrencyTest {
     }
 
     @Test
-    @DisplayName("post 의 좋아요가 14인 상황에서 동시에 좋아요 요청이 5개 왔을 때, hot_post 테이블에 중복된 post 가 저장되면 안된다." +
+    @DisplayName("post 의 좋아요가 인기글 기준치에 1만큼 못미친 상황에서 동시에 좋아요 요청이 5개 왔을 때, hot_post 테이블에 중복된 post 가 저장되면 안된다." +
             "Unique 제약조건으로 인한 예외로 좋아요 요청이 실패해서도 안된다.")
     void hotPostInsertConcurrencyTest() throws InterruptedException {
         //given
         hotPostRepository.deleteAll();
 
-        List<Member> members = memberGenerator.generate(14);
+        List<Member> members = memberGenerator.generate(BusinessConfig.HOT_POST_LIKE_THRESHOLD - 1);
         Post post = postGenerator.generate();
 
         for (Member member : members) {
