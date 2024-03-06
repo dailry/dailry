@@ -4,20 +4,15 @@ import com.daily.daily.member.domain.Member;
 import com.daily.daily.post.domain.Hashtag;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.domain.PostHashtag;
-import com.daily.daily.post.dto.PostReadResponseDTO;
-import com.daily.daily.post.dto.PostReadSliceResponseDTO;
-import com.daily.daily.post.dto.PostWriteRequestDTO;
-import com.daily.daily.post.dto.PostWriteResponseDTO;
+import com.daily.daily.post.dto.*;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.daily.daily.member.fixture.MemberFixture.일반회원1;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -129,6 +124,37 @@ public class PostFixture {
                 .hasNext(true)
                 .presentPage(7)
                 .posts(List.of(게시글1, 게시글2, 게시글3, 게시글4, 게시글5))
+                .build();
+    }
+
+    public static PostReadSliceResponseDTO 게시글_해시태그로_조회_DTO() {
+        PostReadResponseDTO 게시글1 = PostReadResponseDTO.builder()
+                .postId(36L)
+                .content("오늘 다일리 어떤가요?")
+                .pageImage("https://imageURL123.com")
+                .writerId(3L)
+                .writerNickname("신입생123")
+                .hashtags(List.of("대학생", "시험기간"))
+                .createdTime(POST_CREATED_TIME)
+                .likeCount(5L)
+                .build();
+
+        PostReadResponseDTO 게시글2 = PostReadResponseDTO.builder()
+                .postId(38L)
+                .content("과제 실화냐..")
+                .pageImage("https://imageURL123.com")
+                .writerId(31L)
+                .writerNickname("다일리개발자")
+                .hashtags(List.of("대학생", "시험기간", "과제"))
+                .createdTime(POST_CREATED_TIME)
+                .likeCount(33L)
+                .build();
+
+        return PostReadSliceResponseDTO
+                .builder()
+                .hasNext(true)
+                .presentPage(7)
+                .posts(List.of(게시글1, 게시글2))
                 .build();
     }
 
