@@ -8,23 +8,27 @@ const useDrawInstance = (canvas, typeContent) => {
   const [drawInstance, setDrawInstance] = useState(undefined);
 
   useEffect(() => {
-    const { ctx } = createCtx(canvas.current);
+    if (canvas.current && typeContent?.base64) {
+      const { ctx } = createCtx(canvas.current);
 
-    const img = new Image();
-
-    if (typeContent) {
+      const img = new Image();
       img.src = typeContent.base64;
 
       img.onload = () => {
-        if (ctx) {
+        if (ctx && canvas.current) {
           ctx.globalCompositeOperation = 'source-over';
-          ctx.drawImage(img, 0, 0, canvas.current.width, canvas.current.height);
+          ctx.drawImage(
+            img,
+            0,
+            0,
+            canvas.current?.width,
+            canvas.current?.height,
+          );
         }
       };
+      setDrawInstance(new Draw(canvas.current, ctx));
     }
-
-    setDrawInstance(new Draw(canvas.current, ctx));
-  }, [contentsLoaded]);
+  }, [contentsLoaded, canvas, typeContent?.base64]);
 
   return { drawInstance };
 };
