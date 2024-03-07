@@ -1,6 +1,6 @@
 package com.daily.daily.dailrypage.repository;
 
-import com.daily.daily.dailrypage.domain.QDailryPage;
+import com.daily.daily.dailrypage.domain.DailryPage;
 import com.daily.daily.dailrypage.dto.DailryPageThumbnailDTO;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,5 +26,21 @@ public class DailryPageQuerydslImpl implements DailryPageQuerydsl {
                 .from(dailryPage)
                 .where(dailryPage.dailry.id.eq(dailryId))
                 .fetch();
+    }
+    @Override
+    public void deleteAndAdjustPageNumber(DailryPage page) {
+        queryFactory.delete(dailryPage)
+                .where(dailryPage.id.eq(page.getId()))
+                .execute();
+
+        adjustPageNumber(page.getDailryId(), page.getPageNumber());
+    }
+
+    private void adjustPageNumber(Long dailryId, Integer pageNumberOfDeletedPage) {
+        queryFactory.update(dailryPage)
+                .set(dailryPage.pageNumber, dailryPage.pageNumber.subtract(1))
+                .where(dailryPage.dailry.id.eq(dailryId)
+                        .and(dailryPage.pageNumber.gt(pageNumberOfDeletedPage))
+                ).execute();
     }
 }
