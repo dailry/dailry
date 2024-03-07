@@ -47,16 +47,8 @@ public class DailryPage extends BaseTimeEntity {
     protected DailryPage() {
     }
 
-    public static DailryPage createEmptyPage() {
-        return new DailryPage();
-    }
-
     public void updateBackground(String background) {
         this.background = background;
-    }
-
-    public void updatePageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
     }
 
     public void updateElements(List<DailryPageUpdateDTO.ElementDTO> elements) {

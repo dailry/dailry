@@ -16,13 +16,17 @@ public class DailryPageGenerator {
     DailryPageRepository dailryPageRepository;
 
     public List<DailryPage> generate(Dailry dailry, int count) {
-        List<DailryPage> dailryPages = new ArrayList<>();
+        List<DailryPage> result = new ArrayList<>();
         
         for (int i = 1; i <= count; i++) {
-            DailryPage dailryPage = DailryPage.builder().dailry(dailry).build();
-            dailryPages.add(dailryPageRepository.save(dailryPage));
+            DailryPage dailryPage = DailryPage.builder()
+                    .dailry(dailry)
+                    .pageNumber(i)
+                    .build();
+
+            result.add(dailryPageRepository.save(dailryPage));
         }
 
-        return dailryPages;
+        return result;
     }
 }

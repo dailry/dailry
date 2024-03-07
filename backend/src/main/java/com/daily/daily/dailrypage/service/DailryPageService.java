@@ -108,6 +108,7 @@ public class DailryPageService {
         if (!findPage.belongsTo(memberId)) {
             throw new UnauthorizedAccessException();
         }
-        dailryPageRepository.deleteById(pageId);
+
+        dailryPageRepository.deleteAndAdjustPageNumber(findPage);
     }
 }
