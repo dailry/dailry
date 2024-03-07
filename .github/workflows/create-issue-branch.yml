@@ -10,7 +10,8 @@ jobs:
   create-branch:
     if: |
       contains(github.event.issue.labels.*.name, '🌱 신규 기능') ||
-      contains(github.event.issue.labels.*.name, '✨ 리팩터링')
+      contains(github.event.issue.labels.*.name, '✨ 리팩터링') ||
+      contains(github.event.issue.labels.*.name, '🔧 버그 수정')
     runs-on: ubuntu-latest
     env:
       ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -26,6 +27,9 @@ jobs:
       - name: Set up branch Type
         if: contains(github.event.issue.labels.*.name, '✨ 리팩터링')
         run: echo "BRANCH_TYPE=refactor" >> $GITHUB_ENV
+      - name : Set Up branch Type
+        if: contains(github.event.issue.labels.*.name, '🔧 버그 수정')
+        run: echo "BRANCH_TYPE=fix" >> $GITHUB_ENV
         
       - name: Set Up Develop Domain
         if: contains(github.event.issue.labels.*.name, 'BE')

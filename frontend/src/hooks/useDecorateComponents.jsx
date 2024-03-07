@@ -19,6 +19,7 @@ const useDecorateComponents = () => {
 
   return {
     decorateComponents,
+    setDecorateComponents,
     addNewDecorateComponent,
     modifyDecorateComponent,
   };

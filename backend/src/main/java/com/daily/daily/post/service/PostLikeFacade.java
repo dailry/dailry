@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 
-//todo : 낙관적 락 실패시 retry하는 로직은, 여러곳에서 중복되어 사용할 수 있는 횡단 관심사 (cross-cutting concern) 이다. 추후에 AOP를 이용해서 리팩토링을 해야한다.
+//todo : 낙관적 락 실패시 retry 하는 로직은, 여러곳에서 중복되어 사용할 수 있는 횡단 관심사 (cross-cutting concern) 이다. 추후에 AOP를 이용해서 리팩토링을 해야한다.
 public class PostLikeFacade {
     private final PostLikeService postLikeService;
 
