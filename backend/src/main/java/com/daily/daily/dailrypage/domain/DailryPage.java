@@ -51,10 +51,14 @@ public class DailryPage extends BaseTimeEntity {
         this.background = background;
     }
 
-    public void updateElements(List<DailryPageUpdateDTO.ElementDTO> elements) {
-        for (DailryPageUpdateDTO.ElementDTO element : elements) {
-            this.elements.put(element.getId(), element);
-        }
+    public void addOrUpdateElements(List<DailryPageUpdateDTO.ElementDTO> elementsDTO) {
+        if (elementsDTO == null || elementsDTO.isEmpty()) return;
+        elementsDTO.forEach(element -> elements.put(element.getId(), element));
+    }
+
+    public void deleteElements(List<String> deletedElementsId) {
+        if (deletedElementsId == null || deletedElementsId.isEmpty()) return;
+        deletedElementsId.forEach(id -> elements.remove(id));
     }
 
     public void updateThumbnail(String thumbnail) {

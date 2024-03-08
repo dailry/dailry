@@ -53,25 +53,26 @@ public class DailryPageService {
     }
 
     public DailryPageDTO update(Long memberId, Long pageId, DailryPageUpdateDTO dailryPageUpdateDTO, MultipartFile thumbnail) {
-
         DailryPage findPage = dailryPageRepository.findById(pageId)
                 .orElseThrow(DailryPageNotFoundException::new);
 
         if (!findPage.belongsTo(memberId)) {
             throw new UnauthorizedAccessException();
         }
-        findPage.updateBackground(dailryPageUpdateDTO.getBackground());
-        findPage.updateElements(dailryPageUpdateDTO.getElements());
 
-        if (thumbnail == null || thumbnail.isEmpty()) {
-            throw new DailryPageThumbnailNotFoundException();
-        }
+        findPage.updateBackground(dailryPageUpdateDTO.getBackground());
+        findPage.addOrUpdateElements(dailryPageUpdateDTO.getElements());
+        findPage.deleteElements(dailryPageUpdateDTO.getDeletedElementIds());
 
         uploadThumbnail(findPage, thumbnail, memberId, findPage.getDailry().getId());
         return DailryPageDTO.from(findPage);
     }
 
     private void uploadThumbnail(DailryPage findPage, MultipartFile thumbnail, Long memberId, Long dailryId) {
+        if (thumbnail == null || thumbnail.isEmpty()) {
+            throw new DailryPageThumbnailNotFoundException();
+        }
+
         String fileUrl = storageService.uploadImage(thumbnail, String.format(THUMBNAIL_STORAGE_DIRECTORY_PATH, memberId, dailryId), findPage.getId().toString());
         findPage.updateThumbnail(fileUrl);
     }
