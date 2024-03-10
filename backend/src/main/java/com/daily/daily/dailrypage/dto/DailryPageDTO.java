@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collection;
+
 
 @Getter
 @Setter
@@ -16,15 +18,17 @@ public class DailryPageDTO {
     private String background;
     private String thumbnail;
     private int pageNumber;
-    private Object elements;
+    private Collection<Object> elements;
 
     public static DailryPageDTO from(DailryPage dailryPage) {
+        Collection<Object> elements = dailryPage.getElements().values();
+
         return DailryPageDTO.builder()
                 .pageId(dailryPage.getId())
                 .background(dailryPage.getBackground())
                 .thumbnail(dailryPage.getThumbnail())
                 .pageNumber(dailryPage.getPageNumber())
-                .elements(dailryPage.getElements().values())
+                .elements(elements)
                 .build();
     }
 

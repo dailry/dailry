@@ -1,12 +1,17 @@
 package com.daily.daily.dailrypage.service;
 
 import com.daily.daily.common.exception.UnauthorizedAccessException;
+import com.daily.daily.common.domain.DirectoryPath;
 import com.daily.daily.common.service.S3StorageService;
 import com.daily.daily.dailry.domain.Dailry;
 import com.daily.daily.dailry.exception.DailryNotFoundException;
 import com.daily.daily.dailry.repository.DailryRepository;
 import com.daily.daily.dailrypage.domain.DailryPage;
-import com.daily.daily.dailrypage.dto.*;
+import com.daily.daily.dailrypage.dto.DailryPageCreateResponseDTO;
+import com.daily.daily.dailrypage.dto.DailryPageDTO;
+import com.daily.daily.dailrypage.dto.DailryPagePreviewDTO;
+import com.daily.daily.dailrypage.dto.DailryPageThumbnailDTO;
+import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 import com.daily.daily.dailrypage.exception.DailryPageNotFoundException;
 import com.daily.daily.dailrypage.exception.DailryPageThumbnailNotFoundException;
 import com.daily.daily.dailrypage.repository.DailryPageRepository;
@@ -15,15 +20,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.net.URI;
 import java.util.List;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class DailryPageService {
-    private final String THUMBNAIL_STORAGE_DIRECTORY_PATH = "thumbnail/%s/%s/" + LocalDate.now(ZoneId.of("Asia/Seoul"));
 
     private final DailryPageRepository dailryPageRepository;
 
@@ -64,7 +67,7 @@ public class DailryPageService {
         findPage.addOrUpdateElements(dailryPageUpdateDTO.getElements());
         findPage.deleteElements(dailryPageUpdateDTO.getDeletedElementIds());
 
-        uploadThumbnail(findPage, thumbnail, memberId, findPage.getDailry().getId());
+        uploadThumbnail(findPage, thumbnail, memberId, findPage.getDailryId());
         return DailryPageDTO.from(findPage);
     }
 
@@ -73,8 +76,11 @@ public class DailryPageService {
             throw new DailryPageThumbnailNotFoundException();
         }
 
-        String fileUrl = storageService.uploadImage(thumbnail, String.format(THUMBNAIL_STORAGE_DIRECTORY_PATH, memberId, dailryId), findPage.getId().toString());
-        findPage.updateThumbnail(fileUrl);
+        DirectoryPath dirPath
+                = DirectoryPath.of("thumbnail", memberId.toString(), dailryId.toString());
+
+        URI thumbnailUri = storageService.uploadImage(thumbnail, dirPath, findPage.getId().toString() + ".png");
+        findPage.updateThumbnail(thumbnailUri.toString()); // 저장경로 : thumbnail/{memberId}/{dailryId}/{pageId}.png
     }
 
 

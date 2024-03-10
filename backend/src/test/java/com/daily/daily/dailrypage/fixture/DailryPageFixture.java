@@ -35,6 +35,18 @@ public class DailryPageFixture {
         ReflectionTestUtils.setField(비어있는_다일리_페이지, "id", 다일리페이지_ID);
         return 비어있는_다일리_페이지;
     }
+
+    public static DailryPage 다일리_페이지() {
+        DailryPage 다일리_페이지 = DailryPage.builder()
+                .pageNumber(1)
+                .dailry(일반회원1이_작성한_2번째_다일리())
+                .build();
+
+        다일리_페이지.addOrUpdateElements(다일리_페이지_수정요청_DTO().getElements());
+        ReflectionTestUtils.setField(다일리_페이지, "id", 다일리페이지_ID);
+
+        return 다일리_페이지;
+    }
     public static DailryPageCreateResponseDTO 비어있는_다일리_페이지_DTO() {
         return DailryPageCreateResponseDTO.builder()
                 .dailryId(DAILRY_ID)
@@ -93,7 +105,7 @@ public class DailryPageFixture {
         return 다일리_페이지_미리보기_DTO;
     }
 
-    private static DailryPageUpdateDTO.ElementDTO 첫번째_elementsDTO() {
+    public static DailryPageUpdateDTO.ElementDTO 첫번째_elementsDTO() {
         DailryPageUpdateDTO.ElementDTO 첫번째_elementsDTO = new DailryPageUpdateDTO.ElementDTO();
 
         첫번째_elementsDTO.setId("asdf");
@@ -116,7 +128,7 @@ public class DailryPageFixture {
         return 첫번째_elementsDTO;
     }
 
-    private static DailryPageUpdateDTO.ElementDTO 두번째_elementsDTO() {
+    public static DailryPageUpdateDTO.ElementDTO 두번째_elementsDTO() {
         DailryPageUpdateDTO.ElementDTO 두번째_elementsDTO = new DailryPageUpdateDTO.ElementDTO();
         두번째_elementsDTO.setId("123avxsdf");
         두번째_elementsDTO.setType("drawing");
@@ -133,7 +145,7 @@ public class DailryPageFixture {
         return 두번째_elementsDTO;
     }
 
-    private static DailryPageUpdateDTO.ElementDTO 세번째_elementsDTO() {
+    public static DailryPageUpdateDTO.ElementDTO 세번째_elementsDTO() {
         DailryPageUpdateDTO.ElementDTO 세번째_elementsDTO = new DailryPageUpdateDTO.ElementDTO();
         세번째_elementsDTO.setId("123a21233df");
         세번째_elementsDTO.setType("sticker");
