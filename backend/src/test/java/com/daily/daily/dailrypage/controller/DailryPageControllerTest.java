@@ -23,7 +23,6 @@ import static com.daily.daily.dailrypage.fixture.DailryPageFixture.*;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.description;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
@@ -74,7 +73,7 @@ class DailryPageControllerTest {
             perform.andExpect(status().isCreated())
                     .andDo(print())
                     .andExpect(jsonPath("$.dailryId").value(DAILRY_ID))
-                    .andExpect(jsonPath("$.pageId").value(DAILRY_PAGE_ID))
+                    .andExpect(jsonPath("$.pageId").value(다일리페이지_ID))
                     .andExpect(jsonPath("$.background").value("grid"))
                     .andExpect(jsonPath("$.pageNumber").value(1));
 
@@ -101,7 +100,7 @@ class DailryPageControllerTest {
             given(dailryPageService.update(any(), any(), any(), any())).willReturn(다일리_페이지_응답_DTO());
 
             //when
-            ResultActions perform = mockMvc.perform(multipart("/api/dailry/pages/{pageId}/edit", DAILRY_PAGE_ID)
+            ResultActions perform = mockMvc.perform(multipart("/api/dailry/pages/{pageId}/edit", 다일리페이지_ID)
                     .file(다일리_페이지_섬네일_파일())
                     .file(다일리_페이지_요청_DTO_JSON_파일())
                     .contentType(MULTIPART_FORM_DATA)
@@ -111,7 +110,7 @@ class DailryPageControllerTest {
             //then
             perform.andExpect(status().isOk())
                     .andDo(print())
-                    .andExpect(jsonPath("$.pageId").value(DAILRY_PAGE_ID))
+                    .andExpect(jsonPath("$.pageId").value(다일리페이지_ID))
                     .andExpect(jsonPath("$.background").value("무지"))
                     .andExpect(jsonPath("$.pageNumber").value(1))
                     .andExpect(jsonPath("$.thumbnail").value("https://data.da-ily.site/thumbnail/5/1/awefkaweop"))
@@ -171,14 +170,14 @@ class DailryPageControllerTest {
             given(dailryPageService.find(any(), any())).willReturn(다일리_페이지_응답_DTO());
 
             //when
-            ResultActions perform = mockMvc.perform(get("/api/dailry/pages/{pageId}", DAILRY_PAGE_ID)
+            ResultActions perform = mockMvc.perform(get("/api/dailry/pages/{pageId}", 다일리페이지_ID)
                     .with(csrf().asHeader())
             );
 
             //then
             perform.andExpect(status().isOk())
                     .andDo(print())
-                    .andExpect(jsonPath("$.pageId").value(DAILRY_PAGE_ID))
+                    .andExpect(jsonPath("$.pageId").value(다일리페이지_ID))
                     .andExpect(jsonPath("$.background").value("무지"))
                     .andExpect(jsonPath("$.pageNumber").value(1))
                     .andExpect(jsonPath("$.thumbnail").value("https://data.da-ily.site/thumbnail/5/1/awefkaweop"))
@@ -220,7 +219,7 @@ class DailryPageControllerTest {
             given(dailryPageService.findAll(any(), any())).willReturn(다일리_페이지_미리보기_DTO());
 
             //when
-            ResultActions perform = mockMvc.perform(get("/api/dailry/{dailryId}/pages", DAILRY_PAGE_ID)
+            ResultActions perform = mockMvc.perform(get("/api/dailry/{dailryId}/pages", 다일리페이지_ID)
                     .with(csrf().asHeader())
             );
 
@@ -253,7 +252,7 @@ class DailryPageControllerTest {
         @WithMockUser
         @DisplayName("다일리 페이지 삭제가 성공했을 때 응답결과를 검사한다.")
         void test1() throws Exception {
-            ResultActions perform = mockMvc.perform(delete("/api/dailry/pages/{pageId}", DAILRY_PAGE_ID)
+            ResultActions perform = mockMvc.perform(delete("/api/dailry/pages/{pageId}", 다일리페이지_ID)
                     .with(csrf().asHeader())
             );
 

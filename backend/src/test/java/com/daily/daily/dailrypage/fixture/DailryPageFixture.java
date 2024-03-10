@@ -1,11 +1,13 @@
 package com.daily.daily.dailrypage.fixture;
 
+import com.daily.daily.dailrypage.domain.DailryPage;
 import com.daily.daily.dailrypage.dto.DailryPageCreateResponseDTO;
 import com.daily.daily.dailrypage.dto.DailryPageDTO;
 import com.daily.daily.dailrypage.dto.DailryPagePreviewDTO;
 import com.daily.daily.dailrypage.dto.DailryPageThumbnailDTO;
 import com.daily.daily.dailrypage.dto.DailryPageUpdateDTO;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -14,19 +16,29 @@ import java.util.List;
 import java.util.Map;
 
 import static com.daily.daily.dailry.fixture.DailryFixture.DAILRY_ID;
+import static com.daily.daily.dailry.fixture.DailryFixture.일반회원1이_작성한_2번째_다일리;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 
 public class DailryPageFixture {
 
-    public static final Long DAILRY_PAGE_ID = 5L;
+    public static final Long 다일리페이지_ID = 5L;
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
+    public static DailryPage 비어있는_다일리_페이지() {
+        DailryPage 비어있는_다일리_페이지 = DailryPage.builder()
+                .pageNumber(1)
+                .dailry(일반회원1이_작성한_2번째_다일리())
+                .build();
+
+        ReflectionTestUtils.setField(비어있는_다일리_페이지, "id", 다일리페이지_ID);
+        return 비어있는_다일리_페이지;
+    }
     public static DailryPageCreateResponseDTO 비어있는_다일리_페이지_DTO() {
         return DailryPageCreateResponseDTO.builder()
                 .dailryId(DAILRY_ID)
-                .pageId(DAILRY_PAGE_ID)
+                .pageId(다일리페이지_ID)
                 .background("grid")
                 .pageNumber(1L)
                 .build();
@@ -61,7 +73,7 @@ public class DailryPageFixture {
 
     public static DailryPageDTO 다일리_페이지_응답_DTO() {
         return DailryPageDTO.builder()
-                .pageId(DAILRY_PAGE_ID)
+                .pageId(다일리페이지_ID)
                 .background("무지")
                 .thumbnail("https://data.da-ily.site/thumbnail/5/1/awefkaweop")
                 .pageNumber(1)
