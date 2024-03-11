@@ -63,7 +63,7 @@ const PageListModal = (props) => {
                 selected={canToggle && !!selectedPages[pageNumber]}
               >
                 <S.PageNumberArea>{pageNumber}</S.PageNumberArea>
-                <S.ThumbnailArea>{thumbnail}</S.ThumbnailArea>
+                <S.ThumbnailArea src={thumbnail} />
               </S.ItemWrapper>
             );
           })}

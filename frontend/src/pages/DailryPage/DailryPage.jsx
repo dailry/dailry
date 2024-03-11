@@ -92,13 +92,12 @@ const DailryPage = () => {
 
       if (status === 200 && data.pages.length !== 0) {
         const { pages } = data;
+        setPageList(pages);
         const pageIdList = pages.map((page) => page.pageId);
-        setPageList(pageIdList);
-
         setCurrentDailry({
           ...currentDailry,
           pageIds: pageIdList,
-          pageNumber: pageIds ? 1 : null,
+          pageNumber: pageNumber ?? (pageIds.length === 0 ? 1 : null),
         });
 
         return setHavePage(true);
@@ -106,7 +105,7 @@ const DailryPage = () => {
 
       return setHavePage(false);
     })();
-  }, [dailryId]);
+  }, [dailryId, pageNumber, modalType]);
 
   useEffect(() => {
     (async () => {
