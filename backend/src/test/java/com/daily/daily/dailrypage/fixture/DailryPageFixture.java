@@ -60,6 +60,7 @@ public class DailryPageFixture {
         DailryPageUpdateDTO 다일리_페이지_수정요청_DTO = new DailryPageUpdateDTO();
 
         다일리_페이지_수정요청_DTO.setBackground("무지");
+        다일리_페이지_수정요청_DTO.setDeletedElementIds(List.of("aba113a"));
         다일리_페이지_수정요청_DTO.setElements(List.of(첫번째_elementsDTO(), 두번째_elementsDTO(), 세번째_elementsDTO()));
 
         return 다일리_페이지_수정요청_DTO;

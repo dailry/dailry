@@ -128,6 +128,7 @@ class DailryPageControllerTest {
                     relaxedRequestPartFields(
                             "dailryPageRequest",
                             fieldWithPath("background").type(STRING).description("다일리 페이지 배경"),
+                            fieldWithPath("deletedElementIds").type(ARRAY).description("삭제할 element의 id 목록"),
                             fieldWithPath("elements").type(ARRAY).description("페이지 elements 목록"),
                             fieldWithPath("elements[].id").type(STRING).description("element의 id"),
                             fieldWithPath("elements[].type").type(STRING).description("element의 type"),
