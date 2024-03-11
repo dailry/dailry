@@ -8,7 +8,7 @@ const useEditDecorateComponent = (
   const [canEditDecorateComponent, setCanEditDecorateComponent] =
     useState(null);
 
-  const [editMode, setEditMode] = useState('');
+  const [editMode, setEditMode] = useState(null);
 
   const isTypeContentEdited =
     editMode === EDIT_MODE.TYPE_CONTENT &&

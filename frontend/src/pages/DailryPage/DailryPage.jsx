@@ -166,17 +166,18 @@ const DailryPage = () => {
   };
 
   const handleClickPage = (e) => {
-    if (selectedTool === null) {
+    if (
+      selectedTool === null ||
+      (selectedTool === DECORATE_TYPE.MOVING && !canEditDecorateComponent)
+    ) {
       return;
     }
 
-    if (editMode === EDIT_MODE.COMMON_PROPERTY) {
-      if (canEditDecorateComponent) {
-        completeModifyDecorateComponent();
-        setTarget(null);
+    if (canEditDecorateComponent) {
+      completeModifyDecorateComponent();
+      setTarget(null);
 
-        setCanEditDecorateComponent(null);
-      }
+      setCanEditDecorateComponent(null);
       return;
     }
 
