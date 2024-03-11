@@ -24,6 +24,7 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -70,9 +71,11 @@ public class PostService {
     }
 
     private void uploadPageImage(Post post, MultipartFile pageImage) {
-        DirectoryPath dirPath = DirectoryPath.of("post", LocalDate.now(ZoneId.of("Asia/Seoul")).toString());
+        DirectoryPath dirPath = DirectoryPath.of("post",
+                LocalDate.now(ZoneId.of("Asia/Seoul")).toString(),
+                post.getId().toString());
 
-        URI fileUri = storageService.uploadImage(pageImage, dirPath, post.getId().toString() + ".png");
+        URI fileUri = storageService.uploadImage(pageImage, dirPath, UUID.randomUUID() + ".png");
 
         post.updatePageImage(fileUri.toString());
     }
