@@ -13,6 +13,7 @@ export const getCommonDecorateComponentProperties = (e, pageRef) => {
   return {
     ...commonDecorateComponentProperties,
     id: `decorate-component-${new Date().toISOString()}`,
+    position: getRelativePosition(e, pageRef),
     initialStyle: {
       ...commonDecorateComponentProperties.initialStyle,
       position: getRelativePosition(e, pageRef),

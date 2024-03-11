@@ -115,9 +115,10 @@ const DailryPage = () => {
         const datas = page.data?.elements.map((i) => ({
           ...i,
           initialStyle: {
-            position: i.position,
-            size: i.size,
-            rotation: i.rotation,
+            ...i.initialStyle,
+            position: i?.position,
+            size: i?.size,
+            rotation: i?.rotation,
           },
         }));
         setDecorateComponents(datas);
