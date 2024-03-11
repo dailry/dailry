@@ -70,4 +70,10 @@ public class PostController {
     public PostReadSliceResponseDTO readPostByHashTag(@RequestParam("hashtags") List<String> hashtags, Pageable pageable) {
         return postService.findPostByHashtag(hashtags, pageable);
     }
+
+    @GetMapping("/hotHashtags")
+    public HotHashtagReadResponseDTO readHotHashTags() {
+        return postService.findHotHashTags();
+    }
+
 }

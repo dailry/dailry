@@ -6,16 +6,15 @@ import com.daily.daily.common.service.S3StorageService;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.repository.MemberRepository;
+import com.daily.daily.post.domain.HotHashtag;
 import com.daily.daily.post.domain.Post;
-import com.daily.daily.post.dto.PostReadResponseDTO;
-import com.daily.daily.post.dto.PostReadSliceResponseDTO;
-import com.daily.daily.post.dto.PostWriteRequestDTO;
-import com.daily.daily.post.dto.PostWriteResponseDTO;
+import com.daily.daily.post.dto.*;
 import com.daily.daily.post.exception.PostNotFoundException;
 import com.daily.daily.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +37,8 @@ public class PostService {
     private final S3StorageService storageService;
 
     private final HashtagService hashtagService;
+
+    private List<HotHashtag> hotHashtags;
 
     public PostWriteResponseDTO create(Long memberId, PostWriteRequestDTO postWriteRequestDTO, MultipartFile pageImage) {
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
@@ -107,5 +108,14 @@ public class PostService {
     public PostReadSliceResponseDTO findPostByHashtag(List<String> hashtags, Pageable pageable) {
         Slice<Post> posts = postRepository.findPostsByHashtag(hashtags, pageable);
         return PostReadSliceResponseDTO.from(posts);
+    }
+
+    @Scheduled(cron = "0 0 * * * *") // 매 시 정각마다 실행
+    public void findAndUpdateHotHashTags() {
+        hotHashtags = postRepository.findHotHashTags();
+    }
+
+    public HotHashtagReadResponseDTO findHotHashTags() {
+        return HotHashtagReadResponseDTO.from(hotHashtags);
     }
 }

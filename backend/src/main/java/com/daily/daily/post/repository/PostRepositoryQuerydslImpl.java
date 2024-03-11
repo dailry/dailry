@@ -1,6 +1,8 @@
 package com.daily.daily.post.repository;
 
+import com.daily.daily.post.domain.HotHashtag;
 import com.daily.daily.post.domain.Post;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,9 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.daily.daily.member.domain.QMember.member;
 import static com.daily.daily.post.domain.QPost.post;
@@ -76,5 +80,27 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
         }
 
         return new SliceImpl<>(posts, pageable, hasNext);
+    }
+
+    @Override
+    public List<HotHashtag> findHotHashTags() {
+
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime startTime = currentTime.withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime endTime = startTime.plusHours(1);
+
+        List<Tuple> result = queryFactory
+                .select(postHashtag.hashtag.tagName, postHashtag.count())
+                .from(post)
+                .join(post.postHashtags, postHashtag)
+                .where(post.createdTime.between(startTime, endTime))
+                .groupBy(postHashtag.hashtag.tagName)
+                .orderBy(postHashtag.count().desc())
+                .limit(3)
+                .fetch();
+
+        return result.stream()
+                .map(tuple -> HotHashtag.of(tuple.get(postHashtag.hashtag.tagName), tuple.get(postHashtag.count())))
+                .collect(Collectors.toList());
     }
 }
