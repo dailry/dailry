@@ -1,5 +1,6 @@
 package com.daily.daily.common.service;
 
+import com.daily.daily.common.domain.DirectoryPath;
 import com.daily.daily.common.exception.FileContentTypeUnmatchedException;
 import com.daily.daily.common.exception.FileUploadFailureException;
 import io.awspring.cloud.s3.S3Operations;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.net.URI;
 
 @Service
 @RequiredArgsConstructor
@@ -23,33 +24,21 @@ public class S3StorageService {
     private String dataStorageDomain;
 
     private final S3Operations s3Operations;
-    /**
-     * 파일을 업로드하고 파일의 URL를 반환합니다.
-     * @param imageFile 업로드 하고 싶은 파일. 이미지 형식이 아닐경우 예외 발생.
-     * @param directoryPath 저장하고 싶은 S3저장소의 디렉토리 경로.
-     * @param filePrefix 저장하고 싶은 파일이름의 prefix
-     * @return 저장한 파일의 URL 정보를 반환합니다.
-     * 파일의 URL은 다음과 같은 규칙에 의해 정해집니다.
-     * {DataStorageDomain}/{directoryPath}/filePrefix_UUID_OriginalFileName
-     */
 
-    public String uploadImage(MultipartFile imageFile, String directoryPath, String filePrefix) {
+    public URI uploadImage(MultipartFile imageFile, DirectoryPath directoryPath, String fileName) {
         log.info("파일 업로드 시작");
 
+        URI fileURI = URI.create("https://" + dataStorageDomain + directoryPath.getPath()+ "/" + fileName);
         validateImageContentType(imageFile);
-        String filePath = directoryPath + "/" +
-                filePrefix + "_" +
-                UUID.randomUUID() + "_" +
-                imageFile.getOriginalFilename();
 
         try {
-            s3Operations.upload(BUCKET_NAME, filePath, imageFile.getInputStream());
-            return "https://" + dataStorageDomain + "/" + filePath;
+            String key = fileURI.getPath().substring(1); // s3의 key 는 '/'를 제외하고 시작
+            s3Operations.upload(BUCKET_NAME, key, imageFile.getInputStream());
+            return fileURI;
         } catch (IOException e) {
             throw new FileUploadFailureException(e);
         }
     }
-
     private void validateImageContentType(MultipartFile imageFile) {
         String contentType = imageFile.getContentType();
 
