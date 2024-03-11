@@ -2,6 +2,7 @@ package com.daily.daily.post.fixture;
 
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.post.domain.Hashtag;
+import com.daily.daily.post.domain.HotHashtag;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.domain.PostHashtag;
 import com.daily.daily.post.dto.*;
@@ -11,6 +12,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingExcept
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -186,5 +188,15 @@ public class PostFixture {
         HASHTAGS.forEach(hashtag -> post.addPostHashtag(PostHashtag.of(post, hashtag)));
         ReflectionTestUtils.setField(post, "id", POST_ID);
         return post;
+    }
+
+    public static HotHashtagReadResponseDTO 핫한_해시태그_조회_DTO() {
+        List<HotHashtag> hotHashtags = new ArrayList<>();
+
+        hotHashtags.add(HotHashtag.of("대학생", 10L));
+        hotHashtags.add(HotHashtag.of("친구", 20L));
+        hotHashtags.add(HotHashtag.of("여행", 30L));
+
+        return HotHashtagReadResponseDTO.from(hotHashtags);
     }
 }
