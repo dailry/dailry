@@ -2,9 +2,10 @@ package com.daily.daily.post.controller;
 
 import com.daily.daily.auth.jwt.JwtAuthorizationFilter;
 import com.daily.daily.auth.jwt.JwtUtil;
-import com.daily.daily.post.dto.HotHashtagReadResponseDTO;
+import com.daily.daily.post.dto.HotHashtagReadListResponseDTO;
 import com.daily.daily.post.dto.PostReadSliceResponseDTO;
 import com.daily.daily.post.dto.PostWriteResponseDTO;
+import com.daily.daily.post.service.HashtagService;
 import com.daily.daily.post.service.PostService;
 import com.daily.daily.testutil.document.RestDocsUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +19,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -55,6 +55,9 @@ class PostControllerTest {
 
     @MockBean
     PostService postService;
+
+    @MockBean
+    HashtagService hashtagService;
 
     @Test
     @DisplayName("게시글을 성공적으로 생성했을 경우 응답값을 검사한다.")
@@ -362,8 +365,8 @@ class PostControllerTest {
         @DisplayName("지난 1시간 동안 Hot했던 해시태그 조회가 성공했을 때 응답 결과를 검사한다.")
         void test1() throws Exception {
             //given
-            HotHashtagReadResponseDTO 핫한_해시태그_조회_dto = 핫한_해시태그_조회_DTO();
-            given(postService.findHotHashTags()).willReturn(핫한_해시태그_조회_dto);
+            HotHashtagReadListResponseDTO 핫한_해시태그_조회_dto = 핫한_해시태그_조회_DTO();
+            given(hashtagService.findHotHashTags()).willReturn(핫한_해시태그_조회_dto);
 
             //when
             ResultActions perform = mockMvc.perform(get("/api/posts/hotHashtags")
@@ -376,14 +379,13 @@ class PostControllerTest {
                     .getResponse()
                     .getContentAsString(StandardCharsets.UTF_8);
 
-            HotHashtagReadResponseDTO 테스트_조회_결과 = objectMapper.readValue(content, HotHashtagReadResponseDTO.class);
+            HotHashtagReadListResponseDTO 테스트_조회_결과 = objectMapper.readValue(content, HotHashtagReadListResponseDTO.class);
             assertThat(테스트_조회_결과).usingRecursiveComparison().isEqualTo(핫한_해시태그_조회_dto);
 
             //restdocs
             perform.andDo(RestDocsUtil.document("Hot한 해시태그 조회",
                     responseFields(
                             fieldWithPath("hashtags").type(ARRAY).description("Hot한 해시태그 목록 배열"),
-                            fieldWithPath("hashtags[].id").type(NULL).description("해시태그 번호"),
                             fieldWithPath("hashtags[].tagName").type(STRING).description("해시태그 이름"),
                             fieldWithPath("hashtags[].postCount").type(NUMBER).description("해당 해시태그가 포함된 post 갯수")
                     )

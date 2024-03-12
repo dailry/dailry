@@ -190,13 +190,17 @@ public class PostFixture {
         return post;
     }
 
-    public static HotHashtagReadResponseDTO 핫한_해시태그_조회_DTO() {
+    public static HotHashtagReadListResponseDTO 핫한_해시태그_조회_DTO() {
         List<HotHashtag> hotHashtags = new ArrayList<>();
 
-        hotHashtags.add(HotHashtag.of("대학생", 10L));
-        hotHashtags.add(HotHashtag.of("친구", 20L));
-        hotHashtags.add(HotHashtag.of("여행", 30L));
+        Hashtag hashtag1 = Hashtag.of("대학생");
+        Hashtag hashtag2 = Hashtag.of("친구");
+        Hashtag hashtag3 = Hashtag.of("여행");
 
-        return HotHashtagReadResponseDTO.from(hotHashtags);
+        hotHashtags.add(HotHashtag.of(10L, hashtag1));
+        hotHashtags.add(HotHashtag.of(20L, hashtag2));
+        hotHashtags.add(HotHashtag.of(30L, hashtag3));
+
+        return HotHashtagReadListResponseDTO.from(hotHashtags);
     }
 }
