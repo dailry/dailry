@@ -86,7 +86,7 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
     public List<HotHashtag> findHotHashTags() {
 
         LocalDateTime currentTime = LocalDateTime.now();
-        LocalDateTime startTime = currentTime.withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime startTime = currentTime.minusHours(1).withMinute(0).withSecond(0).withNano(0);
         LocalDateTime endTime = startTime.plusHours(1);
 
         List<Tuple> result = queryFactory
