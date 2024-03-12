@@ -12,12 +12,16 @@ const usePageData = () => {
     setThumbnail(e.target.files[0]);
   };
 
-  const convertDecorateComponentsToBlob = (updatedDecorateComponents) => {
+  const convertDecorateComponentsToBlob = (
+    updatedDecorateComponents,
+    deletedElementIds,
+  ) => {
     const blob = new Blob(
       [
         JSON.stringify({
           background: '무지 테스트',
           elements: updatedDecorateComponents,
+          deletedElementIds,
         }),
       ],
       { type: 'application/json' },
@@ -26,11 +30,14 @@ const usePageData = () => {
     return blob;
   };
 
-  const getPageFormData = (updatedDecorateComponents) => {
+  const getPageFormData = (updatedDecorateComponents, deletedElementIds) => {
     formData.append('thumbnail', thumbnail);
     formData.append(
       'dailryPageRequest',
-      convertDecorateComponentsToBlob(updatedDecorateComponents),
+      convertDecorateComponentsToBlob(
+        updatedDecorateComponents,
+        deletedElementIds,
+      ),
     );
 
     return formData;
