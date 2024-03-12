@@ -6,19 +6,20 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class HotHashtagReadResponseDTO {
-    private List<HotHashtag> hashtags;
+    private Long postCount;
+    private String tagName;
 
-    public static HotHashtagReadResponseDTO from(List<HotHashtag> hashtags) {
-        System.out.println(hashtags);
+    public static HotHashtagReadResponseDTO from(HotHashtag hotHashtag) {
+        System.out.println("HotHashtagReadResponseDTO : " + hotHashtag);
+
         return HotHashtagReadResponseDTO.builder()
-                .hashtags(hashtags)
+                .postCount(hotHashtag.getPostCount())
+                .tagName(hotHashtag.getHashtag().getTagName())
                 .build();
     }
 }

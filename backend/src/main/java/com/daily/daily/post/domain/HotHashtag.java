@@ -1,28 +1,27 @@
 package com.daily.daily.post.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.daily.daily.common.domain.BaseTimeEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
 @Getter
-public class HotHashtag {
+public class HotHashtag extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String tagName;
     private Long postCount;
+    @OneToOne(fetch = FetchType.LAZY)
+    private Hashtag hashtag;
 
     protected HotHashtag() {
     }
 
-    public static HotHashtag of(String tagName, Long postCount) {
-        return new HotHashtag(tagName, postCount);
+    public static HotHashtag of(Long postCount, Hashtag hashtag) {
+        return new HotHashtag(postCount, hashtag);
     }
-    private HotHashtag(String tagName, Long postCount) {
-        this.tagName = tagName;
+    private HotHashtag(Long postCount, Hashtag hashtag) {
+        this.hashtag = hashtag;
         this.postCount = postCount;
     }
 }

@@ -12,6 +12,4 @@ public interface PostRepositoryQuerydsl {
     Slice<Post> findSlice(Pageable pageable);
     void deletePostAndRelatedEntities(Long postId);
     Slice<Post> findPostsByHashtag(List<String> hashtag, Pageable pageable);
-
-    List<HotHashtag> findHotHashTags();
 }

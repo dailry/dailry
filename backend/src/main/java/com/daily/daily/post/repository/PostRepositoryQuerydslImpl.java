@@ -82,25 +82,4 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
         return new SliceImpl<>(posts, pageable, hasNext);
     }
 
-    @Override
-    public List<HotHashtag> findHotHashTags() {
-
-        LocalDateTime currentTime = LocalDateTime.now();
-        LocalDateTime startTime = currentTime.minusHours(1).withMinute(0).withSecond(0).withNano(0);
-        LocalDateTime endTime = startTime.plusHours(1);
-
-        List<Tuple> result = queryFactory
-                .select(postHashtag.hashtag.tagName, postHashtag.count())
-                .from(post)
-                .join(post.postHashtags, postHashtag)
-                .where(post.createdTime.between(startTime, endTime))
-                .groupBy(postHashtag.hashtag.tagName)
-                .orderBy(postHashtag.count().desc())
-                .limit(3)
-                .fetch();
-
-        return result.stream()
-                .map(tuple -> HotHashtag.of(tuple.get(postHashtag.hashtag.tagName), tuple.get(postHashtag.count())))
-                .collect(Collectors.toList());
-    }
 }

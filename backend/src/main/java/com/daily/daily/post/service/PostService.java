@@ -38,8 +38,6 @@ public class PostService {
 
     private final HashtagService hashtagService;
 
-    private List<HotHashtag> hotHashtags;
-
     public PostWriteResponseDTO create(Long memberId, PostWriteRequestDTO postWriteRequestDTO, MultipartFile pageImage) {
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 
@@ -108,14 +106,5 @@ public class PostService {
     public PostReadSliceResponseDTO findPostByHashtag(List<String> hashtags, Pageable pageable) {
         Slice<Post> posts = postRepository.findPostsByHashtag(hashtags, pageable);
         return PostReadSliceResponseDTO.from(posts);
-    }
-
-    @Scheduled(cron = "0 0 * * * *") // 매 시 정각마다 실행
-    public void findAndUpdateHotHashTags() {
-        hotHashtags = postRepository.findHotHashTags();
-    }
-
-    public HotHashtagReadResponseDTO findHotHashTags() {
-        return HotHashtagReadResponseDTO.from(hotHashtags);
     }
 }
