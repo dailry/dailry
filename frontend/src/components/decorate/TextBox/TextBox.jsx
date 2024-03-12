@@ -7,7 +7,7 @@ const TextBox = (props) => {
   const { typeContent, setTypeContent } = props;
 
   const [text, setText] = useState('');
-  const debouncedText = useDebounce(text, 500);
+  const debouncedText = useDebounce(text, 100);
   const textRef = useRef(null);
   const [height, setHeight] = useState(typeContent?.current?.scrollHeight);
 

@@ -5,6 +5,14 @@ export const commonDecorateComponentProperties = {
     width: 200,
     height: 150,
   },
+  initialStyle: {
+    position: { x: 0, y: 0 },
+    size: {
+      width: 200,
+      height: 150,
+    },
+    rotation: '0',
+  },
   position: {
     x: 0,
     y: 0,

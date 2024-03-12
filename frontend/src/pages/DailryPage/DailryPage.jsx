@@ -112,7 +112,16 @@ const DailryPage = () => {
       const page = await getPage(pageIds[pageNumber - 1]);
 
       if (page.data?.elements.length > 0) {
-        setDecorateComponents(page.data?.elements);
+        const datas = page.data?.elements.map((i) => ({
+          ...i,
+          initialStyle: {
+            ...i.initialStyle,
+            position: i?.position,
+            size: i?.size,
+            rotation: i?.rotation,
+          },
+        }));
+        setDecorateComponents(datas);
       }
     })();
   }, [pageIds, pageNumber]);
@@ -125,13 +134,6 @@ const DailryPage = () => {
       closeOnClick: true,
       transition: Zoom,
     });
-  };
-
-  const initializeMoveableStyle = () => {
-    const newStyleString = ` translate(0px, 0px) rotate(${canEditDecorateComponent?.rotation}deg) scale(1, 1) `;
-    moveableRef[target].style.transform = newStyleString;
-
-    setTarget(null);
   };
 
   const handleLeftArrowClick = () => {
@@ -164,17 +166,18 @@ const DailryPage = () => {
   };
 
   const handleClickPage = (e) => {
-    if (selectedTool === null) {
+    if (
+      selectedTool === null ||
+      (selectedTool === DECORATE_TYPE.MOVING && !canEditDecorateComponent)
+    ) {
       return;
     }
 
-    if (editMode === EDIT_MODE.COMMON_PROPERTY) {
-      if (canEditDecorateComponent) {
-        completeModifyDecorateComponent();
-        initializeMoveableStyle();
+    if (canEditDecorateComponent) {
+      completeModifyDecorateComponent();
+      setTarget(null);
 
-        setCanEditDecorateComponent(null);
-      }
+      setCanEditDecorateComponent(null);
       return;
     }
 
@@ -194,7 +197,7 @@ const DailryPage = () => {
       canEditDecorateComponent.id !== element.id
     ) {
       completeModifyDecorateComponent();
-      initializeMoveableStyle();
+      setTarget(null);
       setCanEditDecorateComponent(null);
       return;
     }
@@ -213,9 +216,12 @@ const DailryPage = () => {
       canEditDecorateComponent &&
       canEditDecorateComponent.id !== element.id
     ) {
-      initializeMoveableStyle();
+      setTarget(null);
     }
   };
+  useEffect(() => {
+    console.log(canEditDecorateComponent);
+  }, [canEditDecorateComponent]);
 
   return (
     <S.FlexWrapper>
@@ -294,7 +300,7 @@ const DailryPage = () => {
               }
               if (canEditDecorateComponent) {
                 completeModifyDecorateComponent();
-                initializeMoveableStyle();
+                setTarget(null);
                 setCanEditDecorateComponent(null);
               }
               setSelectedTool(selectedTool === t ? null : t);
@@ -320,7 +326,7 @@ const DailryPage = () => {
               }
               if (canEditDecorateComponent) {
                 completeModifyDecorateComponent();
-                initializeMoveableStyle();
+                setTarget(null);
                 setCanEditDecorateComponent(null);
               }
               setSelectedTool(selectedTool === t ? null : t);
@@ -340,6 +346,7 @@ const DailryPage = () => {
               }
               if (t === 'save') {
                 const formData = getPageFormData(updatedDecorateComponents);
+                console.log(updatedDecorateComponents);
                 await patchPage(pageIds[pageNumber - 1], formData);
               }
             };
