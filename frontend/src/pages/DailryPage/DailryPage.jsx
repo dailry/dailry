@@ -43,7 +43,7 @@ const DailryPage = () => {
     modifyUpdatedDecorateComponent,
   } = useUpdatedDecorateComponents();
 
-  const { getPageFormData, onUploadFile } = usePageData(
+  const { appendPageDataToFormData, formData } = usePageData(
     updatedDecorateComponents,
   );
 
@@ -169,9 +169,9 @@ const DailryPage = () => {
   const handleDownloadClick = async () => {
     try {
       const pageImg = await html2canvas(pageRef.current);
-      pageImg.toBlob((blob) => {
-        if (blob !== null) {
-          saveAs(blob, `dailry${dailryId}_${pageId}.png`);
+      pageImg.toBlob((pageImageBlob) => {
+        if (pageImageBlob !== null) {
+          saveAs(pageImageBlob, `dailry${dailryId}_${pageId}.png`);
         }
       });
     } catch (e) {
@@ -248,7 +248,6 @@ const DailryPage = () => {
 
       {havePage ? (
         <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
-          <input type="file" alt="what" onChange={onUploadFile} />
           {decorateComponents?.map((element, index) => {
             const canEdit =
               editMode === EDIT_MODE.TYPE_CONTENT &&
@@ -368,11 +367,16 @@ const DailryPage = () => {
                 await handleDownloadClick();
               }
               if (t === 'save') {
-                const formData = getPageFormData(
-                  updatedDecorateComponents,
-                  deletedDecorateComponentIds,
-                );
-                await patchPage(pageIds[pageNumber - 1], formData);
+                const pageImg = await html2canvas(pageRef.current);
+
+                pageImg.toBlob(async (pageImageBlob) => {
+                  appendPageDataToFormData(
+                    pageImageBlob,
+                    updatedDecorateComponents,
+                    deletedDecorateComponentIds,
+                  );
+                  await patchPage(pageIds[pageNumber - 1], formData);
+                });
               }
             };
             return (

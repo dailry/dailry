@@ -1,16 +1,5 @@
-import { useState } from 'react';
-
 const usePageData = () => {
   const formData = new FormData();
-  const [thumbnail, setThumbnail] = useState(null);
-
-  const onUploadFile = (e) => {
-    if (!e.target.files) {
-      return;
-    }
-
-    setThumbnail(e.target.files[0]);
-  };
 
   const convertDecorateComponentsToBlob = (
     updatedDecorateComponents,
@@ -30,7 +19,11 @@ const usePageData = () => {
     return blob;
   };
 
-  const getPageFormData = (updatedDecorateComponents, deletedElementIds) => {
+  const appendPageDataToFormData = (
+    thumbnail,
+    updatedDecorateComponents,
+    deletedElementIds,
+  ) => {
     formData.append('thumbnail', thumbnail);
     formData.append(
       'dailryPageRequest',
@@ -39,11 +32,9 @@ const usePageData = () => {
         deletedElementIds,
       ),
     );
-
-    return formData;
   };
 
-  return { getPageFormData, onUploadFile };
+  return { appendPageDataToFormData, formData };
 };
 
 export default usePageData;
