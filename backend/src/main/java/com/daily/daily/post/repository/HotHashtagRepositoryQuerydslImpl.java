@@ -35,9 +35,6 @@ public class HotHashtagRepositoryQuerydslImpl implements HotHashtagRepositoryQue
                 .limit(3)
                 .fetch();
 
-        System.out.println("query: " + postHashtag);
-        System.out.println("query: " + postHashtag.count().longValue());
-
         return result.stream()
                 .map(tuple -> HotHashtag.of(tuple.get(postHashtag.count()), tuple.get(postHashtag.hashtag)))
                 .collect(Collectors.toList());

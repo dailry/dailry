@@ -17,16 +17,10 @@ public class HotHashtagReadListResponseDTO {
     private List<HotHashtagReadResponseDTO> hashtags;
 
     public static HotHashtagReadListResponseDTO from(List<HotHashtag> hashtags) {
-        for(HotHashtag hash : hashtags) {
-            System.out.println("HotHashtagReadListResponseDTO1 : " + hash.getHashtag().getTagName());
-            System.out.println("HotHashtagReadListResponseDTO1 : " + hash.getHashtag().getId());
-        }
-
         List<HotHashtagReadResponseDTO> responseDTOs = hashtags.stream()
                 .map(HotHashtagReadResponseDTO::from)
                 .collect(Collectors.toList());
 
-        System.out.println("responseDTOs : " + responseDTOs);
         return HotHashtagReadListResponseDTO.builder()
                 .hashtags(responseDTOs)
                 .build();

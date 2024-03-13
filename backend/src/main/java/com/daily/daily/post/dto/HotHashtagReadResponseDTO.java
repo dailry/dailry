@@ -15,8 +15,6 @@ public class HotHashtagReadResponseDTO {
     private String tagName;
 
     public static HotHashtagReadResponseDTO from(HotHashtag hotHashtag) {
-        System.out.println("HotHashtagReadResponseDTO : " + hotHashtag);
-
         return HotHashtagReadResponseDTO.builder()
                 .postCount(hotHashtag.getPostCount())
                 .tagName(hotHashtag.getHashtag().getTagName())
