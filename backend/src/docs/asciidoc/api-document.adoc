@@ -403,6 +403,17 @@ include::{snippets}/게시글 해시태그로 조회/query-parameters.adoc[]
 include::{snippets}/게시글 해시태그로 조회/http-response.adoc[]
 include::{snippets}/게시글 해시태그로 조회/response-fields.adoc[]
 
+=== Hot한 해시태그 조회
+
+==== 요청
+
+include::{snippets}/Hot한 해시태그 조회/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/Hot한 해시태그 조회/http-response.adoc[]
+include::{snippets}/Hot한 해시태그 조회/response-fields.adoc[]
+
 === 게시글 삭제
 
 ==== 요청 (로그인 필요)

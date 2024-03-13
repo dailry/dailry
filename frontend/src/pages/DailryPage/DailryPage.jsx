@@ -23,6 +23,7 @@ import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponen
 import { TEXT } from '../../styles/color';
 import MoveableComponent from '../../components/da-ily/Moveable/Moveable';
 import usePageData from '../../hooks/usePageData';
+import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -42,7 +43,7 @@ const DailryPage = () => {
     modifyUpdatedDecorateComponent,
   } = useUpdatedDecorateComponents();
 
-  const { getPageFormData, onUploadFile } = usePageData(
+  const { appendPageDataToFormData, formData } = usePageData(
     updatedDecorateComponents,
   );
 
@@ -83,6 +84,19 @@ const DailryPage = () => {
   const isMoveable = () => target && editMode === EDIT_MODE.COMMON_PROPERTY;
 
   const { dailryId, pageId, pageIds, pageNumber } = currentDailry;
+
+  const [deletedDecorateComponentIds, setDeletedDecorateComponentIds] =
+    useState([]);
+
+  const deleteDecorateComponent = (id) => {
+    if (!deletedDecorateComponentIds.some((d) => d.id === id)) {
+      setDeletedDecorateComponentIds((prev) => [...prev, id]);
+    }
+
+    setDecorateComponents((prev) => prev.filter((p) => p.id !== id));
+
+    setTarget(null);
+  };
 
   useEffect(() => {
     (async () => {
@@ -155,9 +169,9 @@ const DailryPage = () => {
   const handleDownloadClick = async () => {
     try {
       const pageImg = await html2canvas(pageRef.current);
-      pageImg.toBlob((blob) => {
-        if (blob !== null) {
-          saveAs(blob, `dailry${dailryId}_${pageId}.png`);
+      pageImg.toBlob((pageImageBlob) => {
+        if (pageImageBlob !== null) {
+          saveAs(pageImageBlob, `dailry${dailryId}_${pageId}.png`);
         }
       });
     } catch (e) {
@@ -234,7 +248,6 @@ const DailryPage = () => {
 
       {havePage ? (
         <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
-          <input type="file" alt="what" onChange={onUploadFile} />
           {decorateComponents?.map((element, index) => {
             const canEdit =
               editMode === EDIT_MODE.TYPE_CONTENT &&
@@ -252,6 +265,15 @@ const DailryPage = () => {
                 }}
                 {...element}
               >
+                {target !== null && target === index + 1 && (
+                  <DecorateComponentDeleteButton
+                    onClick={() => {
+                      deleteDecorateComponent(element.id);
+                    }}
+                  >
+                    삭제
+                  </DecorateComponentDeleteButton>
+                )}
                 <TypedDecorateComponent
                   type={element.type}
                   typeContent={element.typeContent}
@@ -345,9 +367,17 @@ const DailryPage = () => {
                 await handleDownloadClick();
               }
               if (t === 'save') {
-                const formData = getPageFormData(updatedDecorateComponents);
-                console.log(updatedDecorateComponents);
-                await patchPage(pageIds[pageNumber - 1], formData);
+                const pageImg = await html2canvas(pageRef.current);
+
+                pageImg.toBlob(async (pageImageBlob) => {
+                  appendPageDataToFormData(
+                    pageImageBlob,
+                    updatedDecorateComponents,
+                    deletedDecorateComponentIds,
+                  );
+                  await patchPage(pageIds[pageNumber - 1], formData);
+                });
+
               }
             };
             return (

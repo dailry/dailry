@@ -1,13 +1,18 @@
 package com.daily.daily.post.service;
 
 import com.daily.daily.post.domain.Hashtag;
+import com.daily.daily.post.domain.HotHashtag;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.domain.PostHashtag;
+import com.daily.daily.post.dto.HotHashtagReadListResponseDTO;
 import com.daily.daily.post.repository.HashtagRepository;
+import com.daily.daily.post.repository.HotHashtagRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,6 +23,10 @@ public class HashtagService {
     private static final String DEFAULT_HASHTAG = "일반";
 
     private final HashtagRepository hashtagRepository;
+
+    private final HotHashtagRepository hotHashtagRepository;
+
+    private List<HotHashtag> hotHashtags;
 
     public void addHashtagsToPost(Post post, Set<String> hashtags) {
         Set<Hashtag> hashtagEntities = findHashtagsOrCreate(hashtags);
@@ -53,5 +62,15 @@ public class HashtagService {
 
     private Hashtag createHashtag(String tagName) {
         return hashtagRepository.save(Hashtag.of(tagName));
+    }
+
+    @Scheduled(cron = "0 0 * * * *") // 매 시 정각마다 실행
+    public void findAndUpdateHotHashTags() {
+        hotHashtags = hotHashtagRepository.findHotHashTags();
+        hotHashtagRepository.saveAll(hotHashtags);
+    }
+
+    public HotHashtagReadListResponseDTO findHotHashTags() {
+        return HotHashtagReadListResponseDTO.from(hotHashtags);
     }
 }
