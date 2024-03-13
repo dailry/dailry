@@ -1,6 +1,8 @@
 package com.daily.daily.post.repository;
 
+import com.daily.daily.post.domain.HotHashtag;
 import com.daily.daily.post.domain.Post;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,9 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.daily.daily.member.domain.QMember.member;
 import static com.daily.daily.post.domain.QPost.post;
@@ -77,4 +81,5 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
 
         return new SliceImpl<>(posts, pageable, hasNext);
     }
+
 }

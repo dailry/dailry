@@ -2,6 +2,7 @@ package com.daily.daily.post.controller;
 
 import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.post.dto.*;
+import com.daily.daily.post.service.HashtagService;
 import com.daily.daily.post.service.PostService;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
@@ -22,6 +23,8 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+
+    private final HashtagService hashtagService;
 
     @PostMapping
     @Secured(value = "ROLE_MEMBER")
@@ -70,4 +73,10 @@ public class PostController {
     public PostReadSliceResponseDTO readPostByHashTag(@RequestParam("hashtags") List<String> hashtags, Pageable pageable) {
         return postService.findPostByHashtag(hashtags, pageable);
     }
+
+    @GetMapping("/hotHashtags")
+    public HotHashtagReadListResponseDTO readHotHashTags() {
+        return hashtagService.findHotHashTags();
+    }
+
 }
