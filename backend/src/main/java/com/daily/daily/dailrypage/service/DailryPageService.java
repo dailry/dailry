@@ -55,7 +55,7 @@ public class DailryPageService {
                 .pageNumber(newDiaryPageNumber)
                 .build();
 
-        dailryPage.updateThumbnail(dataStorageDomain + EMPTY_THUMBNAIL_PATH);
+        dailryPage.updateThumbnail("https://" + dataStorageDomain + EMPTY_THUMBNAIL_PATH);
         DailryPage savedPage = dailryPageRepository.save(dailryPage);
 
         return DailryPageCreateResponseDTO.from(savedPage);
