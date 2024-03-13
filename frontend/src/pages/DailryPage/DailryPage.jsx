@@ -23,6 +23,7 @@ import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponen
 import { TEXT } from '../../styles/color';
 import MoveableComponent from '../../components/da-ily/Moveable/Moveable';
 import usePageData from '../../hooks/usePageData';
+import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -83,6 +84,19 @@ const DailryPage = () => {
   const isMoveable = () => target && editMode === EDIT_MODE.COMMON_PROPERTY;
 
   const { dailryId, pageId, pageIds, pageNumber } = currentDailry;
+
+  const [deletedDecorateComponentIds, setDeletedDecorateComponentIds] =
+    useState([]);
+
+  const deleteDecorateComponent = (id) => {
+    if (!deletedDecorateComponentIds.some((d) => d.id === id)) {
+      setDeletedDecorateComponentIds((prev) => [...prev, id]);
+    }
+
+    setDecorateComponents((prev) => prev.filter((p) => p.id !== id));
+
+    setTarget(null);
+  };
 
   useEffect(() => {
     (async () => {
@@ -252,6 +266,15 @@ const DailryPage = () => {
                 }}
                 {...element}
               >
+                {target !== null && target === index + 1 && (
+                  <DecorateComponentDeleteButton
+                    onClick={() => {
+                      deleteDecorateComponent(element.id);
+                    }}
+                  >
+                    삭제
+                  </DecorateComponentDeleteButton>
+                )}
                 <TypedDecorateComponent
                   type={element.type}
                   typeContent={element.typeContent}
@@ -345,8 +368,10 @@ const DailryPage = () => {
                 await handleDownloadClick();
               }
               if (t === 'save') {
-                const formData = getPageFormData(updatedDecorateComponents);
-                console.log(updatedDecorateComponents);
+                const formData = getPageFormData(
+                  updatedDecorateComponents,
+                  deletedDecorateComponentIds,
+                );
                 await patchPage(pageIds[pageNumber - 1], formData);
               }
             };
