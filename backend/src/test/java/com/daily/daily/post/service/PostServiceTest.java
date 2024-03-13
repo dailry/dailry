@@ -4,7 +4,6 @@ import com.daily.daily.common.exception.UnauthorizedAccessException;
 import com.daily.daily.common.service.S3StorageService;
 import com.daily.daily.member.repository.MemberRepository;
 import com.daily.daily.post.domain.Post;
-import com.daily.daily.post.dto.PostReadResponseDTO;
 import com.daily.daily.post.dto.PostWriteRequestDTO;
 import com.daily.daily.post.dto.PostWriteResponseDTO;
 import com.daily.daily.post.repository.PostLikeRepository;
@@ -18,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.net.URI;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -61,7 +61,7 @@ class PostServiceTest {
             Post 일반회원1이_작성한_게시글 = 일반회원1이_작성한_게시글();
 
             when(memberRepository.findById(any())).thenReturn(Optional.of(일반회원1()));
-            when(storageService.uploadImage(any(), any(), any())).thenReturn("post/3-awef-123-124-wafewe123123_asdf.png");
+            when(storageService.uploadImage(any(), any(), any())).thenReturn(URI.create("post/3-awef-123-124-wafewe123123_asdf.png"));
             when(postRepository.save(any())).thenReturn(일반회원1이_작성한_게시글);
 
             //when
@@ -99,7 +99,7 @@ class PostServiceTest {
         void test2() {
             //given
             when(postRepository.findById(POST_ID)).thenReturn(Optional.of(일반회원1이_작성한_게시글()));
-            when(storageService.uploadImage(any(), any(), any())).thenReturn("post/4-awef-1231-xcvsdf-12312_qwf.png");
+            when(storageService.uploadImage(any(), any(), any())).thenReturn(URI.create("post/4-awef-1231-xcvsdf-12312_qwf.png"));
 
             //when
             PostWriteResponseDTO updateResult = postService.update(일반회원1_ID, POST_ID, new PostWriteRequestDTO(), 다일리_페이지_이미지_파일());

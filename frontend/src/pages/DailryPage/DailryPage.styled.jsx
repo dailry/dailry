@@ -46,15 +46,11 @@ export const NoCanvas = styled.div`
   }
 `;
 
-export const ElementStyle = ({ position, order, size, canEdit }) => {
+export const ElementStyle = ({ canEdit, order }) => {
   return {
     position: 'absolute',
-    left: `${position.x}px`,
-    top: `${position.y}px`,
-    width: `${size.width}px`,
-    height: `${size.height}px`,
-    zIndex: order,
     border: canEdit ? `2px dashed #74ABD9` : '',
+    order,
   };
 };
 

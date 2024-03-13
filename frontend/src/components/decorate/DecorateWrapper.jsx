@@ -7,14 +7,13 @@ const DecorateWrapper = forwardRef((props, ref) => {
     id,
     children,
     order,
-    position,
-    size,
-    rotation,
-    typeContent,
+    initialStyle,
     canEdit,
+    typeContent,
     onMouseDown,
     onMouseUp,
   } = props;
+  const { position, size, rotation } = initialStyle;
 
   return (
     <div
@@ -22,14 +21,18 @@ const DecorateWrapper = forwardRef((props, ref) => {
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
       ref={ref}
-      style={S.ElementStyle({
-        position,
-        typeContent,
-        order,
-        size,
-        canEdit,
-        rotation,
-      })}
+      style={{
+        top: `${position.y}px`,
+        left: `${position.x}px`,
+        width: `${size?.width}px`,
+        height: `${size?.height}px`,
+        rotate: `${rotation}deg`,
+        ...S.ElementStyle({
+          typeContent,
+          canEdit,
+          order,
+        }),
+      }}
     >
       {children}
     </div>
@@ -46,6 +49,7 @@ DecorateWrapper.propTypes = {
   setTarget: PropTypes.func,
   index: PropTypes.number,
   type: PropTypes.string,
+  initialStyle: PropTypes.object,
   position: PropTypes.object,
   typeContent: PropTypes.object,
   order: PropTypes.number,

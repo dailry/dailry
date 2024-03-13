@@ -24,6 +24,7 @@ import { TEXT } from '../../styles/color';
 import MoveableComponent from '../../components/da-ily/Moveable/Moveable';
 import usePageData from '../../hooks/usePageData';
 import { useModalContext } from '../../hooks/useModalContext';
+import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -44,7 +45,7 @@ const DailryPage = () => {
     modifyUpdatedDecorateComponent,
   } = useUpdatedDecorateComponents();
 
-  const { getPageFormData, onUploadFile } = usePageData(
+  const { appendPageDataToFormData, formData } = usePageData(
     updatedDecorateComponents,
   );
 
@@ -86,6 +87,19 @@ const DailryPage = () => {
 
   const { dailryId, pageId, pageIds, pageNumber } = currentDailry;
 
+  const [deletedDecorateComponentIds, setDeletedDecorateComponentIds] =
+    useState([]);
+
+  const deleteDecorateComponent = (id) => {
+    if (!deletedDecorateComponentIds.some((d) => d.id === id)) {
+      setDeletedDecorateComponentIds((prev) => [...prev, id]);
+    }
+
+    setDecorateComponents((prev) => prev.filter((p) => p.id !== id));
+
+    setTarget(null);
+  };
+
   useEffect(() => {
     (async () => {
       const { status, data } = await getPages(dailryId);
@@ -113,7 +127,16 @@ const DailryPage = () => {
       const page = await getPage(pageIds[pageNumber - 1]);
 
       if (page.data?.elements.length > 0) {
-        setDecorateComponents(page.data?.elements);
+        const datas = page.data?.elements.map((i) => ({
+          ...i,
+          initialStyle: {
+            ...i.initialStyle,
+            position: i?.position,
+            size: i?.size,
+            rotation: i?.rotation,
+          },
+        }));
+        setDecorateComponents(datas);
       }
     })();
   }, [pageIds, pageNumber]);
@@ -126,13 +149,6 @@ const DailryPage = () => {
       closeOnClick: true,
       transition: Zoom,
     });
-  };
-
-  const initializeMoveableStyle = () => {
-    const newStyleString = ` translate(0px, 0px) rotate(${canEditDecorateComponent?.rotation}deg) scale(1, 1) `;
-    moveableRef[target].style.transform = newStyleString;
-
-    setTarget(null);
   };
 
   const handleLeftArrowClick = () => {
@@ -154,9 +170,9 @@ const DailryPage = () => {
   const handleDownloadClick = async () => {
     try {
       const pageImg = await html2canvas(pageRef.current);
-      pageImg.toBlob((blob) => {
-        if (blob !== null) {
-          saveAs(blob, `dailry${dailryId}_${pageId}.png`);
+      pageImg.toBlob((pageImageBlob) => {
+        if (pageImageBlob !== null) {
+          saveAs(pageImageBlob, `dailry${dailryId}_${pageId}.png`);
         }
       });
     } catch (e) {
@@ -165,17 +181,18 @@ const DailryPage = () => {
   };
 
   const handleClickPage = (e) => {
-    if (selectedTool === null) {
+    if (
+      selectedTool === null ||
+      (selectedTool === DECORATE_TYPE.MOVING && !canEditDecorateComponent)
+    ) {
       return;
     }
 
-    if (editMode === EDIT_MODE.COMMON_PROPERTY) {
-      if (canEditDecorateComponent) {
-        completeModifyDecorateComponent();
-        initializeMoveableStyle();
+    if (canEditDecorateComponent) {
+      completeModifyDecorateComponent();
+      setTarget(null);
 
-        setCanEditDecorateComponent(null);
-      }
+      setCanEditDecorateComponent(null);
       return;
     }
 
@@ -195,7 +212,7 @@ const DailryPage = () => {
       canEditDecorateComponent.id !== element.id
     ) {
       completeModifyDecorateComponent();
-      initializeMoveableStyle();
+      setTarget(null);
       setCanEditDecorateComponent(null);
       return;
     }
@@ -214,9 +231,12 @@ const DailryPage = () => {
       canEditDecorateComponent &&
       canEditDecorateComponent.id !== element.id
     ) {
-      initializeMoveableStyle();
+      setTarget(null);
     }
   };
+  useEffect(() => {
+    console.log(canEditDecorateComponent);
+  }, [canEditDecorateComponent]);
 
   const handleModalSelect = {
     select: (page) => {
@@ -242,7 +262,6 @@ const DailryPage = () => {
 
       {havePage ? (
         <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
-          <input type="file" alt="what" onChange={onUploadFile} />
           {decorateComponents?.map((element, index) => {
             const canEdit =
               editMode === EDIT_MODE.TYPE_CONTENT &&
@@ -260,6 +279,15 @@ const DailryPage = () => {
                 }}
                 {...element}
               >
+                {target !== null && target === index + 1 && (
+                  <DecorateComponentDeleteButton
+                    onClick={() => {
+                      deleteDecorateComponent(element.id);
+                    }}
+                  >
+                    삭제
+                  </DecorateComponentDeleteButton>
+                )}
                 <TypedDecorateComponent
                   type={element.type}
                   typeContent={element.typeContent}
@@ -308,7 +336,7 @@ const DailryPage = () => {
               }
               if (canEditDecorateComponent) {
                 completeModifyDecorateComponent();
-                initializeMoveableStyle();
+                setTarget(null);
                 setCanEditDecorateComponent(null);
               }
               setSelectedTool(selectedTool === t ? null : t);
@@ -334,7 +362,7 @@ const DailryPage = () => {
               }
               if (canEditDecorateComponent) {
                 completeModifyDecorateComponent();
-                initializeMoveableStyle();
+                setTarget(null);
                 setCanEditDecorateComponent(null);
               }
               setSelectedTool(selectedTool === t ? null : t);
@@ -353,8 +381,16 @@ const DailryPage = () => {
                 await handleDownloadClick();
               }
               if (t === 'save') {
-                const formData = getPageFormData(updatedDecorateComponents);
-                await patchPage(pageIds[pageNumber - 1], formData);
+                const pageImg = await html2canvas(pageRef.current);
+
+                pageImg.toBlob(async (pageImageBlob) => {
+                  appendPageDataToFormData(
+                    pageImageBlob,
+                    updatedDecorateComponents,
+                    deletedDecorateComponentIds,
+                  );
+                  await patchPage(pageIds[pageNumber - 1], formData);
+                });
               }
             };
             return (

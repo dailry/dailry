@@ -1,6 +1,7 @@
 package com.daily.daily.post.service;
 
 import com.daily.daily.common.exception.UnauthorizedAccessException;
+import com.daily.daily.common.domain.DirectoryPath;
 import com.daily.daily.common.service.S3StorageService;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.exception.MemberNotFoundException;
@@ -19,16 +20,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class PostService {
-
-    private final String POST_STORAGE_DIRECTORY_PATH = "post/" + LocalDate.now(ZoneId.of("Asia/Seoul"));
 
     private final PostRepository postRepository;
 
@@ -70,8 +71,13 @@ public class PostService {
     }
 
     private void uploadPageImage(Post post, MultipartFile pageImage) {
-        String fileUrl = storageService.uploadImage(pageImage, POST_STORAGE_DIRECTORY_PATH, post.getId().toString());
-        post.updatePageImage(fileUrl);
+        DirectoryPath dirPath = DirectoryPath.of("post",
+                LocalDate.now(ZoneId.of("Asia/Seoul")).toString(),
+                post.getId().toString());
+
+        URI fileUri = storageService.uploadImage(pageImage, dirPath, UUID.randomUUID() + ".png");
+
+        post.updatePageImage(fileUri.toString());
     }
 
     public PostReadResponseDTO find(Long postId) {

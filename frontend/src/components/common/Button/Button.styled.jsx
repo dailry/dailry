@@ -3,7 +3,7 @@ import { BUTTON, TEXT } from '../../../styles/color';
 
 const sizes = {
   sm: css`
-    width: 70px;
+    min-width: 70px;
     height: 26px;
     border-radius: 4px;
     font-size: 12px;

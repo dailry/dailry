@@ -18,6 +18,8 @@ public class DailryPageUpdateDTO {
     @NotBlank(message = "background는 비어있을 수 없습니다.")
     private String background;
 
+    private List<String> deletedElementIds;
+
     @Valid
     private List<ElementDTO> elements;
 
