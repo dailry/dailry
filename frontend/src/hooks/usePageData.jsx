@@ -1,6 +1,5 @@
 const usePageData = () => {
   const formData = new FormData();
-
   const convertDecorateComponentsToBlob = (
     updatedDecorateComponents,
     deletedElementIds,

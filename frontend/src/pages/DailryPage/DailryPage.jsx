@@ -377,6 +377,7 @@ const DailryPage = () => {
                   );
                   await patchPage(pageIds[pageNumber - 1], formData);
                 });
+
               }
             };
             return (
