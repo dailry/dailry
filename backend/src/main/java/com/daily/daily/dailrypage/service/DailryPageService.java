@@ -16,6 +16,7 @@ import com.daily.daily.dailrypage.exception.DailryPageNotFoundException;
 import com.daily.daily.dailrypage.exception.DailryPageThumbnailNotFoundException;
 import com.daily.daily.dailrypage.repository.DailryPageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +34,10 @@ public class DailryPageService {
     private final DailryRepository dailryRepository;
 
     private final S3StorageService storageService;
+    private final String EMPTY_THUMBNAIL_PATH = "/util/thumbnail/empty.png";
+
+    @Value("${app.properties.dataStorageDomain}")
+    private String dataStorageDomain;
 
     public DailryPageCreateResponseDTO create(Long memberId, Long dailryId) {
         Dailry dailry = dailryRepository.findById(dailryId)
@@ -50,6 +55,7 @@ public class DailryPageService {
                 .pageNumber(newDiaryPageNumber)
                 .build();
 
+        dailryPage.updateThumbnail(dataStorageDomain + EMPTY_THUMBNAIL_PATH);
         DailryPage savedPage = dailryPageRepository.save(dailryPage);
 
         return DailryPageCreateResponseDTO.from(savedPage);
