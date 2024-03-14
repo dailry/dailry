@@ -367,6 +367,7 @@ const DailryPage = () => {
                 await handleDownloadClick();
               }
               if (t === 'save') {
+                setTarget(null);
                 const pageImg = await html2canvas(pageRef.current);
 
                 pageImg.toBlob(async (pageImageBlob) => {
@@ -377,7 +378,6 @@ const DailryPage = () => {
                   );
                   await patchPage(pageIds[pageNumber - 1], formData);
                 });
-
               }
             };
             return (
