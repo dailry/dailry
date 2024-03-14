@@ -206,6 +206,11 @@ const DailryPage = () => {
   const handleClickDecorate = (e, index, element) => {
     e.stopPropagation();
 
+    if (selectedTool === DECORATE_TYPE.MOVING) {
+      console.log('hell yeah');
+      setTarget(index + 1);
+    }
+
     if (
       canEditDecorateComponent &&
       canEditDecorateComponent.id !== element.id
@@ -216,15 +221,18 @@ const DailryPage = () => {
       return;
     }
 
-    setTarget(index + 1);
-
     if (newDecorateComponent) {
       completeCreateNewDecorateComponent();
 
       return;
     }
 
-    setCanEditDecorateComponent(element);
+    if (
+      editMode === EDIT_MODE.COMMON_PROPERTY ||
+      (editMode === EDIT_MODE.TYPE_CONTENT && selectedTool === element.type)
+    ) {
+      setCanEditDecorateComponent(element);
+    }
 
     if (
       canEditDecorateComponent &&
@@ -265,7 +273,8 @@ const DailryPage = () => {
                 }}
                 {...element}
               >
-                {target !== null && target === index + 1 && (
+                {(target === index + 1 ||
+                  canEditDecorateComponent?.id === element.id) && (
                   <DecorateComponentDeleteButton
                     onClick={() => {
                       deleteDecorateComponent(element.id);
@@ -274,6 +283,7 @@ const DailryPage = () => {
                     삭제
                   </DecorateComponentDeleteButton>
                 )}
+
                 <TypedDecorateComponent
                   type={element.type}
                   typeContent={element.typeContent}
