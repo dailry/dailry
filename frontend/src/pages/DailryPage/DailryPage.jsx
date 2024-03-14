@@ -38,6 +38,7 @@ const DailryPage = () => {
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
   const {
+    setUpdatedDecorateComponents,
     updatedDecorateComponents,
     addUpdatedDecorateComponent,
     modifyUpdatedDecorateComponent,
@@ -150,19 +151,82 @@ const DailryPage = () => {
     });
   };
 
-  const handleLeftArrowClick = () => {
+  const patchPageData = async () => {
+    setTarget(null);
+    const pageImg = await html2canvas(pageRef.current);
+
+    pageImg.toBlob(async (pageImageBlob) => {
+      appendPageDataToFormData(
+        pageImageBlob,
+        updatedDecorateComponents,
+        deletedDecorateComponentIds,
+      );
+      await patchPage(pageIds[pageNumber - 1], formData);
+    });
+  };
+
+  const handleLeftArrowClick = async () => {
     if (pageNumber === 1) {
       toastify('첫 번째 페이지입니다');
       return;
     }
+    if (canEditDecorateComponent) {
+      completeModifyDecorateComponent();
+      setTarget(null);
+
+      setCanEditDecorateComponent(null);
+
+      return;
+    }
+
+    if (newDecorateComponent) {
+      completeCreateNewDecorateComponent();
+      return;
+    }
+
+    if (
+      updatedDecorateComponents.length > 0 &&
+      window.confirm(
+        '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
+      )
+    ) {
+      await patchPageData();
+    }
+
+    setUpdatedDecorateComponents([]);
+
     setCurrentDailry({ ...currentDailry, pageNumber: pageNumber - 1 });
   };
 
-  const handleRightArrowClick = () => {
+  const handleRightArrowClick = async () => {
     if (pageList.length === pageNumber) {
       toastify('마지막 페이지입니다');
       return;
     }
+
+    if (canEditDecorateComponent) {
+      completeModifyDecorateComponent();
+      setTarget(null);
+
+      setCanEditDecorateComponent(null);
+      return;
+    }
+
+    if (newDecorateComponent) {
+      completeCreateNewDecorateComponent();
+      return;
+    }
+
+    if (
+      updatedDecorateComponents.length > 0 &&
+      window.confirm(
+        '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
+      )
+    ) {
+      await patchPageData();
+    }
+    setUpdatedDecorateComponents([]);
+
     setCurrentDailry({ ...currentDailry, pageNumber: pageNumber + 1 });
   };
 
@@ -241,6 +305,7 @@ const DailryPage = () => {
       setTarget(null);
     }
   };
+
   useEffect(() => {
     console.log(canEditDecorateComponent);
   }, [canEditDecorateComponent]);
@@ -377,17 +442,7 @@ const DailryPage = () => {
                 await handleDownloadClick();
               }
               if (t === 'save') {
-                setTarget(null);
-                const pageImg = await html2canvas(pageRef.current);
-
-                pageImg.toBlob(async (pageImageBlob) => {
-                  appendPageDataToFormData(
-                    pageImageBlob,
-                    updatedDecorateComponents,
-                    deletedDecorateComponentIds,
-                  );
-                  await patchPage(pageIds[pageNumber - 1], formData);
-                });
+                await patchPageData();
               }
             };
             return (
