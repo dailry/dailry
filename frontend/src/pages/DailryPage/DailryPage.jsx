@@ -40,6 +40,7 @@ const DailryPage = () => {
   const { modalType, setModalType, closeModal } = useModalContext();
 
   const {
+    setUpdatedDecorateComponents,
     updatedDecorateComponents,
     addUpdatedDecorateComponent,
     modifyUpdatedDecorateComponent,
@@ -151,19 +152,82 @@ const DailryPage = () => {
     });
   };
 
-  const handleLeftArrowClick = () => {
+  const patchPageData = async () => {
+    setTarget(null);
+    const pageImg = await html2canvas(pageRef.current);
+
+    pageImg.toBlob(async (pageImageBlob) => {
+      appendPageDataToFormData(
+        pageImageBlob,
+        updatedDecorateComponents,
+        deletedDecorateComponentIds,
+      );
+      await patchPage(pageIds[pageNumber - 1], formData);
+    });
+  };
+
+  const handleLeftArrowClick = async () => {
     if (pageNumber === 1) {
       toastify('첫 번째 페이지입니다');
       return;
     }
+    if (canEditDecorateComponent) {
+      completeModifyDecorateComponent();
+      setTarget(null);
+
+      setCanEditDecorateComponent(null);
+
+      return;
+    }
+
+    if (newDecorateComponent) {
+      completeCreateNewDecorateComponent();
+      return;
+    }
+
+    if (
+      updatedDecorateComponents.length > 0 &&
+      window.confirm(
+        '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
+      )
+    ) {
+      await patchPageData();
+    }
+
+    setUpdatedDecorateComponents([]);
+
     setCurrentDailry({ ...currentDailry, pageNumber: pageNumber - 1 });
   };
 
-  const handleRightArrowClick = () => {
+  const handleRightArrowClick = async () => {
     if (pageList.length === pageNumber) {
       toastify('마지막 페이지입니다');
       return;
     }
+
+    if (canEditDecorateComponent) {
+      completeModifyDecorateComponent();
+      setTarget(null);
+
+      setCanEditDecorateComponent(null);
+      return;
+    }
+
+    if (newDecorateComponent) {
+      completeCreateNewDecorateComponent();
+      return;
+    }
+
+    if (
+      updatedDecorateComponents.length > 0 &&
+      window.confirm(
+        '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
+      )
+    ) {
+      await patchPageData();
+    }
+    setUpdatedDecorateComponents([]);
+
     setCurrentDailry({ ...currentDailry, pageNumber: pageNumber + 1 });
   };
 
@@ -207,6 +271,11 @@ const DailryPage = () => {
   const handleClickDecorate = (e, index, element) => {
     e.stopPropagation();
 
+    if (selectedTool === DECORATE_TYPE.MOVING) {
+      console.log('hell yeah');
+      setTarget(index + 1);
+    }
+
     if (
       canEditDecorateComponent &&
       canEditDecorateComponent.id !== element.id
@@ -217,15 +286,18 @@ const DailryPage = () => {
       return;
     }
 
-    setTarget(index + 1);
-
     if (newDecorateComponent) {
       completeCreateNewDecorateComponent();
 
       return;
     }
 
-    setCanEditDecorateComponent(element);
+    if (
+      editMode === EDIT_MODE.COMMON_PROPERTY ||
+      (editMode === EDIT_MODE.TYPE_CONTENT && selectedTool === element.type)
+    ) {
+      setCanEditDecorateComponent(element);
+    }
 
     if (
       canEditDecorateComponent &&
@@ -234,6 +306,7 @@ const DailryPage = () => {
       setTarget(null);
     }
   };
+
   useEffect(() => {
     console.log(canEditDecorateComponent);
   }, [canEditDecorateComponent]);
@@ -279,7 +352,8 @@ const DailryPage = () => {
                 }}
                 {...element}
               >
-                {target !== null && target === index + 1 && (
+                {(target === index + 1 ||
+                  canEditDecorateComponent?.id === element.id) && (
                   <DecorateComponentDeleteButton
                     onClick={() => {
                       deleteDecorateComponent(element.id);
@@ -288,6 +362,7 @@ const DailryPage = () => {
                     삭제
                   </DecorateComponentDeleteButton>
                 )}
+
                 <TypedDecorateComponent
                   type={element.type}
                   typeContent={element.typeContent}
@@ -370,6 +445,27 @@ const DailryPage = () => {
                 setSelectedTool(null);
               }, 150);
               if (t === 'add') {
+                if (canEditDecorateComponent) {
+                  completeModifyDecorateComponent();
+                  setTarget(null);
+
+                  setCanEditDecorateComponent(null);
+                  return;
+                }
+
+                if (newDecorateComponent) {
+                  completeCreateNewDecorateComponent();
+                  return;
+                }
+                if (
+                  updatedDecorateComponents.length > 0 &&
+                  window.confirm(
+                    '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
+                  )
+                ) {
+                  await patchPageData();
+                }
+                setUpdatedDecorateComponents([]);
                 const response = await postPage(dailryId);
                 setCurrentDailry({
                   ...currentDailry,
@@ -381,16 +477,7 @@ const DailryPage = () => {
                 await handleDownloadClick();
               }
               if (t === 'save') {
-                const pageImg = await html2canvas(pageRef.current);
-
-                pageImg.toBlob(async (pageImageBlob) => {
-                  appendPageDataToFormData(
-                    pageImageBlob,
-                    updatedDecorateComponents,
-                    deletedDecorateComponentIds,
-                  );
-                  await patchPage(pageIds[pageNumber - 1], formData);
-                });
+                await patchPageData();
               }
             };
             return (

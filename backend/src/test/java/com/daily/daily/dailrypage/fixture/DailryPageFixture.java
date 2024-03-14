@@ -52,6 +52,7 @@ public class DailryPageFixture {
                 .dailryId(DAILRY_ID)
                 .pageId(다일리페이지_ID)
                 .background("grid")
+                .thumbnail("https://data.da-ily.site/util/thumbnail/empty.png")
                 .pageNumber(1L)
                 .build();
     }
