@@ -431,6 +431,27 @@ const DailryPage = () => {
                 setSelectedTool(null);
               }, 150);
               if (t === 'add') {
+                if (canEditDecorateComponent) {
+                  completeModifyDecorateComponent();
+                  setTarget(null);
+
+                  setCanEditDecorateComponent(null);
+                  return;
+                }
+
+                if (newDecorateComponent) {
+                  completeCreateNewDecorateComponent();
+                  return;
+                }
+                if (
+                  updatedDecorateComponents.length > 0 &&
+                  window.confirm(
+                    '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
+                  )
+                ) {
+                  await patchPageData();
+                }
+                setUpdatedDecorateComponents([]);
                 const response = await postPage(dailryId);
                 setCurrentDailry({
                   ...currentDailry,
