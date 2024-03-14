@@ -163,6 +163,8 @@ const DailryPage = () => {
       );
       await patchPage(pageIds[pageNumber - 1], formData);
     });
+
+    setUpdatedDecorateComponents([]);
   };
 
   const handleLeftArrowClick = async () => {
