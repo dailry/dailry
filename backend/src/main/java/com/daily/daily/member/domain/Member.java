@@ -61,4 +61,14 @@ public class Member extends BaseTimeEntity {
     public boolean hasSameUsername(String otherUsername) {
         return username.equals(otherUsername);
     }
+
+    public void withdrawMember() {
+        this.username = null;
+        this.password = null;
+        this.nickname = null;
+        this.email = null;
+        this.socialId = null;
+        this.role = null;
+        this.socialType = null;
+    }
 }
