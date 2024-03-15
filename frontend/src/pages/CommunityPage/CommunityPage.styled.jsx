@@ -21,7 +21,8 @@ export const HeaderWrapper = styled.div`
   align-items: center;
 
   padding: 20px;
-  width: 800px;
+  width: 80%;
+  max-width: 800px;
 `;
 
 export const SortWrapper = styled.div`
@@ -30,11 +31,10 @@ export const SortWrapper = styled.div`
   gap: 12px;
 `;
 
-export const LikeWrapper = styled.div``;
-
-export const LikeIcon = styled.img`
+export const LikeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 20px;
-  height: 20px;
 `;
 
 export const PostWrapper = styled.div`
@@ -46,7 +46,8 @@ export const PostWrapper = styled.div`
   gap: 12px;
 
   padding: 12px;
-  width: 700px;
+  width: 70%;
+  max-width: 700px;
 
   &::after {
     content: '';
@@ -80,7 +81,8 @@ export const RowFlex = styled.div`
 
 export const DailryWrapper = styled.img`
   margin-top: 12px;
-  width: 500px;
+  width: 80%;
+  max-width: 600px;
   aspect-ratio: 1.35/1;
 
   border: 1px solid ${COMMUNITY.line};
