@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react';
 import * as S from './CommunityPage.styled';
 import { deletePosts, getPosts } from '../../apis/postApi';
 import Text from '../../components/common/Text/Text';
-import { HeartIcon } from '../../assets/svg';
 import { getMember } from '../../apis/memberApi';
 
 const CommunityPage = () => {
