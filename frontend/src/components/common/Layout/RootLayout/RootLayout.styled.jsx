@@ -29,12 +29,18 @@ export const PageContainer = styled.div`
   margin: 10px 10px 10px 0;
 `;
 
+const templateWidth = {
+  half: '80%',
+  full: '100%',
+};
+
 export const DefaultPageTemplate = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  height: 100%;
+  width: ${({ templateSize }) => templateWidth[templateSize]};
 `;
 
 export const BrightColoredPageTemplate = styled(DefaultPageTemplate)`

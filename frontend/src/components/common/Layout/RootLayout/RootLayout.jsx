@@ -1,11 +1,9 @@
-import PropTypes from 'prop-types';
-
 import { Outlet } from 'react-router-dom';
 import * as S from './RootLayout.styled';
 import Navigation from '../../Navigation/Navigation';
 
 const RootLayout = (props) => {
-  const { hasTemplate } = props;
+  const { templateSize } = props;
 
   return (
     <S.Background>
@@ -15,8 +13,8 @@ const RootLayout = (props) => {
         </S.NavigationContainer>
       )}
       <S.PageContainer>
-        {hasTemplate ? (
-          <S.BrightColoredPageTemplate>
+        {templateSize ? (
+          <S.BrightColoredPageTemplate templateSize={templateSize}>
             <Outlet />
           </S.BrightColoredPageTemplate>
         ) : (
@@ -28,7 +26,7 @@ const RootLayout = (props) => {
 };
 
 RootLayout.propTypes = {
-  hasTemplate: PropTypes.bool,
+  templateSize: 'full' || 'half',
 };
 
 export default RootLayout;

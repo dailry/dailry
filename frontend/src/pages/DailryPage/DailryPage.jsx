@@ -4,6 +4,7 @@ import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
 import { toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 import * as S from './DailryPage.styled';
 import Text from '../../components/common/Text/Text';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
@@ -23,21 +24,26 @@ import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponen
 import { TEXT } from '../../styles/color';
 import MoveableComponent from '../../components/da-ily/Moveable/Moveable';
 import usePageData from '../../hooks/usePageData';
+import { useModalContext } from '../../hooks/useModalContext';
 import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
+import { PATH_NAME } from '../../constants/routes';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
   const moveableRef = useRef([]);
+  const navigate = useNavigate();
 
   const [target, setTarget] = useState(null);
 
   const [selectedTool, setSelectedTool] = useState(null);
-  const [showPageModal, setShowPageModal] = useState(false);
   const [pageList, setPageList] = useState([]);
   const [havePage, setHavePage] = useState(true);
+
   const { currentDailry, setCurrentDailry } = useDailryContext();
+  const { modalType, setModalType, closeModal } = useModalContext();
 
   const {
+    setUpdatedDecorateComponents,
     updatedDecorateComponents,
     addUpdatedDecorateComponent,
     modifyUpdatedDecorateComponent,
@@ -104,13 +110,13 @@ const DailryPage = () => {
 
       if (status === 200 && data.pages.length !== 0) {
         const { pages } = data;
+        console.log(pages);
+        setPageList(pages);
         const pageIdList = pages.map((page) => page.pageId);
-        setPageList(pageIdList);
-
         setCurrentDailry({
           ...currentDailry,
           pageIds: pageIdList,
-          pageNumber: pageIds ? 1 : null,
+          pageNumber: pageNumber ?? (pageIds.length === 0 ? 1 : null),
         });
 
         return setHavePage(true);
@@ -118,7 +124,7 @@ const DailryPage = () => {
 
       return setHavePage(false);
     })();
-  }, [dailryId]);
+  }, [dailryId, pageNumber, modalType]);
 
   useEffect(() => {
     (async () => {
@@ -150,19 +156,87 @@ const DailryPage = () => {
     });
   };
 
-  const handleLeftArrowClick = () => {
+  const patchPageData = () => {
+    setTarget(null);
+
+    setTimeout(async () => {
+      const pageImg = await html2canvas(pageRef.current);
+
+      pageImg.toBlob(async (pageImageBlob) => {
+        appendPageDataToFormData(
+          pageImageBlob,
+          updatedDecorateComponents,
+          deletedDecorateComponentIds,
+        );
+        await patchPage(pageIds[pageNumber - 1], formData);
+      });
+
+      setUpdatedDecorateComponents([]);
+    }, 100);
+  };
+
+  const handleLeftArrowClick = async () => {
     if (pageNumber === 1) {
       toastify('첫 번째 페이지입니다');
       return;
     }
+    if (canEditDecorateComponent) {
+      completeModifyDecorateComponent();
+      setTarget(null);
+
+      setCanEditDecorateComponent(null);
+
+      return;
+    }
+
+    if (newDecorateComponent) {
+      completeCreateNewDecorateComponent();
+      return;
+    }
+
+    if (
+      updatedDecorateComponents.length > 0 &&
+      window.confirm(
+        '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
+      )
+    ) {
+      patchPageData();
+    }
+
+    setUpdatedDecorateComponents([]);
+
     setCurrentDailry({ ...currentDailry, pageNumber: pageNumber - 1 });
   };
 
-  const handleRightArrowClick = () => {
+  const handleRightArrowClick = async () => {
     if (pageList.length === pageNumber) {
       toastify('마지막 페이지입니다');
       return;
     }
+
+    if (canEditDecorateComponent) {
+      completeModifyDecorateComponent();
+      setTarget(null);
+
+      setCanEditDecorateComponent(null);
+      return;
+    }
+
+    if (newDecorateComponent) {
+      completeCreateNewDecorateComponent();
+      return;
+    }
+
+    if (
+      updatedDecorateComponents.length > 0 &&
+      window.confirm(
+        '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
+      )
+    ) {
+      patchPageData();
+    }
+    setUpdatedDecorateComponents([]);
+
     setCurrentDailry({ ...currentDailry, pageNumber: pageNumber + 1 });
   };
 
@@ -206,6 +280,11 @@ const DailryPage = () => {
   const handleClickDecorate = (e, index, element) => {
     e.stopPropagation();
 
+    if (selectedTool === DECORATE_TYPE.MOVING) {
+      console.log('hell yeah');
+      setTarget(index + 1);
+    }
+
     if (
       canEditDecorateComponent &&
       canEditDecorateComponent.id !== element.id
@@ -216,15 +295,18 @@ const DailryPage = () => {
       return;
     }
 
-    setTarget(index + 1);
-
     if (newDecorateComponent) {
       completeCreateNewDecorateComponent();
 
       return;
     }
 
-    setCanEditDecorateComponent(element);
+    if (
+      editMode === EDIT_MODE.COMMON_PROPERTY ||
+      (editMode === EDIT_MODE.TYPE_CONTENT && selectedTool === element.type)
+    ) {
+      setCanEditDecorateComponent(element);
+    }
 
     if (
       canEditDecorateComponent &&
@@ -233,16 +315,32 @@ const DailryPage = () => {
       setTarget(null);
     }
   };
+
   useEffect(() => {
     console.log(canEditDecorateComponent);
   }, [canEditDecorateComponent]);
 
+  const handleModalSelect = {
+    select: (page) => {
+      setCurrentDailry({
+        ...currentDailry,
+        pageId: page.pageId,
+        pageNumber: page.pageNumber,
+      });
+    },
+    download: () => {},
+    share: (page) => {
+      navigate(`${PATH_NAME.CommunityWrite}?pageImage=${page.thumbnail}`);
+    },
+  };
+
   return (
     <S.FlexWrapper>
-      {showPageModal && (
+      {modalType && (
         <PageListModal
           pageList={pageList}
-          onClose={() => setShowPageModal(false)}
+          onClose={closeModal}
+          onSelect={handleModalSelect[modalType]}
         />
       )}
 
@@ -265,7 +363,8 @@ const DailryPage = () => {
                 }}
                 {...element}
               >
-                {target !== null && target === index + 1 && (
+                {(target === index + 1 ||
+                  canEditDecorateComponent?.id === element.id) && (
                   <DecorateComponentDeleteButton
                     onClick={() => {
                       deleteDecorateComponent(element.id);
@@ -274,6 +373,7 @@ const DailryPage = () => {
                     삭제
                   </DecorateComponentDeleteButton>
                 )}
+
                 <TypedDecorateComponent
                   type={element.type}
                   typeContent={element.typeContent}
@@ -356,6 +456,27 @@ const DailryPage = () => {
                 setSelectedTool(null);
               }, 150);
               if (t === 'add') {
+                if (canEditDecorateComponent) {
+                  completeModifyDecorateComponent();
+                  setTarget(null);
+
+                  setCanEditDecorateComponent(null);
+                  return;
+                }
+
+                if (newDecorateComponent) {
+                  completeCreateNewDecorateComponent();
+                  return;
+                }
+                if (
+                  updatedDecorateComponents.length > 0 &&
+                  window.confirm(
+                    '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
+                  )
+                ) {
+                  patchPageData();
+                }
+                setUpdatedDecorateComponents([]);
                 const response = await postPage(dailryId);
                 setCurrentDailry({
                   ...currentDailry,
@@ -367,17 +488,7 @@ const DailryPage = () => {
                 await handleDownloadClick();
               }
               if (t === 'save') {
-                const pageImg = await html2canvas(pageRef.current);
-
-                pageImg.toBlob(async (pageImageBlob) => {
-                  appendPageDataToFormData(
-                    pageImageBlob,
-                    updatedDecorateComponents,
-                    deletedDecorateComponentIds,
-                  );
-                  await patchPage(pageIds[pageNumber - 1], formData);
-                });
-
+                patchPageData();
               }
             };
             return (
@@ -394,7 +505,7 @@ const DailryPage = () => {
           <S.ArrowButton direction={'left'} onClick={handleLeftArrowClick}>
             <LeftArrowIcon />
           </S.ArrowButton>
-          <S.NumberButton onClick={() => setShowPageModal(true)}>
+          <S.NumberButton onClick={() => setModalType('select')}>
             {pageNumber}
           </S.NumberButton>
           <S.ArrowButton direction={'right'} onClick={handleRightArrowClick}>

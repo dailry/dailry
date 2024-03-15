@@ -28,6 +28,7 @@ const useUpdatedDecorateComponents = () => {
   };
 
   return {
+    setUpdatedDecorateComponents,
     updatedDecorateComponents,
     addUpdatedDecorateComponent,
     modifyUpdatedDecorateComponent,

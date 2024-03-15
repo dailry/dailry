@@ -9,3 +9,4 @@ export { ReactComponent as StickerIcon } from './sticker-icon.svg';
 export { ReactComponent as AddPageIcon } from './add-page-icon.svg';
 export { ReactComponent as LeftArrowIcon } from './left-arrow-icon.svg';
 export { ReactComponent as RightArrowIcon } from './right-arrow-icon.svg';
+export { ReactComponent as HeartIcon } from './heart-icon.svg';

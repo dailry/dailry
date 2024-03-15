@@ -67,3 +67,9 @@ export const MODAL = Object.freeze({
   item: '#616161',
   selectedItem: '#87a5eb',
 });
+
+export const COMMUNITY = Object.freeze({
+  line: '#616161',
+  like: '#fb8d8d',
+  default: '#000000',
+});
