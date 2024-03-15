@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from 'react';
 import * as S from './CommunityPage.styled';
-import { getPosts } from '../../apis/postApi';
+import { deletePosts, getPosts } from '../../apis/postApi';
 import Text from '../../components/common/Text/Text';
 import { HeartIcon } from '../../assets/svg';
+import { getMember } from '../../apis/memberApi';
 
 const CommunityPage = () => {
-  // const observer = useRef(null);
   const endRef = useRef(null);
+  const [memberId, setMemberId] = useState('');
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(true);
@@ -27,10 +28,24 @@ const CommunityPage = () => {
   };
 
   useEffect(() => {
+    (async () => {
+      const response = await getMember();
+      setMemberId(response.data.memberId);
+    })();
+  }, []);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(onIntersect);
     observer.observe(endRef.current);
     return () => observer.disconnect();
   }, [endRef, page]);
+
+  const handleDeleteClick = async (postId) => {
+    const response = await deletePosts(postId);
+    if (response.status === 200) {
+      window.location.reload();
+    }
+  };
 
   return (
     <S.CommunityWrapper>
@@ -48,12 +63,13 @@ const CommunityPage = () => {
           postId,
           content,
           pageImage,
-          // writerId,
+          writerId,
           writerNickname,
           hashtags,
           likeCount,
           createdTime,
         } = post;
+        const myPost = memberId === writerId;
         return (
           <S.PostWrapper key={postId}>
             <S.HeadWrapper>
@@ -62,8 +78,12 @@ const CommunityPage = () => {
                 <div>{createdTime.split('T').join(' ')}</div>
               </S.RowFlex>
               <S.RowFlex>
-                <button>수정</button>
-                <button>삭제</button>
+                {myPost && <button>수정</button>}
+                {myPost && (
+                  <button onClick={() => handleDeleteClick(postId)}>
+                    삭제
+                  </button>
+                )}
                 <button>
                   <S.LikeWrapper>
                     <div>하트</div>

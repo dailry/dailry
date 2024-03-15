@@ -22,3 +22,12 @@ export const getPosts = async (pageInfo) => {
     return e.response.data;
   }
 };
+
+export const deletePosts = async (postId) => {
+  try {
+    return await customAxios.delete(`posts/${postId}`);
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
