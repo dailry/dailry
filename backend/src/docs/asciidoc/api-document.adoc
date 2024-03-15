@@ -1,0 +1,516 @@
+:toc: left
+:source-highlighter: highlightjs
+
+
+= 다일리 API 문서
+
+=== 예외 케이스 공통 응답
+
+[source,json]
+----
+{
+    "successful": false,
+    "msg": "예외 메시지",
+    "statusCode": 상태코드
+}
+----
+
+==== 예시
+
+[source, json]
+----
+{
+    "successful": false,
+    "msg": "해당 회원을 찾을 수 없습니다.",
+    "statusCode": 404
+}
+----
+
+== 인증 & 인가
+
+=== 로그인
+
+==== 요청
+
+include::{snippets}/로그인/http-request.adoc[]
+include::{snippets}/로그인/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/로그인/http-response.adoc[]
+
+=== 로그아웃
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/로그아웃/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/로그아웃/http-response.adoc[]
+
+
+=== access token 갱신
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/accesstoken갱신/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/accesstoken갱신/http-response.adoc[]
+include::{snippets}/accesstoken갱신/response-fields.adoc[]
+
+
+
+//--------------------회원 시작--------------------------------//
+
+== 회원
+
+
+
+
+=== 회원가입
+
+==== 요청
+
+include::{snippets}/회원가입/http-request.adoc[]
+include::{snippets}/회원가입/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/회원가입/http-response.adoc[]
+include::{snippets}/회원가입/response-fields.adoc[]
+
+=== 회원정보 조회
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/회원정보조회/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/회원가입/http-response.adoc[]
+include::{snippets}/회원가입/response-fields.adoc[]
+
+=== 아이디 중복 검사
+
+==== 요청
+
+include::{snippets}/아이디중복검사/http-request.adoc[]
+include::{snippets}/아이디중복검사/query-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/아이디중복검사/http-response.adoc[]
+include::{snippets}/아이디중복검사/response-fields.adoc[]
+
+
+=== 닉네임 중복 검사
+
+==== 요청
+
+include::{snippets}/닉네임중복검사/http-request.adoc[]
+include::{snippets}/닉네임중복검사/query-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/닉네임중복검사/http-response.adoc[]
+include::{snippets}/닉네임중복검사/response-fields.adoc[]
+
+=== 닉네임 변경
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/회원닉네임변경/http-request.adoc[]
+include::{snippets}/회원닉네임변경/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/회원닉네임변경/http-response.adoc[]
+include::{snippets}/회원닉네임변경/response-fields.adoc[]
+
+=== 비밀번호 변경 (마이페이지)
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/회원비밀번호변경/http-request.adoc[]
+include::{snippets}/회원비밀번호변경/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/회원비밀번호변경/http-response.adoc[]
+
+=== 이메일 인증번호 전송
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/이메일인증번호전송/http-request.adoc[]
+include::{snippets}/이메일인증번호전송/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/이메일인증번호전송/http-response.adoc[]
+
+=== 이메일 인증번호 검증 & 이메일 등록
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/이메일인증번호검증및등록/http-request.adoc[]
+include::{snippets}/이메일인증번호검증및등록/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/이메일인증번호검증및등록/http-response.adoc[]
+
+=== 아이디 찾기
+
+==== 요청
+
+include::{snippets}/아이디찾기/http-request.adoc[]
+include::{snippets}/아이디찾기/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/아이디찾기/http-response.adoc[]
+
+=== 비밀번호 변경링크 전송
+
+==== 요청
+
+include::{snippets}/비밀번호찾기_변경링크전송/http-request.adoc[]
+include::{snippets}/비밀번호찾기_변경링크전송/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/비밀번호찾기_변경링크전송/http-response.adoc[]
+
+=== 비밀번호 변경 (비밀번호 찾기)
+
+==== 요청
+
+include::{snippets}/회원비밀번호변경_비밀번호찾기/http-request.adoc[]
+include::{snippets}/회원비밀번호변경_비밀번호찾기/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/회원비밀번호변경_비밀번호찾기/http-response.adoc[]
+
+=== 회원탈퇴
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/회원탈퇴/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/회원탈퇴/http-response.adoc[]
+include::{snippets}/회원탈퇴/response-fields.adoc[]
+
+//--------------------회원 종료--------------------------------//
+
+
+
+
+
+
+
+== 다일리
+
+=== 다일리 생성
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/다일리 생성/http-request.adoc[]
+include::{snippets}/다일리 생성/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 생성/http-response.adoc[]
+include::{snippets}/다일리 생성/response-fields.adoc[]
+
+=== 다일리 수정
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/다일리 수정/http-request.adoc[]
+include::{snippets}/다일리 수정/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 수정/http-response.adoc[]
+include::{snippets}/다일리 수정/response-fields.adoc[]
+
+=== 다일리 조회
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/다일리 조회/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 조회/http-response.adoc[]
+include::{snippets}/다일리 조회/response-fields.adoc[]
+
+=== 전체 다일리 조회
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/전체 다일리 조회/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/전체 다일리 조회/http-response.adoc[]
+include::{snippets}/전체 다일리 조회/response-fields.adoc[]
+
+=== 다일리 삭제
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/다일리 삭제/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 삭제/http-response.adoc[]
+
+== 다일리 페이지
+
+=== 페이지 생성
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/다일리 페이지 생성/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 페이지 생성/http-response.adoc[]
+include::{snippets}/다일리 페이지 생성/response-fields.adoc[]
+
+=== 페이지 수정
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/다일리 페이지 수정/http-request.adoc[]
+include::{snippets}/다일리 페이지 수정/path-parameters.adoc[]
+include::{snippets}/다일리 페이지 수정/request-parts.adoc[]
+part : dailryPageRequest
+include::{snippets}/다일리 페이지 수정/request-part-dailryPageRequest-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 페이지 수정/http-response.adoc[]
+include::{snippets}/다일리 페이지 수정/response-fields.adoc[]
+
+=== 페이지 단건 조회
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/다일리 페이지 단건 조회/http-request.adoc[]
+include::{snippets}/다일리 페이지 단건 조회/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 페이지 단건 조회/http-response.adoc[]
+include::{snippets}/다일리 페이지 단건 조회/response-fields.adoc[]
+
+=== 페이지 목록 미리보기
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/다일리 페이지 미리보기/http-request.adoc[]
+include::{snippets}/다일리 페이지 미리보기/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 페이지 미리보기/http-response.adoc[]
+include::{snippets}/다일리 페이지 미리보기/response-fields.adoc[]
+
+=== 페이지 삭제
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/다일리 페이지 삭제/http-request.adoc[]
+include::{snippets}/다일리 페이지 삭제/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/다일리 페이지 삭제/http-response.adoc[]
+
+== 게시글
+
+=== 게시글 작성
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/게시글 작성/http-request.adoc[]
+include::{snippets}/게시글 작성/request-parts.adoc[]
+part : request
+include::{snippets}/게시글 작성/request-part-request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/게시글 작성/http-response.adoc[]
+include::{snippets}/게시글 작성/response-fields.adoc[]
+
+=== 게시글 수정
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/게시글 수정/http-request.adoc[]
+include::{snippets}/게시글 수정/path-parameters.adoc[]
+include::{snippets}/게시글 수정/request-parts.adoc[]
+part : request
+include::{snippets}/게시글 수정/request-part-request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/게시글 수정/http-response.adoc[]
+include::{snippets}/게시글 수정/response-fields.adoc[]
+
+=== 게시글 단건 조회
+
+==== 요청
+
+include::{snippets}/게시글 단건 조회/http-request.adoc[]
+include::{snippets}/게시글 단건 조회/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/게시글 단건 조회/http-response.adoc[]
+include::{snippets}/게시글 단건 조회/response-fields.adoc[]
+
+=== 게시글 여러건 조회
+
+==== 요청
+
+include::{snippets}/게시글 여러건 조회/http-request.adoc[]
+include::{snippets}/게시글 여러건 조회/query-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/게시글 여러건 조회/http-response.adoc[]
+include::{snippets}/게시글 여러건 조회/response-fields.adoc[]
+
+=== 게시글 해시태그로 조회
+
+==== 요청
+
+include::{snippets}/게시글 해시태그로 조회/http-request.adoc[]
+include::{snippets}/게시글 해시태그로 조회/query-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/게시글 해시태그로 조회/http-response.adoc[]
+include::{snippets}/게시글 해시태그로 조회/response-fields.adoc[]
+
+=== Hot한 해시태그 조회
+
+==== 요청
+
+include::{snippets}/Hot한 해시태그 조회/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/Hot한 해시태그 조회/http-response.adoc[]
+include::{snippets}/Hot한 해시태그 조회/response-fields.adoc[]
+
+=== 게시글 삭제
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/게시글 삭제/http-request.adoc[]
+include::{snippets}/게시글 삭제/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/게시글 삭제/http-response.adoc[]
+
+
+== 인기 게시글
+
+=== 인기게시글 여러건 조회
+
+==== 요청
+
+include::{snippets}/인기 게시글 여러건 조회/http-request.adoc[]
+include::{snippets}/인기 게시글 여러건 조회/query-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/인기 게시글 여러건 조회/http-response.adoc[]
+include::{snippets}/인기 게시글 여러건 조회/response-fields.adoc[]
+
+== 게시글 좋아요
+
+=== 좋아요 증가
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/좋아요 증가/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/좋아요 증가/http-response.adoc[]
+
+=== 좋아요 취소
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/좋아요 취소/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/좋아요 취소/http-response.adoc[]
+
+== 댓글
+
+=== 댓글 작성
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/댓글 작성/http-request.adoc[]
+include::{snippets}/댓글 작성/path-parameters.adoc[]
+include::{snippets}/댓글 작성/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/댓글 작성/http-response.adoc[]
+include::{snippets}/댓글 작성/response-fields.adoc[]
+
+=== 댓글 수정
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/댓글 수정/http-request.adoc[]
+include::{snippets}/댓글 수정/path-parameters.adoc[]
+include::{snippets}/댓글 수정/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/댓글 수정/http-response.adoc[]
+include::{snippets}/댓글 수정/response-fields.adoc[]
+
+=== 댓글 조회
+
+==== 요청
+
+include::{snippets}/댓글 조회/http-request.adoc[]
+include::{snippets}/댓글 조회/path-parameters.adoc[]
+include::{snippets}/댓글 조회/query-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/댓글 조회/http-response.adoc[]
+include::{snippets}/댓글 조회/response-fields.adoc[]
+
+
+=== 댓글 삭제
+
+==== 요청 (로그인 필요)
+
+include::{snippets}/댓글 삭제/http-request.adoc[]
+include::{snippets}/댓글 삭제/path-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/댓글 삭제/http-response.adoc[]

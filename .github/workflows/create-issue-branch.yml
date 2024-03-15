@@ -1,0 +1,44 @@
+# 이슈가 Open될 때 이슈 정보(이슈 번호, 라벨)를 바탕으로 브랜치를 생성
+name: create branch based on issue
+
+on:
+  issues:
+    types:
+      - opened
+      
+jobs:
+  create-branch:
+    if: |
+      contains(github.event.issue.labels.*.name, '🌱 신규 기능') ||
+      contains(github.event.issue.labels.*.name, '✨ 리팩터링') ||
+      contains(github.event.issue.labels.*.name, '🔧 버그 수정')
+    runs-on: ubuntu-latest
+    env:
+      ISSUE_NUMBER: ${{ github.event.issue.number }}
+      GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+
+    #브랜치 네임 : 브랜치 종류/be or fe/#이슈넘버
+    #ex) refactor/be/#334
+    
+    steps:
+      - name: Set up branch Type
+        if: contains(github.event.issue.labels.*.name, '🌱 신규 기능')
+        run: echo "BRANCH_TYPE=feat" >> $GITHUB_ENV
+      - name: Set up branch Type
+        if: contains(github.event.issue.labels.*.name, '✨ 리팩터링')
+        run: echo "BRANCH_TYPE=refactor" >> $GITHUB_ENV
+      - name : Set Up branch Type
+        if: contains(github.event.issue.labels.*.name, '🔧 버그 수정')
+        run: echo "BRANCH_TYPE=fix" >> $GITHUB_ENV
+        
+      - name: Set Up Develop Domain
+        if: contains(github.event.issue.labels.*.name, 'BE')
+        run: echo "DEVELOP_DOMAIN=be" >> $GITHUB_ENV
+      - name: Set Up Develop Domain
+        if: contains(github.event.issue.labels.*.name, 'fe')
+        run: echo "DEVELOP_DOMAIN=fe" >> $GITHUB_ENV
+        
+      - name: Create Branch
+        uses: peterjgrainger/action-create-branch@v2.3.0
+        with:
+          branch: refs/heads/${{ env.BRANCH_TYPE }}/${{ env.DEVELOP_DOMAIN }}/#${{ env.ISSUE_NUMBER }}

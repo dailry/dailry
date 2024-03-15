@@ -1,0 +1,25 @@
+name: 🔧 fix
+projects:
+  - 다일리 일정관리
+labels:
+  - 🔧 버그 수정
+description: 버그를 수정해야 하나요?
+body:
+  - type: textarea
+    attributes:
+      label: 🐞 버그 원인
+      description: 파악한 버그의 원인을 작성해주세요. 
+      placeholder: A로직이 누락되어서 버그가 발생했습니다.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ✅ 할 일
+      description: 해야할 일들을 적어주세요.
+      placeholder: 체크박스를 이용해주세요
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 🥨 기타
+      description: 더 하고싶은 말 및 자료를 첨부해주세요.

@@ -1,0 +1,39 @@
+### Wintersmith template
+contents/
+node_modules/
+plugins/
+templates/
+config.json
+package-lock.json
+
+
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+../.idea
+.idea
+*.iml
+out
+gen
+
+### react template
+.DS_*
+logs
+**/*.backup.*
+**/*.back.*
+
+node_modules
+bower_components
+
+*.sublime*
+
+psd
+thumb
+sketch
+
+storybook-static
+build-storybook.log
+.env
+cert.pem
+key.pem
