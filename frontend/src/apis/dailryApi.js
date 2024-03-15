@@ -2,7 +2,7 @@ import customAxios from './customAxios';
 
 export const getRequest = async (apiUrl) => {
   try {
-    return await customAxios.get(apiUrl);
+    return await customAxios.get(apiUrl, { responseType: 'arraybuffer' });
   } catch (e) {
     console.error(e);
     return e.response.data;

@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { INPUT } from '../../styles/color';
+import { COMMUNITY } from '../../styles/color';
 
 export const CommunityWrapper = styled.div`
   display: flex;
@@ -8,6 +8,7 @@ export const CommunityWrapper = styled.div`
   justify-content: start;
   align-items: center;
 
+  padding: 12px;
   width: 100%;
   height: 100%;
   overflow: auto;
@@ -29,14 +30,37 @@ export const SortWrapper = styled.div`
   gap: 12px;
 `;
 
+export const LikeWrapper = styled.div``;
+
+export const LikeIcon = styled.img`
+  width: 20px;
+  height: 20px;
+`;
+
 export const PostWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 12px;
 
+  padding: 12px;
   width: 700px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: ${COMMUNITY.line};
+  }
+
+  &:last-child::after {
+    display: none;
+  }
 `;
 
 export const HeadWrapper = styled.div`
@@ -55,20 +79,24 @@ export const RowFlex = styled.div`
 `;
 
 export const DailryWrapper = styled.img`
-  width: 600px;
+  margin-top: 12px;
+  width: 500px;
   aspect-ratio: 1.35/1;
 
-  border: 1px solid #000000;
+  border: 1px solid ${COMMUNITY.line};
   border-radius: 8px;
 `;
 
+export const ContentWrapper = styled.div`
+  width: 100%;
+`;
 export const WriteContentArea = styled.input`
   width: 100%;
   height: 30px;
   margin-top: 20px;
   padding: 4px;
 
-  border: 1px bold ${INPUT.default};
+  border: 1px bold ${COMMUNITY.line};
 `;
 
 export const TagWrapper = styled.div`
@@ -86,15 +114,5 @@ export const WriteTagArea = styled.input`
   height: 30px;
   padding: 8px;
 
-  border: 1px solid ${INPUT.default};}
-`;
-
-export const AddTagWrapper = styled.button`
-  width: 20px;
-  height: 20px;
-  border: 1px solid #000000;
-  border-radius: 10px;
-
-  font-size: 16px;
-  line-height: 20px;
+  border: 1px solid ${COMMUNITY.line};}
 `;

@@ -28,7 +28,8 @@ const CommunityWritePage = () => {
     });
     formData.append('request', request);
 
-    const pageImageBlob = await getRequest(pageImage);
+    const pageRequest = await getRequest(pageImage);
+    const pageImageBlob = new Blob([pageRequest.data], { type: 'image/png' });
     formData.append('pageImage', await pageImageBlob);
     await postPosts(await formData);
     navigate(PATH_NAME.CommunityList);
@@ -48,27 +49,25 @@ const CommunityWritePage = () => {
   };
 
   return (
-    <S.CommunityWrapper>
-      <S.PostWrapper>
-        <S.DailryWrapper src={pageImage} />
-        <S.WriteContentArea
-          placeholder={'한줄설명'}
-          value={content}
-          onChange={handleContentChange}
+    <S.PostWrapper>
+      <S.DailryWrapper src={pageImage} />
+      <S.WriteContentArea
+        placeholder={'한줄설명'}
+        value={content}
+        onChange={handleContentChange}
+      />
+      <S.TagWrapper>
+        <Text>태그</Text>
+        {hashtags.map((hashtag) => (
+          <Text key={Math.random()}>#{hashtag}</Text>
+        ))}
+        <S.WriteTagArea
+          value={`#${writingTag}`}
+          onChange={handleWritingTagChange}
         />
-        <S.TagWrapper>
-          <Text>태그</Text>
-          {hashtags.map((hashtag) => (
-            <Text key={Math.random()}>#{hashtag}</Text>
-          ))}
-          <S.WriteTagArea
-            value={`#${writingTag}`}
-            onChange={handleWritingTagChange}
-          />
-        </S.TagWrapper>
-        <Button onClick={handleShareClick}>공유하기</Button>
-      </S.PostWrapper>
-    </S.CommunityWrapper>
+      </S.TagWrapper>
+      <Button onClick={handleShareClick}>공유하기</Button>
+    </S.PostWrapper>
   );
 };
 
