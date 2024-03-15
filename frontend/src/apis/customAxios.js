@@ -1,7 +1,13 @@
 import axios from 'axios';
 
 const customAxios = axios.create({
-  baseURL: 'https://api.da-ily.site/api/',
+  baseURL:
+    process.env.NODE_ENV === 'production'
+      ? 'https://api.dailry.co.kr/api/'
+      : 'https://api.da-ily.site/api/',
+  headers: {
+    Authorization: '',
+  },
   withCredentials: true,
 });
 
