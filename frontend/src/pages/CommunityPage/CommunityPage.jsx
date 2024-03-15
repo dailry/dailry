@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import * as S from './CommunityPage.styled';
 import { getPosts } from '../../apis/postApi';
 import Text from '../../components/common/Text/Text';
@@ -11,18 +11,26 @@ const CommunityPage = () => {
   const [page, setPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(true);
 
-  const getSetPost = useCallback(async () => {
+  const getSetPost = async () => {
     const response = await getPosts({ page, size: 5 });
-    setHasNextPage(response.data.hasNext);
-    setPosts(() => [...posts, ...response.data.posts]);
-    setPage(() => response.data.presentPage + 1);
-  }, []);
+    setHasNextPage(await response.data.hasNext);
+    setPosts([...posts, ...(await response.data.posts)]);
+    setPage((await response.data.presentPage) + 1);
+  };
+
+  const onIntersect = (entries) => {
+    entries.forEach(async (entry) => {
+      if (entry.isIntersecting && hasNextPage) {
+        await getSetPost();
+      }
+    });
+  };
 
   useEffect(() => {
-    (async () => {
-      await getSetPost();
-    })();
-  }, []);
+    const observer = new IntersectionObserver(onIntersect);
+    observer.observe(endRef.current);
+    return () => observer.disconnect();
+  }, [endRef, page]);
 
   return (
     <S.CommunityWrapper>
