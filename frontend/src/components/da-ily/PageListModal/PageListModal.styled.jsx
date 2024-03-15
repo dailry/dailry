@@ -48,7 +48,7 @@ export const ItemWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 4px;
-  width: 25%;
+  width: 24%;
   border-radius: 4px;
   cursor: pointer;
   box-sizing: border-box;
@@ -61,4 +61,7 @@ export const PageNumberArea = styled.div`
   text-align: center;
 `;
 
-export const ThumbnailArea = styled.div``;
+export const ThumbnailArea = styled.img`
+  width: 100%;
+  aspect-ratio: 1.35/1;
+`;
