@@ -39,28 +39,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String accessToken = Arrays.stream(cookies)
-                .filter(name -> name.getName().equals("AccessToken"))
-                .findFirst()
-                .get()
-                .getValue();
-
-        String refreshToken = Arrays.stream(cookies)
-                .filter(name -> name.getName().equals("RefreshToken"))
-                .findFirst()
-                .get()
-                .getValue();
-
-        if (!hasValidAuthCookie(accessToken)) {
-            writeErrorResponse(response);
-            return;
-        }
+        String accessToken = extractCookie(cookies, "AccessToken");
+        String refreshToken = extractCookie(cookies, "RefreshToken");
 
         if(jwtUtil.isExpired(accessToken)) {
             accessToken = tokenService.renewToken(response, accessToken, refreshToken);
         }
 
-        if (!jwtUtil.validateToken(accessToken)) {
+        if (!jwtUtil.validateToken(accessToken) || !jwtUtil.validateToken(refreshToken)) {
             writeErrorResponse(response);
             return;
         }
@@ -72,10 +58,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private boolean isPresentAccessToken(Cookie[] authCookies) {
         return Arrays.stream(authCookies)
                 .anyMatch(name -> name.getName().equals("AccessToken"));
-    }
-
-    private boolean hasValidAuthCookie(String authCookie) {
-        return StringUtils.hasText(authCookie);
     }
 
     private void writeErrorResponse(HttpServletResponse response) throws IOException {
@@ -95,5 +77,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 new UsernamePasswordAuthenticationToken(memberId, null, List.of(role::name));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    private String extractCookie(Cookie[] cookies, String cookieName) {
+        return Arrays.stream(cookies)
+                .filter(name -> name.getName().equals("AccessToken"))
+                .findFirst()
+                .get()
+                .getValue();
     }
 }

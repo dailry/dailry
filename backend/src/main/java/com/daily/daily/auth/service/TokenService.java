@@ -1,6 +1,6 @@
 package com.daily.daily.auth.service;
 
-import com.daily.daily.auth.exception.TokenExpiredException;
+import com.daily.daily.auth.dto.TokenDTO;
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.auth.jwt.RefreshToken;
 import com.daily.daily.auth.jwt.RefreshTokenRepository;
@@ -24,6 +24,7 @@ public class TokenService {
     private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
     private final CookieService cookieService;
+    private final AuthService authService;
 
     private static final String ACCESS_TOKEN = "AccessToken";
 
@@ -32,7 +33,7 @@ public class TokenService {
         boolean isRefreshTokenExpired = jwtUtil.isExpired(refreshToken);
 
         if (isAccessTokenExpired && isRefreshTokenExpired) {
-            throw new TokenExpiredException();
+            authService.logout(response, new TokenDTO(accessToken, refreshToken));
         }
 
         if(isAccessTokenExpired) {
