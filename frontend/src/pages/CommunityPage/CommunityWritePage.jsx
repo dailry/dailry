@@ -37,7 +37,11 @@ const CommunityWritePage = () => {
   const handleWritingTagChange = (e) => {
     const tmpVal = e.target.value.replace(/^#/, '');
     if (tmpVal.includes(' ')) {
-      setHashtags([...hashtags, tmpVal.trim()]);
+      const currentVal = tmpVal.trim();
+      if (currentVal) {
+        setHashtags([...hashtags, currentVal]);
+        console.log(hashtags);
+      }
       return setWritingTag('');
     }
     return setWritingTag(tmpVal);
@@ -45,23 +49,25 @@ const CommunityWritePage = () => {
 
   return (
     <S.CommunityWrapper>
-      <S.DailryWrapper src={pageImage} />
-      <S.WriteContentArea
-        placeholder={'한줄설명'}
-        value={content}
-        onChange={handleContentChange}
-      />
-      <S.TagWrapper>
-        <Text>태그</Text>
-        {hashtags.map((hashtag) => (
-          <Text key={new Date()}>#{hashtag}</Text>
-        ))}
-        <S.WriteTagArea
-          value={`#${writingTag}`}
-          onChange={handleWritingTagChange}
+      <S.PostWrapper>
+        <S.DailryWrapper src={pageImage} />
+        <S.WriteContentArea
+          placeholder={'한줄설명'}
+          value={content}
+          onChange={handleContentChange}
         />
-      </S.TagWrapper>
-      <Button onClick={handleShareClick}>공유하기</Button>
+        <S.TagWrapper>
+          <Text>태그</Text>
+          {hashtags.map((hashtag) => (
+            <Text key={Math.random()}>#{hashtag}</Text>
+          ))}
+          <S.WriteTagArea
+            value={`#${writingTag}`}
+            onChange={handleWritingTagChange}
+          />
+        </S.TagWrapper>
+        <Button onClick={handleShareClick}>공유하기</Button>
+      </S.PostWrapper>
     </S.CommunityWrapper>
   );
 };

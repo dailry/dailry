@@ -63,7 +63,7 @@ export const DailryWrapper = styled.img`
 `;
 
 export const WriteContentArea = styled.input`
-  width: 70%;
+  width: 100%;
   height: 30px;
   margin-top: 20px;
   padding: 4px;
@@ -78,7 +78,7 @@ export const TagWrapper = styled.div`
   align-items: center;
   gap: 12px;
 
-  width: 70%;
+  width: 100%;
 `;
 
 export const WriteTagArea = styled.input`
