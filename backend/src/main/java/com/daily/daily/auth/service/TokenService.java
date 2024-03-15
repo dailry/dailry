@@ -24,16 +24,18 @@ public class TokenService {
     private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
     private final CookieService cookieService;
-    private final AuthService authService;
 
     private static final String ACCESS_TOKEN = "AccessToken";
+    private static final String REFRESH_TOKEN = "RefreshToken";
 
     public String renewToken(HttpServletResponse response, String accessToken, String refreshToken) {
         boolean isAccessTokenExpired = jwtUtil.isExpired(accessToken);
         boolean isRefreshTokenExpired = jwtUtil.isExpired(refreshToken);
 
         if (isAccessTokenExpired && isRefreshTokenExpired) {
-            authService.logout(response, new TokenDTO(accessToken, refreshToken));
+            cookieService.deleteCookie(response, ACCESS_TOKEN);
+            cookieService.deleteCookie(response, REFRESH_TOKEN);
+            refreshTokenRepository.deleteById(refreshToken);
         }
 
         if(isAccessTokenExpired) {

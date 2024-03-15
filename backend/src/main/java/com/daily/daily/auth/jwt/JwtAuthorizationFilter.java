@@ -42,6 +42,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String accessToken = extractCookie(cookies, "AccessToken");
         String refreshToken = extractCookie(cookies, "RefreshToken");
 
+        if(!hasValidAuthCookie(accessToken) || !hasValidAuthCookie(refreshToken)) {
+            writeErrorResponse(response);
+            return;
+        }
+
         if(jwtUtil.isExpired(accessToken)) {
             accessToken = tokenService.renewToken(response, accessToken, refreshToken);
         }
@@ -65,6 +70,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         response.setStatus(403);
         response.setContentType("application/json; charset=UTF-8");
         response.getWriter().write(objectMapper.writeValueAsString(exceptionResponseDto));
+    }
+
+    private boolean hasValidAuthCookie(String cookie) {
+        return StringUtils.hasText(cookie);
     }
 
     private void setAuthInSecurityContext(String accessToken) {
