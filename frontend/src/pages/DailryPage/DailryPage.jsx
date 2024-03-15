@@ -4,6 +4,7 @@ import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
 import { toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 import * as S from './DailryPage.styled';
 import Text from '../../components/common/Text/Text';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
@@ -25,10 +26,12 @@ import MoveableComponent from '../../components/da-ily/Moveable/Moveable';
 import usePageData from '../../hooks/usePageData';
 import { useModalContext } from '../../hooks/useModalContext';
 import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
+import { PATH_NAME } from '../../constants/routes';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
   const moveableRef = useRef([]);
+  const navigate = useNavigate();
 
   const [target, setTarget] = useState(null);
 
@@ -107,6 +110,7 @@ const DailryPage = () => {
 
       if (status === 200 && data.pages.length !== 0) {
         const { pages } = data;
+        console.log(pages);
         setPageList(pages);
         const pageIdList = pages.map((page) => page.pageId);
         setCurrentDailry({
@@ -325,7 +329,9 @@ const DailryPage = () => {
       });
     },
     download: () => {},
-    share: () => {},
+    share: (page) => {
+      navigate(`${PATH_NAME.CommunityWrite}?pageImage=${page.thumbnail}`);
+    },
   };
 
   return (

@@ -1,9 +1,22 @@
 import customAxios from './customAxios';
 
-export const getPosts = async (pageNumber) => {
+export const postPosts = async (postData) => {
   try {
-    const { content, hashtags } = postData;
-    return await customAxios.post('/posts', { title });
+    return await customAxios.post('/posts', postData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
+export const getPosts = async (pageInfo) => {
+  try {
+    const { page, size } = pageInfo;
+    return await customAxios.get(`/posts?page=${page}&size=${size}`);
   } catch (e) {
     console.error(e);
     return e.response.data;
