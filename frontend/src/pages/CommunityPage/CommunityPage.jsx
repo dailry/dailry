@@ -40,7 +40,7 @@ const CommunityPage = () => {
     return () => observer.disconnect();
   }, [endRef, page]);
 
-  const handleEditClick = async (postId) => {};
+  // const handleEditClick = async (postId) => {};
 
   const handleDeleteClick = async (postId) => {
     const response = await deletePosts(postId);
@@ -88,7 +88,7 @@ const CommunityPage = () => {
                 )}
                 <button>
                   <S.LikeWrapper>
-                    <div>하트</div>
+                    좋아요
                     <Text>{likeCount}</Text>
                   </S.LikeWrapper>
                 </button>
