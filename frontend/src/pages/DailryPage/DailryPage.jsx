@@ -152,18 +152,23 @@ const DailryPage = () => {
     });
   };
 
-  const patchPageData = async () => {
+  const patchPageData = () => {
     setTarget(null);
-    const pageImg = await html2canvas(pageRef.current);
 
-    pageImg.toBlob(async (pageImageBlob) => {
-      appendPageDataToFormData(
-        pageImageBlob,
-        updatedDecorateComponents,
-        deletedDecorateComponentIds,
-      );
-      await patchPage(pageIds[pageNumber - 1], formData);
-    });
+    setTimeout(async () => {
+      const pageImg = await html2canvas(pageRef.current);
+
+      pageImg.toBlob(async (pageImageBlob) => {
+        appendPageDataToFormData(
+          pageImageBlob,
+          updatedDecorateComponents,
+          deletedDecorateComponentIds,
+        );
+        await patchPage(pageIds[pageNumber - 1], formData);
+      });
+
+      setUpdatedDecorateComponents([]);
+    }, 100);
   };
 
   const handleLeftArrowClick = async () => {
@@ -191,7 +196,7 @@ const DailryPage = () => {
         '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
       )
     ) {
-      await patchPageData();
+      patchPageData();
     }
 
     setUpdatedDecorateComponents([]);
@@ -224,7 +229,7 @@ const DailryPage = () => {
         '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
       )
     ) {
-      await patchPageData();
+      patchPageData();
     }
     setUpdatedDecorateComponents([]);
 
@@ -463,7 +468,7 @@ const DailryPage = () => {
                     '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
                   )
                 ) {
-                  await patchPageData();
+                  patchPageData();
                 }
                 setUpdatedDecorateComponents([]);
                 const response = await postPage(dailryId);
@@ -477,7 +482,7 @@ const DailryPage = () => {
                 await handleDownloadClick();
               }
               if (t === 'save') {
-                await patchPageData();
+                patchPageData();
               }
             };
             return (
