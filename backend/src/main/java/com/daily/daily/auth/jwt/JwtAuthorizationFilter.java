@@ -1,6 +1,7 @@
 package com.daily.daily.auth.jwt;
 
 import com.daily.daily.auth.dto.JwtClaimDTO;
+import com.daily.daily.auth.service.TokenService;
 import com.daily.daily.common.dto.ExceptionResponseDTO;
 import com.daily.daily.member.constant.MemberRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,8 +11,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import net.minidev.json.JSONObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +27,7 @@ import java.util.List;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper;
+    private final TokenService tokenService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -45,7 +45,22 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 .get()
                 .getValue();
 
-        if (!hasValidAuthCookie(accessToken) || !jwtUtil.validateToken(accessToken)) {
+        String refreshToken = Arrays.stream(cookies)
+                .filter(name -> name.getName().equals("RefreshToken"))
+                .findFirst()
+                .get()
+                .getValue();
+
+        if (!hasValidAuthCookie(accessToken)) {
+            writeErrorResponse(response);
+            return;
+        }
+
+        if(jwtUtil.isExpired(accessToken)) {
+            accessToken = tokenService.renewToken(response, accessToken, refreshToken);
+        }
+
+        if (!jwtUtil.validateToken(accessToken)) {
             writeErrorResponse(response);
             return;
         }

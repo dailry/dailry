@@ -27,9 +27,9 @@ public class TokenService {
 
     private static final String ACCESS_TOKEN = "AccessToken";
 
-    public void renewToken(HttpServletResponse response, String accessToken, RefreshToken refreshToken) {
+    public String renewToken(HttpServletResponse response, String accessToken, String refreshToken) {
         boolean isAccessTokenExpired = jwtUtil.isExpired(accessToken);
-        boolean isRefreshTokenExpired = jwtUtil.isExpired(refreshToken.getRefreshToken());
+        boolean isRefreshTokenExpired = jwtUtil.isExpired(refreshToken);
 
         if (isAccessTokenExpired && isRefreshTokenExpired) {
             throw new TokenExpiredException();
@@ -39,11 +39,13 @@ public class TokenService {
             String renewAccessToken = createAccessToken(refreshToken);
             ResponseCookie accessCookie = cookieService.createCookie(ACCESS_TOKEN, renewAccessToken);
             response.addHeader(SET_COOKIE, accessCookie.toString());
+            return accessCookie.getValue();
         }
+        return accessToken;
     }
 
-    public String createAccessToken(final RefreshToken refreshToken) {
-        RefreshToken refreshToken1 = refreshTokenRepository.findById(refreshToken.getRefreshToken())
+    public String createAccessToken(final String refreshToken) {
+        RefreshToken refreshToken1 = refreshTokenRepository.findById(refreshToken)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         Member member = memberRepository.findById(refreshToken1.getId())
