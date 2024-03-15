@@ -34,7 +34,7 @@ export const SortWrapper = styled.div`
 export const LikeWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 20px;
+  width: 30px;
 `;
 
 export const PostWrapper = styled.div`

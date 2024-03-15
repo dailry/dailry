@@ -40,6 +40,8 @@ const CommunityPage = () => {
     return () => observer.disconnect();
   }, [endRef, page]);
 
+  const handleEditClick = async (postId) => {};
+
   const handleDeleteClick = async (postId) => {
     const response = await deletePosts(postId);
     if (response.status === 200) {
