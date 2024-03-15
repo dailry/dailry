@@ -1,6 +1,6 @@
 package com.daily.daily.auth.service;
 
-import com.daily.daily.auth.exception.TokenExpiredException;
+import com.daily.daily.auth.dto.TokenDTO;
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.auth.jwt.RefreshToken;
 import com.daily.daily.auth.jwt.RefreshTokenRepository;
@@ -26,24 +26,29 @@ public class TokenService {
     private final CookieService cookieService;
 
     private static final String ACCESS_TOKEN = "AccessToken";
+    private static final String REFRESH_TOKEN = "RefreshToken";
 
-    public void renewToken(HttpServletResponse response, String accessToken, RefreshToken refreshToken) {
+    public String renewToken(HttpServletResponse response, String accessToken, String refreshToken) {
         boolean isAccessTokenExpired = jwtUtil.isExpired(accessToken);
-        boolean isRefreshTokenExpired = jwtUtil.isExpired(refreshToken.getRefreshToken());
+        boolean isRefreshTokenExpired = jwtUtil.isExpired(refreshToken);
 
         if (isAccessTokenExpired && isRefreshTokenExpired) {
-            throw new TokenExpiredException();
+            cookieService.deleteCookie(response, ACCESS_TOKEN);
+            cookieService.deleteCookie(response, REFRESH_TOKEN);
+            refreshTokenRepository.deleteById(refreshToken);
         }
 
         if(isAccessTokenExpired) {
             String renewAccessToken = createAccessToken(refreshToken);
             ResponseCookie accessCookie = cookieService.createCookie(ACCESS_TOKEN, renewAccessToken);
             response.addHeader(SET_COOKIE, accessCookie.toString());
+            return accessCookie.getValue();
         }
+        return accessToken;
     }
 
-    public String createAccessToken(final RefreshToken refreshToken) {
-        RefreshToken refreshToken1 = refreshTokenRepository.findById(refreshToken.getRefreshToken())
+    public String createAccessToken(final String refreshToken) {
+        RefreshToken refreshToken1 = refreshTokenRepository.findById(refreshToken)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         Member member = memberRepository.findById(refreshToken1.getId())
