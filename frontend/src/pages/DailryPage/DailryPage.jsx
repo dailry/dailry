@@ -167,7 +167,7 @@ const DailryPage = () => {
       });
 
       setUpdatedDecorateComponents([]);
-    }, 100);
+    }, 500);
   };
 
   const handleLeftArrowClick = async () => {
@@ -276,7 +276,6 @@ const DailryPage = () => {
     e.stopPropagation();
 
     if (selectedTool === DECORATE_TYPE.MOVING) {
-      console.log('hell yeah');
       setTarget(index + 1);
     }
 
@@ -310,10 +309,6 @@ const DailryPage = () => {
       setTarget(null);
     }
   };
-
-  useEffect(() => {
-    console.log(canEditDecorateComponent);
-  }, [canEditDecorateComponent]);
 
   return (
     <S.FlexWrapper>

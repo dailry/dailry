@@ -7,7 +7,7 @@ const TextBox = (props) => {
   const { typeContent, setTypeContent } = props;
 
   const [text, setText] = useState('');
-  const debouncedText = useDebounce(text, 100);
+  const debouncedText = useDebounce(text, 600);
   const textRef = useRef(null);
   const [height, setHeight] = useState(typeContent?.current?.scrollHeight);
 
@@ -21,6 +21,10 @@ const TextBox = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    setTypeContent({ text: debouncedText });
+  }, [debouncedText]);
+
   return (
     <S.TextArea
       ref={textRef}
@@ -28,7 +32,6 @@ const TextBox = (props) => {
       height={height}
       onChange={(e) => {
         setText(e.target.value);
-        setTypeContent({ text: debouncedText });
       }}
     />
   );
