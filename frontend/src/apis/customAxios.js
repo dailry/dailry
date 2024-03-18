@@ -5,9 +5,6 @@ const customAxios = axios.create({
     process.env.NODE_ENV === 'production'
       ? 'https://api.dailry.co.kr/api/'
       : 'https://api.da-ily.site/api/',
-  headers: {
-    Authorization: '',
-  },
   withCredentials: true,
 });
 
