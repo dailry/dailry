@@ -78,13 +78,25 @@ const LoginPage = () => {
         <S.Line />
       </S.LineWrapper>
       <S.SocialLoginWrapper>
-        <a href="https://api.da-ily.site/oauth2/authorization/google">
+        <a
+          href={`${
+            process.env.NODE_ENV === 'production'
+              ? 'https://api.dailry.co.kr'
+              : 'https://api.da-ily.site'
+          }/oauth2/authorization/google`}
+        >
           <S.GoogleLoginButton>
             <S.Logo src={googleLogo} />
             <Text css={S.GoogleLoginText}>Google</Text>
           </S.GoogleLoginButton>
         </a>
-        <a href="https://api.da-ily.site/oauth2/authorization/kakao">
+        <a
+          href={`${
+            process.env.NODE_ENV === 'production'
+              ? 'https://api.dailry.co.kr'
+              : 'https://api.da-ily.site'
+          }/oauth2/authorization/kakao`}
+        >
           <S.KakaoLoginButton>
             <S.Logo src={kakaoLogo} />
             <Text css={S.KakaoLoginText}>로그인</Text>
