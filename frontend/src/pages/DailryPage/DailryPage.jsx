@@ -28,8 +28,6 @@ import { useModalContext } from '../../hooks/useModalContext';
 import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
 import { PATH_NAME } from '../../constants/routes';
 
-console.log(process.env.API_URI);
-
 const DailryPage = () => {
   const pageRef = useRef(null);
   const moveableRef = useRef([]);
