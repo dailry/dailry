@@ -9,6 +9,7 @@ import { postLogin } from '../../apis/loginApi';
 import { TEXT } from '../../styles/color';
 import { googleLogo, kakaoLogo } from '../../assets/png';
 import { PATH_NAME } from '../../constants/routes';
+import { DEV_API_URI } from '../../constants/api';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -81,8 +82,8 @@ const LoginPage = () => {
         <a
           href={`${
             process.env.NODE_ENV === 'production'
-              ? 'https://api.dailry.co.kr'
-              : 'https://api.da-ily.site'
+              ? process.env.REACT_APP_API_URI
+              : DEV_API_URI
           }/oauth2/authorization/google`}
         >
           <S.GoogleLoginButton>
@@ -93,8 +94,8 @@ const LoginPage = () => {
         <a
           href={`${
             process.env.NODE_ENV === 'production'
-              ? 'https://api.dailry.co.kr'
-              : 'https://api.da-ily.site'
+              ? process.env.REACT_APP_API_URI
+              : DEV_API_URI
           }/oauth2/authorization/kakao`}
         >
           <S.KakaoLoginButton>

@@ -3,7 +3,9 @@ import { DEV_API_URI } from '../constants/api';
 
 const customAxios = axios.create({
   baseURL:
-    process.env.NODE_ENV === 'production' ? process.env.API_URI : DEV_API_URI,
+    process.env.NODE_ENV === 'production'
+      ? `${process.env.REACT_APP_API_URI}/api`
+      : `${DEV_API_URI}/api`,
   withCredentials: true,
 });
 
