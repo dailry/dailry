@@ -37,3 +37,4 @@ build-storybook.log
 .env
 cert.pem
 key.pem
+.vercel
