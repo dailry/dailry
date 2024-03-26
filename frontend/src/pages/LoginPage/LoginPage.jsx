@@ -9,6 +9,7 @@ import { postLogin } from '../../apis/loginApi';
 import { TEXT } from '../../styles/color';
 import { googleLogo, kakaoLogo } from '../../assets/png';
 import { PATH_NAME } from '../../constants/routes';
+import { DEV_API_URI } from '../../constants/api';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -78,13 +79,25 @@ const LoginPage = () => {
         <S.Line />
       </S.LineWrapper>
       <S.SocialLoginWrapper>
-        <a href="https://api.da-ily.site/oauth2/authorization/google">
+        <a
+          href={`${
+            process.env.NODE_ENV === 'production'
+              ? process.env.REACT_APP_API_URI
+              : DEV_API_URI
+          }/oauth2/authorization/google`}
+        >
           <S.GoogleLoginButton>
             <S.Logo src={googleLogo} />
             <Text css={S.GoogleLoginText}>Google</Text>
           </S.GoogleLoginButton>
         </a>
-        <a href="https://api.da-ily.site/oauth2/authorization/kakao">
+        <a
+          href={`${
+            process.env.NODE_ENV === 'production'
+              ? process.env.REACT_APP_API_URI
+              : DEV_API_URI
+          }/oauth2/authorization/kakao`}
+        >
           <S.KakaoLoginButton>
             <S.Logo src={kakaoLogo} />
             <Text css={S.KakaoLoginText}>로그인</Text>
