@@ -7,26 +7,24 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import * as S from './DailryPage.styled';
 import Text from '../../components/common/Text/Text';
-import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
 import { DECORATE_TOOLS, PAGE_TOOLS } from '../../constants/toolbar';
-import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
 import { useDailryContext } from '../../hooks/useDailryContext';
 import { postPage, getPages, patchPage, getPage } from '../../apis/dailryApi';
 import { DECORATE_TYPE, EDIT_MODE } from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
 import TypedDecorateComponent from '../../components/decorate/TypedDecorateComponent';
-import PageListModal from '../../components/da-ily/PageListModal/PageListModal';
-import useCompleteCreation from '../../hooks/useNewDecorateComponent/useCompleteCreation';
+import PageListModal from '../../components/dailryPage/pageList/PageListModal/PageListModal';
 import useEditDecorateComponent from '../../hooks/useEditDecorateComponent';
 import useDecorateComponents from '../../hooks/useDecorateComponents';
 import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponents';
 import { TEXT } from '../../styles/color';
-import MoveableComponent from '../../components/da-ily/Moveable/Moveable';
+import MoveableComponent from '../../components/Moveable/Moveable';
 import usePageData from '../../hooks/usePageData';
 import { useModalContext } from '../../hooks/useModalContext';
 import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
 import { PATH_NAME } from '../../constants/routes';
+import ToolButton from '../../components/ToolButton/ToolButton';
 
 console.log(process.env.API_URI);
 
@@ -45,6 +43,13 @@ const DailryPage = () => {
   const { modalType, setModalType, closeModal } = useModalContext();
 
   const {
+    decorateComponents,
+    setDecorateComponents,
+    addNewDecorateComponent,
+    modifyDecorateComponent,
+  } = useDecorateComponents();
+
+  const {
     setUpdatedDecorateComponents,
     updatedDecorateComponents,
     addUpdatedDecorateComponent,
@@ -56,23 +61,14 @@ const DailryPage = () => {
   );
 
   const {
-    decorateComponents,
-    setDecorateComponents,
-    addNewDecorateComponent,
-    modifyDecorateComponent,
-  } = useDecorateComponents();
-
-  const {
     newDecorateComponent,
     createNewDecorateComponent,
-    removeNewDecorateComponent,
     setNewDecorateComponentTypeContent,
-  } = useNewDecorateComponent(decorateComponents, pageRef);
-
-  const { completeCreateNewDecorateComponent } = useCompleteCreation(
-    newDecorateComponent,
+    completeCreateNewDecorateComponent,
+  } = useNewDecorateComponent(
+    decorateComponents,
+    pageRef,
     addNewDecorateComponent,
-    removeNewDecorateComponent,
     addUpdatedDecorateComponent,
   );
 
@@ -185,7 +181,6 @@ const DailryPage = () => {
     if (canEditDecorateComponent) {
       completeModifyDecorateComponent();
       setTarget(null);
-
       setCanEditDecorateComponent(null);
 
       return;
@@ -219,7 +214,6 @@ const DailryPage = () => {
     if (canEditDecorateComponent) {
       completeModifyDecorateComponent();
       setTarget(null);
-
       setCanEditDecorateComponent(null);
       return;
     }

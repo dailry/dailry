@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { typedDecorateComponentProperties } from './properties';
 import { getCommonDecorateComponentProperties } from './createNewDecorateComponent';
 
-const useNewDecorateComponent = (decorateComponents, pageRef) => {
+const useNewDecorateComponent = (
+  decorateComponents,
+  pageRef,
+  addNewDecorateComponent,
+  addUpdatedDecorateComponent,
+) => {
   const [newDecorateComponent, setNewDecorateComponent] = useState(null);
 
   const removeNewDecorateComponent = () => {
@@ -25,11 +30,23 @@ const useNewDecorateComponent = (decorateComponents, pageRef) => {
     }));
   };
 
+  const isCreationCompleted =
+    newDecorateComponent?.typeContent &&
+    Object.values(newDecorateComponent?.typeContent).every((v) => v !== null);
+
+  const completeCreateNewDecorateComponent = () => {
+    if (isCreationCompleted) {
+      addNewDecorateComponent(newDecorateComponent);
+      addUpdatedDecorateComponent(newDecorateComponent);
+    }
+    removeNewDecorateComponent();
+  };
+
   return {
     createNewDecorateComponent,
     newDecorateComponent,
-    removeNewDecorateComponent,
     setNewDecorateComponentTypeContent,
+    completeCreateNewDecorateComponent,
   };
 };
 
