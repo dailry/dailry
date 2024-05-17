@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
-import { MENU } from '../../../styles/color';
-import { MEDIA_RATIO } from '../../../constants/media';
+import { MENU } from '../../styles/color';
+import { MEDIA_RATIO } from '../../constants/media';
 
 export const ToolWrapper = styled.button`
   aspect-ratio: 1;

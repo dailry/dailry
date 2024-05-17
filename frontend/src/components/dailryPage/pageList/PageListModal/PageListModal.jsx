@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import * as S from './PageListModal.styled';
-import { useDailryContext } from '../../../hooks/useDailryContext';
-import { deletePage } from '../../../apis/dailryApi';
+import { useDailryContext } from '../../../../hooks/useDailryContext';
+import { deletePage } from '../../../../apis/dailryApi';
 
 const PageListModal = (props) => {
   const { onClose, pageList, onSelect } = props;

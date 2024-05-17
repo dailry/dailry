@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { MODAL } from '../../../styles/color';
+import { MODAL } from '../../../../styles/color';
 
 export const ModalBackground = styled.div`
   position: fixed;

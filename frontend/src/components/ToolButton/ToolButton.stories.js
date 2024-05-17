@@ -1,5 +1,5 @@
 import ToolButton from './ToolButton';
-import { CursorIcon } from '../../../assets/svg';
+import { CursorIcon } from '../../assets/svg';
 
 export default {
   title: 'Dailry/ToolButton',
