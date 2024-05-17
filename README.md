@@ -1,15 +1,14 @@
 # 다이어리를 꾸미고 커뮤니티에 공유해보아요!
 
-<img src="https://github.com/dailry/dailry/assets/63571947/38f55cfd-3b4d-4632-bb36-9a92f05a14fa" height="300" />
+<img src="https://github.com/dailry/dailry/assets/63571947/38f55cfd-3b4d-4632-bb36-9a92f05a14fa" height="500" />
 
 ## Intro
 
 다일리는 온라인 다이어리 작성 및 공유 사이트입니다.
 
-나만의 다이어리를 만들어보고, 다른사람과 공유하고 싶은 부분을 공유해보세요! 
+**나만의 다이어리를 만들어보고, 다른사람과 공유하고 싶은 부분을 공유해보세요!**
 
 다일리와 함께 서로의 일상을 나누어보아요!
-
 ## 기능
 
 ### 다이어리 작성
