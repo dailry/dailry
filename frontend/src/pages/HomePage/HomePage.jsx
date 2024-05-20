@@ -48,11 +48,13 @@ const HomePage = () => {
           </S.BookMark>
         )}
         <S.BookMark to={PATH_NAME.CommunityList} css={S.BookMark2}>
-          공개 다일리
+          커뮤니티
         </S.BookMark>
-        <S.BookMark to={PATH_NAME.Dailry} css={S.BookMark3}>
-          다일리 만들기
-        </S.BookMark>
+        {loggedIn && (
+          <S.BookMark to={PATH_NAME.Dailry} css={S.BookMark3}>
+            다일리 만들기
+          </S.BookMark>
+        )}
         <S.BookMark to={PATH_NAME.Home} css={S.BookMark4}>
           팀 다일리
         </S.BookMark>

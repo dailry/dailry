@@ -67,7 +67,7 @@ export const BackCover = styled.div`
 `;
 
 export const BookMark1 = css`
-  left: 670px;
+  left: 640px;
   top: 142px;
 
   padding-right: 30px;
@@ -78,7 +78,7 @@ export const BookMark1 = css`
 `;
 
 export const BookMark2 = css`
-  left: 692px;
+  left: 650px;
   top: 208px;
 
   padding-right: 20px;
@@ -101,7 +101,7 @@ export const BookMark3 = css`
 
 export const BookMark4 = css`
   left: 671px;
-  top: 642px;
+  top: 600px;
 
   padding-right: 20px;
 
