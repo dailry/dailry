@@ -110,6 +110,17 @@ export const BookMark4 = css`
   transform: rotate(5.46deg);
 `;
 
+export const BookMark5 = css`
+  left: 675px;
+  top: 142px;
+
+  padding-right: 30px;
+
+  background-color: ${HOME.menu1};
+
+  transform: rotate(-2.92deg);
+`;
+
 export const BookMark = styled(Link)`
   position: absolute;
   z-index: 1;
@@ -127,4 +138,11 @@ export const BookMark = styled(Link)`
   && {
     ${(props) => props.css}
   }
+`;
+
+export const LogOut = styled.button`
+  position: fixed;
+  right: 20px;
+  bottom: 10px;
+  text-decoration: underline;
 `;
