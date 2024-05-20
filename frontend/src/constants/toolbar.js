@@ -1,7 +1,7 @@
 import {
   CursorIcon,
   DrawIcon,
-  StickerIcon,
+  // StickerIcon,
   TextIcon,
   AddPageIcon,
   DownloadIcon,
@@ -15,10 +15,10 @@ export const DECORATE_TOOLS = [
   },
   { icon: (props) => <DrawIcon {...props} />, type: DECORATE_TYPE.DRAWING },
   { icon: (props) => <TextIcon {...props} />, type: DECORATE_TYPE.TEXT_BOX },
-  {
-    icon: (props) => <StickerIcon {...props} />,
-    type: DECORATE_TYPE.STICKER,
-  },
+  // {
+  //   icon: (props) => <StickerIcon {...props} />,
+  //   type: DECORATE_TYPE.STICKER,
+  // },
 ];
 
 export const PAGE_TOOLS = [
