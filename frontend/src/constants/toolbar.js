@@ -34,4 +34,8 @@ export const PAGE_TOOLS = [
     icon: (props) => <DownloadIcon {...props} />,
     type: 'save',
   },
+  {
+    icon: (props) => <DownloadIcon {...props} />,
+    type: 'share',
+  },
 ];

@@ -492,6 +492,15 @@ const DailryPage = () => {
               if (t === 'save') {
                 patchPageData();
               }
+              if (t === 'share') {
+                const currentPageThumbnail = pageList.find(
+                  (page) => page.pageNumber === currentDailry.pageNumber,
+                ).thumbnail;
+
+                navigate(
+                  `${PATH_NAME.CommunityWrite}?pageImage=${currentPageThumbnail}`,
+                );
+              }
             };
             return (
               <ToolButton
