@@ -21,21 +21,41 @@ export const DECORATE_TOOLS = [
   // },
 ];
 
+const PAGE_TOOL_TYPE = {
+  ADD: 'add',
+  DOWNLOAD: 'download',
+  SAVE: 'save',
+  SHARE: 'share',
+};
+
+export const DECORATE_TOOLS_TOOLTIP = {
+  [DECORATE_TYPE.MOVING]: '이동',
+  [DECORATE_TYPE.DRAWING]: '그리기',
+  [DECORATE_TYPE.TEXT_BOX]: '텍스트',
+};
+
+export const PAGE_TOOLS_TOOLTIP = {
+  [PAGE_TOOL_TYPE.ADD]: '페이지 추가',
+  [PAGE_TOOL_TYPE.DOWNLOAD]: '페이지 내보내기',
+  [PAGE_TOOL_TYPE.SAVE]: '페이지 저장',
+  [PAGE_TOOL_TYPE.SHARE]: '공유하기',
+};
+
 export const PAGE_TOOLS = [
   {
     icon: (props) => <AddPageIcon {...props} />,
-    type: 'add',
+    type: PAGE_TOOL_TYPE.ADD,
   },
   {
     icon: (props) => <DownloadIcon {...props} />,
-    type: 'download',
+    type: PAGE_TOOL_TYPE.DOWNLOAD,
   },
   {
     icon: (props) => <DownloadIcon {...props} />,
-    type: 'save',
+    type: PAGE_TOOL_TYPE.SAVE,
   },
   {
     icon: (props) => <DownloadIcon {...props} />,
-    type: 'share',
+    type: PAGE_TOOL_TYPE.SHARE,
   },
 ];
