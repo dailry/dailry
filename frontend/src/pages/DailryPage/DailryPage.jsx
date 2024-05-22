@@ -8,7 +8,12 @@ import { useNavigate } from 'react-router-dom';
 import * as S from './DailryPage.styled';
 import Text from '../../components/common/Text/Text';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
-import { DECORATE_TOOLS, PAGE_TOOLS } from '../../constants/toolbar';
+import {
+  DECORATE_TOOLS,
+  DECORATE_TOOLS_TOOLTIP,
+  PAGE_TOOLS,
+  PAGE_TOOLS_TOOLTIP,
+} from '../../constants/toolbar';
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
 import { useDailryContext } from '../../hooks/useDailryContext';
 import { postPage, getPages, patchPage, getPage } from '../../apis/dailryApi';
@@ -27,6 +32,7 @@ import usePageData from '../../hooks/usePageData';
 import { useModalContext } from '../../hooks/useModalContext';
 import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
 import { PATH_NAME } from '../../constants/routes';
+import Tooltip from '../../components/common/Tooltip/Tooltip';
 
 console.log(process.env.API_URI);
 
@@ -435,12 +441,13 @@ const DailryPage = () => {
               }
             };
             return (
-              <ToolButton
-                key={index}
-                icon={icon}
-                selected={selectedTool === type}
-                onSelect={() => onSelect(type)}
-              />
+              <Tooltip key={index} text={DECORATE_TOOLS_TOOLTIP[type]}>
+                <ToolButton
+                  icon={icon}
+                  selected={selectedTool === type}
+                  onSelect={() => onSelect(type)}
+                />
+              </Tooltip>
             );
           })}
           {PAGE_TOOLS.map(({ icon, type }, index) => {
@@ -492,14 +499,25 @@ const DailryPage = () => {
               if (t === 'save') {
                 patchPageData();
               }
+              if (t === 'share') {
+                const currentPageThumbnail = pageList.find(
+                  (page) => page.pageNumber === currentDailry.pageNumber,
+                ).thumbnail;
+
+                navigate(
+                  `${PATH_NAME.CommunityWrite}?pageImage=${currentPageThumbnail}`,
+                );
+              }
             };
             return (
-              <ToolButton
-                key={index}
-                icon={icon}
-                selected={selectedTool === type}
-                onSelect={() => onSelect(type)}
-              />
+              <Tooltip key={index} text={PAGE_TOOLS_TOOLTIP[type]}>
+                <ToolButton
+                  key={index}
+                  icon={icon}
+                  selected={selectedTool === type}
+                  onSelect={() => onSelect(type)}
+                />
+              </Tooltip>
             );
           })}
         </S.ToolWrapper>

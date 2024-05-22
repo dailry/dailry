@@ -24,7 +24,8 @@ export const HOME = Object.freeze({
   menu1: '#ffb3ea',
   menu2: '#fdbf9c',
   menu3: '#ffdba4',
-  menu4: '#aeddff',
+  menu4: 'white',
+  menu5: '#aeddff',
 });
 
 export const INPUT = Object.freeze({
