@@ -24,6 +24,14 @@ const DailryNavigation = () => {
       const response = await getDailry();
       const updatedDailryItems = response.data;
       setDailryItems(updatedDailryItems);
+      if (updatedDailryItems.length === 0) {
+        setCurrentDailry({
+          dailryId: null,
+          pageNumber: 0,
+          pageIds: [],
+        });
+        return;
+      }
       if (
         updatedDailryItems.every(
           (dailryItem) => dailryItem.dailryId !== currentDailry.dailryId,

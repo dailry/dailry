@@ -114,20 +114,22 @@ const DailryPage = () => {
 
   useEffect(() => {
     (async () => {
-      const { status, data } = await getPages(dailryId);
+      if (dailryId) {
+        const { status, data } = await getPages(dailryId);
 
-      if (status === 200 && data.pages.length !== 0) {
-        const { pages } = data;
-        console.log(pages);
-        setPageList(pages);
-        const pageIdList = pages.map((page) => page.pageId);
-        setCurrentDailry({
-          ...currentDailry,
-          pageIds: pageIdList,
-          pageNumber: pageNumber ?? (pageIds.length === 0 ? 1 : null),
-        });
+        if (status === 200 && data.pages.length !== 0) {
+          const { pages } = data;
+          console.log(pages);
+          setPageList(pages);
+          const pageIdList = pages.map((page) => page.pageId);
+          setCurrentDailry({
+            ...currentDailry,
+            pageIds: pageIdList,
+            pageNumber: pageNumber ?? (pageIds.length === 0 ? 1 : null),
+          });
 
-        return setHavePage(true);
+          return setHavePage(true);
+        }
       }
 
       return setHavePage(false);
@@ -136,20 +138,22 @@ const DailryPage = () => {
 
   useEffect(() => {
     (async () => {
-      setDecorateComponents([]);
-      const page = await getPage(pageIds[pageNumber - 1]);
+      if (dailryId) {
+        setDecorateComponents([]);
+        const page = await getPage(pageIds[pageNumber - 1]);
 
-      if (page.data?.elements.length > 0) {
-        const datas = page.data?.elements.map((i) => ({
-          ...i,
-          initialStyle: {
-            ...i.initialStyle,
-            position: i?.position,
-            size: i?.size,
-            rotation: i?.rotation,
-          },
-        }));
-        setDecorateComponents(datas);
+        if (page.data?.elements.length > 0) {
+          const datas = page.data?.elements.map((i) => ({
+            ...i,
+            initialStyle: {
+              ...i.initialStyle,
+              position: i?.position,
+              size: i?.size,
+              rotation: i?.rotation,
+            },
+          }));
+          setDecorateComponents(datas);
+        }
       }
     })();
   }, [pageIds, pageNumber]);
