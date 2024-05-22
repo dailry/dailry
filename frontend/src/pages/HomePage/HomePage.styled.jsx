@@ -17,7 +17,7 @@ export const BackGround = styled.div`
 export const HomeWrapper = styled.div`
   position: relative;
 
-  aspect-ratio: 1.1/1;
+  aspect-ratio: 1;
   height: 100%;
 `;
 
@@ -67,8 +67,8 @@ export const BackCover = styled.div`
 `;
 
 export const BookMark1 = css`
-  left: 640px;
-  top: 142px;
+  right: -110px;
+  top: 18dvh;
 
   padding-right: 30px;
 
@@ -78,8 +78,8 @@ export const BookMark1 = css`
 `;
 
 export const BookMark2 = css`
-  left: 650px;
-  top: 208px;
+  right: -130px;
+  top: 28dvh;
 
   padding-right: 20px;
 
@@ -89,8 +89,8 @@ export const BookMark2 = css`
 `;
 
 export const BookMark3 = css`
-  left: 711px;
-  top: 328px;
+  right: -180px;
+  top: 45dvh;
 
   padding-right: 15px;
 
@@ -100,8 +100,8 @@ export const BookMark3 = css`
 `;
 
 export const BookMark4 = css`
-  left: 671px;
-  top: 600px;
+  right: -130px;
+  top: 80dvh;
 
   padding-right: 20px;
 
@@ -111,8 +111,8 @@ export const BookMark4 = css`
 `;
 
 export const BookMark5 = css`
-  left: 675px;
-  top: 142px;
+  right: -160px;
+  top: 18dvh;
 
   padding-right: 30px;
 

@@ -26,12 +26,12 @@ const HomePage = () => {
   return (
     <S.BackGround>
       <S.HomeWrapper>
-        <S.RingWrapper top={'111px'} />
-        <S.RingWrapper top={'181px'} />
-        <S.RingWrapper top={'251px'} />
-        <S.RingWrapper top={'503px'} />
-        <S.RingWrapper top={'573px'} />
-        <S.RingWrapper top={'643px'} />
+        <S.RingWrapper top={'14dvh'} />
+        <S.RingWrapper top={'23dvh'} />
+        <S.RingWrapper top={'32dvh'} />
+        <S.RingWrapper top={'57dvh'} />
+        <S.RingWrapper top={'66dvh'} />
+        <S.RingWrapper top={'75dvh'} />
         <S.FrontCover>
           <Text as={'h1'} color={TEXT.white} size={60} weight={1000}>
             Dailry
