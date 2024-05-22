@@ -55,7 +55,12 @@ const HomePage = () => {
             다일리 만들기
           </S.BookMark>
         )}
-        <S.BookMark to={PATH_NAME.Home} css={S.BookMark4}>
+        <S.BookMark
+          as="a"
+          href={'https://github.com/dailry/dailry'}
+          target={'_blank'}
+          css={S.BookMark4}
+        >
           팀 다일리
         </S.BookMark>
         {loggedIn && <S.LogOut onClick={handleLogoutClick}>로그아웃</S.LogOut>}

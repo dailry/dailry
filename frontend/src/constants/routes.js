@@ -10,4 +10,5 @@ export const PATH_NAME = {
   Community: '/community',
   CommunityList: '/community/list',
   CommunityWrite: '/community/write',
+  TeamDailry: '/https://github.com/dailry/dailry',
 };
