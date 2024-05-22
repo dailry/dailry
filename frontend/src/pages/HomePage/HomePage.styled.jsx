@@ -67,7 +67,7 @@ export const BackCover = styled.div`
 `;
 
 export const BookMark1 = css`
-  right: -110px;
+  right: -130px;
   top: 18dvh;
 
   padding-right: 30px;
@@ -112,13 +112,13 @@ export const BookMark4 = css`
 
 export const BookMark5 = css`
   right: -160px;
-  top: 18dvh;
+  top: 70dvh;
 
-  padding-right: 30px;
+  padding-right: 20px;
 
-  background-color: ${HOME.menu1};
+  background-color: ${HOME.menu5};
 
-  transform: rotate(-2.92deg);
+  transform: rotate(5.46deg);
 `;
 
 export const BookMark = styled(Link)`

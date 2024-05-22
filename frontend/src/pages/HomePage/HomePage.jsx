@@ -39,8 +39,8 @@ const HomePage = () => {
         </S.FrontCover>
         <S.BackCover />
         {loggedIn ? (
-          <S.BookMark to={PATH_NAME.MyPage} css={S.BookMark5}>
-            마이페이지
+          <S.BookMark as="button" onClick={handleLogoutClick} css={S.BookMark1}>
+            로그아웃
           </S.BookMark>
         ) : (
           <S.BookMark to={PATH_NAME.Login} css={S.BookMark1}>
@@ -55,6 +55,11 @@ const HomePage = () => {
             다일리 만들기
           </S.BookMark>
         )}
+        {loggedIn && (
+          <S.BookMark to={PATH_NAME.MyPage} css={S.BookMark5}>
+            마이 페이지
+          </S.BookMark>
+        )}
         <S.BookMark
           as="a"
           href={'https://github.com/dailry/dailry'}
@@ -63,7 +68,6 @@ const HomePage = () => {
         >
           팀 다일리
         </S.BookMark>
-        {loggedIn && <S.LogOut onClick={handleLogoutClick}>로그아웃</S.LogOut>}
       </S.HomeWrapper>
     </S.BackGround>
   );
