@@ -62,7 +62,7 @@ const HomePage = () => {
         )}
         <S.BookMark
           as="a"
-          href={'https://github.com/dailry/dailry'}
+          href={PATH_NAME.TeamDailry}
           target={'_blank'}
           css={S.BookMark4}
         >
