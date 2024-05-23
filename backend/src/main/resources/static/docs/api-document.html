@@ -495,6 +495,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_게시글_단건_조회">게시글 단건 조회</a></li>
 <li><a href="#_게시글_여러건_조회">게시글 여러건 조회</a></li>
 <li><a href="#_게시글_해시태그로_조회">게시글 해시태그로 조회</a></li>
+<li><a href="#_hot한_해시태그_조회">Hot한 해시태그 조회</a></li>
 <li><a href="#_게시글_삭제">게시글 삭제</a></li>
 </ul>
 </li>
@@ -599,8 +600,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzEwMzcyMjg4fQ.RO7N_iTUTltpNt5i12z9aWRkrQAsYBTHhxEi4e6tiTmAmeXa_yXaDhQPy4SLLnWqw81al9VGDQtkHHKWBlPVnA; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcxMDEzODA1NCwiZXhwIjoxOTQ0MzcyMjg4fQ.vtpYBaV4fVI9QDHyXrCGolee8eQvdaShpfE5gQX6BogDORWcoJID_aaUYTT6xyqUswbl4u2V7smtpNdEgIZ0cQ; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
+Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzEwNzQxMDEzfQ.EnWTkWLDSVAjYL1DAZP1EqC7OGFzvbwfs26ntSLvcxHOJ3U_xhTgmKALu6HwWSHzBllvEgFGMlWOUVGwifB1Wg; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcxMDUwNjc3OCwiZXhwIjoxOTQ0NzQxMDEzfQ.9JKpMqlBMXmdmG66CmaChDQHm6qvIWyy6OlSnrWOaC8O1WIu66Q0vfbdpljUhHSzgwhp1eW2jCKhpjzn2YbgVQ; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
 Content-Type: application/json
 
 {
@@ -619,8 +620,8 @@ Content-Type: application/json
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MTAzNzIyODZ9.QxsEmQciORASHnN2Hp3LcpqhgWOY9SDMU2uThX9JZtKI68rgqLM8Y3BeTjQ3B0cgQg9gd31GaloukPXAbVowKA
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzEwMTM4MDUyLCJleHAiOjE5NDQzNzIyODZ9.VZvvEe7OKbIiW8yC1pjlmzVcpkuruos8rpcBgXpFSIk8Cq4988S5GzoBxspnePBPIMtksw3a69ulziGD5-qbDQ</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MTA3NDEwMTB9.ktpM4BAYE7YHcLk-kkf33-rN1jOV_LUkGA24dZ1BCStduNigA27rEt-aAw6yP0kLtwFh6I5lhtxJuby6foZS9g
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzEwNTA2Nzc2LCJleHAiOjE5NDQ3NDEwMTB9.1rApwRtAqIYA1nGsfiCl8hUqS6warSLP59h2eQS2HHV80AguW_cP-Bm3XJAgCZYKoKVdyJYZU4EbPawpUC44Wg</code></pre>
 </div>
 </div>
 </div>
@@ -649,8 +650,8 @@ Content-Type: application/json
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MTAzNzIyODd9.QpX-Gkk0FPAp6lrQ4dTjxuCXjENqrS_sOiriVZc8SbOnelI-5lWPIMbnFsBnYql6UuwibepuIx_vY18EBgWutQ
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzEwMTM4MDUzLCJleHAiOjE5NDQzNzIyODd9.pmjqfM1KHwq9BaMgtm5Gl2qdi_luLMbB4e1G9s11_46p2VlNNeuo1oCtTjT6BKakC_RvipIo6iSuySSit54WWg</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MTA3NDEwMTJ9.btYhFigNigiQdCP32Pm2WzD21ZcLN568Ghvkw4iEDFATfEoLFb42Lucl6Z4No3SC3dt_yZmc2kvlnVh9qvw7Xw
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzEwNTA2Nzc3LCJleHAiOjE5NDQ3NDEwMTJ9.D-PYwwRVh6tMbA92TvXTgiVqE9LkKkmmiwYw8gPNOgf_Uys5ZtJC3BE7aymX30sXoh1KddxhilIdaq3QPkpzfw</code></pre>
 </div>
 </div>
 </div>
@@ -1896,6 +1897,7 @@ Content-Type: application/json
   "dailryId" : 16,
   "pageId" : 5,
   "background" : "grid",
+  "thumbnail" : "https://data.da-ily.site/util/thumbnail/empty.png",
   "pageNumber" : 1
 }</code></pre>
 </div>
@@ -1933,6 +1935,12 @@ Content-Type: application/json
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">페이지 배경</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>thumbnail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 페이지 썸네일 URL</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageNumber</code></p></td>
@@ -3399,6 +3407,75 @@ Content-Type: application/json
 </div>
 </div>
 <div class="sect2">
+<h3 id="_hot한_해시태그_조회">Hot한 해시태그 조회</h3>
+<div class="sect3">
+<h4 id="_요청_11">요청</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/hotHashtags HTTP/1.1</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_31">응답</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "hashtags" : [ {
+    "postCount" : 10,
+    "tagName" : "대학생"
+  }, {
+    "postCount" : 20,
+    "tagName" : "친구"
+  }, {
+    "postCount" : 30,
+    "tagName" : "여행"
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hashtags</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hot한 해시태그 목록 배열</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hashtags[].tagName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해시태그 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hashtags[].postCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 해시태그가 포함된 post 갯수</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_게시글_삭제">게시글 삭제</h3>
 <div class="sect3">
 <h4 id="_요청_로그인_필요_21">요청 (로그인 필요)</h4>
@@ -3428,7 +3505,7 @@ Content-Type: application/json
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_31">응답</h4>
+<h4 id="_응답_32">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3450,7 +3527,7 @@ Content-Type: application/json
 <div class="sect2">
 <h3 id="_인기게시글_여러건_조회">인기게시글 여러건 조회</h3>
 <div class="sect3">
-<h4 id="_요청_11">요청</h4>
+<h4 id="_요청_12">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/hotPosts?page=0&amp;size=5 HTTP/1.1</code></pre>
@@ -3484,7 +3561,7 @@ Content-Type: application/json
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_32">응답</h4>
+<h4 id="_응답_33">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3656,7 +3733,7 @@ Content-Type: */*;charset=UTF-8</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_33">응답</h4>
+<h4 id="_응답_34">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3682,7 +3759,7 @@ Content-Type: */*;charset=UTF-8</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_34">응답</h4>
+<h4 id="_응답_35">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3760,7 +3837,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_35">응답</h4>
+<h4 id="_응답_36">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -3891,7 +3968,7 @@ Content-Type: application/json;charset=UTF-8
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_36">응답</h4>
+<h4 id="_응답_37">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3966,7 +4043,7 @@ Content-Type: application/json
 <div class="sect2">
 <h3 id="_댓글_조회">댓글 조회</h3>
 <div class="sect3">
-<h4 id="_요청_12">요청</h4>
+<h4 id="_요청_13">요청</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/posts/31/comments?page=0&amp;size=3 HTTP/1.1</code></pre>
@@ -4019,7 +4096,7 @@ Content-Type: application/json
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_37">응답</h4>
+<h4 id="_응답_38">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4139,7 +4216,7 @@ Content-Type: application/json
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_38">응답</h4>
+<h4 id="_응답_39">응답</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4159,7 +4236,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-03-06 19:44:55 +0900
+Last updated 2024-03-13 16:10:26 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

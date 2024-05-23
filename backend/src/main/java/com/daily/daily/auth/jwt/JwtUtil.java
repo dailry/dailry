@@ -99,11 +99,16 @@ public class JwtUtil {
     }
 
     public boolean isExpired(String token) {
-        return Jwts.parser()
+        try {
+            Date expirationDate = Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
-                .getPayload().getExpiration()
-                .before(new Date());
+                .getPayload().getExpiration();
+
+            return expirationDate.before(new Date());
+        } catch (ExpiredJwtException e) {
+            return true;
+        }
     }
 }

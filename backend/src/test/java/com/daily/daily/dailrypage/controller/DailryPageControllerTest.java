@@ -75,6 +75,7 @@ class DailryPageControllerTest {
                     .andExpect(jsonPath("$.dailryId").value(DAILRY_ID))
                     .andExpect(jsonPath("$.pageId").value(다일리페이지_ID))
                     .andExpect(jsonPath("$.background").value("grid"))
+                    .andExpect(jsonPath("$.thumbnail").value("https://data.da-ily.site/util/thumbnail/empty.png"))
                     .andExpect(jsonPath("$.pageNumber").value(1));
 
             //restdocs
@@ -83,6 +84,7 @@ class DailryPageControllerTest {
                             fieldWithPath("dailryId").type(NUMBER).description("다일리 id"),
                             fieldWithPath("pageId").type(NUMBER).description("다일리 페이지 id"),
                             fieldWithPath("background").type(STRING).description("페이지 배경"),
+                            fieldWithPath("thumbnail").type(STRING).description("해당 페이지 썸네일 URL"),
                             fieldWithPath("pageNumber").type(NUMBER).description("다일리 페이지 번호 (몇 페이지 인지)")
                     )
             ));

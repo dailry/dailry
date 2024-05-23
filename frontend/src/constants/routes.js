@@ -8,4 +8,6 @@ export const PATH_NAME = {
   AdminMembers: '/admin/members',
   AdminAnnouncement: '/admin/announcement',
   Community: '/community',
+  CommunityList: '/community/list',
+  CommunityWrite: '/community/write',
 };

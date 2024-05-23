@@ -6,6 +6,7 @@ import GlobalStyles from './styles/GlobalStyle';
 import App from './App';
 // import { worker } from './mocks/worker';
 import { DailryProvider } from './hooks/useDailryContext';
+import { ModalProvider } from './hooks/useModalContext';
 
 // if (process.env.NODE_ENV === 'development') {
 //   await worker.start();
@@ -15,11 +16,13 @@ const root = createRoot(document.getElementById('root'));
 root.render(
   <StrictMode>
     <GlobalStyles />
-    <DailryProvider>
-      <BrowserRouter>
-        <App />
-        <ToastContainer />
-      </BrowserRouter>
-    </DailryProvider>
+    <ModalProvider>
+      <DailryProvider>
+        <BrowserRouter>
+          <App />
+          <ToastContainer />
+        </BrowserRouter>
+      </DailryProvider>
+    </ModalProvider>
   </StrictMode>,
 );

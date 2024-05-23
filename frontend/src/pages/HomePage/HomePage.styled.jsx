@@ -101,11 +101,22 @@ export const BookMark3 = css`
 
 export const BookMark4 = css`
   left: 671px;
-  top: 642px;
+  top: 542px;
 
   padding-right: 20px;
 
   background-color: ${HOME.menu4};
+
+  transform: rotate(5.46deg);
+`;
+
+export const BookMark5 = css`
+  left: 671px;
+  top: 642px;
+
+  padding-right: 20px;
+
+  background-color: ${HOME.menu5};
 
   transform: rotate(5.46deg);
 `;

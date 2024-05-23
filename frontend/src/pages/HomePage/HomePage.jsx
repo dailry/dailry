@@ -23,11 +23,14 @@ const HomePage = () => {
         <S.BookMark to={PATH_NAME.Login} css={S.BookMark1}>
           로그인
         </S.BookMark>
-        <S.BookMark to={PATH_NAME.Community} css={S.BookMark2}>
+        <S.BookMark to={PATH_NAME.CommunityList} css={S.BookMark2}>
           공개 다일리
         </S.BookMark>
         <S.BookMark to={PATH_NAME.Dailry} css={S.BookMark3}>
           다일리 만들기
+        </S.BookMark>
+        <S.BookMark to={PATH_NAME.MyPage} css={S.BookMark5}>
+          마이 페이지
         </S.BookMark>
         <S.BookMark to={PATH_NAME.Home} css={S.BookMark4}>
           팀 다일리

@@ -113,7 +113,7 @@ public class MemberService {
     {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
-        memberRepository.delete(findMember);
+        findMember.withdrawMember();
     }
 
 }

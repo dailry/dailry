@@ -24,7 +24,8 @@ export const HOME = Object.freeze({
   menu1: '#ffb3ea',
   menu2: '#fdbf9c',
   menu3: '#ffdba4',
-  menu4: '#aeddff',
+  menu4: 'white',
+  menu5: '#aeddff',
 });
 
 export const INPUT = Object.freeze({
@@ -66,4 +67,10 @@ export const MODAL = Object.freeze({
   box: '#ffffff',
   item: '#616161',
   selectedItem: '#87a5eb',
+});
+
+export const COMMUNITY = Object.freeze({
+  line: '#616161',
+  like: '#fb8d8d',
+  default: '#000000',
 });

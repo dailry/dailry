@@ -56,15 +56,36 @@ export const getCheckNickName = async (nickName) => {
   } catch (e) {
     console.error(e);
 
-    alert('아이디 중복 검사가 실패하였습니다.');
+    alert('닉네임 중복 검사가 실패하였습니다.');
 
+    return e.response.data;
+  }
+};
+
+export const patchNickname = async (nickname) => {
+  try {
+    return await customAxios.patch('/members/nickname', { nickname });
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
+export const patchPassword = async (passwordData) => {
+  try {
+    const { presentPassword, updatePassword } = passwordData;
+    return await customAxios.patch('/members/password', {
+      presentPassword,
+      updatePassword,
+    });
+  } catch (e) {
+    console.error(e);
     return e.response.data;
   }
 };
 
 export const postEmailVerificationRequest = async (email) => {
   try {
-    console.log(email);
     return await customAxios.post('/members/email-verification/request', {
       email,
     });
