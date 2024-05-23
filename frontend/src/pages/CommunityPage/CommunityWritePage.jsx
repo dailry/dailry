@@ -23,9 +23,12 @@ const CommunityWritePage = () => {
   const handleShareClick = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    const request = new Blob([JSON.stringify({ content, hashtags })], {
-      type: 'application/json',
-    });
+    const request = new Blob(
+      [JSON.stringify({ content, hashtags: [...hashtags, writingTag] })],
+      {
+        type: 'application/json',
+      },
+    );
     formData.append('request', request);
 
     const pageRequest = await getRequest(pageImage);
@@ -41,7 +44,6 @@ const CommunityWritePage = () => {
       const currentVal = tmpVal.trim();
       if (currentVal) {
         setHashtags([...hashtags, currentVal]);
-        console.log(hashtags);
       }
       return setWritingTag('');
     }
