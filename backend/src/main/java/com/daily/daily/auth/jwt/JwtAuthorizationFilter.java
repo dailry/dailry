@@ -33,7 +33,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         Cookie[] cookies = request.getCookies();
-        if(cookies == null || !isPresentAccessToken(cookies))
+        if(cookies == null || !existAccessToken(cookies))
         {
             filterChain.doFilter(request, response);
             return;
@@ -41,11 +41,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         String accessToken = extractCookie(cookies, "AccessToken");
         String refreshToken = extractCookie(cookies, "RefreshToken");
-
-        if(!hasValidAuthCookie(accessToken) || !hasValidAuthCookie(refreshToken)) {
-            writeErrorResponse(response);
-            return;
-        }
 
         if(jwtUtil.isExpired(accessToken)) {
             accessToken = tokenService.renewToken(response, accessToken, refreshToken);
@@ -60,7 +55,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private boolean isPresentAccessToken(Cookie[] authCookies) {
+    private boolean existAccessToken(Cookie[] authCookies) {
         return Arrays.stream(authCookies)
                 .anyMatch(name -> name.getName().equals("AccessToken"));
     }
@@ -90,7 +85,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private String extractCookie(Cookie[] cookies, String cookieName) {
         return Arrays.stream(cookies)
-                .filter(name -> name.getName().equals("AccessToken"))
+                .filter(name -> name.getName().equals(cookieName))
                 .findFirst()
                 .get()
                 .getValue();
