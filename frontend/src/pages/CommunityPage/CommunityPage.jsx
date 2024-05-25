@@ -1,8 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as S from './CommunityPage.styled';
 import { deletePosts, getPosts } from '../../apis/postApi';
 import Text from '../../components/common/Text/Text';
 import { getMember } from '../../apis/memberApi';
+import { PATH_NAME } from '../../constants/routes';
 
 const CommunityPage = () => {
   const endRef = useRef(null);
@@ -10,6 +12,7 @@ const CommunityPage = () => {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(true);
+  const navigate = useNavigate();
 
   const getSetPost = async () => {
     const response = await getPosts({ page, size: 5 });
@@ -48,6 +51,12 @@ const CommunityPage = () => {
     }
   };
 
+  const handleEditClick = async (postId, pageImage) => {
+    navigate(
+      `${PATH_NAME.CommunityWrite}?type=edit&pageImage=${pageImage}&postId=${postId}`,
+    );
+  };
+
   return (
     <S.CommunityWrapper>
       <S.HeaderWrapper>
@@ -79,7 +88,11 @@ const CommunityPage = () => {
                 <div>{createdTime.split('T').join(' ')}</div>
               </S.RowFlex>
               <S.RowFlex>
-                {myPost && <button>수정</button>}
+                {myPost && (
+                  <button onClick={() => handleEditClick(postId, pageImage)}>
+                    수정
+                  </button>
+                )}
                 {myPost && (
                   <button onClick={() => handleDeleteClick(postId)}>
                     삭제

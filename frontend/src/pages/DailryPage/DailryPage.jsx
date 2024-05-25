@@ -342,7 +342,9 @@ const DailryPage = () => {
     },
     download: () => {},
     share: (page) => {
-      navigate(`${PATH_NAME.CommunityWrite}?pageImage=${page.thumbnail}`);
+      navigate(
+        `${PATH_NAME.CommunityWrite}?type=post&pageImage=${page.thumbnail}`,
+      );
     },
   };
 
@@ -509,7 +511,7 @@ const DailryPage = () => {
                 ).thumbnail;
 
                 navigate(
-                  `${PATH_NAME.CommunityWrite}?pageImage=${currentPageThumbnail}`,
+                  `${PATH_NAME.CommunityWrite}?type=post&pageImage=${currentPageThumbnail}`,
                 );
               }
             };

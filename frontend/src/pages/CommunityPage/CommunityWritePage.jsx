@@ -1,20 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import * as S from './CommunityPage.styled';
 import Button from '../../components/common/Button/Button';
 import Text from '../../components/common/Text/Text';
-import { postPosts } from '../../apis/postApi';
+import { getPost, postPosts, postEditedPosts } from '../../apis/postApi';
 import { PATH_NAME } from '../../constants/routes';
 import { getRequest } from '../../apis/dailryApi';
 
 const CommunityWritePage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const type = searchParams.get('type');
   const pageImage = searchParams.get('pageImage');
+  const postId = searchParams.get('postId');
 
   const [content, setContent] = useState('');
   const [hashtags, setHashtags] = useState([]);
   const [writingTag, setWritingTag] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      if (type === 'edit') {
+        const { data } = await getPost(postId);
+        setContent(data.content);
+        setHashtags(data.hashtags);
+      }
+    })();
+  }, []);
 
   const handleContentChange = (e) => {
     setContent(e.target.value);
@@ -34,7 +46,12 @@ const CommunityWritePage = () => {
     const pageRequest = await getRequest(pageImage);
     const pageImageBlob = new Blob([pageRequest.data], { type: 'image/png' });
     formData.append('pageImage', await pageImageBlob);
-    await postPosts(await formData);
+    if (type === 'post') {
+      await postPosts(await formData);
+    }
+    if (type === 'edit') {
+      await postEditedPosts(postId, await formData);
+    }
     navigate(PATH_NAME.CommunityList);
   };
 
