@@ -102,7 +102,7 @@ export const WriteContentArea = styled.input`
   border: 1px bold ${COMMUNITY.line};
 `;
 
-export const TagWrapper = styled.div`
+export const TagsWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -110,6 +110,18 @@ export const TagWrapper = styled.div`
   gap: 12px;
 
   width: 100%;
+`;
+
+export const TagWrapper = styled.div`
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 4px;
+
+  padding: 0 8px;
+
+  border: 1px solid ${COMMUNITY.line};
+  border-radius: 12px;
 `;
 
 export const WriteTagArea = styled.input`

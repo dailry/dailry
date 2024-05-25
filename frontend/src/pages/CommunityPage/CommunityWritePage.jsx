@@ -15,7 +15,7 @@ const CommunityWritePage = () => {
   const postId = searchParams.get('postId');
 
   const [content, setContent] = useState('');
-  const [hashtags, setHashtags] = useState([]);
+  const [hashtags, setHashtags] = useState(new Set());
   const [writingTag, setWritingTag] = useState('');
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const CommunityWritePage = () => {
       if (type === 'edit') {
         const { data } = await getPost(postId);
         setContent(data.content);
-        setHashtags(data.hashtags);
+        setHashtags(new Set(data.hashtags));
       }
     })();
   }, []);
@@ -55,12 +55,16 @@ const CommunityWritePage = () => {
     navigate(PATH_NAME.CommunityList);
   };
 
+  const handleTagDelClick = (delTag) => {
+    setHashtags(new Set([...hashtags].filter((tag) => tag !== delTag)));
+  };
+
   const handleWritingTagChange = (e) => {
     const tmpVal = e.target.value.replace(/^#/, '');
     if (tmpVal.includes(' ')) {
       const currentVal = tmpVal.trim();
       if (currentVal) {
-        setHashtags([...hashtags, currentVal]);
+        setHashtags(new Set([...hashtags, currentVal]));
       }
       return setWritingTag('');
     }
@@ -75,16 +79,19 @@ const CommunityWritePage = () => {
         value={content}
         onChange={handleContentChange}
       />
-      <S.TagWrapper>
+      <S.TagsWrapper>
         <Text>태그</Text>
-        {hashtags.map((hashtag) => (
-          <Text key={Math.random()}>#{hashtag}</Text>
+        {[...hashtags].map((hashtag) => (
+          <S.TagWrapper key={Math.random()}>
+            <Text>#{hashtag}</Text>
+            <button onClick={() => handleTagDelClick(hashtag)}>x</button>
+          </S.TagWrapper>
         ))}
         <S.WriteTagArea
           value={`#${writingTag}`}
           onChange={handleWritingTagChange}
         />
-      </S.TagWrapper>
+      </S.TagsWrapper>
       <Button onClick={handleShareClick}>공유하기</Button>
     </S.PostWrapper>
   );
