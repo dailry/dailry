@@ -10,3 +10,5 @@ export { ReactComponent as AddPageIcon } from './add-page-icon.svg';
 export { ReactComponent as LeftArrowIcon } from './left-arrow-icon.svg';
 export { ReactComponent as RightArrowIcon } from './right-arrow-icon.svg';
 export { ReactComponent as HeartIcon } from './heart-icon.svg';
+export { ReactComponent as BackIcon } from './back-icon.svg';
+export { ReactComponent as DailryLogoIcon } from './dailry-logo-icon.svg';
