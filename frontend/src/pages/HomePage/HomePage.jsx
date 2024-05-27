@@ -10,7 +10,6 @@ import { postLogout } from '../../apis/loginApi';
 
 const HomePage = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -24,7 +23,7 @@ const HomePage = () => {
   const handleLogoutClick = async () => {
     const response = await postLogout();
     if (response.status === 200) {
-      navigate(PATH_NAME.Home);
+      setLoggedIn(false);
     }
   };
 
