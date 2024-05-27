@@ -53,3 +53,21 @@ export const deletePosts = async (postId) => {
     return e.response.data;
   }
 };
+
+export const postLikes = async (postId) => {
+  try {
+    return await customAxios.post(`posts/${postId}/likes`);
+  } catch (e) {
+    console.error(e);
+    return e.response;
+  }
+};
+
+export const deleteLikes = async (postId) => {
+  try {
+    return await customAxios.delete(`posts/${postId}/likes`);
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};

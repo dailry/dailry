@@ -1,11 +1,14 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import * as S from './CommunityPage.styled';
 import {
   deletePosts,
   getPosts,
   postLikes,
   deleteLikes,
+  getPost,
 } from '../../apis/postApi';
 import Text from '../../components/common/Text/Text';
 import { getMember } from '../../apis/memberApi';
@@ -54,7 +57,15 @@ const CommunityPage = () => {
     return () => observer.disconnect();
   }, [endRef, page]);
 
-  // const handleEditClick = async (postId) => {};
+  const toastify = (message) => {
+    toast(message, {
+      position: 'bottom-right',
+      autoClose: 300,
+      hideProgressBar: true,
+      closeOnClick: true,
+      transition: Zoom,
+    });
+  };
 
   const handleDeleteClick = async (postId) => {
     const response = await deletePosts(postId);
@@ -70,14 +81,38 @@ const CommunityPage = () => {
   };
 
   const handleLikeClick = async (postId, index) => {
+    if (!memberId) {
+      toastify('로그인 후 이용해주세요');
+      return;
+    }
     if (liked[index] === false) {
       liked[index] = true;
-      await postLikes(postId);
+      const response = await postLikes(postId);
+      if (response.status === 200) {
+        toastify('좋아요 처리되었습니다');
+        const res = await getPost(postId);
+        const updatedPosts = posts.map((post) => {
+          return post.postId !== postId ? post : res.data;
+        });
+        setPosts(updatedPosts);
+      }
+      if (response.status === 409) {
+        toastify('이미 좋아요 처리된 게시글입니다');
+      }
       setLiked([...liked]);
       return;
     }
     if (liked[index] === true) {
       liked[index] = false;
+      const response = await deleteLikes(postId);
+      if (response.status === 200) {
+        toastify('좋아요가 취소되었습니다');
+        const res = await getPost(postId);
+        const updatedPosts = posts.map((post) => {
+          return post.postId !== postId ? { ...post } : res.data;
+        });
+        setPosts(updatedPosts);
+      }
       setLiked([...liked]);
     }
   };
@@ -133,11 +168,11 @@ const CommunityPage = () => {
             </S.HeadWrapper>
             <S.DailryWrapper src={pageImage} />
             <S.ContentWrapper>{content}</S.ContentWrapper>
-            <S.TagWrapper>
+            <S.TagsWrapper>
               {hashtags.map((hashtag) => (
                 <Text key={Math.random()}>#{hashtag}</Text>
               ))}
-            </S.TagWrapper>
+            </S.TagsWrapper>
           </S.PostWrapper>
         );
       })}
