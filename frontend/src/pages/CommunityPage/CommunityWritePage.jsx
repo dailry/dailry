@@ -34,9 +34,10 @@ const CommunityWritePage = () => {
 
   const handleShareClick = async (e) => {
     e.preventDefault();
+    const updateTags = writingTag ? [...hashtags, writingTag] : [...hashtags];
     const formData = new FormData();
     const request = new Blob(
-      [JSON.stringify({ content, hashtags: [...hashtags, writingTag] })],
+      [JSON.stringify({ content, hashtags: updateTags })],
       {
         type: 'application/json',
       },
