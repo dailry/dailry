@@ -123,10 +123,10 @@ const CommunityPage = () => {
         <Text size={24} weight={1000}>
           커뮤니티
         </Text>
-        <S.SortWrapper>
-          <button>최신순</button>
-          <button>인기순</button>
-        </S.SortWrapper>
+        {/* <S.SortWrapper> */}
+        {/*  <button>최신순</button> */}
+        {/*  <button>인기순</button> */}
+        {/* </S.SortWrapper> */}
       </S.HeaderWrapper>
       {posts.map((post, index) => {
         const {
