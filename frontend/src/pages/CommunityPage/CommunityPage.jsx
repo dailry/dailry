@@ -1,7 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './CommunityPage.styled';
-import { deletePosts, getPosts } from '../../apis/postApi';
+import {
+  deletePosts,
+  getPosts,
+  postLikes,
+  deleteLikes,
+} from '../../apis/postApi';
 import Text from '../../components/common/Text/Text';
 import { getMember } from '../../apis/memberApi';
 import { PATH_NAME } from '../../constants/routes';
@@ -12,12 +17,17 @@ const CommunityPage = () => {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(true);
+  const [liked, setLiked] = useState([]);
   const navigate = useNavigate();
 
   const getSetPost = async () => {
     const response = await getPosts({ page, size: 5 });
     setHasNextPage(await response.data.hasNext);
     setPosts([...posts, ...(await response.data.posts)]);
+    setLiked([
+      ...liked,
+      ...new Array(await response.data.posts.length).fill(false),
+    ]);
     setPage((await response.data.presentPage) + 1);
   };
 
@@ -32,7 +42,9 @@ const CommunityPage = () => {
   useEffect(() => {
     (async () => {
       const response = await getMember();
-      setMemberId(response.data.memberId);
+      if (response.status === 200) {
+        setMemberId(response.data.memberId);
+      }
     })();
   }, []);
 
@@ -57,6 +69,19 @@ const CommunityPage = () => {
     );
   };
 
+  const handleLikeClick = async (postId, index) => {
+    if (liked[index] === false) {
+      liked[index] = true;
+      await postLikes(postId);
+      setLiked([...liked]);
+      return;
+    }
+    if (liked[index] === true) {
+      liked[index] = false;
+      setLiked([...liked]);
+    }
+  };
+
   return (
     <S.CommunityWrapper>
       <S.HeaderWrapper>
@@ -68,7 +93,7 @@ const CommunityPage = () => {
           <button>인기순</button>
         </S.SortWrapper>
       </S.HeaderWrapper>
-      {posts.map((post) => {
+      {posts.map((post, index) => {
         const {
           postId,
           content,
@@ -99,9 +124,9 @@ const CommunityPage = () => {
                   </button>
                 )}
                 <button>
-                  <S.LikeWrapper>
-                    좋아요
-                    <Text>{likeCount}</Text>
+                  <S.LikeWrapper onClick={() => handleLikeClick(postId, index)}>
+                    <S.LikeIcon liked={liked[index]} />
+                    <Text>좋아요 {likeCount}</Text>
                   </S.LikeWrapper>
                 </button>
               </S.RowFlex>
