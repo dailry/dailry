@@ -1,6 +1,5 @@
 // Home-LoggedIn, Home-NotLoggedIn (책모양 페이지)
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import * as S from './HomePage.styled';
 import Text from '../../components/common/Text/Text';
 import { TEXT } from '../../styles/color';
@@ -10,7 +9,6 @@ import { postLogout } from '../../apis/loginApi';
 
 const HomePage = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -24,7 +22,7 @@ const HomePage = () => {
   const handleLogoutClick = async () => {
     const response = await postLogout();
     if (response.status === 200) {
-      navigate(PATH_NAME.Home);
+      setLoggedIn(false);
     }
   };
 
