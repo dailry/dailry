@@ -86,7 +86,7 @@ const CommunityPage = () => {
       return;
     }
     if (liked[index] === false) {
-      liked[index] = true;
+      setLiked(liked.with(index, true));
       const response = await postLikes(postId);
       if (response.status === 200) {
         toastify('좋아요 처리되었습니다');
@@ -99,11 +99,10 @@ const CommunityPage = () => {
       if (response.status === 409) {
         toastify('이미 좋아요 처리된 게시글입니다');
       }
-      setLiked([...liked]);
       return;
     }
     if (liked[index] === true) {
-      liked[index] = false;
+      setLiked(liked.with(index, false));
       const response = await deleteLikes(postId);
       if (response.status === 200) {
         toastify('좋아요가 취소되었습니다');
@@ -113,7 +112,6 @@ const CommunityPage = () => {
         });
         setPosts(updatedPosts);
       }
-      setLiked([...liked]);
     }
   };
 
