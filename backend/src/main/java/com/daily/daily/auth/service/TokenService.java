@@ -47,13 +47,13 @@ public class TokenService {
     }
 
     public String createAccessToken(final String refreshToken) {
-        RefreshToken refreshToken1 = refreshTokenRepository.findById(refreshToken)
+        RefreshToken findRefreshToken = refreshTokenRepository.findById(refreshToken)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        Member member = memberRepository.findById(refreshToken1.getId())
+        Member member = memberRepository.findById(findRefreshToken.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
-        return jwtUtil.generateAccessToken(refreshToken1.getId(), member.getRole());
+        return jwtUtil.generateAccessToken(findRefreshToken.getId(), member.getRole());
     }
 
     public void saveRefreshToken(String refreshToken, Long memberId) {
