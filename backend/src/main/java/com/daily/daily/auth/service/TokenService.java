@@ -1,6 +1,5 @@
 package com.daily.daily.auth.service;
 
-import com.daily.daily.auth.dto.TokenDTO;
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.auth.jwt.RefreshToken;
 import com.daily.daily.auth.jwt.RefreshTokenRepository;
@@ -15,6 +14,8 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import static com.daily.daily.auth.jwt.JwtUtil.ACCESS_TOKEN;
+import static com.daily.daily.auth.jwt.JwtUtil.REFRESH_TOKEN;
 import static org.springframework.http.HttpHeaders.SET_COOKIE;
 
 @RequiredArgsConstructor
@@ -25,8 +26,6 @@ public class TokenService {
     private final JwtUtil jwtUtil;
     private final CookieService cookieService;
 
-    private static final String ACCESS_TOKEN = "AccessToken";
-    private static final String REFRESH_TOKEN = "RefreshToken";
 
     public String renewToken(HttpServletResponse response, String accessToken, String refreshToken) {
         boolean isAccessTokenExpired = jwtUtil.isExpired(accessToken);
@@ -35,7 +34,7 @@ public class TokenService {
         if (isAccessTokenExpired && isRefreshTokenExpired) {
             cookieService.deleteCookie(response, ACCESS_TOKEN);
             cookieService.deleteCookie(response, REFRESH_TOKEN);
-            refreshTokenRepository.deleteById(refreshToken);
+            deleteRefreshToken(refreshToken);
         }
 
         if(isAccessTokenExpired) {
@@ -55,5 +54,13 @@ public class TokenService {
                 .orElseThrow(MemberNotFoundException::new);
 
         return jwtUtil.generateAccessToken(refreshToken1.getId(), member.getRole());
+    }
+
+    public void saveRefreshToken(String refreshToken, Long memberId) {
+        refreshTokenRepository.save(new RefreshToken(refreshToken, memberId));
+    }
+
+    public void deleteRefreshToken(String refreshToken) {
+        refreshTokenRepository.deleteById(refreshToken);
     }
 }
