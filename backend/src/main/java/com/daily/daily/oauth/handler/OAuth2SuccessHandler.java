@@ -1,7 +1,7 @@
 package com.daily.daily.oauth.handler;
 
-import com.daily.daily.auth.dto.CookieDTO;
 import com.daily.daily.auth.jwt.JwtUtil;
+import com.daily.daily.auth.service.TokenService;
 import com.daily.daily.common.service.CookieService;
 import com.daily.daily.oauth.OAuth2CustomUser;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +26,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private final JwtUtil jwtUtil;
     private final CookieService cookieService;
+    private final TokenService tokenService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
@@ -34,8 +35,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         try {
             OAuth2CustomUser oAuth2User = (OAuth2CustomUser) authentication.getPrincipal();
 
-            String accessToken = jwtUtil.generateAccessToken(oAuth2User.getMember().getId(), oAuth2User.getMember().getRole());
-            String refreshToken = jwtUtil.generateRefreshToken(oAuth2User.getMember().getId());
+            String accessToken = jwtUtil.generateAccessToken(oAuth2User.getMemberId(), oAuth2User.getMemberRole());
+            String refreshToken = jwtUtil.generateRefreshToken(oAuth2User.getMemberId());
 
             ResponseCookie accessTokenCookie = cookieService.createCookie(JwtUtil.ACCESS_TOKEN, accessToken);
             ResponseCookie refreshTokenCookie = cookieService.createCookie(JwtUtil.REFRESH_TOKEN, refreshToken);
