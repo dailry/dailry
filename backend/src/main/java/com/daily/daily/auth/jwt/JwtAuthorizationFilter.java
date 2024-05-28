@@ -15,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -42,13 +41,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String accessToken = extractCookie(cookies, "AccessToken");
         String refreshToken = extractCookie(cookies, "RefreshToken");
 
-        if(jwtUtil.isExpired(accessToken)) {
-            accessToken = tokenService.renewToken(response, accessToken, refreshToken);
-        }
-
         if (!jwtUtil.validateToken(accessToken) || !jwtUtil.validateToken(refreshToken)) {
             writeErrorResponse(response);
             return;
+        }
+
+        if(jwtUtil.isExpired(accessToken)) {
+            accessToken = tokenService.renewToken(response, accessToken, refreshToken);
         }
 
         setAuthInSecurityContext(accessToken);
@@ -65,10 +64,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         response.setStatus(403);
         response.setContentType("application/json; charset=UTF-8");
         response.getWriter().write(objectMapper.writeValueAsString(exceptionResponseDto));
-    }
-
-    private boolean hasValidAuthCookie(String cookie) {
-        return StringUtils.hasText(cookie);
     }
 
     private void setAuthInSecurityContext(String accessToken) {

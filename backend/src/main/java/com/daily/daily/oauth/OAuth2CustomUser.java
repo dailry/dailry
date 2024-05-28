@@ -1,5 +1,6 @@
 package com.daily.daily.oauth;
 
+import com.daily.daily.member.constant.MemberRole;
 import com.daily.daily.member.domain.Member;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,5 +18,12 @@ public class OAuth2CustomUser extends DefaultOAuth2User {
                             Member member) {
         super(authorities, attributes, nameAttributeKey);
         this.member = member;
+    }
+
+    public Long getMemberId() {
+        return member.getId();
+    }
+    public MemberRole getMemberRole() {
+        return member.getRole();
     }
 }

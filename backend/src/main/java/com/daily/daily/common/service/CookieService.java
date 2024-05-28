@@ -1,14 +1,13 @@
 package com.daily.daily.common.service;
 
-import com.daily.daily.auth.dto.CookieDTO;
-import com.daily.daily.auth.jwt.JwtUtil;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
+
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
 
 @Service
 @RequiredArgsConstructor
@@ -31,13 +30,14 @@ public class CookieService {
     }
 
     public void deleteCookie(HttpServletResponse response, String cookieName) {
-        Cookie cookie = new Cookie(cookieName, "");
-        cookie.setDomain(mainDomain);
-        cookie.setPath("/");
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-    }
+        ResponseCookie deleteCookie = ResponseCookie.from(cookieName, "")
+                .domain(mainDomain)
+                .path("/")
+                .secure(true)
+                .httpOnly(true)
+                .sameSite(sameSite)
+                .build();
 
+        response.setHeader(SET_COOKIE, deleteCookie.toString());
+    }
 }
