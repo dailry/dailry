@@ -35,10 +35,10 @@ public class CookieService {
                 .path("/")
                 .secure(true)
                 .httpOnly(true)
-                .sameSite(sameSite)
                 .maxAge(0)
+                .sameSite(sameSite)
                 .build();
 
-        response.setHeader(SET_COOKIE, deleteCookie.toString());
+        response.addHeader(SET_COOKIE, deleteCookie.toString());
     }
 }
