@@ -109,6 +109,7 @@ export const WriteContentArea = styled.input`
 export const TagsWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: start;
   align-items: center;
   gap: 12px;
