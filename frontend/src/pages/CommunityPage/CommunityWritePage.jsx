@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import * as S from './CommunityPage.styled';
 import Button from '../../components/common/Button/Button';
 import Text from '../../components/common/Text/Text';
@@ -15,7 +17,7 @@ const CommunityWritePage = () => {
   const postId = searchParams.get('postId');
 
   const [content, setContent] = useState('');
-  const [hashtags, setHashtags] = useState(new Set());
+  const [hashtags, setHashtags] = useState([]);
   const [writingTag, setWritingTag] = useState('');
 
   useEffect(() => {
@@ -23,10 +25,20 @@ const CommunityWritePage = () => {
       if (type === 'edit') {
         const { data } = await getPost(postId);
         setContent(data.content);
-        setHashtags(new Set(data.hashtags));
+        setHashtags(data.hashtags);
       }
     })();
   }, []);
+
+  const toastify = (message) => {
+    toast(message, {
+      position: 'bottom-right',
+      autoClose: 300,
+      hideProgressBar: true,
+      closeOnClick: true,
+      transition: Zoom,
+    });
+  };
 
   const handleContentChange = (e) => {
     setContent(e.target.value);
@@ -34,14 +46,10 @@ const CommunityWritePage = () => {
 
   const handleShareClick = async (e) => {
     e.preventDefault();
-    const updateTags = writingTag ? [...hashtags, writingTag] : [...hashtags];
     const formData = new FormData();
-    const request = new Blob(
-      [JSON.stringify({ content, hashtags: updateTags })],
-      {
-        type: 'application/json',
-      },
-    );
+    const request = new Blob([JSON.stringify({ content, hashtags })], {
+      type: 'application/json',
+    });
     formData.append('request', request);
 
     const pageRequest = await getRequest(pageImage);
@@ -57,19 +65,26 @@ const CommunityWritePage = () => {
   };
 
   const handleTagDelClick = (delTag) => {
-    setHashtags(new Set([...hashtags].filter((tag) => tag !== delTag)));
+    setHashtags([...hashtags].filter((tag) => tag !== delTag));
   };
 
   const handleWritingTagChange = (e) => {
     const tmpVal = e.target.value.replace(/^#/, '');
-    if (tmpVal.includes(' ')) {
-      const currentVal = tmpVal.trim();
-      if (currentVal) {
-        setHashtags(new Set([...hashtags, currentVal]));
-      }
-      return setWritingTag('');
-    }
     return setWritingTag(tmpVal);
+  };
+
+  const handleWritingKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      if (writingTag !== '') {
+        setHashtags([...hashtags, writingTag]);
+        setWritingTag('');
+      }
+      return;
+    }
+    if (e.key === ' ') {
+      e.preventDefault();
+      toastify('태그에는 띄어쓰기를 할 수 없습니다');
+    }
   };
 
   return (
@@ -91,6 +106,7 @@ const CommunityWritePage = () => {
         <S.WriteTagArea
           value={`#${writingTag}`}
           onChange={handleWritingTagChange}
+          onKeyDown={handleWritingKeyDown}
         />
       </S.TagsWrapper>
       <Button onClick={handleShareClick}>공유하기</Button>

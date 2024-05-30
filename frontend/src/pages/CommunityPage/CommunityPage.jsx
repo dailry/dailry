@@ -91,10 +91,7 @@ const CommunityPage = () => {
       if (response.status === 200) {
         toastify('좋아요 처리되었습니다');
         const res = await getPost(postId);
-        const updatedPosts = posts.map((post) => {
-          return post.postId !== postId ? post : res.data;
-        });
-        setPosts(updatedPosts);
+        setPosts(posts.with(index, res.data));
       }
       if (response.status === 409) {
         toastify('이미 좋아요 처리된 게시글입니다');
@@ -107,10 +104,7 @@ const CommunityPage = () => {
       if (response.status === 200) {
         toastify('좋아요가 취소되었습니다');
         const res = await getPost(postId);
-        const updatedPosts = posts.map((post) => {
-          return post.postId !== postId ? { ...post } : res.data;
-        });
-        setPosts(updatedPosts);
+        setPosts(posts.with(index, res.data));
       }
     }
   };
