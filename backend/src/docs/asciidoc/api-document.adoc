@@ -464,7 +464,7 @@ include::{snippets}/좋아요 취소/http-response.adoc[]
 
 === 좋아요 눌렀는지 조회
 
-==== 요청
+==== 요청 (로그인 필요)
 
 include::{snippets}/좋아요 눌렀는지 조회/http-request.adoc[]
 include::{snippets}/좋아요 눌렀는지 조회/query-parameters.adoc[]
