@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.daily.daily.common.config.Business.BusinessConfig.HOT_POST_LIKE_THRESHOLD;
@@ -183,4 +184,15 @@ class PostLikeServiceTest {
         }
     }
 
+    @Nested
+    @DisplayName("getLikeStatus() - 좋아요 여부 확인 메서드 테스트")
+    class getLikeStatus {
+        @Test
+        @DisplayName("memberId와 List<postId> 로 좋아요 이력을 조회한다. 좋아요 이력이 존재하면 TRUE, 좋아요 이력이 존재하지 않으면 FALSE 를 맵핑한다.")
+        void test1() {
+            PostLike postLike = PostLike.builder().post()
+
+            when(likeRepository.findByMemberIdAndPostIds(any(), any())).thenReturn()
+        }
+    }
 }
