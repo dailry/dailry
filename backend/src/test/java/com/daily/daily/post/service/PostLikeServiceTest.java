@@ -6,6 +6,7 @@ import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.domain.PostLike;
 import com.daily.daily.post.exception.AlreadyLikeException;
 import com.daily.daily.post.exception.NotPreviouslyLikedException;
+import com.daily.daily.post.fixture.PostLikeFixture;
 import com.daily.daily.post.repository.HotPostRepository;
 import com.daily.daily.post.repository.PostLikeRepository;
 import com.daily.daily.post.repository.PostRepository;
@@ -19,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.daily.daily.common.config.Business.BusinessConfig.HOT_POST_LIKE_THRESHOLD;
@@ -190,9 +192,22 @@ class PostLikeServiceTest {
         @Test
         @DisplayName("memberId와 List<postId> 로 좋아요 이력을 조회한다. 좋아요 이력이 존재하면 TRUE, 좋아요 이력이 존재하지 않으면 FALSE 를 맵핑한다.")
         void test1() {
-            PostLike postLike = PostLike.builder().post()
+            //given
+            List<PostLike> 좋아요_이력_리스트 = PostLikeFixture.좋아요_이력_리스트(3, 7);
 
-            when(likeRepository.findByMemberIdAndPostIds(any(), any())).thenReturn()
+            when(likeRepository.findByMemberIdAndPostIds(any(), any())).thenReturn(좋아요_이력_리스트);
+
+            //when
+            Map<Long, Boolean> likeStatus = postLikeService.getLikeStatus(3L, List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L));
+
+            //then
+            for (long postId = 1; postId <= 10; postId++) {
+                if (3 <= postId && postId <= 7) {
+                    assertThat(likeStatus.get(postId)).isTrue();
+                    continue;
+                }
+                assertThat(likeStatus.get(postId)).isFalse();
+            }
         }
     }
 }

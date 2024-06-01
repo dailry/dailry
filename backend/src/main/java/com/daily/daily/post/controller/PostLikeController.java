@@ -4,6 +4,7 @@ import com.daily.daily.common.dto.SuccessResponseDTO;
 import com.daily.daily.post.service.PostLikeFacade;
 import com.daily.daily.post.service.PostLikeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,7 @@ public class PostLikeController {
     }
 
     @GetMapping("/likes")
+    @Secured(value = "ROLE_MEMBER")
     public Map<Long, Boolean> getLikeStatus(@AuthenticationPrincipal Long memberId, @RequestParam("postIds") List<Long> postIds) {
         return postLikeService.getLikeStatus(memberId, postIds);
     }

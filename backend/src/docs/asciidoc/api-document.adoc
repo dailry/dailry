@@ -462,6 +462,19 @@ include::{snippets}/좋아요 취소/http-request.adoc[]
 
 include::{snippets}/좋아요 취소/http-response.adoc[]
 
+=== 좋아요 눌렀는지 조회
+
+==== 요청
+
+include::{snippets}/좋아요 눌렀는지 조회/http-request.adoc[]
+include::{snippets}/좋아요 눌렀는지 조회/query-parameters.adoc[]
+
+==== 응답
+
+include::{snippets}/좋아요 눌렀는지 조회/http-response.adoc[]
+include::{snippets}/좋아요 눌렀는지 조회/response-fields.adoc[]
+
+
 == 댓글
 
 === 댓글 작성
