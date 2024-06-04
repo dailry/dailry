@@ -75,6 +75,10 @@ const CommunityWritePage = () => {
 
   const handleWritingKeyDown = (e) => {
     if (e.key === 'Enter') {
+      if (hashtags.length === 5) {
+        toastify('태그는 5개까지만 등록 가능합니다');
+        return;
+      }
       if (writingTag !== '') {
         setHashtags([...hashtags, writingTag]);
         setWritingTag('');
