@@ -20,7 +20,10 @@ const HomePage = () => {
   }, []);
 
   const handleLogoutClick = async () => {
-    await postLogout();
+    const response = await postLogout();
+    if (response.status === 200) {
+      setLoggedIn(false);
+    }
   };
 
   return (

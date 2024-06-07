@@ -13,9 +13,9 @@ export const NavigationWrapper = styled.div`
 export const NameWrapper = styled(Link)`
   display: flex;
   flex-direction: column;
+  align-items: start;
 
-  padding: 0 20px;
-  width: 100%;
+  margin: 0 0 0 60px;
 
   &:hover {
     background-color: ${MENU.boxMouseOver};
