@@ -1,12 +1,12 @@
-name: Synchronize to forked repo
+name: Synchronize to forked repo main branch
 on:
   push:
     branches:
       - main
 
 jobs:
-  sync:
-    name: Sync forked repo
+  sync-main:
+    name: Sync forked repo main branch
     runs-on: ubuntu-latest
 
     steps:

@@ -1,0 +1,32 @@
+name: Synchronize to forked repo develop branch
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  sync-develop:
+    name: Sync forked repo develop branch
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.SYNC_FORK_TOKEN }}
+          fetch-depth: 0
+          ref: develop
+
+      - name: Add remote-url
+        run: |
+          git remote add forked-repo https://hangooksaram:${{ secrets.SYNC_FORK_TOKEN }}@github.com/hangooksaram/dailry
+          git config user.name hangooksaram
+          git config user.email hyunjae1995@gmail.com
+
+      - name: Push changes to forked-repo
+        run: |
+          git push -f forked-repo develop
+
+      - name: Clean up
+        run: |
+          git remote remove forked-repo
