@@ -79,6 +79,10 @@ const CommunityWritePage = () => {
         toastify('태그는 5개까지만 등록 가능합니다');
         return;
       }
+      if (hashtags.includes(writingTag)) {
+        toastify('중복 태그입니다');
+        return;
+      }
       if (writingTag !== '') {
         setHashtags([...hashtags, writingTag]);
         setWritingTag('');
