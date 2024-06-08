@@ -1,6 +1,5 @@
 package com.daily.daily.auth.service;
 
-import com.daily.daily.auth.exception.TokenExpiredException;
 import com.daily.daily.auth.jwt.JwtUtil;
 import com.daily.daily.auth.jwt.RefreshToken;
 import com.daily.daily.auth.jwt.RefreshTokenRepository;
@@ -15,6 +14,8 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import static com.daily.daily.auth.jwt.JwtUtil.ACCESS_TOKEN;
+import static com.daily.daily.auth.jwt.JwtUtil.REFRESH_TOKEN;
 import static org.springframework.http.HttpHeaders.SET_COOKIE;
 
 @RequiredArgsConstructor
@@ -25,30 +26,41 @@ public class TokenService {
     private final JwtUtil jwtUtil;
     private final CookieService cookieService;
 
-    private static final String ACCESS_TOKEN = "AccessToken";
 
-    public void renewToken(HttpServletResponse response, String accessToken, RefreshToken refreshToken) {
+    public String renewToken(HttpServletResponse response, String accessToken, String refreshToken) {
         boolean isAccessTokenExpired = jwtUtil.isExpired(accessToken);
-        boolean isRefreshTokenExpired = jwtUtil.isExpired(refreshToken.getRefreshToken());
+        boolean isRefreshTokenExpired = jwtUtil.isExpired(refreshToken);
 
         if (isAccessTokenExpired && isRefreshTokenExpired) {
-            throw new TokenExpiredException();
+            cookieService.deleteCookie(response, ACCESS_TOKEN);
+            cookieService.deleteCookie(response, REFRESH_TOKEN);
+            deleteRefreshToken(refreshToken);
         }
 
         if(isAccessTokenExpired) {
             String renewAccessToken = createAccessToken(refreshToken);
             ResponseCookie accessCookie = cookieService.createCookie(ACCESS_TOKEN, renewAccessToken);
             response.addHeader(SET_COOKIE, accessCookie.toString());
+            return accessCookie.getValue();
         }
+        return accessToken;
     }
 
-    public String createAccessToken(final RefreshToken refreshToken) {
-        RefreshToken refreshToken1 = refreshTokenRepository.findById(refreshToken.getRefreshToken())
+    public String createAccessToken(final String refreshToken) {
+        RefreshToken findRefreshToken = refreshTokenRepository.findById(refreshToken)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        Member member = memberRepository.findById(refreshToken1.getId())
+        Member member = memberRepository.findById(findRefreshToken.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
-        return jwtUtil.generateAccessToken(refreshToken1.getId(), member.getRole());
+        return jwtUtil.generateAccessToken(findRefreshToken.getId(), member.getRole());
+    }
+
+    public void saveRefreshToken(String refreshToken, Long memberId) {
+        refreshTokenRepository.save(new RefreshToken(refreshToken, memberId));
+    }
+
+    public void deleteRefreshToken(String refreshToken) {
+        refreshTokenRepository.deleteById(refreshToken);
     }
 }

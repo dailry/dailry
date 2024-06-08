@@ -1,6 +1,7 @@
 package com.daily.daily.auth.jwt;
 
 import com.daily.daily.auth.dto.JwtClaimDTO;
+import com.daily.daily.auth.service.TokenService;
 import com.daily.daily.common.dto.ExceptionResponseDTO;
 import com.daily.daily.member.constant.MemberRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,13 +11,10 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import net.minidev.json.JSONObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -28,39 +26,37 @@ import java.util.List;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper;
+    private final TokenService tokenService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         Cookie[] cookies = request.getCookies();
-        if(cookies == null || !isPresentAccessToken(cookies))
+        if(cookies == null || !existAccessToken(cookies))
         {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String accessToken = Arrays.stream(cookies)
-                .filter(name -> name.getName().equals("AccessToken"))
-                .findFirst()
-                .get()
-                .getValue();
+        String accessToken = extractCookie(cookies, "AccessToken");
+        String refreshToken = extractCookie(cookies, "RefreshToken");
 
-        if (!hasValidAuthCookie(accessToken) || !jwtUtil.validateToken(accessToken)) {
+        if (!jwtUtil.validateToken(accessToken) || !jwtUtil.validateToken(refreshToken)) {
             writeErrorResponse(response);
             return;
+        }
+
+        if(jwtUtil.isExpired(accessToken)) {
+            accessToken = tokenService.renewToken(response, accessToken, refreshToken);
         }
 
         setAuthInSecurityContext(accessToken);
         filterChain.doFilter(request, response);
     }
 
-    private boolean isPresentAccessToken(Cookie[] authCookies) {
+    private boolean existAccessToken(Cookie[] authCookies) {
         return Arrays.stream(authCookies)
                 .anyMatch(name -> name.getName().equals("AccessToken"));
-    }
-
-    private boolean hasValidAuthCookie(String authCookie) {
-        return StringUtils.hasText(authCookie);
     }
 
     private void writeErrorResponse(HttpServletResponse response) throws IOException {
@@ -80,5 +76,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 new UsernamePasswordAuthenticationToken(memberId, null, List.of(role::name));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    private String extractCookie(Cookie[] cookies, String cookieName) {
+        return Arrays.stream(cookies)
+                .filter(name -> name.getName().equals(cookieName))
+                .findFirst()
+                .get()
+                .getValue();
     }
 }

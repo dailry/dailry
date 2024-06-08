@@ -4,8 +4,6 @@ import com.daily.daily.auth.dto.LoginDTO;
 import com.daily.daily.auth.dto.TokenDTO;
 import com.daily.daily.auth.exception.LoginFailureException;
 import com.daily.daily.auth.jwt.JwtUtil;
-import com.daily.daily.auth.jwt.RefreshToken;
-import com.daily.daily.auth.jwt.RefreshTokenRepository;
 import com.daily.daily.common.service.CookieService;
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.repository.MemberRepository;
@@ -14,18 +12,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.daily.daily.auth.jwt.JwtUtil.ACCESS_TOKEN;
+import static com.daily.daily.auth.jwt.JwtUtil.REFRESH_TOKEN;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private static final String ACCESS_TOKEN = "AccessToken";
-    private static final String REFRESH_TOKEN = "RefreshToken";
 
     private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
-    private final RefreshTokenRepository refreshTokenRepository;
     private final CookieService cookieService;
-
+    private final TokenService tokenService;
     public TokenDTO login(LoginDTO loginDto) {
         String username = loginDto.getUsername();
         String password = loginDto.getPassword();
@@ -40,18 +38,13 @@ public class AuthService {
         String accessToken = jwtUtil.generateAccessToken(findMember.getId(), findMember.getRole());
         String refreshToken = jwtUtil.generateRefreshToken(findMember.getId());
 
-        RefreshToken redis = new RefreshToken(refreshToken, findMember.getId());
-        refreshTokenRepository.save(redis);
-
-        return new TokenDTO(
-                accessToken,
-                refreshToken
-        );
+        tokenService.saveRefreshToken(refreshToken, findMember.getId());
+        return new TokenDTO(accessToken, refreshToken);
     }
 
     public void logout(HttpServletResponse response, TokenDTO tokenDto) {
         cookieService.deleteCookie(response, ACCESS_TOKEN);
         cookieService.deleteCookie(response, REFRESH_TOKEN);
-        refreshTokenRepository.deleteById(tokenDto.getRefreshToken());
+        tokenService.deleteRefreshToken(tokenDto.getRefreshToken());
     }
 }

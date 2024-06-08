@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { COMMUNITY } from '../../styles/color';
+import { HeartIcon } from '../../assets/svg';
 
 export const CommunityWrapper = styled.div`
   display: flex;
@@ -31,9 +32,11 @@ export const SortWrapper = styled.div`
   gap: 12px;
 `;
 
-export const LikeWrapper = styled.div`
+export const LikeWrapper = styled.button`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 40px;
   font-size: 12px;
 `;
@@ -93,6 +96,7 @@ export const DailryWrapper = styled.img`
 export const ContentWrapper = styled.div`
   width: 100%;
 `;
+
 export const WriteContentArea = styled.input`
   width: 100%;
   height: 30px;
@@ -102,14 +106,27 @@ export const WriteContentArea = styled.input`
   border: 1px bold ${COMMUNITY.line};
 `;
 
-export const TagWrapper = styled.div`
+export const TagsWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: start;
   align-items: center;
   gap: 12px;
 
   width: 100%;
+`;
+
+export const TagWrapper = styled.div`
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 4px;
+
+  padding: 0 8px;
+
+  border: 1px solid ${COMMUNITY.line};
+  border-radius: 12px;
 `;
 
 export const WriteTagArea = styled.input`
@@ -118,4 +135,10 @@ export const WriteTagArea = styled.input`
   padding: 8px;
 
   border: 1px solid ${COMMUNITY.line};}
+`;
+
+export const LikeIcon = styled(HeartIcon)`
+  width: 30px;
+  height: 30px;
+  fill: ${({ liked }) => (liked ? COMMUNITY.like : COMMUNITY.noLike)};
 `;

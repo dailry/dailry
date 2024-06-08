@@ -67,7 +67,7 @@ export const patchNickname = async (nickname) => {
     return await customAxios.patch('/members/nickname', { nickname });
   } catch (e) {
     console.error(e);
-    return e.response.data;
+    return e.response;
   }
 };
 
@@ -80,7 +80,7 @@ export const patchPassword = async (passwordData) => {
     });
   } catch (e) {
     console.error(e);
-    return e.response.data;
+    return e.response;
   }
 };
 

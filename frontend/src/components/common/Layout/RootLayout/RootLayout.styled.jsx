@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
-import { BACKGROUND } from '../../../../styles/color';
+import { Link } from 'react-router-dom';
+import { BACKGROUND, MENU } from '../../../../styles/color';
 
 export const Background = styled.div`
   display: flex;
@@ -47,4 +48,22 @@ export const BrightColoredPageTemplate = styled(DefaultPageTemplate)`
   border-radius: 8px;
   background-color: ${BACKGROUND.bright};
   box-shadow: 0 4px 4px #00000040;
+`;
+
+export const BackIconWrapper = styled.button`
+  position: fixed;
+  left: 20px;
+  top: 10px;
+
+  padding: 10px 0;
+
+  &:hover {
+    background-color: ${MENU.boxMouseOver};
+  }
+`;
+
+export const LogoWrapper = styled(Link)`
+  position: fixed;
+  left: 20px;
+  bottom: 10px;
 `;

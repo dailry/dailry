@@ -24,6 +24,14 @@ const DailryNavigation = () => {
       const response = await getDailry();
       const updatedDailryItems = response.data;
       setDailryItems(updatedDailryItems);
+      if (updatedDailryItems.length === 0) {
+        setCurrentDailry({
+          dailryId: null,
+          pageNumber: 0,
+          pageIds: [],
+        });
+        return;
+      }
       if (
         updatedDailryItems.every(
           (dailryItem) => dailryItem.dailryId !== currentDailry.dailryId,
@@ -51,6 +59,9 @@ const DailryNavigation = () => {
     const response = await postDailry({ title: '새 다일리' });
     const { dailryId } = await response.data;
     setEditingDailry(dailryId);
+    if (dailryItems.some((dailryItem) => dailryItem.dailryId === dailryId)) {
+      setCurrentDailry({ dailryId, pageNumber: 1 });
+    }
     await postPage(dailryId);
   };
 

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import * as S from './MyPage.styled';
 import Button from '../../components/common/Button/Button';
 import Text from '../../components/common/Text/Text';
@@ -36,6 +38,16 @@ const MyPage = () => {
     })();
   }, []);
 
+  const toastify = (message) => {
+    toast(message, {
+      position: 'bottom-right',
+      autoClose: 300,
+      hideProgressBar: true,
+      closeOnClick: true,
+      transition: Zoom,
+    });
+  };
+
   const handleChangeNicknameClick = () => {
     setEditingNickname(true);
   };
@@ -43,9 +55,12 @@ const MyPage = () => {
   const handleConfirmNicknameClick = async () => {
     const response = await patchNickname(nickname);
     if (response.status === 200) {
-      return setEditingNickname(false);
+      setEditingNickname(false);
+      return;
     }
-    return console.log('이미 존재하는 닉네임입니다');
+    if (response.status === 409) {
+      toastify('이미 존재하는 닉네임입니다');
+    }
   };
 
   const handleNicknameChange = (e) => {
@@ -99,6 +114,10 @@ const MyPage = () => {
     const response = await patchPassword({ updatePassword, presentPassword });
     if (response.status === 200) {
       setEditingPassword(false);
+      return;
+    }
+    if (response.status === 401) {
+      toastify('현재 비밀번호가 틀렸습니다');
     }
   };
 
