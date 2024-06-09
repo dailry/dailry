@@ -71,3 +71,13 @@ export const deleteLikes = async (postId) => {
     return e.response.data;
   }
 };
+
+export const getLikes = async (postIds) => {
+  const postIdsQuery = postIds.map((postId) => `postIds=${postId}`).join('&');
+  try {
+    return await customAxios.get(`posts/likes?${postIdsQuery}`);
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};

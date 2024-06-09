@@ -8,7 +8,7 @@ import {
   getPosts,
   postLikes,
   deleteLikes,
-  getPost,
+  getLikes,
 } from '../../apis/postApi';
 import Text from '../../components/common/Text/Text';
 import { getMember } from '../../apis/memberApi';
@@ -20,17 +20,20 @@ const CommunityPage = () => {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(true);
-  const [liked, setLiked] = useState([]);
+  const [liked, setLiked] = useState({});
   const navigate = useNavigate();
 
   const getSetPost = async () => {
     const response = await getPosts({ page, size: 5 });
     setHasNextPage(await response.data.hasNext);
     setPosts([...posts, ...(await response.data.posts)]);
-    setLiked([
-      ...liked,
-      ...new Array(await response.data.posts.length).fill(false),
+    const res = await getLikes([
+      await response.data.posts.map((post) => post.postId),
     ]);
+    setLiked({
+      ...liked,
+      ...(await res.data),
+    });
     setPage((await response.data.presentPage) + 1);
   };
 
@@ -80,31 +83,44 @@ const CommunityPage = () => {
     );
   };
 
-  const handleLikeClick = async (postId, index) => {
+  const handleLikeClick = async (postId) => {
     if (!memberId) {
       toastify('로그인 후 이용해주세요');
       return;
     }
-    if (liked[index] === false) {
-      setLiked(liked.with(index, true));
+    if (liked[postId] === false) {
       const response = await postLikes(postId);
       if (response.status === 200) {
+        setLiked({ ...liked, [postId]: true });
+        setPosts(
+          posts.map((post) => {
+            return post.postId === postId
+              ? { ...post, likeCount: post.likeCount + 1 }
+              : post;
+          }),
+        );
         toastify('좋아요 처리되었습니다');
-        const res = await getPost(postId);
-        setPosts(posts.with(index, res.data));
+        return;
       }
       if (response.status === 409) {
         toastify('이미 좋아요 처리된 게시글입니다');
+        return;
       }
+      toastify('알 수 없는 에러가 발생했습니다.');
       return;
     }
-    if (liked[index] === true) {
-      setLiked(liked.with(index, false));
+    if (liked[postId] === true) {
       const response = await deleteLikes(postId);
       if (response.status === 200) {
+        setLiked({ ...liked, [postId]: false });
+        setPosts(
+          posts.map((post) => {
+            return post.postId === postId
+              ? { ...post, likeCount: post.likeCount - 1 }
+              : post;
+          }),
+        );
         toastify('좋아요가 취소되었습니다');
-        const res = await getPost(postId);
-        setPosts(posts.with(index, res.data));
       }
     }
   };
@@ -120,7 +136,7 @@ const CommunityPage = () => {
         {/*  <button>인기순</button> */}
         {/* </S.SortWrapper> */}
       </S.HeaderWrapper>
-      {posts.map((post, index) => {
+      {posts.map((post) => {
         const {
           postId,
           content,
@@ -151,8 +167,8 @@ const CommunityPage = () => {
                   </button>
                 )}
                 <button>
-                  <S.LikeWrapper onClick={() => handleLikeClick(postId, index)}>
-                    <S.LikeIcon liked={liked[index]} />
+                  <S.LikeWrapper onClick={() => handleLikeClick(postId)}>
+                    <S.LikeIcon liked={liked[postId]} />
                     <Text>좋아요 {likeCount}</Text>
                   </S.LikeWrapper>
                 </button>
