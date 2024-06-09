@@ -45,6 +45,16 @@ export const getPosts = async (pageInfo) => {
   }
 };
 
+export const getHotPosts = async (pageInfo) => {
+  try {
+    const { page, size } = pageInfo;
+    return await customAxios.get(`/hotPosts?page=${page}&size=${size}`);
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
 export const deletePosts = async (postId) => {
   try {
     return await customAxios.delete(`posts/${postId}`);

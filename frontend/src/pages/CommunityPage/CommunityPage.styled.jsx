@@ -63,7 +63,7 @@ export const PostWrapper = styled.div`
     background-color: ${COMMUNITY.line};
   }
 
-  &:last-child::after {
+  &:nth-last-child(-n + 2)::after {
     display: none;
   }
 `;

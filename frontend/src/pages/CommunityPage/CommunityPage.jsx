@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as S from './CommunityPage.styled';
@@ -9,12 +9,15 @@ import {
   postLikes,
   deleteLikes,
   getLikes,
+  getHotPosts,
 } from '../../apis/postApi';
 import Text from '../../components/common/Text/Text';
 import { getMember } from '../../apis/memberApi';
 import { PATH_NAME } from '../../constants/routes';
 
 const CommunityPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const orderBy = searchParams.get('orderBy') || 'latest';
   const endRef = useRef(null);
   const [memberId, setMemberId] = useState('');
   const [posts, setPosts] = useState([]);
@@ -24,17 +27,23 @@ const CommunityPage = () => {
   const navigate = useNavigate();
 
   const getSetPost = async () => {
-    const response = await getPosts({ page, size: 5 });
+    const response =
+      orderBy === 'latest'
+        ? await getPosts({ page, size: 5 })
+        : await getHotPosts({ page, size: 5 });
     setHasNextPage(await response.data.hasNext);
-    setPosts([...posts, ...(await response.data.posts)]);
-    const res = await getLikes([
-      await response.data.posts.map((post) => post.postId),
-    ]);
+    const tmpPosts =
+      (await response.data.posts) || (await response.data.hotPosts);
+    setPosts([...posts, ...tmpPosts]);
+    setPage((await response.data.presentPage) + 1);
+    if (!memberId) {
+      return;
+    }
+    const res = await getLikes([tmpPosts.map((post) => post.postId)]);
     setLiked({
       ...liked,
       ...(await res.data),
     });
-    setPage((await response.data.presentPage) + 1);
   };
 
   const onIntersect = (entries) => {
@@ -44,6 +53,13 @@ const CommunityPage = () => {
       }
     });
   };
+
+  useEffect(() => {
+    setPosts([]);
+    setPage(0);
+    setHasNextPage(true);
+    setLiked({});
+  }, [searchParams]);
 
   useEffect(() => {
     (async () => {
@@ -68,6 +84,22 @@ const CommunityPage = () => {
       closeOnClick: true,
       transition: Zoom,
     });
+  };
+
+  const handleLatestClick = () => {
+    setSearchParams({ orderBy: 'latest' });
+  };
+
+  const handleHotClick = () => {
+    setSearchParams({ orderBy: 'hotPosts' });
+  };
+
+  const handleToDailryClick = () => {
+    if (!memberId) {
+      navigate(PATH_NAME.Login);
+      return;
+    }
+    navigate(PATH_NAME.Dailry);
   };
 
   const handleDeleteClick = async (postId) => {
@@ -131,59 +163,66 @@ const CommunityPage = () => {
         <Text size={24} weight={1000}>
           커뮤니티
         </Text>
-        {/* <S.SortWrapper> */}
-        {/*  <button>최신순</button> */}
-        {/*  <button>인기순</button> */}
-        {/* </S.SortWrapper> */}
+        <S.SortWrapper>
+          <button onClick={handleLatestClick}>전체게시글</button>
+          <button onClick={handleHotClick}>인기게시글</button>
+        </S.SortWrapper>
       </S.HeaderWrapper>
-      {posts.map((post) => {
-        const {
-          postId,
-          content,
-          pageImage,
-          writerId,
-          writerNickname,
-          hashtags,
-          likeCount,
-          createdTime,
-        } = post;
-        const myPost = memberId === writerId;
-        return (
-          <S.PostWrapper key={postId}>
-            <S.HeadWrapper>
-              <S.RowFlex>
-                <div>{writerNickname}</div>
-                <div>{createdTime.split('T').join(' ')}</div>
-              </S.RowFlex>
-              <S.RowFlex>
-                {myPost && (
-                  <button onClick={() => handleEditClick(postId, pageImage)}>
-                    수정
+      {posts.length === 0 ? (
+        <S.PostWrapper>
+          <div>게시글이 없습니다</div>
+          <button onClick={handleToDailryClick}>다일리 꾸미러 가기</button>
+        </S.PostWrapper>
+      ) : (
+        posts.map((post) => {
+          const {
+            postId,
+            content,
+            pageImage,
+            writerId,
+            writerNickname,
+            hashtags,
+            likeCount,
+            createdTime,
+          } = post;
+          const myPost = memberId === writerId;
+          return (
+            <S.PostWrapper key={postId}>
+              <S.HeadWrapper>
+                <S.RowFlex>
+                  <div>{writerNickname}</div>
+                  <div>{createdTime.split('T').join(' ')}</div>
+                </S.RowFlex>
+                <S.RowFlex>
+                  {myPost && (
+                    <button onClick={() => handleEditClick(postId, pageImage)}>
+                      수정
+                    </button>
+                  )}
+                  {myPost && (
+                    <button onClick={() => handleDeleteClick(postId)}>
+                      삭제
+                    </button>
+                  )}
+                  <button>
+                    <S.LikeWrapper onClick={() => handleLikeClick(postId)}>
+                      <S.LikeIcon liked={liked[postId]} />
+                      <Text>좋아요 {likeCount}</Text>
+                    </S.LikeWrapper>
                   </button>
-                )}
-                {myPost && (
-                  <button onClick={() => handleDeleteClick(postId)}>
-                    삭제
-                  </button>
-                )}
-                <button>
-                  <S.LikeWrapper onClick={() => handleLikeClick(postId)}>
-                    <S.LikeIcon liked={liked[postId]} />
-                    <Text>좋아요 {likeCount}</Text>
-                  </S.LikeWrapper>
-                </button>
-              </S.RowFlex>
-            </S.HeadWrapper>
-            <S.DailryWrapper src={pageImage} />
-            <S.ContentWrapper>{content}</S.ContentWrapper>
-            <S.TagsWrapper>
-              {hashtags.map((hashtag) => (
-                <Text key={Math.random()}>#{hashtag}</Text>
-              ))}
-            </S.TagsWrapper>
-          </S.PostWrapper>
-        );
-      })}
+                </S.RowFlex>
+              </S.HeadWrapper>
+              <S.DailryWrapper src={pageImage} />
+              <S.ContentWrapper>{content}</S.ContentWrapper>
+              <S.TagsWrapper>
+                {hashtags.map((hashtag) => (
+                  <Text key={Math.random()}>#{hashtag}</Text>
+                ))}
+              </S.TagsWrapper>
+            </S.PostWrapper>
+          );
+        })
+      )}
       <div ref={endRef}></div>
     </S.CommunityWrapper>
   );
