@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @ToString
@@ -18,5 +18,5 @@ public class PostWriteRequestDTO {
     private String content;
 
     @Size(max = 5, message = "게시글에 붙일 수 있는 해시태그는 최대 5개 입니다.")
-    private Set<String> hashtags;
+    private List<String> hashtags;
 }
