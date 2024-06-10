@@ -5,6 +5,8 @@ import {
   TextIcon,
   AddPageIcon,
   DownloadIcon,
+  SaveDailryPageIcon,
+  CommunityShareIcon,
 } from '../assets/svg';
 import { DECORATE_TYPE } from './decorateComponent';
 
@@ -47,15 +49,15 @@ export const PAGE_TOOLS = [
     type: PAGE_TOOL_TYPE.ADD,
   },
   {
-    icon: (props) => <DownloadIcon {...props} />,
-    type: PAGE_TOOL_TYPE.DOWNLOAD,
-  },
-  {
-    icon: (props) => <DownloadIcon {...props} />,
+    icon: (props) => <SaveDailryPageIcon {...props} />,
     type: PAGE_TOOL_TYPE.SAVE,
   },
   {
-    icon: (props) => <DownloadIcon {...props} />,
+    icon: (props) => <CommunityShareIcon {...props} />,
     type: PAGE_TOOL_TYPE.SHARE,
+  },
+  {
+    icon: (props) => <DownloadIcon {...props} />,
+    type: PAGE_TOOL_TYPE.DOWNLOAD,
   },
 ];

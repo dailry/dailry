@@ -77,7 +77,7 @@ export const TextWrapper = styled.div`
 
 export const InputArea = styled.input`
   flex-grow: 1;
-  width: 150px;
+  width: 120px;
 
   border: none;
   font-size: 16px;
