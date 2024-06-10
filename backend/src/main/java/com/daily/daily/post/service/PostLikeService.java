@@ -43,11 +43,11 @@ public class PostLikeService {
         saveLikeHistory(findMember, findPost);
     }
 
-    private void makeHotPostIfPossible(Post findPost) {
-        if (findPost.isHotPost()) return;
-        if (findPost.satisfyHotPostCondition()) {
-            findPost.makeHotPost();
-            hotPostRepository.save(HotPost.of(findPost));
+    private void makeHotPostIfPossible(Post post) {
+        if (post.isHotPost()) return;
+        if (post.satisfyHotPostCondition()) {
+            post.makeHotPost();
+            hotPostRepository.save(HotPost.of(post));
         }
     }
 
