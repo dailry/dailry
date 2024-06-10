@@ -59,7 +59,7 @@ export const getPostsByHashtags = async (pageInfo) => {
   try {
     const { hashtags, page, size } = pageInfo;
     return await customAxios.get(
-      `/posts?hashtags=${hashtags}&page=${page}&size=${size}`,
+      `/posts/search?hashtags=${hashtags}&page=${page}&size=${size}`,
     );
   } catch (e) {
     console.error(e);
