@@ -81,16 +81,15 @@ const CommunityPage = () => {
     const { hasNext, [condition.post]: newPost, presentPage } = response.data;
     setPostState(hasNext, [...posts, ...newPost], presentPage + 1);
 
-    if (!memberId) {
-      return;
-    }
     const res = await getLikes([
       response.data[condition.post].map((p) => p.postId),
     ]);
-    setLiked({
-      ...liked,
-      ...(await res.data),
-    });
+    if (res.status === 200) {
+      setLiked({
+        ...liked,
+        ...(await res.data),
+      });
+    }
   };
 
   const onIntersect = (entries) => {
