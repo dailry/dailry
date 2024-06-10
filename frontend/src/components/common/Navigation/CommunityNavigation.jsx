@@ -17,7 +17,6 @@ const CommunityNavigation = () => {
     (async () => {
       const response = await getHotHashtags();
       setHotHashtags(response.data.hashtags.map((hashtag) => hashtag.tagName));
-      setHotHashtags(['일반', '테스트', '태그']);
     })();
   }, []);
 
