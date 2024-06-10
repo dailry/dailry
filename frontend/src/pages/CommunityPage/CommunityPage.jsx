@@ -69,9 +69,10 @@ const CommunityPage = () => {
   };
 
   const getSetPost = async () => {
-    const condition = conditions.find((c) => {
-      return c.value(searchParams.get(c.parameter));
-    });
+    const condition =
+      conditions.find((c) => {
+        return c.value(searchParams.get(c.parameter));
+      }) || conditions[1];
     const response = await condition.api();
     if (response.status !== 200) {
       toastify('알 수 없는 오류가 발생했습니다');
