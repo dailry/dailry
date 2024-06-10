@@ -72,7 +72,7 @@ export const HeadWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
 
   width: 100%;
 `;
@@ -80,6 +80,7 @@ export const HeadWrapper = styled.div`
 export const RowFlex = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: start;
   gap: 8px;
 `;
 
