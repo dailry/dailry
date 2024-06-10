@@ -10,6 +10,7 @@ import {
   deleteLikes,
   getLikes,
   getHotPosts,
+  getPostsByHashtags,
 } from '../../apis/postApi';
 import Text from '../../components/common/Text/Text';
 import { getMember } from '../../apis/memberApi';
@@ -17,7 +18,6 @@ import { PATH_NAME } from '../../constants/routes';
 
 const CommunityPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const orderBy = searchParams.get('orderBy') || 'latest';
   const endRef = useRef(null);
   const [memberId, setMemberId] = useState('');
   const [posts, setPosts] = useState([]);
@@ -26,20 +26,66 @@ const CommunityPage = () => {
   const [liked, setLiked] = useState({});
   const navigate = useNavigate();
 
+  const toastify = (message) => {
+    toast(message, {
+      position: 'bottom-right',
+      autoClose: 300,
+      hideProgressBar: true,
+      closeOnClick: true,
+      transition: Zoom,
+    });
+  };
+
+  const conditions = [
+    {
+      parameter: 'hashtag',
+      value: (val) => val !== null,
+      api: () =>
+        getPostsByHashtags({
+          hashtags: searchParams.get('hashtag'),
+          page,
+          size: 5,
+        }),
+      post: 'posts',
+    },
+    {
+      parameter: 'orderBy',
+      value: (val) => val === 'latest',
+      api: () => getPosts({ page, size: 5 }),
+      post: 'posts',
+    },
+    {
+      parameter: 'orderBy',
+      value: (val) => val === 'hotPosts',
+      api: () => getHotPosts({ page, size: 5 }),
+      post: 'hotPosts',
+    },
+  ];
+
+  const setPostState = (hasNext = true, newPosts = [], newPage = 0) => {
+    setHasNextPage(hasNext);
+    setPosts(newPosts);
+    setPage(newPage);
+  };
+
   const getSetPost = async () => {
-    const response =
-      orderBy === 'latest'
-        ? await getPosts({ page, size: 5 })
-        : await getHotPosts({ page, size: 5 });
-    setHasNextPage(await response.data.hasNext);
-    const tmpPosts =
-      (await response.data.posts) || (await response.data.hotPosts);
-    setPosts([...posts, ...tmpPosts]);
-    setPage((await response.data.presentPage) + 1);
+    const condition = conditions.find((c) => {
+      return c.value(searchParams.get(c.parameter));
+    });
+    const response = await condition.api();
+    if (response.status !== 200) {
+      toastify('알 수 없는 오류가 발생했습니다');
+      return;
+    }
+    const { hasNext, [condition.post]: newPost, presentPage } = response.data;
+    setPostState(hasNext, [...posts, ...newPost], presentPage + 1);
+
     if (!memberId) {
       return;
     }
-    const res = await getLikes([tmpPosts.map((post) => post.postId)]);
+    const res = await getLikes([
+      response.data[condition.post].map((p) => p.postId),
+    ]);
     setLiked({
       ...liked,
       ...(await res.data),
@@ -55,9 +101,7 @@ const CommunityPage = () => {
   };
 
   useEffect(() => {
-    setPosts([]);
-    setPage(0);
-    setHasNextPage(true);
+    setPostState();
     setLiked({});
   }, [searchParams]);
 
@@ -75,16 +119,6 @@ const CommunityPage = () => {
     observer.observe(endRef.current);
     return () => observer.disconnect();
   }, [endRef, page]);
-
-  const toastify = (message) => {
-    toast(message, {
-      position: 'bottom-right',
-      autoClose: 300,
-      hideProgressBar: true,
-      closeOnClick: true,
-      transition: Zoom,
-    });
-  };
 
   const handleLatestClick = () => {
     setSearchParams({ orderBy: 'latest' });

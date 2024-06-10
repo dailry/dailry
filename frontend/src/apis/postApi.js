@@ -55,6 +55,18 @@ export const getHotPosts = async (pageInfo) => {
   }
 };
 
+export const getPostsByHashtags = async (pageInfo) => {
+  try {
+    const { hashtags, page, size } = pageInfo;
+    return await customAxios.get(
+      `/posts?hashtags=${hashtags}&page=${page}&size=${size}`,
+    );
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
 export const deletePosts = async (postId) => {
   try {
     return await customAxios.delete(`posts/${postId}`);
