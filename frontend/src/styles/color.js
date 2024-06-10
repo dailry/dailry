@@ -73,5 +73,6 @@ export const COMMUNITY = Object.freeze({
   line: '#616161',
   noLike: '#9d9d9d',
   like: '#fb8d8d',
+  delete: '#ff0000',
   default: '#000000',
 });

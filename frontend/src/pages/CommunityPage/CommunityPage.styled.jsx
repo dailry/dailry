@@ -129,6 +129,10 @@ export const TagWrapper = styled.div`
   border-radius: 12px;
 `;
 
+export const TagDeleteButton = styled.button`
+  color: ${COMMUNITY.delete};
+`;
+
 export const WriteTagArea = styled.input`
   width: 120px;
   height: 30px;

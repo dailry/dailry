@@ -108,7 +108,9 @@ const CommunityWritePage = () => {
         {[...hashtags].map((hashtag) => (
           <S.TagWrapper key={Math.random()}>
             <Text>#{hashtag}</Text>
-            <button onClick={() => handleTagDelClick(hashtag)}>x</button>
+            <S.TagDeleteButton onClick={() => handleTagDelClick(hashtag)}>
+              x
+            </S.TagDeleteButton>
           </S.TagWrapper>
         ))}
         <S.WriteTagArea
