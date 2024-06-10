@@ -25,7 +25,6 @@ public class HashtagService {
     private final HashtagRepository hashtagRepository;
 
     private final HotHashtagRepository hotHashtagRepository;
-
     private List<HotHashtag> hotHashtags;
 
     public void addHashtagsToPost(Post post, Set<String> hashtags) {
@@ -66,7 +65,12 @@ public class HashtagService {
 
     @Scheduled(cron = "0 0 * * * *") // 매 시 정각마다 실행
     public void findAndUpdateHotHashTags() {
-        hotHashtags = hotHashtagRepository.findHotHashTags();
+        List<HotHashtag> findHotHashtags = hotHashtagRepository.findHotHashTags();
+        if (findHotHashtags.isEmpty()) {
+            return;
+        }
+
+        this.hotHashtags = findHotHashtags;
         hotHashtagRepository.saveAll(hotHashtags);
     }
 
