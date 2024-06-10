@@ -91,3 +91,12 @@ export const getLikes = async (postIds) => {
     return e.response.data;
   }
 };
+
+export const getHotHashtags = async () => {
+  try {
+    return await customAxios.get('/posts/hotHashtags');
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
