@@ -18,7 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.net.URI;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static com.daily.daily.member.fixture.MemberFixture.일반회원1;
@@ -72,7 +72,7 @@ class PostServiceTest {
             verify(postRepository, times(1)).save(any());
             verify(hashtagService, times(1)).addHashtagsToPost(일반회원1이_작성한_게시글, 게시글_작성_요청_DTO.getHashtags());
             assertThat(result.getPageImage()).isEqualTo("post/3-awef-123-124-wafewe123123_asdf.png");
-            assertThat(new HashSet<>(result.getHashtags())).isEqualTo(게시글_작성_요청_DTO.getHashtags());
+            assertThat(new ArrayList<>(result.getHashtags())).isEqualTo(게시글_작성_요청_DTO.getHashtags());
         }
     }
 
