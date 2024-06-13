@@ -13,8 +13,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -69,5 +72,31 @@ public class PostRepositoryTest extends JpaTest {
         assertThat(hashtagRepository.findByTagName("일반").isPresent()).isTrue();
         assertThat(hashtagRepository.findByTagName("대학생").isPresent()).isTrue();
         assertThat(hashtagRepository.findByTagName("주말").isPresent()).isTrue();
+    }
+
+
+    @Test
+    @DisplayName("해시태그로 POST 를 검색하는 기능을 테스트한다. 이 때, 검색조건으로 들어온 해시태그중 하나라도 포함하는 게시글을 조회한다.")
+    void findPostsByHashtag() {
+        //given
+        Post searchedPost1 = postGenerator.generate();
+        hashtagGenerator.generate(searchedPost1, "해시태그1", "해시태그2", "해시태그3");
+
+        Post searchedPost2 = postGenerator.generate();
+        hashtagGenerator.generate(searchedPost2, "ㅇㅂㅇ", "해시태그3", "ㅇㅅㅇ");
+
+        Post unSearchedPost = postGenerator.generate();
+        hashtagGenerator.generate(unSearchedPost, "이해시태그는검색할수업서서서");
+
+        testEntityManager.flush();
+        testEntityManager.clear();
+
+        //when
+        Slice<Post> findPosts = postRepository.findPostsByHashtag(List.of("해시태그2", "해시태그3"), Pageable.ofSize(5));
+
+        //then
+        assertThat(findPosts).anyMatch(findPost -> Objects.equals(findPost.getId(), searchedPost1.getId()));
+        assertThat(findPosts).anyMatch(findPost -> Objects.equals(findPost.getId(), searchedPost2.getId()));
+        assertThat(findPosts).allMatch(findPost -> !Objects.equals(findPost.getId(), unSearchedPost.getId()));
     }
 }

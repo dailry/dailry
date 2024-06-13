@@ -15,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -33,7 +32,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         Cookie[] cookies = request.getCookies();
-        if(cookies == null || !isPresentAccessToken(cookies))
+        if(cookies == null || !existAccessToken(cookies))
         {
             filterChain.doFilter(request, response);
             return;
@@ -42,7 +41,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String accessToken = extractCookie(cookies, "AccessToken");
         String refreshToken = extractCookie(cookies, "RefreshToken");
 
-        if(!hasValidAuthCookie(accessToken) || !hasValidAuthCookie(refreshToken)) {
+        if (!jwtUtil.validateToken(accessToken) || !jwtUtil.validateToken(refreshToken)) {
             writeErrorResponse(response);
             return;
         }
@@ -51,16 +50,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             accessToken = tokenService.renewToken(response, accessToken, refreshToken);
         }
 
-        if (!jwtUtil.validateToken(accessToken) || !jwtUtil.validateToken(refreshToken)) {
-            writeErrorResponse(response);
-            return;
-        }
-
         setAuthInSecurityContext(accessToken);
         filterChain.doFilter(request, response);
     }
 
-    private boolean isPresentAccessToken(Cookie[] authCookies) {
+    private boolean existAccessToken(Cookie[] authCookies) {
         return Arrays.stream(authCookies)
                 .anyMatch(name -> name.getName().equals("AccessToken"));
     }
@@ -70,10 +64,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         response.setStatus(403);
         response.setContentType("application/json; charset=UTF-8");
         response.getWriter().write(objectMapper.writeValueAsString(exceptionResponseDto));
-    }
-
-    private boolean hasValidAuthCookie(String cookie) {
-        return StringUtils.hasText(cookie);
     }
 
     private void setAuthInSecurityContext(String accessToken) {
@@ -90,7 +80,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private String extractCookie(Cookie[] cookies, String cookieName) {
         return Arrays.stream(cookies)
-                .filter(name -> name.getName().equals("AccessToken"))
+                .filter(name -> name.getName().equals(cookieName))
                 .findFirst()
                 .get()
                 .getValue();

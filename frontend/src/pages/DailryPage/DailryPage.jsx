@@ -7,7 +7,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import * as S from './DailryPage.styled';
 import Text from '../../components/common/Text/Text';
-import { DECORATE_TOOLS, PAGE_TOOLS } from '../../constants/toolbar';
+import ToolButton from '../../components/ToolButton/ToolButton';
+import {
+  DECORATE_TOOLS,
+  DECORATE_TOOLS_TOOLTIP,
+  PAGE_TOOLS,
+  PAGE_TOOLS_TOOLTIP,
+} from '../../constants/toolbar';
+import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
 import { useDailryContext } from '../../hooks/useDailryContext';
 import { postPage, getPages, patchPage, getPage } from '../../apis/dailryApi';
 import { DECORATE_TYPE, EDIT_MODE } from '../../constants/decorateComponent';
@@ -24,7 +31,7 @@ import usePageData from '../../hooks/usePageData';
 import { useModalContext } from '../../hooks/useModalContext';
 import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
 import { PATH_NAME } from '../../constants/routes';
-import ToolButton from '../../components/ToolButton/ToolButton';
+import Tooltip from '../../components/common/Tooltip/Tooltip';
 
 console.log(process.env.API_URI);
 
@@ -104,20 +111,22 @@ const DailryPage = () => {
 
   useEffect(() => {
     (async () => {
-      const { status, data } = await getPages(dailryId);
+      if (dailryId) {
+        const { status, data } = await getPages(dailryId);
 
-      if (status === 200 && data.pages.length !== 0) {
-        const { pages } = data;
-        console.log(pages);
-        setPageList(pages);
-        const pageIdList = pages.map((page) => page.pageId);
-        setCurrentDailry({
-          ...currentDailry,
-          pageIds: pageIdList,
-          pageNumber: pageNumber ?? (pageIds.length === 0 ? 1 : null),
-        });
+        if (status === 200 && data.pages.length !== 0) {
+          const { pages } = data;
+          console.log(pages);
+          setPageList(pages);
+          const pageIdList = pages.map((page) => page.pageId);
+          setCurrentDailry({
+            ...currentDailry,
+            pageIds: pageIdList,
+            pageNumber: pageNumber ?? (pageIds.length === 0 ? 1 : null),
+          });
 
-        return setHavePage(true);
+          return setHavePage(true);
+        }
       }
 
       return setHavePage(false);
@@ -126,20 +135,22 @@ const DailryPage = () => {
 
   useEffect(() => {
     (async () => {
-      setDecorateComponents([]);
-      const page = await getPage(pageIds[pageNumber - 1]);
+      if (dailryId) {
+        setDecorateComponents([]);
+        const page = await getPage(pageIds[pageNumber - 1]);
 
-      if (page.data?.elements.length > 0) {
-        const datas = page.data?.elements.map((i) => ({
-          ...i,
-          initialStyle: {
-            ...i.initialStyle,
-            position: i?.position,
-            size: i?.size,
-            rotation: i?.rotation,
-          },
-        }));
-        setDecorateComponents(datas);
+        if (page.data?.elements.length > 0) {
+          const datas = page.data?.elements.map((i) => ({
+            ...i,
+            initialStyle: {
+              ...i.initialStyle,
+              position: i?.position,
+              size: i?.size,
+              rotation: i?.rotation,
+            },
+          }));
+          setDecorateComponents(datas);
+        }
       }
     })();
   }, [pageIds, pageNumber]);
@@ -326,7 +337,9 @@ const DailryPage = () => {
     },
     download: () => {},
     share: (page) => {
-      navigate(`${PATH_NAME.CommunityWrite}?pageImage=${page.thumbnail}`);
+      navigate(
+        `${PATH_NAME.CommunityWrite}?type=post&pageImage=${page.thumbnail}`,
+      );
     },
   };
 
@@ -429,12 +442,13 @@ const DailryPage = () => {
               }
             };
             return (
-              <ToolButton
-                key={index}
-                icon={icon}
-                selected={selectedTool === type}
-                onSelect={() => onSelect(type)}
-              />
+              <Tooltip key={index} text={DECORATE_TOOLS_TOOLTIP[type]}>
+                <ToolButton
+                  icon={icon}
+                  selected={selectedTool === type}
+                  onSelect={() => onSelect(type)}
+                />
+              </Tooltip>
             );
           })}
           {PAGE_TOOLS.map(({ icon, type }, index) => {
@@ -486,14 +500,25 @@ const DailryPage = () => {
               if (t === 'save') {
                 patchPageData();
               }
+              if (t === 'share') {
+                const currentPageThumbnail = pageList.find(
+                  (page) => page.pageNumber === currentDailry.pageNumber,
+                ).thumbnail;
+
+                navigate(
+                  `${PATH_NAME.CommunityWrite}?type=post&pageImage=${currentPageThumbnail}`,
+                );
+              }
             };
             return (
-              <ToolButton
-                key={index}
-                icon={icon}
-                selected={selectedTool === type}
-                onSelect={() => onSelect(type)}
-              />
+              <Tooltip key={index} text={PAGE_TOOLS_TOOLTIP[type]}>
+                <ToolButton
+                  key={index}
+                  icon={icon}
+                  selected={selectedTool === type}
+                  onSelect={() => onSelect(type)}
+                />
+              </Tooltip>
             );
           })}
         </S.ToolWrapper>

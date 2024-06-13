@@ -5,7 +5,11 @@ import com.daily.daily.post.domain.Hashtag;
 import com.daily.daily.post.domain.HotHashtag;
 import com.daily.daily.post.domain.Post;
 import com.daily.daily.post.domain.PostHashtag;
-import com.daily.daily.post.dto.*;
+import com.daily.daily.post.dto.HotHashtagReadListResponseDTO;
+import com.daily.daily.post.dto.PostReadResponseDTO;
+import com.daily.daily.post.dto.PostReadSliceResponseDTO;
+import com.daily.daily.post.dto.PostWriteRequestDTO;
+import com.daily.daily.post.dto.PostWriteResponseDTO;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,7 +17,6 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static com.daily.daily.member.fixture.MemberFixture.일반회원1;
@@ -33,7 +36,7 @@ public class PostFixture {
             .toList();
 
     public static PostWriteRequestDTO 게시글_요청_DTO() {
-        return new PostWriteRequestDTO(POST_CONTENT, new HashSet<>(HASHTAG_NAMES));
+        return new PostWriteRequestDTO(POST_CONTENT, new ArrayList<>(HASHTAG_NAMES));
     }
 
     public static PostWriteResponseDTO 게시글_작성_응답_DTO() {

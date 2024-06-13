@@ -16,6 +16,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -39,11 +43,11 @@ public class PostLikeService {
         saveLikeHistory(findMember, findPost);
     }
 
-    private void makeHotPostIfPossible(Post findPost) {
-        if (findPost.isHotPost()) return;
-        if (findPost.satisfyHotPostCondition()) {
-            findPost.makeHotPost();
-            hotPostRepository.save(HotPost.of(findPost));
+    private void makeHotPostIfPossible(Post post) {
+        if (post.isHotPost()) return;
+        if (post.satisfyHotPostCondition()) {
+            post.makeHotPost();
+            hotPostRepository.save(HotPost.of(post));
         }
     }
 
@@ -63,5 +67,15 @@ public class PostLikeService {
         findPost.decreaseLikeCount();
         postRepository.saveAndFlush(findPost); // 낙관적 락 예외 가능성 존재
         likeRepository.delete(like);
+    }
+
+    public Map<Long, Boolean> getLikeStatus(Long memberId, List<Long> postIds) {
+        List<PostLike> postLikes = likeRepository.findByMemberIdAndPostIds(memberId, postIds);
+
+        Map<Long, Boolean> result = new HashMap<>();
+
+        postLikes.forEach(postLike -> result.put(postLike.getPostId(), true));
+        postIds.forEach(postId -> result.putIfAbsent(postId, false));
+        return result;
     }
 }

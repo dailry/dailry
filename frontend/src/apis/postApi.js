@@ -13,6 +13,28 @@ export const postPosts = async (postData) => {
   }
 };
 
+export const postEditedPosts = async (postId, postData) => {
+  try {
+    return await customAxios.post(`posts/${postId}/edit`, postData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
+export const getPost = async (postId) => {
+  try {
+    return await customAxios.get(`/posts/${postId}`);
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
 export const getPosts = async (pageInfo) => {
   try {
     const { page, size } = pageInfo;
@@ -26,6 +48,24 @@ export const getPosts = async (pageInfo) => {
 export const deletePosts = async (postId) => {
   try {
     return await customAxios.delete(`posts/${postId}`);
+  } catch (e) {
+    console.error(e);
+    return e.response.data;
+  }
+};
+
+export const postLikes = async (postId) => {
+  try {
+    return await customAxios.post(`posts/${postId}/likes`);
+  } catch (e) {
+    console.error(e);
+    return e.response;
+  }
+};
+
+export const deleteLikes = async (postId) => {
+  try {
+    return await customAxios.delete(`posts/${postId}/likes`);
   } catch (e) {
     console.error(e);
     return e.response.data;

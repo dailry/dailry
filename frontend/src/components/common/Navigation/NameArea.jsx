@@ -9,7 +9,12 @@ const NameArea = () => {
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
-    getMember().then((response) => setUserInfo(response.data));
+    (async () => {
+      const response = await getMember();
+      if (response.status === 200) {
+        setUserInfo(response.data);
+      }
+    })();
   }, []);
 
   if (userInfo) {
