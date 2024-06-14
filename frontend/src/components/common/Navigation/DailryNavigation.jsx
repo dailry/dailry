@@ -21,12 +21,12 @@ const DailryNavigation = (props) => {
   useEffect(() => {
     (async () => {
       const response = await getDailry();
-      setDailrys([response.data]);
+      setDailrys(response.data);
     })();
   }, [editingDailry]);
 
   const handleItemClick = async (targetId) => {
-    navigate(`${PATH_NAME.Dailry}/${currentDailryId}/${targetId}`);
+    navigate(`${PATH_NAME.Dailry}/${targetId}/1`);
   };
 
   const isCurrent = (id) => {
@@ -79,7 +79,7 @@ const DailryNavigation = (props) => {
 };
 
 DailryNavigation.propTypes = {
-  currentDailryId: PropTypes.string,
+  currentDailryId: PropTypes.number,
 };
 
 export default DailryNavigation;
