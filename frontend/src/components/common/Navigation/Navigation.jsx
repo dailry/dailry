@@ -10,7 +10,9 @@ const Navigation = () => {
 
   return (
     <>
-      {location.pathname.startsWith(PATH_NAME.Dailry) && <DailryNavigation />}
+      {location.pathname.startsWith(PATH_NAME.Dailry) && (
+        <DailryNavigation currentDailryId={103} />
+      )}
       {location.pathname.startsWith(PATH_NAME.Community) && (
         <CommunityNavigation />
       )}
