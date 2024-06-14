@@ -1,67 +1,42 @@
+// 하는일: 여러 다일리 이동, 삭제, 이름바꾸기, 공유 => 여러 다일리의 id
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import * as S from './Navigation.styled';
 import NameArea from './NameArea';
 import Text from '../Text/Text';
 import NavigationItem from '../NavigationItem/NavigationItem';
 import NavigationInput from '../NavigationItem/NavigationInput';
 import { NavigationItemIcon } from '../../../assets/svg';
-import {
-  getDailry,
-  getPreviewPages,
-  postDailry,
-  postPage,
-} from '../../../apis/dailryApi';
-import { useDailryContext } from '../../../hooks/useDailryContext';
+import { getDailry, postDailry, postPage } from '../../../apis/dailryApi';
 import DailryHamburger from '../Hamburger/DailryHamburger';
+import { PATH_NAME } from '../../../constants/routes';
 
-const DailryNavigation = () => {
-  const [dailryItems, setDailryItems] = useState([]);
+const DailryNavigation = (props) => {
+  const { currentDailryId } = props;
+  const [dailrys, setDailrys] = useState([]);
   const [editingDailry, setEditingDailry] = useState(null);
-  const { currentDailry, setCurrentDailry } = useDailryContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
       const response = await getDailry();
-      const updatedDailryItems = response.data;
-      setDailryItems(updatedDailryItems);
-      if (updatedDailryItems.length === 0) {
-        setCurrentDailry({
-          dailryId: null,
-          pageNumber: 0,
-          pageIds: [],
-        });
-        return;
-      }
-      if (
-        updatedDailryItems.every(
-          (dailryItem) => dailryItem.dailryId !== currentDailry.dailryId,
-        )
-      ) {
-        setCurrentDailry({
-          ...currentDailry,
-          dailryId: updatedDailryItems[0].dailryId,
-        });
-      }
+      setDailrys([response.data]);
     })();
   }, [editingDailry]);
 
-  const handleItemClick = async (dailryId) => {
-    const response = await getPreviewPages(dailryId);
-    const pageIds = response.data.pages.map(({ pageId }) => pageId);
-    setCurrentDailry({ dailryId, pageNumber: 1, pageIds });
+  const handleItemClick = async (targetId) => {
+    navigate(`${PATH_NAME.Dailry}/${currentDailryId}/${targetId}`);
   };
 
   const isCurrent = (id) => {
-    return currentDailry.dailryId === id;
+    return currentDailryId === id;
   };
 
   const handleAddClick = async () => {
     const response = await postDailry({ title: '새 다일리' });
     const { dailryId } = await response.data;
     setEditingDailry(dailryId);
-    if (dailryItems.some((dailryItem) => dailryItem.dailryId === dailryId)) {
-      setCurrentDailry({ dailryId, pageNumber: 1 });
-    }
     await postPage(dailryId);
   };
 
@@ -70,7 +45,7 @@ const DailryNavigation = () => {
       <NameArea />
       <S.Line />
       <Text css={S.ItemName}>My Dailry</Text>
-      {dailryItems.map(({ dailryId, title }) => {
+      {dailrys.map(({ dailryId, title }) => {
         if (editingDailry === dailryId) {
           return (
             <NavigationInput
@@ -101,6 +76,10 @@ const DailryNavigation = () => {
       <S.AddDailry onClick={handleAddClick}>+ 새 다일리 만들기</S.AddDailry>
     </S.NavigationWrapper>
   );
+};
+
+DailryNavigation.propTypes = {
+  currentDailryId: PropTypes.string,
 };
 
 export default DailryNavigation;
