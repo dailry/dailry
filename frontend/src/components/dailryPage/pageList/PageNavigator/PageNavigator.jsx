@@ -7,7 +7,7 @@ import { useDailryContext } from '../../../../hooks/useDailryContext';
 import * as S from './PageNavigator.styled';
 import 'react-toastify/dist/ReactToastify.css';
 import { useModalContext } from '../../../../hooks/useModalContext';
-import { getPages } from '../../../../apis/dailryApi';
+import { getPreviewPages } from '../../../../apis/dailryApi';
 import { PATH_NAME } from '../../../../constants/routes';
 
 const PageNavigator = () => {
@@ -59,10 +59,11 @@ const PageNavigator = () => {
   };
   useEffect(() => {
     (async () => {
-      const { status, data } = await getPages(dailryId);
-
+      const { status, data } = await getPreviewPages(dailryId);
+      console.log(data);
       if (status === 200 && data.pages.length !== 0) {
         const { pages } = data;
+
         setPageList(pages);
         const pageIdList = pages.map((page) => page.pageId);
         setCurrentDailry({
@@ -72,7 +73,7 @@ const PageNavigator = () => {
         });
       }
     })();
-  }, [dailryId, pageNumber, modalType]);
+  }, [dailryId, pageNumber]);
 
   return (
     <S.ArrowWrapper>

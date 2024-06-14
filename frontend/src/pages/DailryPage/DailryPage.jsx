@@ -14,7 +14,7 @@ import {
   PAGE_TOOLS_TOOLTIP,
 } from '../../constants/toolbar';
 import { useDailryContext } from '../../hooks/useDailryContext';
-import { postPage, patchPage, getPage, getPages } from '../../apis/dailryApi';
+import { postPage, patchPage } from '../../apis/dailryApi';
 import { DECORATE_TYPE, EDIT_MODE } from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
@@ -26,9 +26,9 @@ import { TEXT } from '../../styles/color';
 import MoveableComponent from '../../components/Moveable/Moveable';
 import usePageData from '../../hooks/usePageData';
 import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
-import { PATH_NAME } from '../../constants/routes';
 import Tooltip from '../../components/common/Tooltip/Tooltip';
 import PageNavigator from '../../components/dailryPage/pageList/PageNavigator/PageNavigator';
+import { PATH_NAME } from '../../constants/routes';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -38,7 +38,6 @@ const DailryPage = () => {
   const [target, setTarget] = useState(null);
 
   const [selectedTool, setSelectedTool] = useState(null);
-  const [pageList, setPageList] = useState([]);
 
   const { currentDailry, setCurrentDailry } = useDailryContext();
 
@@ -101,48 +100,6 @@ const DailryPage = () => {
 
     setTarget(null);
   };
-
-  useEffect(() => {
-    (async () => {
-      if (dailryId) {
-        const { status, data } = await getPages(dailryId);
-
-        if (status === 200 && data.pages.length !== 0) {
-          const { pages } = data;
-          console.log(pages);
-          setPageList(pages);
-          const pageIdList = pages.map((page) => page.pageId);
-          setCurrentDailry({
-            ...currentDailry,
-            pageIds: pageIdList,
-            pageNumber: pageNumber ?? (pageIds.length === 0 ? 1 : null),
-          });
-        }
-      }
-    })();
-  }, [dailryId, pageNumber]);
-
-  useEffect(() => {
-    (async () => {
-      if (dailryId) {
-        setDecorateComponents([]);
-        const page = await getPage(pageIds[pageNumber - 1]);
-
-        if (page.data?.elements.length > 0) {
-          const datas = page.data?.elements.map((i) => ({
-            ...i,
-            initialStyle: {
-              ...i.initialStyle,
-              position: i?.position,
-              size: i?.size,
-              rotation: i?.rotation,
-            },
-          }));
-          setDecorateComponents(datas);
-        }
-      }
-    })();
-  }, [pageIds, pageNumber]);
 
   const patchPageData = () => {
     setTarget(null);
@@ -408,13 +365,12 @@ const DailryPage = () => {
                 patchPageData();
               }
               if (t === 'share') {
-                const currentPageThumbnail = pageList.find(
-                  (page) => page.pageNumber === currentDailry.pageNumber,
-                ).thumbnail;
-
-                navigate(
-                  `${PATH_NAME.CommunityWrite}?type=post&pageImage=${currentPageThumbnail}`,
-                );
+                // const currentPageThumbnail = pageList.find(
+                //   (page) => page.pageNumber === currentDailry.pageNumber,
+                // ).thumbnail;
+                // navigate(
+                //   `${PATH_NAME.CommunityWrite}?type=post&pageImage=${currentPageThumbnail}`,
+                // );
               }
             };
             return (

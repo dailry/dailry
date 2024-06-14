@@ -7,7 +7,7 @@ import NavigationInput from '../NavigationItem/NavigationInput';
 import { NavigationItemIcon } from '../../../assets/svg';
 import {
   getDailry,
-  getPages,
+  getPreviewPages,
   postDailry,
   postPage,
 } from '../../../apis/dailryApi';
@@ -46,7 +46,7 @@ const DailryNavigation = () => {
   }, [editingDailry]);
 
   const handleItemClick = async (dailryId) => {
-    const response = await getPages(dailryId);
+    const response = await getPreviewPages(dailryId);
     const pageIds = response.data.pages.map(({ pageId }) => pageId);
     setCurrentDailry({ dailryId, pageNumber: 1, pageIds });
   };

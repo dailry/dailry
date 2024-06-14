@@ -49,7 +49,7 @@ export const patchDailry = async (dailryData) => {
   }
 };
 
-export const getPages = async (dailryId) => {
+export const getPreviewPages = async (dailryId) => {
   try {
     return await customAxios.get(`/dailry/${dailryId}/pages`);
   } catch (e) {
