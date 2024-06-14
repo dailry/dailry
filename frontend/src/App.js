@@ -17,7 +17,10 @@ const App = () => {
     <Routes>
       <Route path={PATH_NAME.Home} element={<HomePage />} />
       <Route element={<RootLayout />}>
-        <Route path={PATH_NAME.Dailry} element={<DailryPage />} />
+        <Route
+          path={`${PATH_NAME.Dailry}/:dailryId/:pageNumber`}
+          element={<DailryPage />}
+        />
         <Route path={PATH_NAME.MyPage} element={<MyPage />} />
       </Route>
       <Route element={<RootLayout templateSize={'half'} />}>
