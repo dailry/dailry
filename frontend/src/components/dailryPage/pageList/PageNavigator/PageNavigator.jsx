@@ -1,6 +1,5 @@
 // 이 컴포넌트가 하는 일 : 이전/다음 페이지 넘기기, 프리뷰 보여주기 => 현재 다일리의 정보 필요
 import { toast, Zoom } from 'react-toastify';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PageListModal from '../PageListModal/PageListModal';
@@ -8,23 +7,13 @@ import { LeftArrowIcon, RightArrowIcon } from '../../../../assets/svg';
 import * as S from './PageNavigator.styled';
 import 'react-toastify/dist/ReactToastify.css';
 import { useModalContext } from '../../../../hooks/useModalContext';
-import { getPreviewPages } from '../../../../apis/dailryApi';
 import { PATH_NAME } from '../../../../constants/routes';
 
 const PageNavigator = (props) => {
-  const { dailryId, pageNumber } = props;
-  const [pages, setPages] = useState([]);
+  const { dailryData, pageNumber } = props;
+  const { dailryId, pages } = dailryData;
   const navigate = useNavigate();
   const { modalType, setModalType, closeModal } = useModalContext();
-
-  useEffect(() => {
-    (async () => {
-      const { status, data } = await getPreviewPages(dailryId);
-      if (status === 200 && data.pages.length !== 0) {
-        setPages(data.pages);
-      }
-    })();
-  }, [dailryId]);
 
   const handleModalSelect = {
     select: (page) => {
@@ -84,7 +73,10 @@ const PageNavigator = (props) => {
 };
 
 PageNavigator.propTypes = {
-  dailryId: PropTypes.string.isRequired,
+  dailryData: PropTypes.shape({
+    dailryId: PropTypes.string.isRequired,
+    pages: PropTypes.array.isRequired,
+  }).isRequired,
   pageNumber: PropTypes.number.isRequired,
 };
 
