@@ -74,10 +74,10 @@ const PageNavigator = (props) => {
 
 PageNavigator.propTypes = {
   dailryData: PropTypes.shape({
-    dailryId: PropTypes.string.isRequired,
+    dailryId: PropTypes.number.isRequired,
     pages: PropTypes.array.isRequired,
   }).isRequired,
-  pageNumber: PropTypes.string.isRequired,
+  pageNumber: PropTypes.number.isRequired,
 };
 
 export default PageNavigator;

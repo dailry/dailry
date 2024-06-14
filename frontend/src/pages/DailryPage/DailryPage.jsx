@@ -1,6 +1,6 @@
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
 import { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,6 +27,7 @@ import usePageData from '../../hooks/usePageData';
 import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
 import Tooltip from '../../components/common/Tooltip/Tooltip';
 import PageNavigator from '../../components/dailryPage/pageList/PageNavigator/PageNavigator';
+import { PATH_NAME } from '../../constants/routes';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -36,8 +37,10 @@ const DailryPage = () => {
   const [selectedTool, setSelectedTool] = useState(null);
   const [dailryData, setDailryData] = useState([]);
 
+  const navigate = useNavigate();
   const params = useParams();
-  const { dailryId, pageNumber } = params;
+  const dailryId = Number(params.dailryId);
+  const pageNumber = Number(params.pageNumber);
 
   const {
     decorateComponents,
@@ -362,11 +365,6 @@ const DailryPage = () => {
                 }
                 setUpdatedDecorateComponents([]);
                 await postPage(dailryId);
-                // setCurrentDailry({
-                //   ...currentDailry,
-                //   pageId: response.data.pageId,
-                //   pageNumber: response.data.pageNumber,
-                // });
               }
               if (t === 'download') {
                 await handleDownloadClick();
@@ -375,12 +373,12 @@ const DailryPage = () => {
                 patchPageData();
               }
               if (t === 'share') {
-                // const currentPageThumbnail = pageList.find(
-                //   (page) => page.pageNumber === currentDailry.pageNumber,
-                // ).thumbnail;
-                // navigate(
-                //   `${PATH_NAME.CommunityWrite}?type=post&pageImage=${currentPageThumbnail}`,
-                // );
+                const currentPageThumbnail = dailryData.find(
+                  (page) => page.pageNumber === pageNumber,
+                ).thumbnail;
+                navigate(
+                  `${PATH_NAME.CommunityWrite}?type=post&pageImage=${currentPageThumbnail}`,
+                );
               }
             };
             return (
