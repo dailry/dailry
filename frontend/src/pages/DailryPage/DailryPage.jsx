@@ -1,10 +1,9 @@
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import { toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
 import * as S from './DailryPage.styled';
 import Text from '../../components/common/Text/Text';
 import ToolButton from '../../components/ToolButton/ToolButton';
@@ -14,26 +13,22 @@ import {
   PAGE_TOOLS,
   PAGE_TOOLS_TOOLTIP,
 } from '../../constants/toolbar';
-import { LeftArrowIcon, RightArrowIcon } from '../../assets/svg';
 import { useDailryContext } from '../../hooks/useDailryContext';
-import { postPage, getPages, patchPage, getPage } from '../../apis/dailryApi';
+import { postPage, patchPage, getPage, getPages } from '../../apis/dailryApi';
 import { DECORATE_TYPE, EDIT_MODE } from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
 import TypedDecorateComponent from '../../components/decorate/TypedDecorateComponent';
-import PageListModal from '../../components/dailryPage/pageList/PageListModal/PageListModal';
 import useEditDecorateComponent from '../../hooks/useEditDecorateComponent';
 import useDecorateComponents from '../../hooks/useDecorateComponents';
 import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponents';
 import { TEXT } from '../../styles/color';
 import MoveableComponent from '../../components/Moveable/Moveable';
 import usePageData from '../../hooks/usePageData';
-import { useModalContext } from '../../hooks/useModalContext';
 import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
 import { PATH_NAME } from '../../constants/routes';
 import Tooltip from '../../components/common/Tooltip/Tooltip';
-
-console.log(process.env.API_URI);
+import PageNavigator from '../../components/dailryPage/pageList/PageNavigator/PageNavigator';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
@@ -44,10 +39,8 @@ const DailryPage = () => {
 
   const [selectedTool, setSelectedTool] = useState(null);
   const [pageList, setPageList] = useState([]);
-  const [havePage, setHavePage] = useState(true);
 
   const { currentDailry, setCurrentDailry } = useDailryContext();
-  const { modalType, setModalType, closeModal } = useModalContext();
 
   const {
     decorateComponents,
@@ -57,15 +50,11 @@ const DailryPage = () => {
   } = useDecorateComponents();
 
   const {
-    setUpdatedDecorateComponents,
     updatedDecorateComponents,
+    setUpdatedDecorateComponents,
     addUpdatedDecorateComponent,
     modifyUpdatedDecorateComponent,
   } = useUpdatedDecorateComponents();
-
-  const { appendPageDataToFormData, formData } = usePageData(
-    updatedDecorateComponents,
-  );
 
   const {
     newDecorateComponent,
@@ -90,6 +79,10 @@ const DailryPage = () => {
   } = useEditDecorateComponent(
     modifyDecorateComponent,
     modifyUpdatedDecorateComponent,
+  );
+
+  const { appendPageDataToFormData, formData } = usePageData(
+    updatedDecorateComponents,
   );
 
   const isMoveable = () => target && editMode === EDIT_MODE.COMMON_PROPERTY;
@@ -124,14 +117,10 @@ const DailryPage = () => {
             pageIds: pageIdList,
             pageNumber: pageNumber ?? (pageIds.length === 0 ? 1 : null),
           });
-
-          return setHavePage(true);
         }
       }
-
-      return setHavePage(false);
     })();
-  }, [dailryId, pageNumber, modalType]);
+  }, [dailryId, pageNumber]);
 
   useEffect(() => {
     (async () => {
@@ -155,16 +144,6 @@ const DailryPage = () => {
     })();
   }, [pageIds, pageNumber]);
 
-  const toastify = (message) => {
-    toast(message, {
-      position: 'bottom-right',
-      autoClose: 300,
-      hideProgressBar: true,
-      closeOnClick: true,
-      transition: Zoom,
-    });
-  };
-
   const patchPageData = () => {
     setTarget(null);
 
@@ -184,68 +163,88 @@ const DailryPage = () => {
     }, 100);
   };
 
-  const handleLeftArrowClick = async () => {
-    if (pageNumber === 1) {
-      toastify('첫 번째 페이지입니다');
-      return;
-    }
+  useEffect(() => {
     if (canEditDecorateComponent) {
       completeModifyDecorateComponent();
       setTarget(null);
       setCanEditDecorateComponent(null);
-
-      return;
     }
 
     if (newDecorateComponent) {
       completeCreateNewDecorateComponent();
-      return;
     }
 
-    if (
-      updatedDecorateComponents.length > 0 &&
-      window.confirm(
-        '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
-      )
-    ) {
-      patchPageData();
-    }
+    setTimeout(() => {
+      if (updatedDecorateComponents.length > 0) {
+        patchPageData();
+      }
 
-    setUpdatedDecorateComponents([]);
+      setUpdatedDecorateComponents([]);
+    }, 1000);
+  }, [pageNumber]);
 
-    setCurrentDailry({ ...currentDailry, pageNumber: pageNumber - 1 });
-  };
+  // const handleLeftArrowClick = async () => {
+  //   if (pageNumber === 1) {
+  //     toastify('첫 번째 페이지입니다');
+  //     return;
+  //   }
+  //   if (canEditDecorateComponent) {
+  //     completeModifyDecorateComponent();
+  //     setTarget(null);
+  //     setCanEditDecorateComponent(null);
 
-  const handleRightArrowClick = async () => {
-    if (pageList.length === pageNumber) {
-      toastify('마지막 페이지입니다');
-      return;
-    }
+  //     return;
+  //   }
 
-    if (canEditDecorateComponent) {
-      completeModifyDecorateComponent();
-      setTarget(null);
-      setCanEditDecorateComponent(null);
-      return;
-    }
+  //   if (newDecorateComponent) {
+  //     completeCreateNewDecorateComponent();
+  //     return;
+  //   }
 
-    if (newDecorateComponent) {
-      completeCreateNewDecorateComponent();
-      return;
-    }
+  //   if (
+  //     updatedDecorateComponents.length > 0 &&
+  //     window.confirm(
+  //       '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
+  //     )
+  //   ) {
+  //     patchPageData();
+  //   }
 
-    if (
-      updatedDecorateComponents.length > 0 &&
-      window.confirm(
-        '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
-      )
-    ) {
-      patchPageData();
-    }
-    setUpdatedDecorateComponents([]);
+  //   setUpdatedDecorateComponents([]);
 
-    setCurrentDailry({ ...currentDailry, pageNumber: pageNumber + 1 });
-  };
+  //   setCurrentDailry({ ...currentDailry, pageNumber: pageNumber - 1 });
+  // };
+
+  // const handleRightArrowClick = async () => {
+  //   if (pageList.length === pageNumber) {
+  //     toastify('마지막 페이지입니다');
+  //     return;
+  //   }
+
+  //   if (canEditDecorateComponent) {
+  //     completeModifyDecorateComponent();
+  //     setTarget(null);
+  //     setCanEditDecorateComponent(null);
+  //     return;
+  //   }
+
+  //   if (newDecorateComponent) {
+  //     completeCreateNewDecorateComponent();
+  //     return;
+  //   }
+
+  //   if (
+  //     updatedDecorateComponents.length > 0 &&
+  //     window.confirm(
+  //       '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
+  //     )
+  //   ) {
+  //     patchPageData();
+  //   }
+  //   setUpdatedDecorateComponents([]);
+
+  //   setCurrentDailry({ ...currentDailry, pageNumber: pageNumber + 1 });
+  // };
 
   const handleDownloadClick = async () => {
     try {
@@ -288,7 +287,6 @@ const DailryPage = () => {
     e.stopPropagation();
 
     if (selectedTool === DECORATE_TYPE.MOVING) {
-      console.log('hell yeah');
       setTarget(index + 1);
     }
 
@@ -323,37 +321,9 @@ const DailryPage = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(canEditDecorateComponent);
-  }, [canEditDecorateComponent]);
-
-  const handleModalSelect = {
-    select: (page) => {
-      setCurrentDailry({
-        ...currentDailry,
-        pageId: page.pageId,
-        pageNumber: page.pageNumber,
-      });
-    },
-    download: () => {},
-    share: (page) => {
-      navigate(
-        `${PATH_NAME.CommunityWrite}?type=post&pageImage=${page.thumbnail}`,
-      );
-    },
-  };
-
   return (
     <S.FlexWrapper>
-      {modalType && (
-        <PageListModal
-          pageList={pageList}
-          onClose={closeModal}
-          onSelect={handleModalSelect[modalType]}
-        />
-      )}
-
-      {havePage ? (
+      {currentDailry.pageIds.length > 0 ? (
         <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
           {decorateComponents?.map((element, index) => {
             const canEdit =
@@ -522,17 +492,7 @@ const DailryPage = () => {
             );
           })}
         </S.ToolWrapper>
-        <S.ArrowWrapper>
-          <S.ArrowButton direction={'left'} onClick={handleLeftArrowClick}>
-            <LeftArrowIcon />
-          </S.ArrowButton>
-          <S.NumberButton onClick={() => setModalType('select')}>
-            {pageNumber}
-          </S.NumberButton>
-          <S.ArrowButton direction={'right'} onClick={handleRightArrowClick}>
-            <RightArrowIcon />
-          </S.ArrowButton>
-        </S.ArrowWrapper>
+        <PageNavigator />
       </S.SideWrapper>
     </S.FlexWrapper>
   );
