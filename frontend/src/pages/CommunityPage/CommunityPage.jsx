@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { toast, Zoom } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toastify } from '../../utils/toastify';
 import * as S from './CommunityPage.styled';
 import {
   deletePosts,
@@ -25,16 +24,6 @@ const CommunityPage = () => {
   const [hasNextPage, setHasNextPage] = useState(true);
   const [liked, setLiked] = useState({});
   const navigate = useNavigate();
-
-  const toastify = (message) => {
-    toast(message, {
-      position: 'bottom-right',
-      autoClose: 300,
-      hideProgressBar: true,
-      closeOnClick: true,
-      transition: Zoom,
-    });
-  };
 
   const conditions = [
     {
