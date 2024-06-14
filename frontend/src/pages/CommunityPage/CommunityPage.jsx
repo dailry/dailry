@@ -23,7 +23,7 @@ const CommunityPage = () => {
   const [liked, setLiked] = useState({});
   const navigate = useNavigate();
 
-  const setPostState = (hasNext = true, newPosts = [], newPage = 0) => {
+  const setPostState = (hasNext = true, newPosts = () => [], newPage = 0) => {
     setHasNextPage(hasNext);
     setPosts(newPosts);
     setPage(newPage);
@@ -45,16 +45,17 @@ const CommunityPage = () => {
       return;
     }
     const { hasNext, [condition.post]: newPost, presentPage } = response.data;
-    setPostState(hasNext, [...posts, ...newPost], presentPage + 1);
+    setPostState(
+      hasNext,
+      (prevPosts) => [...prevPosts, ...newPost],
+      presentPage + 1,
+    );
 
     const res = await getLikes([
       response.data[condition.post].map((p) => p.postId),
     ]);
     if (res.status === 200) {
-      setLiked({
-        ...liked,
-        ...(await res.data),
-      });
+      setLiked((prevLiked) => ({ ...prevLiked, ...res.data }));
     }
   };
 
@@ -123,9 +124,9 @@ const CommunityPage = () => {
     if (liked[postId] === false) {
       const response = await postLikes(postId);
       if (response.status === 200) {
-        setLiked({ ...liked, [postId]: true });
-        setPosts(
-          posts.map((post) => {
+        setLiked((prevLiked) => ({ ...prevLiked, [postId]: true }));
+        setPosts((prevPosts) =>
+          prevPosts.map((post) => {
             return post.postId === postId
               ? { ...post, likeCount: post.likeCount + 1 }
               : post;
@@ -144,9 +145,9 @@ const CommunityPage = () => {
     if (liked[postId] === true) {
       const response = await deleteLikes(postId);
       if (response.status === 200) {
-        setLiked({ ...liked, [postId]: false });
-        setPosts(
-          posts.map((post) => {
+        setLiked((prevLiked) => ({ ...prevLiked, [postId]: false }));
+        setPosts((prevPosts) =>
+          prevPosts.map((post) => {
             return post.postId === postId
               ? { ...post, likeCount: post.likeCount - 1 }
               : post;
