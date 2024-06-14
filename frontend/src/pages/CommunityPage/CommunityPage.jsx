@@ -21,6 +21,7 @@ const CommunityPage = () => {
   const [page, setPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(true);
   const [liked, setLiked] = useState({});
+  const [condition, setCondition] = useState(POSTS_LOAD_CONDITIONS[1]);
   const navigate = useNavigate();
 
   const setPostState = (hasNext = true, newPosts = () => [], newPage = 0) => {
@@ -30,10 +31,6 @@ const CommunityPage = () => {
   };
 
   const getSetPost = async () => {
-    const condition =
-      POSTS_LOAD_CONDITIONS.find((c) => {
-        return c.check(searchParams.get(c.parameter));
-      }) || POSTS_LOAD_CONDITIONS[1];
     const hashtag = searchParams.get('hashtag');
     const response = await condition.getPosts({
       ...(hashtag && { hashtags: hashtag }),
@@ -68,11 +65,6 @@ const CommunityPage = () => {
   };
 
   useEffect(() => {
-    setPostState();
-    setLiked({});
-  }, [searchParams]);
-
-  useEffect(() => {
     (async () => {
       const response = await getMember();
       if (response.status === 200) {
@@ -80,6 +72,16 @@ const CommunityPage = () => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    setPostState();
+    setLiked({});
+    const tmpCondition =
+      POSTS_LOAD_CONDITIONS.find((c) => {
+        return c.check(searchParams.get(c.parameter));
+      }) || POSTS_LOAD_CONDITIONS[1];
+    setCondition(tmpCondition);
+  }, [searchParams]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(onIntersect);
@@ -165,8 +167,22 @@ const CommunityPage = () => {
           커뮤니티
         </Text>
         <S.SortWrapper>
-          <button onClick={handleLatestClick}>전체게시글</button>
-          <button onClick={handleHotClick}>인기게시글</button>
+          <S.OrderByButton
+            onClick={handleLatestClick}
+            current={
+              condition.parameter === 'orderBy' && condition.check('latest')
+            }
+          >
+            전체게시글
+          </S.OrderByButton>
+          <S.OrderByButton
+            onClick={handleHotClick}
+            current={
+              condition.parameter === 'orderBy' && condition.check('hotPosts')
+            }
+          >
+            인기게시글
+          </S.OrderByButton>
         </S.SortWrapper>
       </S.HeaderWrapper>
       {posts.length === 0 ? (

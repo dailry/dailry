@@ -32,6 +32,10 @@ export const SortWrapper = styled.div`
   gap: 12px;
 `;
 
+export const OrderByButton = styled.button`
+  font-weight: ${({ current }) => (current ? 'bold' : 'normal')};
+`;
+
 export const LikeWrapper = styled.button`
   display: flex;
   flex-direction: column;
