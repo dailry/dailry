@@ -183,69 +183,6 @@ const DailryPage = () => {
     }, 1000);
   }, [pageNumber]);
 
-  // const handleLeftArrowClick = async () => {
-  //   if (pageNumber === 1) {
-  //     toastify('첫 번째 페이지입니다');
-  //     return;
-  //   }
-  //   if (canEditDecorateComponent) {
-  //     completeModifyDecorateComponent();
-  //     setTarget(null);
-  //     setCanEditDecorateComponent(null);
-
-  //     return;
-  //   }
-
-  //   if (newDecorateComponent) {
-  //     completeCreateNewDecorateComponent();
-  //     return;
-  //   }
-
-  //   if (
-  //     updatedDecorateComponents.length > 0 &&
-  //     window.confirm(
-  //       '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
-  //     )
-  //   ) {
-  //     patchPageData();
-  //   }
-
-  //   setUpdatedDecorateComponents([]);
-
-  //   setCurrentDailry({ ...currentDailry, pageNumber: pageNumber - 1 });
-  // };
-
-  // const handleRightArrowClick = async () => {
-  //   if (pageList.length === pageNumber) {
-  //     toastify('마지막 페이지입니다');
-  //     return;
-  //   }
-
-  //   if (canEditDecorateComponent) {
-  //     completeModifyDecorateComponent();
-  //     setTarget(null);
-  //     setCanEditDecorateComponent(null);
-  //     return;
-  //   }
-
-  //   if (newDecorateComponent) {
-  //     completeCreateNewDecorateComponent();
-  //     return;
-  //   }
-
-  //   if (
-  //     updatedDecorateComponents.length > 0 &&
-  //     window.confirm(
-  //       '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
-  //     )
-  //   ) {
-  //     patchPageData();
-  //   }
-  //   setUpdatedDecorateComponents([]);
-
-  //   setCurrentDailry({ ...currentDailry, pageNumber: pageNumber + 1 });
-  // };
-
   const handleDownloadClick = async () => {
     try {
       const pageImg = await html2canvas(pageRef.current);
