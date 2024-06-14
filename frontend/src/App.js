@@ -18,7 +18,7 @@ const App = () => {
       <Route path={PATH_NAME.Home} element={<HomePage />} />
       <Route element={<RootLayout />}>
         <Route
-          path={`${PATH_NAME.Dailry}/:dailryId/:pageNumber`}
+          path={`${PATH_NAME.Dailry}/:dailryId?/:pageNumber?`}
           element={<DailryPage />}
         />
         <Route path={PATH_NAME.MyPage} element={<MyPage />} />

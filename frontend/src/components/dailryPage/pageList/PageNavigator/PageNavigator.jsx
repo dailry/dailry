@@ -77,7 +77,7 @@ PageNavigator.propTypes = {
     dailryId: PropTypes.string.isRequired,
     pages: PropTypes.array.isRequired,
   }).isRequired,
-  pageNumber: PropTypes.number.isRequired,
+  pageNumber: PropTypes.string.isRequired,
 };
 
 export default PageNavigator;

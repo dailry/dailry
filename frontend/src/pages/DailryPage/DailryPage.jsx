@@ -1,6 +1,6 @@
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,8 +13,7 @@ import {
   PAGE_TOOLS,
   PAGE_TOOLS_TOOLTIP,
 } from '../../constants/toolbar';
-import { useDailryContext } from '../../hooks/useDailryContext';
-import { postPage, patchPage } from '../../apis/dailryApi';
+import { postPage, patchPage, getPreviewPages } from '../../apis/dailryApi';
 import { DECORATE_TYPE, EDIT_MODE } from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
@@ -28,18 +27,17 @@ import usePageData from '../../hooks/usePageData';
 import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
 import Tooltip from '../../components/common/Tooltip/Tooltip';
 import PageNavigator from '../../components/dailryPage/pageList/PageNavigator/PageNavigator';
-import { PATH_NAME } from '../../constants/routes';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
   const moveableRef = useRef([]);
-  const navigate = useNavigate();
 
   const [target, setTarget] = useState(null);
-
   const [selectedTool, setSelectedTool] = useState(null);
+  const [dailryData, setDailryData] = useState([]);
 
-  const { currentDailry, setCurrentDailry } = useDailryContext();
+  const params = useParams();
+  const { dailryId, pageNumber } = params;
 
   const {
     decorateComponents,
@@ -86,8 +84,6 @@ const DailryPage = () => {
 
   const isMoveable = () => target && editMode === EDIT_MODE.COMMON_PROPERTY;
 
-  const { dailryId, pageId, pageIds, pageNumber } = currentDailry;
-
   const [deletedDecorateComponentIds, setDeletedDecorateComponentIds] =
     useState([]);
 
@@ -113,7 +109,10 @@ const DailryPage = () => {
           updatedDecorateComponents,
           deletedDecorateComponentIds,
         );
-        await patchPage(pageIds[pageNumber - 1], formData);
+        const { pageId } = dailryData.pages.find(
+          (page) => page.pageNumber === pageNumber,
+        );
+        await patchPage(pageId, formData);
       });
 
       setUpdatedDecorateComponents([]);
@@ -140,12 +139,23 @@ const DailryPage = () => {
     }, 1000);
   }, [pageNumber]);
 
+  useEffect(() => {
+    (async () => {
+      if (dailryId) {
+        const response = await getPreviewPages(dailryId);
+        if (response.status === 200) {
+          setDailryData(response.data);
+        }
+      }
+    })();
+  }, [dailryId]);
+
   const handleDownloadClick = async () => {
     try {
       const pageImg = await html2canvas(pageRef.current);
       pageImg.toBlob((pageImageBlob) => {
         if (pageImageBlob !== null) {
-          saveAs(pageImageBlob, `dailry${dailryId}_${pageId}.png`);
+          saveAs(pageImageBlob, `dailry${dailryId}_${pageNumber}.png`);
         }
       });
     } catch (e) {
@@ -217,7 +227,7 @@ const DailryPage = () => {
 
   return (
     <S.FlexWrapper>
-      {currentDailry.pageIds.length > 0 ? (
+      {dailryId ? (
         <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
           {decorateComponents?.map((element, index) => {
             const canEdit =
@@ -282,7 +292,7 @@ const DailryPage = () => {
       ) : (
         <S.NoCanvas>
           <Text size={30} weight={1000} color={TEXT.disabled}>
-            다일리 또는 페이지를 만들어주세요
+            다일리 또는 페이지를 선택하거나 만들어주세요
           </Text>
         </S.NoCanvas>
       )}
@@ -351,12 +361,12 @@ const DailryPage = () => {
                   patchPageData();
                 }
                 setUpdatedDecorateComponents([]);
-                const response = await postPage(dailryId);
-                setCurrentDailry({
-                  ...currentDailry,
-                  pageId: response.data.pageId,
-                  pageNumber: response.data.pageNumber,
-                });
+                await postPage(dailryId);
+                // setCurrentDailry({
+                //   ...currentDailry,
+                //   pageId: response.data.pageId,
+                //   pageNumber: response.data.pageNumber,
+                // });
               }
               if (t === 'download') {
                 await handleDownloadClick();
@@ -385,7 +395,7 @@ const DailryPage = () => {
             );
           })}
         </S.ToolWrapper>
-        <PageNavigator />
+        <PageNavigator dailryData={dailryData} pageNumber={pageNumber} />
       </S.SideWrapper>
     </S.FlexWrapper>
   );
