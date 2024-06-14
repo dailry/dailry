@@ -4,13 +4,11 @@ import { toastify } from '../../utils/toastify';
 import * as S from './CommunityPage.styled';
 import {
   deletePosts,
-  getPosts,
   postLikes,
   deleteLikes,
   getLikes,
-  getHotPosts,
-  getPostsByHashtags,
 } from '../../apis/postApi';
+import { POSTS_LOAD_CONDITIONS } from '../../constants/posts';
 import Text from '../../components/common/Text/Text';
 import { getMember } from '../../apis/memberApi';
 import { PATH_NAME } from '../../constants/routes';
@@ -25,32 +23,6 @@ const CommunityPage = () => {
   const [liked, setLiked] = useState({});
   const navigate = useNavigate();
 
-  const conditions = [
-    {
-      parameter: 'hashtag',
-      value: (val) => val !== null,
-      api: () =>
-        getPostsByHashtags({
-          hashtags: searchParams.get('hashtag'),
-          page,
-          size: 5,
-        }),
-      post: 'posts',
-    },
-    {
-      parameter: 'orderBy',
-      value: (val) => val === 'latest',
-      api: () => getPosts({ page, size: 5 }),
-      post: 'posts',
-    },
-    {
-      parameter: 'orderBy',
-      value: (val) => val === 'hotPosts',
-      api: () => getHotPosts({ page, size: 5 }),
-      post: 'hotPosts',
-    },
-  ];
-
   const setPostState = (hasNext = true, newPosts = [], newPage = 0) => {
     setHasNextPage(hasNext);
     setPosts(newPosts);
@@ -59,10 +31,15 @@ const CommunityPage = () => {
 
   const getSetPost = async () => {
     const condition =
-      conditions.find((c) => {
-        return c.value(searchParams.get(c.parameter));
-      }) || conditions[1];
-    const response = await condition.api();
+      POSTS_LOAD_CONDITIONS.find((c) => {
+        return c.check(searchParams.get(c.parameter));
+      }) || POSTS_LOAD_CONDITIONS[1];
+    const hashtag = searchParams.get('hashtag');
+    const response = await condition.getPosts({
+      ...(hashtag && { hashtags: hashtag }),
+      page,
+      size: 5,
+    });
     if (response.status !== 200) {
       toastify('알 수 없는 오류가 발생했습니다');
       return;
