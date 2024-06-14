@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { toast, Zoom } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toastify } from '../../utils/toastify';
 import * as S from './CommunityPage.styled';
 import Button from '../../components/common/Button/Button';
 import Text from '../../components/common/Text/Text';
@@ -29,16 +28,6 @@ const CommunityWritePage = () => {
       }
     })();
   }, []);
-
-  const toastify = (message) => {
-    toast(message, {
-      position: 'bottom-right',
-      autoClose: 300,
-      hideProgressBar: true,
-      closeOnClick: true,
-      transition: Zoom,
-    });
-  };
 
   const handleContentChange = (e) => {
     setContent(e.target.value);
@@ -108,7 +97,9 @@ const CommunityWritePage = () => {
         {[...hashtags].map((hashtag) => (
           <S.TagWrapper key={Math.random()}>
             <Text>#{hashtag}</Text>
-            <button onClick={() => handleTagDelClick(hashtag)}>x</button>
+            <S.TagDeleteButton onClick={() => handleTagDelClick(hashtag)}>
+              x
+            </S.TagDeleteButton>
           </S.TagWrapper>
         ))}
         <S.WriteTagArea
