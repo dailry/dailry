@@ -7,11 +7,14 @@ import { PATH_NAME } from '../../../constants/routes';
 
 const Navigation = () => {
   const location = useLocation();
+  const currentDailryId = Number(
+    location.pathname.match(/\/dailry\/(\d+)\/\d+/)[1],
+  );
 
   return (
     <>
       {location.pathname.startsWith(PATH_NAME.Dailry) && (
-        <DailryNavigation currentDailryId={103} />
+        <DailryNavigation currentDailryId={currentDailryId} />
       )}
       {location.pathname.startsWith(PATH_NAME.Community) && (
         <CommunityNavigation />
