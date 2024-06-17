@@ -7,9 +7,8 @@ import { PATH_NAME } from '../../../constants/routes';
 
 const Navigation = () => {
   const location = useLocation();
-  const currentDailryId = Number(
-    location.pathname.match(/\/dailry\/(\d+)\/\d+/)[1],
-  );
+  const dailryIdMatch = location.pathname.match(/\/dailry\/(\d+)\/\d+/);
+  const currentDailryId = dailryIdMatch ? Number(dailryIdMatch[1]) : null;
 
   return (
     <>
