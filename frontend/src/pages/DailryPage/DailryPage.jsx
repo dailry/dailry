@@ -1,6 +1,7 @@
 // Da-ily 회원, 비회원, 다일리 있을때, 없을때를 조건문으로 나눠서 렌더링
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,7 +20,6 @@ import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewD
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
 import TypedDecorateComponent from '../../components/decorate/TypedDecorateComponent';
 import useEditDecorateComponent from '../../hooks/useEditDecorateComponent';
-import useDecorateComponents from '../../hooks/useDecorateComponents';
 import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponents';
 import { TEXT } from '../../styles/color';
 import MoveableComponent from '../../components/Moveable/Moveable';
@@ -27,11 +27,13 @@ import usePageData from '../../hooks/usePageData';
 import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
 import Tooltip from '../../components/common/Tooltip/Tooltip';
 import PageNavigator from '../../components/dailryPage/pageList/PageNavigator/PageNavigator';
-import { PATH_NAME } from '../../constants/routes';
+import useDecorateComponents from '../../hooks/decorateComponent/useDecorateComponents';
+// import { PATH_NAME } from '../../constants/routes';
 
 const DailryPage = () => {
   const pageRef = useRef(null);
   const moveableRef = useRef([]);
+  // const navigate = useNavigate();
 
   const [target, setTarget] = useState(null);
   const [selectedTool, setSelectedTool] = useState(null);
@@ -42,12 +44,12 @@ const DailryPage = () => {
   const dailryId = Number(params.dailryId);
   const pageNumber = Number(params.pageNumber);
 
-  const {
-    decorateComponents,
-    setDecorateComponents,
-    addNewDecorateComponent,
-    modifyDecorateComponent,
-  } = useDecorateComponents();
+  const { decorateComponents, dispatchDecorateComponents } =
+    useDecorateComponents();
+
+  useEffect(() => {
+    console.log(decorateComponents);
+  }, [decorateComponents]);
 
   const {
     updatedDecorateComponents,
@@ -64,7 +66,7 @@ const DailryPage = () => {
   } = useNewDecorateComponent(
     decorateComponents,
     pageRef,
-    addNewDecorateComponent,
+    dispatchDecorateComponents,
     addUpdatedDecorateComponent,
   );
 
@@ -77,7 +79,7 @@ const DailryPage = () => {
     setCanEditDecorateComponentCommonProperty,
     completeModifyDecorateComponent,
   } = useEditDecorateComponent(
-    modifyDecorateComponent,
+    dispatchDecorateComponents,
     modifyUpdatedDecorateComponent,
   );
 
@@ -95,7 +97,7 @@ const DailryPage = () => {
       setDeletedDecorateComponentIds((prev) => [...prev, id]);
     }
 
-    setDecorateComponents((prev) => prev.filter((p) => p.id !== id));
+    dispatchDecorateComponents({ type: 'delete', id });
 
     setTarget(null);
   };
