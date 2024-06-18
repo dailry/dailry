@@ -38,6 +38,7 @@ const DailryPage = () => {
   const [target, setTarget] = useState(null);
   const [selectedTool, setSelectedTool] = useState(null);
   const [dailryData, setDailryData] = useState([]);
+  // const [pageId, setPageId] = useState(0);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -142,6 +143,12 @@ const DailryPage = () => {
 
       setUpdatedDecorateComponents([]);
     }, 1000);
+
+    // setPageId(
+    //   dailryData.length !== 0
+    //     ? dailryData.pages.find((page) => page.pageNumber === pageNumber).pageId
+    //     : 0,
+    // );
   }, [pageNumber]);
 
   useEffect(() => {
@@ -229,78 +236,69 @@ const DailryPage = () => {
       setTarget(null);
     }
   };
-
-  return (
+  return dailryId ? (
     <S.FlexWrapper>
-      {dailryId ? (
-        <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
-          {decorateComponents?.map((element, index) => {
-            const canEdit =
-              editMode === EDIT_MODE.TYPE_CONTENT &&
-              element.type === selectedTool &&
-              canEditDecorateComponent?.id === element.id;
-            return (
-              <DecorateWrapper
-                key={element.id}
-                onMouseDown={(e) => handleClickDecorate(e, index, element)}
-                setTarget={setTarget}
-                index={index}
-                canEdit={canEdit}
-                ref={(el) => {
-                  moveableRef[index + 1] = el;
-                }}
-                {...element}
-              >
-                {(target === index + 1 ||
-                  canEditDecorateComponent?.id === element.id) && (
-                  <DecorateComponentDeleteButton
-                    onClick={() => {
-                      deleteDecorateComponent(element.id);
-                    }}
-                  >
-                    삭제
-                  </DecorateComponentDeleteButton>
-                )}
-
-                <TypedDecorateComponent
-                  type={element.type}
-                  typeContent={element.typeContent}
-                  canEdit={canEdit}
-                  setTypeContent={setCanEditDecorateComponentTypeContent}
-                />
-              </DecorateWrapper>
-            );
-          })}
-
-          {newDecorateComponent && (
+      <S.CanvasWrapper ref={pageRef} onMouseDown={handleClickPage}>
+        {decorateComponents?.map((element, index) => {
+          const canEdit =
+            editMode === EDIT_MODE.TYPE_CONTENT &&
+            element.type === selectedTool &&
+            canEditDecorateComponent?.id === element.id;
+          return (
             <DecorateWrapper
-              onMouseDown={(e) => {
-                e.stopPropagation();
+              key={element.id}
+              onMouseDown={(e) => handleClickDecorate(e, index, element)}
+              setTarget={setTarget}
+              index={index}
+              canEdit={canEdit}
+              ref={(el) => {
+                moveableRef[index + 1] = el;
               }}
-              canEdit
-              {...newDecorateComponent}
+              {...element}
             >
+              {(target === index + 1 ||
+                canEditDecorateComponent?.id === element.id) && (
+                <DecorateComponentDeleteButton
+                  onClick={() => {
+                    deleteDecorateComponent(element.id);
+                  }}
+                >
+                  삭제
+                </DecorateComponentDeleteButton>
+              )}
+
               <TypedDecorateComponent
-                type={newDecorateComponent.type}
-                canEdit
-                setTypeContent={setNewDecorateComponentTypeContent}
+                type={element.type}
+                typeContent={element.typeContent}
+                canEdit={canEdit}
+                setTypeContent={setCanEditDecorateComponentTypeContent}
               />
             </DecorateWrapper>
-          )}
-          {isMoveable() && (
-            <MoveableComponent
-              target={moveableRef[target]}
-              setCommonProperty={setCanEditDecorateComponentCommonProperty}
+          );
+        })}
+
+        {newDecorateComponent && (
+          <DecorateWrapper
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}
+            canEdit
+            {...newDecorateComponent}
+          >
+            <TypedDecorateComponent
+              type={newDecorateComponent.type}
+              canEdit
+              setTypeContent={setNewDecorateComponentTypeContent}
             />
-          )}
-        </S.CanvasWrapper>
-      ) : (
-        <S.NoCanvas>
-          <Text size={30} weight={1000} color={TEXT.disabled}>
-            다일리 또는 페이지를 선택하거나 만들어주세요
-          </Text>
-        </S.NoCanvas>
-      )}
+          </DecorateWrapper>
+        )}
+        {isMoveable() && (
+          <MoveableComponent
+            target={moveableRef[target]}
+            setCommonProperty={setCanEditDecorateComponentCommonProperty}
+          />
+        )}
+      </S.CanvasWrapper>
       <S.SideWrapper>
         <S.ToolWrapper>
           {DECORATE_TOOLS.map(({ icon, type }, index) => {
@@ -398,6 +396,12 @@ const DailryPage = () => {
         <PageNavigator dailryData={dailryData} pageNumber={pageNumber} />
       </S.SideWrapper>
     </S.FlexWrapper>
+  ) : (
+    <S.NoCanvas>
+      <Text size={30} weight={1000} color={TEXT.disabled}>
+        다일리 또는 페이지를 선택하거나 만들어주세요
+      </Text>
+    </S.NoCanvas>
   );
 };
 
