@@ -1,6 +1,6 @@
 package com.daily.daily.common.dto;
 
-import com.daily.daily.common.exception.ErrorCode;
+import com.daily.daily.common.exception.core.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

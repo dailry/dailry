@@ -1,4 +1,4 @@
-package com.daily.daily.common.exception;
+package com.daily.daily.common.exception.core;
 
 public class CustomException extends RuntimeException {
     private final ErrorCode errorCode;

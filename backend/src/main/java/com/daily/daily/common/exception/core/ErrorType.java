@@ -1,4 +1,4 @@
-package com.daily.daily.common.exception;
+package com.daily.daily.common.exception.core;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
