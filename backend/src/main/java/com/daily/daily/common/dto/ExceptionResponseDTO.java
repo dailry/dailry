@@ -20,10 +20,13 @@ public class ExceptionResponseDTO {
         this.statusCode = statusCode;
     }
 
-    public ExceptionResponseDTO(ErrorCode errorCode) {
-        this.msg = errorCode.name();
+    private ExceptionResponseDTO(ErrorCode errorCode) {
+        this.statusCode = errorCode.getStatusCode();
         this.errorCode = errorCode.name();
+        this.msg = errorCode.getMsg();
     }
-
+    public static ExceptionResponseDTO of(ErrorCode errorCode) {
+        return new ExceptionResponseDTO(errorCode);
+    }
 
 }
