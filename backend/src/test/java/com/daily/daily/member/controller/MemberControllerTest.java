@@ -108,7 +108,7 @@ class MemberControllerTest {
         //given
         JoinDTO joinDTO = new JoinDTO("geonwoo123", "pass1234", null);
 
-        given(memberService.join(any())).willThrow(DuplicatedUsernameException.class);
+        given(memberService.join(any())).willThrow(new DuplicatedUsernameException());
 
         //when
         ResultActions joinActions = mockMvc.perform(post("/api/members/join")
