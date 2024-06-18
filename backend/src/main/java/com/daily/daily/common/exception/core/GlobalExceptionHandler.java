@@ -1,8 +1,6 @@
-package com.daily.daily.common;
+package com.daily.daily.common.exception.core;
 
 import com.daily.daily.common.dto.ExceptionResponseDTO;
-import com.daily.daily.common.exception.core.CustomException;
-import com.daily.daily.common.exception.core.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
