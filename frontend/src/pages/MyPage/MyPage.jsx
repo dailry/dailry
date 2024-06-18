@@ -14,6 +14,7 @@ import {
 } from '../../apis/memberApi';
 import { MENU, TEXT } from '../../styles/color';
 import { PATH_NAME } from '../../constants/routes';
+import { LikeIcon } from '../CommunityPage/CommunityPage.styled';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -212,6 +213,57 @@ const MyPage = () => {
           </S.RowWrapper>
         )}
       </S.UserInfoBox>
+      <S.ActivityNameWrapper>
+        <S.ActivityNameButton current={true}>
+          내 커뮤니티 글 보기
+        </S.ActivityNameButton>
+        <S.ActivityNameButton current={false}>
+          내가 단 댓글 보기
+        </S.ActivityNameButton>
+      </S.ActivityNameWrapper>
+      <S.UserActivityWrapper>
+        <S.UserPostsArea>
+          <S.PostImageWrapper
+            src={`
+https://data.da-ily.site/post/2024-06-15/59/f8a15bf1-4b5e-40c3-8edf-f3eb59ec5f3e.png`}
+          />
+          <S.PostContentWrapper>
+            <Text size={12}>2024-06-15 02:25:03</Text>
+            <Text size={16}>버그수집가님의 글 훔치기~</Text>
+          </S.PostContentWrapper>
+          <S.LikeWrapper>
+            <LikeIcon liked={false} />
+            <Text>12</Text>
+          </S.LikeWrapper>
+        </S.UserPostsArea>
+        <S.UserPostsArea>
+          <S.PostImageWrapper
+            src={`
+https://data.da-ily.site/post/2024-06-15/59/f8a15bf1-4b5e-40c3-8edf-f3eb59ec5f3e.png`}
+          />
+          <S.PostContentWrapper>
+            <Text size={12}>2024-06-15 02:25:03</Text>
+            <Text size={16}>버그수집가님의 글 훔치기~</Text>
+          </S.PostContentWrapper>
+          <S.LikeWrapper>
+            <LikeIcon liked={false} />
+            <Text>12</Text>
+          </S.LikeWrapper>
+        </S.UserPostsArea>
+        <S.UserCommentArea>
+          <Text size={12}>2024-06-15 02:25:03</Text>
+          <Text size={16}>버그수집가님의 글 훔치기~</Text>
+        </S.UserCommentArea>
+        <S.UserCommentArea>
+          <Text size={12}>2024-06-15 02:25:03</Text>
+          <Text size={16}>버그수집가님의 글 훔치기~</Text>
+        </S.UserCommentArea>
+      </S.UserActivityWrapper>
+      <S.PageButtonWrapper>
+        <S.PageButton>1</S.PageButton>
+        <S.PageButton>2</S.PageButton>
+        <S.PageButton>3</S.PageButton>
+      </S.PageButtonWrapper>
       <S.WithdrawalWrapper>
         <S.WithdrawalButton onClick={handleWithdrawalClick}>
           회원탈퇴

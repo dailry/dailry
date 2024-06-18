@@ -5,6 +5,7 @@ export const BACKGROUND = Object.freeze({
     'linear-gradient(180deg, rgb(168.29, 86.39, 162.35) 0%, rgb(58.51, 117.75, 164.04) 100%)',
   paper: '#fffefc',
   bright: '#ffffff',
+  transparent1: 'rgba(0, 0, 0, 0.1)',
 });
 
 export const TEXT = Object.freeze({
