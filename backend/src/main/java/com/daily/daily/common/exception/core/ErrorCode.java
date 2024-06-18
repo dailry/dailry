@@ -55,7 +55,7 @@ public enum ErrorCode {
 
     COMMENT_NOT_FOUND(404, "해당 댓글을 찾을 수 없습니다.", ErrorType.COMMUNITY);
 
-    private final int statusCode;
+    private final Integer statusCode;
     private final String msg;
     private final ErrorType errorType;
 }
