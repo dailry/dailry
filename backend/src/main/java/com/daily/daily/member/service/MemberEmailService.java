@@ -5,7 +5,7 @@ import com.daily.daily.member.dto.EmailVerifyDTO;
 import com.daily.daily.member.exception.CertificationNumberExpirationException;
 import com.daily.daily.member.exception.CertificationNumberUnmatchedException;
 import com.daily.daily.member.exception.DuplicatedEmailException;
-import com.daily.daily.member.exception.EmailNotFoundException;
+import com.daily.daily.member.exception.InvalidEmailException;
 import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.repository.CertificationNumberRepository;
 import com.daily.daily.member.repository.MemberRepository;
@@ -79,7 +79,7 @@ public class MemberEmailService {
     public void sendUsername(String recipientEmail) {
         Member findMember = memberRepository.findByEmail(recipientEmail)
                 .filter(Member::isNotSocialLoginMember)
-                .orElseThrow(EmailNotFoundException::new);
+                .orElseThrow(InvalidEmailException::new);
 
         SimpleMailMessage mail = createSimpleMail(recipientEmail);
         mail.setSubject("[다일리] 회원님의 아이디를 보내드립니다.");

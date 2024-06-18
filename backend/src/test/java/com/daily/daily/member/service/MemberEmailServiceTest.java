@@ -2,7 +2,7 @@ package com.daily.daily.member.service;
 
 import com.daily.daily.member.domain.Member;
 import com.daily.daily.member.exception.DuplicatedEmailException;
-import com.daily.daily.member.exception.EmailNotFoundException;
+import com.daily.daily.member.exception.InvalidEmailException;
 import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.repository.CertificationNumberRepository;
 import com.daily.daily.member.repository.MemberRepository;
@@ -22,7 +22,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -108,7 +107,7 @@ class MemberEmailServiceTest {
 
         //then
         assertThatThrownBy(() -> memberEmailService.sendUsername(email))
-                .isInstanceOf(EmailNotFoundException.class);
+                .isInstanceOf(InvalidEmailException.class);
     }
 
     @Test

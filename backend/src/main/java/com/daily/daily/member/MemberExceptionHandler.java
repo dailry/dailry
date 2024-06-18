@@ -7,7 +7,7 @@ import com.daily.daily.member.exception.CertificationNumberUnmatchedException;
 import com.daily.daily.member.exception.DuplicatedEmailException;
 import com.daily.daily.member.exception.DuplicatedNicknameException;
 import com.daily.daily.member.exception.DuplicatedUsernameException;
-import com.daily.daily.member.exception.EmailNotFoundException;
+import com.daily.daily.member.exception.InvalidEmailException;
 import com.daily.daily.member.exception.MemberNotFoundException;
 import com.daily.daily.member.exception.PasswordUnmatchedException;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class MemberExceptionHandler {
 
     @ExceptionHandler({
             MemberNotFoundException.class,
-            EmailNotFoundException.class
+            InvalidEmailException.class
     })
     public ResponseEntity<ExceptionResponseDTO> handleNotFoundException(RuntimeException e) {
         return new ResponseEntity<>(new ExceptionResponseDTO(e.getMessage(), HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND);

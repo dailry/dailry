@@ -1,7 +1,10 @@
 package com.daily.daily.common.exception;
 
-public class UnauthorizedAccessException extends RuntimeException{
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
+
+public class UnauthorizedAccessException extends CustomException {
     public UnauthorizedAccessException() {
-        super("접근할 권한이 없습니다.");
+        super(ErrorCode.UNAUTHORIZED_ACCESS);
     }
 }

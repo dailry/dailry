@@ -1,7 +1,10 @@
 package com.daily.daily.post.exception;
 
-public class PostNotFoundException extends RuntimeException{
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
+
+public class PostNotFoundException extends CustomException {
     public PostNotFoundException() {
-        super("해당 게시글을 찾을 수 없습니다.");
+        super(ErrorCode.POST_NOT_FOUND);
     }
 }

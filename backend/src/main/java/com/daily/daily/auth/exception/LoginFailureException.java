@@ -1,7 +1,10 @@
 package com.daily.daily.auth.exception;
 
-public class LoginFailureException extends RuntimeException{
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
+
+public class LoginFailureException extends CustomException {
     public LoginFailureException() {
-        super("로그인 정보가 올바르지 않습니다.");
+        super(ErrorCode.INVALID_LOGIN_INFO);
     }
 }

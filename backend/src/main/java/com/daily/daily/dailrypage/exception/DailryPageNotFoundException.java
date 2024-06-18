@@ -1,10 +1,11 @@
 package com.daily.daily.dailrypage.exception;
 
-import java.util.NoSuchElementException;
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
 
-public class DailryPageNotFoundException extends NoSuchElementException {
+public class DailryPageNotFoundException extends CustomException {
     public DailryPageNotFoundException() {
-        super("해당 다일리 페이지를 찾을 수 없습니다.");
+        super(ErrorCode.DAILRY_PAGE_NOT_FOUND);
     }
 
 }

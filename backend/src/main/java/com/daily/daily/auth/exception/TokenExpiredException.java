@@ -1,7 +1,10 @@
 package com.daily.daily.auth.exception;
 
-public class TokenExpiredException  extends RuntimeException {
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
+
+public class TokenExpiredException  extends CustomException {
     public TokenExpiredException() {
-        super("모든 token이 만료되었습니다.");
+        super(ErrorCode.ALL_AUTH_TOKEN_EXPIRED);
     }
 }

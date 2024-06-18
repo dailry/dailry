@@ -1,13 +1,9 @@
 package com.daily.daily.common;
 
-import com.daily.daily.auth.exception.LoginFailureException;
 import com.daily.daily.common.dto.ExceptionResponseDTO;
-import com.daily.daily.common.exception.FileUploadFailureException;
-import com.daily.daily.member.exception.DuplicatedNicknameException;
-import com.daily.daily.member.exception.DuplicatedUsernameException;
-import com.daily.daily.member.exception.PasswordUnmatchedException;
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +12,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    /**
+     * 스프링에서 제공하는 Validation 에서 예외가 발생했을 때 MethodArgumentNotValidException이 발생된다.
+     */
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponseDTO> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         final String defaultMessage = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
@@ -26,11 +27,11 @@ public class GlobalExceptionHandler {
                 .body(new ExceptionResponseDTO(defaultMessage, 400));
     }
 
-    @ExceptionHandler(FileUploadFailureException.class)
-    public ResponseEntity<ExceptionResponseDTO> handleFileUploadFailureException(FileUploadFailureException e) {
-        log.error("파일 업로드 실패 {}", e.getOriginalException().getMessage());
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ExceptionResponseDTO> handleCustomException(CustomException customException) {
+        ErrorCode errorCode = customException.getErrorCode();
 
-        return ResponseEntity.badRequest()
-                .body(new ExceptionResponseDTO(e.getMessage(), 400));
+        return ResponseEntity.status(errorCode.getStatusCode())
+                .body(ExceptionResponseDTO.of(errorCode));
     }
 }
