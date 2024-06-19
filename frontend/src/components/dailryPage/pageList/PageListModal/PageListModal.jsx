@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import * as S from './PageListModal.styled';
-import { useDailryContext } from '../../../../hooks/useDailryContext';
 import { deletePage } from '../../../../apis/dailryApi';
 
 const PageListModal = (props) => {
@@ -11,15 +10,12 @@ const PageListModal = (props) => {
     Array.from({ length: pageList.length + 1 }, () => 0),
   );
 
-  const { currentDailry, setCurrentDailry } = useDailryContext();
-
   const handleDeleteClick = () => {
     selectedPages.forEach(async (pageId) => {
       if (pageId !== 0) {
         await deletePage(pageId);
       }
     });
-    setCurrentDailry({ ...currentDailry, pageNumber: null });
     onClose();
   };
 

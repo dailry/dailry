@@ -15,6 +15,7 @@ import { PATH_NAME } from '../../../constants/routes';
 const DailryNavigation = (props) => {
   const { currentDailryId } = props;
   const [dailrys, setDailrys] = useState([]);
+  const [deletedDailryId, setDeletedDailryId] = useState(null);
   const [editingDailry, setEditingDailry] = useState(null);
   const navigate = useNavigate();
 
@@ -24,6 +25,14 @@ const DailryNavigation = (props) => {
       setDailrys(response.data);
     })();
   }, [editingDailry]);
+
+  useEffect(() => {
+    if (deletedDailryId && deletedDailryId === currentDailryId) {
+      const firstDailryPath =
+        dailrys.length > 0 ? `/dailry/${dailrys[0].dailryId}/1` : `/dailry`;
+      navigate(firstDailryPath);
+    }
+  }, [deletedDailryId, dailrys]);
 
   const handleItemClick = async (targetId) => {
     navigate(`${PATH_NAME.Dailry}/${targetId}/1`);
@@ -66,6 +75,7 @@ const DailryNavigation = (props) => {
               <DailryHamburger
                 setEditingDailry={setEditingDailry}
                 dailryId={dailryId}
+                setDeletedDailryId={setDeletedDailryId}
               />
             }
           >

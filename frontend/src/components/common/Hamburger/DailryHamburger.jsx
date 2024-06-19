@@ -4,13 +4,22 @@ import * as S from './Hamburger.styled';
 import { deleteDailry } from '../../../apis/dailryApi';
 
 const DailryHamburger = (props) => {
-  const { dailryId, setEditingDailry, anchor = 'left' } = props;
+  const {
+    dailryId,
+    setEditingDailry,
+    anchor = 'left',
+    setDeletedDailryId,
+  } = props;
   const { setModalType } = useModalContext();
 
   const handleDeleteClick = async (e) => {
     e.stopPropagation();
-    await deleteDailry(dailryId);
-    setEditingDailry(Math.random());
+    const res = await deleteDailry(dailryId);
+
+    if (res.data.successful) {
+      setEditingDailry(Math.random());
+      setDeletedDailryId(dailryId);
+    }
   };
 
   const handlePatchClick = (e) => {
@@ -36,6 +45,7 @@ DailryHamburger.propTypes = {
   dailryId: PropTypes.number.isRequired,
   setEditingDailry: PropTypes.func.isRequired,
   anchor: 'right' || 'left',
+  setDeletedDailryId: PropTypes.func,
 };
 
 export default DailryHamburger;

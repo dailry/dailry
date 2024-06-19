@@ -8,16 +8,18 @@ import * as S from './PageNavigator.styled';
 import 'react-toastify/dist/ReactToastify.css';
 import { useModalContext } from '../../../../hooks/useModalContext';
 import { PATH_NAME } from '../../../../constants/routes';
+import { useDailryContext } from '../../../../hooks/useDailryContext';
 
 const PageNavigator = (props) => {
-  const { dailryData, pageNumber } = props;
-  const { dailryId, pages } = dailryData;
+  const { pageNumber } = props;
   const navigate = useNavigate();
   const { modalType, setModalType, closeModal } = useModalContext();
+  const { currentDailry } = useDailryContext();
+  const { id, pages } = currentDailry;
 
   const handleModalSelect = {
     select: (page) => {
-      navigate(`${PATH_NAME.Dailry}/${dailryId}/${page.pageNumber}`);
+      navigate(`${PATH_NAME.Dailry}/${id}/${page.pageNumber}`);
     },
     share: (page) => {
       navigate(`${PATH_NAME.CommunityWrite}?pageImage=${page.thumbnail}`);
@@ -39,7 +41,7 @@ const PageNavigator = (props) => {
       toastify('첫 번째 페이지입니다');
       return;
     }
-    navigate(`${PATH_NAME.Dailry}/${dailryId}/${pageNumber - 1}`);
+    navigate(`${PATH_NAME.Dailry}/${id}/${pageNumber - 1}`);
   };
 
   const handleRightArrowClick = async () => {
@@ -47,7 +49,7 @@ const PageNavigator = (props) => {
       toastify('마지막 페이지입니다');
       return;
     }
-    navigate(`${PATH_NAME.Dailry}/${dailryId}/${pageNumber + 1}`);
+    navigate(`${PATH_NAME.Dailry}/${id}/${pageNumber + 1}`);
   };
 
   return (
