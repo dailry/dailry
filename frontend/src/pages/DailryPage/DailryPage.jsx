@@ -14,7 +14,7 @@ import {
   PAGE_TOOLS,
   PAGE_TOOLS_TOOLTIP,
 } from '../../constants/toolbar';
-import { postPage, patchPage, getPreviewPages } from '../../apis/dailryApi';
+import { postPage, patchPage } from '../../apis/dailryApi';
 import { DECORATE_TYPE, EDIT_MODE } from '../../constants/decorateComponent';
 import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewDecorateComponent';
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
@@ -27,6 +27,8 @@ import usePageData from '../../hooks/usePageData';
 import { DecorateComponentDeleteButton } from '../../components/decorate/DeleteButton/DeleteButton.styled';
 import Tooltip from '../../components/common/Tooltip/Tooltip';
 import PageNavigator from '../../components/dailryPage/pageList/PageNavigator/PageNavigator';
+import { PATH_NAME } from '../../constants/routes';
+import { useDailryContext } from '../../hooks/useDailryContext';
 import useDecorateComponents from '../../hooks/decorateComponent/useDecorateComponents';
 // import { PATH_NAME } from '../../constants/routes';
 
@@ -34,10 +36,10 @@ const DailryPage = () => {
   const pageRef = useRef(null);
   const moveableRef = useRef([]);
   // const navigate = useNavigate();
+  const { currentDailryPage, setCurrentDailry } = useDailryContext();
 
   const [target, setTarget] = useState(null);
   const [selectedTool, setSelectedTool] = useState(null);
-  const [dailryData, setDailryData] = useState([]);
   // const [pageId, setPageId] = useState(0);
 
   const navigate = useNavigate();
@@ -47,10 +49,6 @@ const DailryPage = () => {
 
   const { decorateComponents, dispatchDecorateComponents } =
     useDecorateComponents();
-
-  useEffect(() => {
-    console.log(decorateComponents);
-  }, [decorateComponents]);
 
   const {
     updatedDecorateComponents,
@@ -115,10 +113,8 @@ const DailryPage = () => {
           updatedDecorateComponents,
           deletedDecorateComponentIds,
         );
-        const { pageId } = dailryData.pages.find(
-          (page) => page.pageNumber === pageNumber,
-        );
-        await patchPage(pageId, formData);
+
+        await patchPage(currentDailryPage.pageId, formData);
       });
 
       setUpdatedDecorateComponents([]);
@@ -149,25 +145,14 @@ const DailryPage = () => {
     //     ? dailryData.pages.find((page) => page.pageNumber === pageNumber).pageId
     //     : 0,
     // );
-  }, [pageNumber]);
-
-  useEffect(() => {
-    (async () => {
-      if (dailryId) {
-        const response = await getPreviewPages(dailryId);
-        if (response.status === 200) {
-          setDailryData(response.data);
-        }
-      }
-    })();
-  }, [dailryId]);
+  }, [currentDailryPage]);
 
   const handleDownloadClick = async () => {
     try {
       const pageImg = await html2canvas(pageRef.current);
       pageImg.toBlob((pageImageBlob) => {
         if (pageImageBlob !== null) {
-          saveAs(pageImageBlob, `dailry${dailryId}_${pageNumber}.png`);
+          saveAs(pageImageBlob, `dailry${dailryId}_${currentDailryPage}.png`);
         }
       });
     } catch (e) {
@@ -364,7 +349,26 @@ const DailryPage = () => {
                   patchPageData();
                 }
                 setUpdatedDecorateComponents([]);
-                await postPage(dailryId);
+                const res = await postPage(dailryId);
+                if (res) {
+                  const {
+                    pageId,
+                    pageNumber: newPageNumber,
+                    thumbnail,
+                  } = res.data;
+                  setCurrentDailry((prev) => ({
+                    ...prev,
+                    pages: [
+                      ...prev.pages,
+                      {
+                        pageId,
+                        pageNumber: newPageNumber,
+                        thumbnail,
+                      },
+                    ],
+                  }));
+                  navigate(`/dailry/${dailryId}/${newPageNumber}`);
+                }
               }
               if (t === 'download') {
                 await handleDownloadClick();
@@ -373,11 +377,8 @@ const DailryPage = () => {
                 patchPageData();
               }
               if (t === 'share') {
-                const currentPageThumbnail = dailryData.find(
-                  (page) => page.pageNumber === pageNumber,
-                ).thumbnail;
                 navigate(
-                  `${PATH_NAME.CommunityWrite}?type=post&pageImage=${currentPageThumbnail}`,
+                  `${PATH_NAME.CommunityWrite}?type=post&pageImage=${currentDailryPage.thumbnail}`,
                 );
               }
             };
@@ -393,7 +394,7 @@ const DailryPage = () => {
             );
           })}
         </S.ToolWrapper>
-        <PageNavigator dailryData={dailryData} pageNumber={pageNumber} />
+        <PageNavigator pageNumber={pageNumber} />
       </S.SideWrapper>
     </S.FlexWrapper>
   ) : (

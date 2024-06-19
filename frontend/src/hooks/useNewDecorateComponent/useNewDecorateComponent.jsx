@@ -5,7 +5,7 @@ import { getCommonDecorateComponentProperties } from './createNewDecorateCompone
 const useNewDecorateComponent = (
   decorateComponents,
   pageRef,
-  addNewDecorateComponent,
+  dispatchDecorateComponents,
   addUpdatedDecorateComponent,
 ) => {
   const [newDecorateComponent, setNewDecorateComponent] = useState(null);
@@ -36,7 +36,7 @@ const useNewDecorateComponent = (
 
   const completeCreateNewDecorateComponent = () => {
     if (isCreationCompleted) {
-      addNewDecorateComponent(newDecorateComponent);
+      dispatchDecorateComponents({ type: 'addNew', newDecorateComponent });
       addUpdatedDecorateComponent(newDecorateComponent);
     }
     removeNewDecorateComponent();
