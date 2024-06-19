@@ -21,19 +21,16 @@ const CommunityPage = () => {
   const [page, setPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(true);
   const [liked, setLiked] = useState({});
+  const [condition, setCondition] = useState(POSTS_LOAD_CONDITIONS[1]);
   const navigate = useNavigate();
 
-  const setPostState = (hasNext = true, newPosts = [], newPage = 0) => {
+  const setPostState = (hasNext = true, newPosts = () => [], newPage = 0) => {
     setHasNextPage(hasNext);
     setPosts(newPosts);
     setPage(newPage);
   };
 
   const getSetPost = async () => {
-    const condition =
-      POSTS_LOAD_CONDITIONS.find((c) => {
-        return c.check(searchParams.get(c.parameter));
-      }) || POSTS_LOAD_CONDITIONS[1];
     const hashtag = searchParams.get('hashtag');
     const response = await condition.getPosts({
       ...(hashtag && { hashtags: hashtag }),
@@ -45,16 +42,17 @@ const CommunityPage = () => {
       return;
     }
     const { hasNext, [condition.post]: newPost, presentPage } = response.data;
-    setPostState(hasNext, [...posts, ...newPost], presentPage + 1);
+    setPostState(
+      hasNext,
+      (prevPosts) => [...prevPosts, ...newPost],
+      presentPage + 1,
+    );
 
     const res = await getLikes([
       response.data[condition.post].map((p) => p.postId),
     ]);
     if (res.status === 200) {
-      setLiked({
-        ...liked,
-        ...(await res.data),
-      });
+      setLiked((prevLiked) => ({ ...prevLiked, ...res.data }));
     }
   };
 
@@ -67,11 +65,6 @@ const CommunityPage = () => {
   };
 
   useEffect(() => {
-    setPostState();
-    setLiked({});
-  }, [searchParams]);
-
-  useEffect(() => {
     (async () => {
       const response = await getMember();
       if (response.status === 200) {
@@ -79,6 +72,16 @@ const CommunityPage = () => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    setPostState();
+    setLiked({});
+    const tmpCondition =
+      POSTS_LOAD_CONDITIONS.find((c) => {
+        return c.check(searchParams.get(c.parameter));
+      }) || POSTS_LOAD_CONDITIONS[1];
+    setCondition(tmpCondition);
+  }, [searchParams]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(onIntersect);
@@ -123,9 +126,9 @@ const CommunityPage = () => {
     if (liked[postId] === false) {
       const response = await postLikes(postId);
       if (response.status === 200) {
-        setLiked({ ...liked, [postId]: true });
-        setPosts(
-          posts.map((post) => {
+        setLiked((prevLiked) => ({ ...prevLiked, [postId]: true }));
+        setPosts((prevPosts) =>
+          prevPosts.map((post) => {
             return post.postId === postId
               ? { ...post, likeCount: post.likeCount + 1 }
               : post;
@@ -144,9 +147,9 @@ const CommunityPage = () => {
     if (liked[postId] === true) {
       const response = await deleteLikes(postId);
       if (response.status === 200) {
-        setLiked({ ...liked, [postId]: false });
-        setPosts(
-          posts.map((post) => {
+        setLiked((prevLiked) => ({ ...prevLiked, [postId]: false }));
+        setPosts((prevPosts) =>
+          prevPosts.map((post) => {
             return post.postId === postId
               ? { ...post, likeCount: post.likeCount - 1 }
               : post;
@@ -164,8 +167,22 @@ const CommunityPage = () => {
           커뮤니티
         </Text>
         <S.SortWrapper>
-          <button onClick={handleLatestClick}>전체게시글</button>
-          <button onClick={handleHotClick}>인기게시글</button>
+          <S.OrderByButton
+            onClick={handleLatestClick}
+            current={
+              condition.parameter === 'orderBy' && condition.check('latest')
+            }
+          >
+            전체게시글
+          </S.OrderByButton>
+          <S.OrderByButton
+            onClick={handleHotClick}
+            current={
+              condition.parameter === 'orderBy' && condition.check('hotPosts')
+            }
+          >
+            인기게시글
+          </S.OrderByButton>
         </S.SortWrapper>
       </S.HeaderWrapper>
       {posts.length === 0 ? (
