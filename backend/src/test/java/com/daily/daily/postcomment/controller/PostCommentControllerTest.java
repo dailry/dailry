@@ -260,7 +260,7 @@ class PostCommentControllerTest {
                     .andExpect(jsonPath("$.comments", Matchers.hasSize(요청_페이지_사이즈)));
 
             //restdocs
-            perform.andDo(document("댓글 조회",
+            perform.andDo(document("댓글 memberId로 조회",
                     pathParameters(
                             parameterWithName("memberId").description("멤버 id")
                     ),
