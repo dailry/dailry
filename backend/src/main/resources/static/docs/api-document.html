@@ -446,7 +446,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel2">
-<li><a href="#_예외_케이스_공통_응답">예외 케이스 공통 응답</a></li>
+<li><a href="#_예외_케이스_응답_포맷">예외 케이스 응답 포맷</a></li>
+<li><a href="#_에러코드_모음">에러코드 모음</a></li>
 <li><a href="#_인증_인가">인증 &amp; 인가</a>
 <ul class="sectlevel2">
 <li><a href="#_로그인">로그인</a></li>
@@ -524,13 +525,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect2">
-<h3 id="_예외_케이스_공통_응답">예외 케이스 공통 응답</h3>
+<h3 id="_예외_케이스_응답_포맷">예외 케이스 응답 포맷</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-    "successful": false,
-    "msg": "예외 메시지",
-    "statusCode": 상태코드
+    "statusCode": HTTP상태코드,
+    "errorCode": "에러코드",
+    "msg": "에러 메시지",
+    "successful": false
 }</code></pre>
 </div>
 </div>
@@ -539,11 +541,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-    "successful": false,
-    "msg": "해당 회원을 찾을 수 없습니다.",
-    "statusCode": 404
+    "statusCode": 409,
+    "errorCode": "DUPLICATED_USERNAME",
+    "msg": "이미 사용중인 아이디 입니다.",
+    "successful": false
 }</code></pre>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_에러코드_모음">에러코드 모음</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Unresolved directive in api-document.adoc - include::C:\Users\gomud\GitHub\dailry\backend\build\generated-snippets/에러코드모음/error-codes.adoc[]</p>
 </div>
 </div>
 </div>
@@ -601,8 +612,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzE3NDU5ODE2fQ.gEFakafme4szvq44t9oIFzQ9TSf4SwMx-K-fwdeeHkz3pl-lAc9r1ncHxHJEqQ00pJ0kHnh-LRDZ3e-Z92PO9w; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcxNzIyNTU4MiwiZXhwIjoxOTUxNDU5ODE2fQ.5laTGLjQdNywcw8vscWeNRMlR3bxj5samqj37-tJjz2zfEheTCqZyX9NGVI_HNbk6mAkC7BGm99FVpY0Btw57g; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
+Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzE5MTkzODEzfQ._-fbVqNWH-RYJopRuaSsFIVoitIMEJqJSjtEQkp5r3nE96Ka8dtCXeY0zrsIni4GGZSn3Kx7L4hQx_a24Ok7jw; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcxODk1OTU3OSwiZXhwIjoxOTUzMTkzODEzfQ.-vD-hqUENnmuhtA4JKS09OX7z3QoW4vlvLfYcppeN85I7HN-teKIkg0OgdhcXtwJM16zhARff555qZve_zor9Q; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
 Content-Type: application/json
 
 {
@@ -621,8 +632,8 @@ Content-Type: application/json
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MTc0NTk4MTR9.q_3tSEv7byMvidi4N3RWyO0GkmAqNd4fc9ZVGX-QeXlJwCsJN1dwFdY3ScdONHRq4nXaU2FyaFt-NNBeRQOOmA
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzE3MjI1NTgwLCJleHAiOjE5NTE0NTk4MTR9.InavHLdmaD2nsxiQMLgUPxSnBwIxmNo7CCn-_p3Sgw79T5PxPc6VDp4A_20WBsf5EcVCj_gIxtqeOm7jor9PWQ</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MTkxOTM4MTF9.Kb42O3nfJd0cHzavT9ZmpB9EbKu24T0AE1T5-FFl-5q4Xkcjlu7GNXxk1bDhuONYagA2pkmj7VAo6nWlgzp1yA
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzE4OTU5NTc3LCJleHAiOjE5NTMxOTM4MTF9.LNBeiRaKtezN5NUa5t6We77_-61ueX17_UOZki_k8vfygfyrmFEr2oAeSKMzqiH-FFz-DdjYUQm3QFDuZwPmpg</code></pre>
 </div>
 </div>
 </div>
@@ -651,8 +662,8 @@ Content-Type: application/json
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MTc0NTk4MTV9.oGS8OUxnRv4-qy5gDjsm9lbBiMs9aryd1elNfu7udQH44_eFN6uESi_TQByLFUgENXjZBqNtE8KhXVL5rt_UbQ
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzE3MjI1NTgxLCJleHAiOjE5NTE0NTk4MTV9.1FrAWhB620EQ-IUfcUpkGrJG51l_l0eTkHTPISUWsrknYZ7ppjJoAP5eMYRLcDY41wwul1-n5S2Lb6DQ9I0m6g</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MTkxOTM4MTJ9.ltNxetoCEbbS8cm0XxHNRJgByq7M7jo7teEcovqC5Ddvzfjqt5OfiCQCheLvFNu1cFefWlNly_w7_1Oav2RUcQ
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzE4OTU5NTc4LCJleHAiOjE5NTMxOTM4MTJ9.eTEFRbyAhRqfYeJFJQFE2ZVzw-vQMR-UfQlehdU-oY1YhqjXVw3TeSBqVkKShvxP0CrmKqmo7x_EydbI8gKoHQ</code></pre>
 </div>
 </div>
 </div>
@@ -3815,10 +3826,10 @@ Content-Type: application/json
 
 {
   "5" : true,
-  "4" : false,
-  "3" : false,
+  "1" : true,
   "2" : true,
-  "1" : true
+  "3" : false,
+  "4" : false
 }</code></pre>
 </div>
 </div>
@@ -4312,7 +4323,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-06-01 16:05:51 +0900
+Last updated 2024-06-21 17:38:42 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
