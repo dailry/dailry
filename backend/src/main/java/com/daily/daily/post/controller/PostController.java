@@ -79,4 +79,9 @@ public class PostController {
         return hashtagService.findHotHashTags();
     }
 
+    @GetMapping("member/{memberId}")
+    public PostReadSliceResponseDTO readPostByMember(@PathVariable Long memberId, Pageable pageable) {
+        return postService.findPostByMember(memberId, pageable);
+    }
+
 }

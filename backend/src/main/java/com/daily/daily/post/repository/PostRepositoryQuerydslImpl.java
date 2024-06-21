@@ -73,4 +73,25 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
 
         return new SliceImpl<>(posts, pageable, hasNext);
     }
+
+    @Override
+    public Slice<Post> findPostsByHashtag(Long memberId, Pageable pageable) {
+        List<Post> posts = queryFactory
+                .selectFrom(post)
+                .leftJoin(post.postWriter, member).fetchJoin()
+                .innerJoin(post.postHashtags).fetchJoin()
+                .where(post.postWriter.id.in(memberId))
+                .orderBy(post.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize() + 1)
+                .fetch();
+
+        boolean hasNext = posts.size() > pageable.getPageSize();
+
+        if (hasNext) {
+            posts.remove(posts.size() - 1); // 마지막 항목 제거
+        }
+
+        return new SliceImpl<>(posts, pageable, hasNext);
+    }
 }
