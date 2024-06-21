@@ -1,7 +1,10 @@
 package com.daily.daily.post.exception;
 
-public class AlreadyLikeException extends RuntimeException{
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
+
+public class AlreadyLikeException extends CustomException {
     public AlreadyLikeException() {
-        super("이미 좋아요를 누른 게시글입니다.");
+        super(ErrorCode.ALRADY_LIKE_POST);
     }
 }

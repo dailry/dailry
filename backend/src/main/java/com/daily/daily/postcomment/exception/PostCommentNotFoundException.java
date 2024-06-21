@@ -1,7 +1,10 @@
 package com.daily.daily.postcomment.exception;
 
-public class PostCommentNotFoundException extends RuntimeException{
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
+
+public class PostCommentNotFoundException extends CustomException {
     public PostCommentNotFoundException() {
-        super("존재하지 않는 댓글입니다.");
+        super(ErrorCode.COMMENT_NOT_FOUND);
     }
 }

@@ -15,7 +15,6 @@ import com.daily.daily.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -104,11 +103,25 @@ public class MemberController {
         return new SuccessResponseDTO();
     }
 
+    /**
+     * 비밀번호 찾기를 위한 메일 전송
+     * request : username, email
+     * username 과 email이 일치하면 비밀번호 재설정 토큰을 생성후,
+     * 해당 토큰을 URL에 포함한 재설정 페이지를 이메일로 전송.
+     */
+
     @PostMapping("/recover-password")
     public SuccessResponseDTO recoverPassword(@RequestBody @Valid PasswordRecoverDTO passwordRecoverDTO) {
         memberEmailService.recoverPassword(passwordRecoverDTO.getUsername(), passwordRecoverDTO.getEmail());
         return new SuccessResponseDTO();
     }
+
+    /**
+     * 비밀번호 찾기 페이지에서 비밀번호를 재설정을 할때, 호출되는 API
+     * request : passwordResetToken, password
+     *
+     * 비밀번호 재설정 토큰이 유효하면 비밀번호를 재설정한다.
+     */
 
     @PatchMapping("/recover-password")
     public SuccessResponseDTO updatePasswordByResetToken(@RequestBody @Valid PasswordTokenDTO passwordTokenDTO) {

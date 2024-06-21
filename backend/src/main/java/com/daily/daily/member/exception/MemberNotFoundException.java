@@ -1,10 +1,11 @@
 package com.daily.daily.member.exception;
 
-import java.util.NoSuchElementException;
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
 
-public class MemberNotFoundException extends NoSuchElementException {
+public class MemberNotFoundException extends CustomException {
 
     public MemberNotFoundException() {
-        super("해당 회원을 찾을 수 없습니다.");
+        super(ErrorCode.MEMBER_NOT_FOUND);
     }
 }

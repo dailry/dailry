@@ -1,7 +1,10 @@
 package com.daily.daily.post.exception;
 
-public class NotPreviouslyLikedException extends RuntimeException{
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
+
+public class NotPreviouslyLikedException extends CustomException {
     public NotPreviouslyLikedException() {
-        super("좋아요를 취소할 수 없습니다. 좋아요를 누르지 않은 게시글 입니다.");
+        super(ErrorCode.NOT_PREVIOUSLY_LIKE);
     }
 }

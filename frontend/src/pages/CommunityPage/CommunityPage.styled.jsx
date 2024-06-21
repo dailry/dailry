@@ -32,6 +32,10 @@ export const SortWrapper = styled.div`
   gap: 12px;
 `;
 
+export const OrderByButton = styled.button`
+  font-weight: ${({ current }) => (current ? 'bold' : 'normal')};
+`;
+
 export const LikeWrapper = styled.button`
   display: flex;
   flex-direction: column;
@@ -63,7 +67,7 @@ export const PostWrapper = styled.div`
     background-color: ${COMMUNITY.line};
   }
 
-  &:last-child::after {
+  &:nth-last-child(-n + 2)::after {
     display: none;
   }
 `;
@@ -72,7 +76,7 @@ export const HeadWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
 
   width: 100%;
 `;
@@ -80,6 +84,7 @@ export const HeadWrapper = styled.div`
 export const RowFlex = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: start;
   gap: 8px;
 `;
 
@@ -127,6 +132,10 @@ export const TagWrapper = styled.div`
 
   border: 1px solid ${COMMUNITY.line};
   border-radius: 12px;
+`;
+
+export const TagDeleteButton = styled.button`
+  color: ${COMMUNITY.delete};
 `;
 
 export const WriteTagArea = styled.input`

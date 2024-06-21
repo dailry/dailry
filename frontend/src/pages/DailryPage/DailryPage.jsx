@@ -2,9 +2,8 @@
 import { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import { toast, Zoom } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import { toastify } from '../../utils/toastify';
 import * as S from './DailryPage.styled';
 import Text from '../../components/common/Text/Text';
 import ToolButton from '../../components/da-ily/ToolButton/ToolButton';
@@ -157,16 +156,6 @@ const DailryPage = () => {
       }
     })();
   }, [pageIds, pageNumber]);
-
-  const toastify = (message) => {
-    toast(message, {
-      position: 'bottom-right',
-      autoClose: 300,
-      hideProgressBar: true,
-      closeOnClick: true,
-      transition: Zoom,
-    });
-  };
 
   const patchPageData = () => {
     setTarget(null);

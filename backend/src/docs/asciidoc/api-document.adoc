@@ -4,14 +4,15 @@
 
 = 다일리 API 문서
 
-=== 예외 케이스 공통 응답
+=== 예외 케이스 응답 포맷
 
 [source,json]
 ----
 {
-    "successful": false,
-    "msg": "예외 메시지",
-    "statusCode": 상태코드
+    "statusCode": HTTP상태코드,
+    "errorCode": "에러코드",
+    "msg": "에러 메시지",
+    "successful": false
 }
 ----
 
@@ -20,11 +21,16 @@
 [source, json]
 ----
 {
-    "successful": false,
-    "msg": "해당 회원을 찾을 수 없습니다.",
-    "statusCode": 404
+    "statusCode": 409,
+    "errorCode": "DUPLICATED_USERNAME",
+    "msg": "이미 사용중인 아이디 입니다.",
+    "successful": false
 }
 ----
+
+== 에러코드 모음
+
+include::{snippets}/전체 에러코드 모음/all-error-codes.adoc[]
 
 == 인증 & 인가
 

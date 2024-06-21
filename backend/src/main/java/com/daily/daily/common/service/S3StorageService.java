@@ -43,7 +43,7 @@ public class S3StorageService {
         String contentType = imageFile.getContentType();
 
         if (contentType == null || !contentType.startsWith("image/")) {
-            throw new FileContentTypeUnmatchedException("이미지 파일만 업로드 가능합니다.");
+            throw new FileContentTypeUnmatchedException();
         }
     }
 }

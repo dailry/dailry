@@ -1,7 +1,10 @@
 package com.daily.daily.member.exception;
 
-public class DuplicatedEmailException extends IllegalArgumentException{
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
+
+public class DuplicatedEmailException extends CustomException {
     public DuplicatedEmailException() {
-        super("이미 사용중인 이메일 입니다.");
+        super(ErrorCode.DUPLICATED_EMAIL);
     }
 }

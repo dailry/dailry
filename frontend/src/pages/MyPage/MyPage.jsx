@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast, Zoom } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toastify } from '../../utils/toastify';
 import * as S from './MyPage.styled';
 import Button from '../../components/common/Button/Button';
 import Text from '../../components/common/Text/Text';
@@ -37,16 +36,6 @@ const MyPage = () => {
       setEmail(await response.data.email);
     })();
   }, []);
-
-  const toastify = (message) => {
-    toast(message, {
-      position: 'bottom-right',
-      autoClose: 300,
-      hideProgressBar: true,
-      closeOnClick: true,
-      transition: Zoom,
-    });
-  };
 
   const handleChangeNicknameClick = () => {
     setEditingNickname(true);
