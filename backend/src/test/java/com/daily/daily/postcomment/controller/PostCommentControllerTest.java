@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -23,14 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static com.daily.daily.post.fixture.PostFixture.POST_ID;
-import static com.daily.daily.postcomment.fixture.PostCommentFixture.COMMENT_ID;
-import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_생성_DTO;
-import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_수정_DTO;
-import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_응답_DTO;
-import static com.daily.daily.postcomment.fixture.PostCommentFixture.댓글_조회_페이징_DTO;
-import static com.daily.daily.postcomment.fixture.PostCommentFixture.수정된_댓글_응답_DTO;
-import static com.daily.daily.postcomment.fixture.PostCommentFixture.요청_페이지_사이즈;
-import static com.daily.daily.postcomment.fixture.PostCommentFixture.요청_페이지_숫자;
+import static com.daily.daily.postcomment.fixture.PostCommentFixture.*;
 import static com.daily.daily.testutil.document.RestDocsUtil.document;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -231,6 +225,57 @@ class PostCommentControllerTest {
                             fieldWithPath("comments[].commentId").type(NUMBER).description("댓글 id"),
                             fieldWithPath("comments[].content").type(STRING).description("댓글 내용"),
                             fieldWithPath("comments[].writerNickname").type(STRING).description("댓글 작성자 닉네임"),
+                            fieldWithPath("comments[].writerId").type(NUMBER).description("댓글 작성자 memberId"),
+                            fieldWithPath("comments[].createdTime").type(STRING).description("댓글 생성 시간")
+                    )
+            ));
+        }
+    }
+
+    @Nested
+    @DisplayName("readCommentsByMember() - memberId를 통한 댓글 조회 메서드 테스트")
+    class readCommentsByMember {
+        @Test
+        @DisplayName("memberId로 댓글을 성공적으로 조회했을 때 응답결과를 테스트한다.")
+        @WithMockUser
+        void test1() throws Exception{
+            //given
+            PostCommentSliceDTO 응답결과 = 댓글_memberID로_조회_페이징_DTO();
+
+            given(commentService.readCommentsByMemberId(5L, PageRequest.of(요청_페이지_숫자, 요청_페이지_사이즈))).willReturn(응답결과);
+
+            //when
+            ResultActions perform = mockMvc.perform(get("/api/posts/member/{memberId}/comments", 5L)
+                    .queryParam("page", String.valueOf(요청_페이지_숫자))
+                    .queryParam("size", String.valueOf(요청_페이지_사이즈))
+                    .with(csrf().asHeader())
+            );
+
+            //then
+            perform.andExpect(status().isOk())
+                    .andDo(print())
+                    .andExpect(jsonPath("$.presentPage").value(응답결과.getPresentPage()))
+                    .andExpect(jsonPath("$.hasNext").value(응답결과.isHasNext()))
+                    .andExpect(jsonPath("$.comments").isArray())
+                    .andExpect(jsonPath("$.comments", Matchers.hasSize(요청_페이지_사이즈)));
+
+            //restdocs
+            perform.andDo(document("댓글 조회",
+                    pathParameters(
+                            parameterWithName("memberId").description("멤버 id")
+                    ),
+                    queryParameters(
+                            parameterWithName("page").description("페이지 번호(0부터 시작)"),
+                            parameterWithName("size").description("페이지 사이즈")
+                    ),
+                    responseFields(
+                            fieldWithPath("presentPage").type(NUMBER).description("현재 페이지 번호"),
+                            fieldWithPath("hasNext").type(BOOLEAN).description("다음 댓글이 존재하는지 유무"),
+                            fieldWithPath("comments").type(ARRAY).description("댓글 목록 배열"),
+                            fieldWithPath("comments[].commentId").type(NUMBER).description("댓글 id"),
+                            fieldWithPath("comments[].content").type(STRING).description("댓글 내용"),
+                            fieldWithPath("comments[].writerNickname").type(STRING).description("댓글 작성자 닉네임"),
+                            fieldWithPath("comments[].writerId").type(NUMBER).description("댓글 작성자 memberId"),
                             fieldWithPath("comments[].createdTime").type(STRING).description("댓글 생성 시간")
                     )
             ));

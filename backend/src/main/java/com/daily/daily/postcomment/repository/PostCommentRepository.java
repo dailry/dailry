@@ -11,6 +11,6 @@ public interface PostCommentRepository extends JpaRepository<PostComment, Long> 
     @Query("select c from PostComment c where c.post.id = :postId")
     Slice<PostComment> findByPostId(Long postId, Pageable pageable);
 
-    @Query("select c from PostComment c where c.post.postWriter.id = :memberId")
+    @Query("select c from PostComment c where c.commentWriter.id = :memberId")
     Slice<PostComment> findCommentsByMemberId(Long memberId, Pageable pageable);
 }

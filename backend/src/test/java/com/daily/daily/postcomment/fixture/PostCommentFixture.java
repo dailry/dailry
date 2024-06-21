@@ -60,6 +60,7 @@ public class PostCommentFixture {
                 .createdTime(댓글_생성_시간)
                 .content("와우")
                 .writerNickname("뚱냥이")
+                .writerId(1L)
                 .build();
 
         PostCommentSliceDTO.SingleCommentDTO 두번째_댓글 = PostCommentSliceDTO.SingleCommentDTO.builder()
@@ -67,6 +68,7 @@ public class PostCommentFixture {
                 .createdTime(댓글_생성_시간)
                 .content("허걱")
                 .writerNickname("돼냥이")
+                .writerId(2L)
                 .build();
 
         PostCommentSliceDTO.SingleCommentDTO 세번째_댓글 = PostCommentSliceDTO.SingleCommentDTO.builder()
@@ -74,6 +76,41 @@ public class PostCommentFixture {
                 .createdTime(댓글_생성_시간)
                 .content("오오 멋있어요")
                 .writerNickname("gomudayya")
+                .writerId(3L)
+                .build();
+
+        PostCommentSliceDTO 댓글_조회_페이징_DTO = PostCommentSliceDTO.builder()
+                .hasNext(true)
+                .presentPage(요청_페이지_숫자)
+                .comments(List.of(첫번째_댓글, 두번째_댓글, 세번째_댓글))
+                .build();
+
+        return 댓글_조회_페이징_DTO;
+    }
+
+    public static PostCommentSliceDTO 댓글_memberID로_조회_페이징_DTO() {
+        PostCommentSliceDTO.SingleCommentDTO 첫번째_댓글 = PostCommentSliceDTO.SingleCommentDTO.builder()
+                .commentId(2L)
+                .createdTime(댓글_생성_시간)
+                .content("와우")
+                .writerNickname("배고프다")
+                .writerId(5L)
+                .build();
+
+        PostCommentSliceDTO.SingleCommentDTO 두번째_댓글 = PostCommentSliceDTO.SingleCommentDTO.builder()
+                .commentId(5L)
+                .createdTime(댓글_생성_시간)
+                .content("허걱")
+                .writerNickname("배고프다")
+                .writerId(5L)
+                .build();
+
+        PostCommentSliceDTO.SingleCommentDTO 세번째_댓글 = PostCommentSliceDTO.SingleCommentDTO.builder()
+                .commentId(16L)
+                .createdTime(댓글_생성_시간)
+                .content("오오 멋있어요")
+                .writerNickname("배고프다")
+                .writerId(5L)
                 .build();
 
         PostCommentSliceDTO 댓글_조회_페이징_DTO = PostCommentSliceDTO.builder()

@@ -37,6 +37,7 @@ public class PostCommentSliceDTO {
                         .commentId(comment.getId())
                         .content(comment.getContent())
                         .writerNickname(comment.getWriterNickname())
+                        .writerId(comment.getWriterId())
                         .createdTime(comment.getCreatedTime())
                         .build()
                 )
@@ -51,6 +52,7 @@ public class PostCommentSliceDTO {
         private Long commentId;
         private String content;
         private String writerNickname;
+        private Long writerId;
         private LocalDateTime createdTime;
     }
 }
