@@ -107,4 +107,9 @@ public class PostService {
         Slice<Post> posts = postRepository.findPostsByHashtag(hashtags, pageable);
         return PostReadSliceResponseDTO.from(posts);
     }
+
+    public PostReadSliceResponseDTO findPostByMember(Long memberId, Pageable pageable) {
+        Slice<Post> posts = postRepository.findPostsByHashtag(memberId, pageable);
+        return PostReadSliceResponseDTO.from(posts);
+    }
 }

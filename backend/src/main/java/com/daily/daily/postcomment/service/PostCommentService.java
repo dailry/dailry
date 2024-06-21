@@ -78,4 +78,9 @@ public class PostCommentService {
 
         return PostCommentSliceDTO.from(commentSlice);
     }
+
+    public PostCommentSliceDTO readCommentsByMemberId(Long memberId, Pageable pageable) {
+        Slice<PostComment> commentSlice = commentRepository.findCommentsByMemberId(memberId, pageable);
+        return PostCommentSliceDTO.from(commentSlice);
+    }
 }
