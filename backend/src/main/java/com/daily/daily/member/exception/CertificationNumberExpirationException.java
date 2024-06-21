@@ -1,7 +1,10 @@
 package com.daily.daily.member.exception;
 
-public class CertificationNumberExpirationException extends RuntimeException{
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
+
+public class CertificationNumberExpirationException extends CustomException {
     public CertificationNumberExpirationException() {
-        super("인증번호가 만료되었습니다.");
+        super(ErrorCode.CERT_NUMBER_EXPIRED);
     }
 }

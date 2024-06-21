@@ -1,7 +1,10 @@
 package com.daily.daily.member.exception;
 
-public class CertificationNumberUnmatchedException extends RuntimeException{
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
+
+public class CertificationNumberUnmatchedException extends CustomException {
     public CertificationNumberUnmatchedException() {
-        super("인증번호가 일치하지 않습니다.");
+        super(ErrorCode.CERT_NUMBER_UNMATCHED);
     }
 }

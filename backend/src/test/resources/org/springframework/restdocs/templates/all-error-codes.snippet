@@ -1,0 +1,16 @@
+{{#allErrorCodes}}
+
+=== {{errorType}}
+
+|====
+|에러코드|HTTP 상태코드|설명
+
+{{#errorCodes}}
+|{{#tableCellContent}}{{code}}{{/tableCellContent}}
+|{{#tableCellContent}}{{httpStatus}}{{/tableCellContent}}
+|{{#tableCellContent}}{{description}}{{/tableCellContent}}
+{{/errorCodes}}
+
+|====
+
+{{/allErrorCodes}}

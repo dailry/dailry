@@ -1,10 +1,11 @@
 package com.daily.daily.dailrypage.exception;
 
-import java.util.NoSuchElementException;
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
 
-public class DailryPageThumbnailNotFoundException extends NoSuchElementException {
+public class DailryPageThumbnailNotFoundException extends CustomException {
     public DailryPageThumbnailNotFoundException() {
-        super("해당 다일리 페이지의 섬네일을 찾을 수 없습니다.");
+        super(ErrorCode.DAILRY_THUMBNAIL_NOT_FOUND);
     }
 
 }

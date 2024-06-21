@@ -1,8 +1,11 @@
 package com.daily.daily.member.exception;
 
-public class PasswordUnmatchedException extends IllegalArgumentException{
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
+
+public class PasswordUnmatchedException extends CustomException {
     public PasswordUnmatchedException() {
-        super("비밀번호가 일치하지 않습니다.");
+        super(ErrorCode.PASSWORD_UNMATCHED);
     }
 
 }

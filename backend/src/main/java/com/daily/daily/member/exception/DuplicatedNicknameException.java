@@ -1,7 +1,10 @@
 package com.daily.daily.member.exception;
 
-public class DuplicatedNicknameException extends IllegalArgumentException{
+import com.daily.daily.common.exception.core.CustomException;
+import com.daily.daily.common.exception.core.ErrorCode;
+
+public class DuplicatedNicknameException extends CustomException {
     public DuplicatedNicknameException() {
-        super("이미 사용중인 닉네임입니다.");
+        super(ErrorCode.DUPLICATED_NICKNAME);
     }
 }
