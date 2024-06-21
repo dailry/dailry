@@ -30,7 +30,7 @@
 
 == 에러코드 모음
 
-include::{snippets}/전체에러코드모음/all-error-codes.adoc[]
+include::{snippets}/전체 에러코드 모음/all-error-codes.adoc[]
 
 == 인증 & 인가
 

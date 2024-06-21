@@ -33,6 +33,6 @@ public class ErrorCodeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print());
 
-        action.andDo(document("전체에러코드모음", AllErrorCodesSnippet.buildSnippet()));
+        action.andDo(document("전체 에러코드 모음", AllErrorCodesSnippet.buildSnippet()));
     }
 }

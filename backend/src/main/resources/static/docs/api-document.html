@@ -447,7 +447,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel2">
 <li><a href="#_예외_케이스_응답_포맷">예외 케이스 응답 포맷</a></li>
-<li><a href="#_에러코드_모음">에러코드 모음</a></li>
+<li><a href="#_에러코드_모음">에러코드 모음</a>
+<ul class="sectlevel2">
+<li><a href="#_인증인가_관련_에러">인증/인가 관련 에러</a></li>
+<li><a href="#_회원_관련_에러">회원 관련 에러</a></li>
+<li><a href="#_다일리_관련_에러">다일리 관련 에러</a></li>
+<li><a href="#_커뮤니티_관련_에러">커뮤니티 관련 에러</a></li>
+<li><a href="#_파일_관련_에러">파일 관련 에러</a></li>
+</ul>
+</li>
 <li><a href="#_인증_인가">인증 &amp; 인가</a>
 <ul class="sectlevel2">
 <li><a href="#_로그인">로그인</a></li>
@@ -553,8 +561,205 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_에러코드_모음">에러코드 모음</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Unresolved directive in api-document.adoc - include::C:\Users\gomud\GitHub\dailry\backend\build\generated-snippets/에러코드모음/error-codes.adoc[]</p>
+<div class="sect2">
+<h3 id="_인증인가_관련_에러">인증/인가 관련 에러</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">에러코드</th>
+<th class="tableblock halign-left valign-top">HTTP 상태코드</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">INVALID_LOGIN_INFO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 정보가 올바르지 않습니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ALL_AUTH_TOKEN_EXPIRED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">엑세스토큰과 리프레시 토큰이 모두 만료되었습니다. 재 로그인이 필요합니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UNAUTHORIZED_ACCESS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">403</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">접근권한이 없는 리소스에 접근하였습니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CERT_NUMBER_EXPIRED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(이메일 등록과정 등) 인증번호가 만료되었을 경우 반환됩니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CERT_NUMBER_UNMATCHED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(이메일 등록과정 등) 사용자가 입력한 인증번호가 올바르지 않을경우 반환됩니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">INVALID_PASSWORD_RESET_TOKEN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호 찾기 토큰이 올바르지 않습니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PASSWORD_UNMATCHED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마이페이지에서 비밀번호 변경할 때, 현재 비밀번호가 올바르지 않을때 반환됩니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_회원_관련_에러">회원 관련 에러</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">에러코드</th>
+<th class="tableblock halign-left valign-top">HTTP 상태코드</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DUPLICATED_EMAIL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">409</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미 사용중인 이메일입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DUPLICATED_NICKNAME</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">409</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미 사용중인 닉네임 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DUPLICATED_USERNAME</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">409</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미 사용중인 아이디 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MEMBER_NOT_FOUND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">404</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 회원을 찾을 수 없습니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">INVALID_EMAIL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아이디/비밀번호 찾기시  유효하지 않은 이메일(소셜로그인 유저, 등록되지 않은 이메일)을 입력할 때 반환됩니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_다일리_관련_에러">다일리 관련 에러</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">에러코드</th>
+<th class="tableblock halign-left valign-top">HTTP 상태코드</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DAILRY_NOT_FOUND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">404</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 다일리를 찾을 수 없습니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DAILRY_PAGE_NOT_FOUND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">404</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 다일리 페이지를 찾을 수 없습니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DAILRY_THUMBNAIL_NOT_FOUND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">404</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 다일리 페이지의 썸네일을 찾을 수 없습니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_커뮤니티_관련_에러">커뮤니티 관련 에러</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">에러코드</th>
+<th class="tableblock halign-left valign-top">HTTP 상태코드</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST_NOT_FOUND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">404</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 게시글을 찾을 수 없습니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ALRADY_LIKE_POST</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">409</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요를 누른 게시글에 다시 좋아요를 요청할 경우 반환됩니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NOT_PREVIOUSLY_LIKE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">409</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요를 누르지 않은 게시글에 좋아요 취소를 요청할 경우 반환됩니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">COMMENT_NOT_FOUND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">404</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 댓글을 찾을 수 없습니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_파일_관련_에러">파일 관련 에러</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">에러코드</th>
+<th class="tableblock halign-left valign-top">HTTP 상태코드</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FILE_CONTENT_TYPE_UNMATCHED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">파일 형식이 올바르지 않습니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FILE_UPLOAD_FAILURE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">파일 업로드에 실패하였습니다. 서버에서 예기치 못한 에러가 발생하였습니다.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -612,8 +817,8 @@ Content-Type: application/json;charset=UTF-8
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzE5MTkzODEzfQ._-fbVqNWH-RYJopRuaSsFIVoitIMEJqJSjtEQkp5r3nE96Ka8dtCXeY0zrsIni4GGZSn3Kx7L4hQx_a24Ok7jw; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcxODk1OTU3OSwiZXhwIjoxOTUzMTkzODEzfQ.-vD-hqUENnmuhtA4JKS09OX7z3QoW4vlvLfYcppeN85I7HN-teKIkg0OgdhcXtwJM16zhARff555qZve_zor9Q; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
+Set-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoxMiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNzE5MTk0NjcwfQ.qc2Oj9GvLzXTEphvIXNqBW9UNzhj96uhr-OYapifY8Y3awW8EtPqaPqBDazF_p0p8Q4iRxJOCMx9WJ-IOt2bmA; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTIsImlhdCI6MTcxODk2MDQzNiwiZXhwIjoxOTUzMTk0NjcwfQ.mD3J3tuIwiWwUiB7XVh-VZegGzWPBKhE9B5UEOtxvJWvB7XzEnie2jcqMKAafUH2B3pDBVAdtMQA2GWlP00P7A; Path=/; Domain=localhost; Secure; HttpOnly; SameSite=None
 Content-Type: application/json
 
 {
@@ -632,8 +837,8 @@ Content-Type: application/json
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/logout HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MTkxOTM4MTF9.Kb42O3nfJd0cHzavT9ZmpB9EbKu24T0AE1T5-FFl-5q4Xkcjlu7GNXxk1bDhuONYagA2pkmj7VAo6nWlgzp1yA
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzE4OTU5NTc3LCJleHAiOjE5NTMxOTM4MTF9.LNBeiRaKtezN5NUa5t6We77_-61ueX17_UOZki_k8vfygfyrmFEr2oAeSKMzqiH-FFz-DdjYUQm3QFDuZwPmpg</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjoyLCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MTkxOTQ2Njl9.AIbcCUXDG9GWkEs7JykO-uNXFMWdfKAHdxMOW8vkyw57lVsU98t1H8mgQNvzc7_zjmMGsQ-xuWGXMThGHOC66w
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MiwiaWF0IjoxNzE4OTYwNDM1LCJleHAiOjE5NTMxOTQ2Njl9.fW2ETfRlYlhtn4hFgcOG3lrUx1_2V4L4s01lOxS07Rd5Lv1H4k7nSzPE_b2PeKO2Qlt7lyVVxMQrTZdWT9VeSA</code></pre>
 </div>
 </div>
 </div>
@@ -662,8 +867,8 @@ Content-Type: application/json
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MTkxOTM4MTJ9.ltNxetoCEbbS8cm0XxHNRJgByq7M7jo7teEcovqC5Ddvzfjqt5OfiCQCheLvFNu1cFefWlNly_w7_1Oav2RUcQ
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzE4OTU5NTc4LCJleHAiOjE5NTMxOTM4MTJ9.eTEFRbyAhRqfYeJFJQFE2ZVzw-vQMR-UfQlehdU-oY1YhqjXVw3TeSBqVkKShvxP0CrmKqmo7x_EydbI8gKoHQ</code></pre>
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL2RhaWx5LmNvbSIsIm1lbWJlcklkIjo0LCJyb2xlIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE3MTkxOTQ2Njl9.MZlKFhReHRLPVnMMP5bQ0lVnu__3uLWS3fK4QK32fY2WKfFHns_QvIVwF0bm09WfcBSpLwSUuXHMlIhEQrH7JA
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NCwiaWF0IjoxNzE4OTYwNDM1LCJleHAiOjE5NTMxOTQ2Njl9.5TWTu1tMXROI5WEdVgw-qh6YbsjhoF63eL1cJiHLXJ7gqoC3mwEqwztabwB9WrYH5fq10OUCesRcbhhudCglHQ</code></pre>
 </div>
 </div>
 </div>
@@ -4323,7 +4528,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-06-21 17:38:42 +0900
+Last updated 2024-06-21 18:00:12 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
