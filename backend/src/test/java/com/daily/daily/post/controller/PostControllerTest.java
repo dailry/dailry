@@ -392,4 +392,58 @@ class PostControllerTest {
             ));
         }
     }
+
+    @Nested
+    @DisplayName("readPostByMember() - memberId을 통한 게시글 조회 테스트")
+    class readPostByMember {
+        @Test
+        @WithMockUser
+        @DisplayName("memberId로 검색할 경우 해당 member가 작성한 게시글 조회가 성공했을 때 응답 결과를 검사한다.")
+        void test1() throws Exception {
+            //given
+            PostReadSliceResponseDTO 게시글_memberId로_조회_dto = 게시글_memberId로_조회_DTO();
+            given(postService.findPostByMember(3L, PageRequest.of(0, 2))).willReturn(게시글_memberId로_조회_dto);
+
+            //when
+            ResultActions perform = mockMvc.perform(get("/api/posts/member/{memberId}", 3L)
+                    .with(csrf().asHeader())
+                    .queryParam("page", "0")
+                    .queryParam("size", "2")
+            );
+
+
+            //then
+            String content = perform.andExpect(status().isOk())
+                    .andReturn()
+                    .getResponse()
+                    .getContentAsString(StandardCharsets.UTF_8);
+
+            PostReadSliceResponseDTO 테스트_조회_결과 = objectMapper.readValue(content, PostReadSliceResponseDTO.class);
+            assertThat(테스트_조회_결과).usingRecursiveComparison().isEqualTo(게시글_memberId로_조회_dto);
+
+            //restdocs
+            perform.andDo(RestDocsUtil.document("게시글 memberId로 조회",
+                    pathParameters(
+                            parameterWithName("memberId").description("멤버 id")
+                    ),
+                    queryParameters(
+                            parameterWithName("page").description("페이지 번호(0부터 시작)"),
+                            parameterWithName("size").description("페이지 사이즈")
+                    ),
+                    responseFields(
+                            fieldWithPath("presentPage").type(NUMBER).description("현재 페이지 번호"),
+                            fieldWithPath("hasNext").type(BOOLEAN).description("다음 게시글이 존재하는지 유무"),
+                            fieldWithPath("posts").type(ARRAY).description("게시글 목록 배열"),
+                            fieldWithPath("posts[].postId").type(NUMBER).description("게시글 id"),
+                            fieldWithPath("posts[].content").type(STRING).description("게시글 본문 내용"),
+                            fieldWithPath("posts[].pageImage").type(STRING).description("게시된 다일리 이미지 URL"),
+                            fieldWithPath("posts[].hashtags").type(ARRAY).description("게시글 해시태그"),
+                            fieldWithPath("posts[].writerId").type(NUMBER).description("게시글 작성자 고유 식별자"),
+                            fieldWithPath("posts[].writerNickname").type(STRING).description("게시글 작성자 닉네임"),
+                            fieldWithPath("posts[].likeCount").type(NUMBER).description("좋아요 숫자"),
+                            fieldWithPath("posts[].createdTime").type(STRING).description("게시글 생성 시간")
+                    )
+            ));
+        }
+    }
 }

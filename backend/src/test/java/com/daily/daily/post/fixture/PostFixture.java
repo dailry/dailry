@@ -163,6 +163,37 @@ public class PostFixture {
                 .build();
     }
 
+    public static PostReadSliceResponseDTO 게시글_memberId로_조회_DTO() {
+        PostReadResponseDTO 게시글1 = PostReadResponseDTO.builder()
+                .postId(36L)
+                .content("오늘 다일리 어떤가요?")
+                .pageImage("https://imageURL123.com")
+                .writerId(3L)
+                .writerNickname("신입생123")
+                .hashtags(List.of("대학생", "시험기간"))
+                .createdTime(POST_CREATED_TIME)
+                .likeCount(5L)
+                .build();
+
+        PostReadResponseDTO 게시글2 = PostReadResponseDTO.builder()
+                .postId(38L)
+                .content("과제 실화냐..")
+                .pageImage("https://imageURL123.com")
+                .writerId(3L)
+                .writerNickname("다일리개발자")
+                .hashtags(List.of("대학생", "시험기간", "과제"))
+                .createdTime(POST_CREATED_TIME)
+                .likeCount(33L)
+                .build();
+
+        return PostReadSliceResponseDTO
+                .builder()
+                .hasNext(true)
+                .presentPage(7)
+                .posts(List.of(게시글1, 게시글2))
+                .build();
+    }
+
     public static MockMultipartFile 다일리_페이지_이미지_파일() {
         return new MockMultipartFile(
                 "pageImage",
