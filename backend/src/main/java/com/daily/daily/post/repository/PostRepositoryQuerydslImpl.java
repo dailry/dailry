@@ -94,4 +94,5 @@ public class PostRepositoryQuerydslImpl implements PostRepositoryQuerydsl {
 
         return new SliceImpl<>(posts, pageable, hasNext);
     }
+
 }

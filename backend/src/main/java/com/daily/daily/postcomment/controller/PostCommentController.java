@@ -66,4 +66,12 @@ public class PostCommentController {
         commentService.delete(deleterId, commentId);
         return new SuccessResponseDTO();
     }
+
+    @GetMapping("member/{memberId}/comments")
+    public PostCommentSliceDTO readCommentsByMember(
+            @PathVariable Long memberId,
+            Pageable pageable
+    ) {
+        return commentService.readCommentsByMemberId(memberId, pageable);
+    }
 }
