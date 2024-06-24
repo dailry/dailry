@@ -20,7 +20,6 @@ import useNewDecorateComponent from '../../hooks/useNewDecorateComponent/useNewD
 import DecorateWrapper from '../../components/decorate/DecorateWrapper';
 import TypedDecorateComponent from '../../components/decorate/TypedDecorateComponent';
 import useEditDecorateComponent from '../../hooks/useEditDecorateComponent';
-import useUpdatedDecorateComponents from '../../hooks/useUpdatedDecorateComponents';
 import { TEXT } from '../../styles/color';
 import MoveableComponent from '../../components/Moveable/Moveable';
 import usePageData from '../../hooks/usePageData';
@@ -47,15 +46,11 @@ const DailryPage = () => {
   const dailryId = Number(params.dailryId);
   const pageNumber = Number(params.pageNumber);
 
-  const { decorateComponents, dispatchDecorateComponents } =
-    useDecorateComponents();
-
   const {
-    updatedDecorateComponents,
-    setUpdatedDecorateComponents,
-    addUpdatedDecorateComponent,
-    modifyUpdatedDecorateComponent,
-  } = useUpdatedDecorateComponents();
+    decorateComponents,
+    dispatchDecorateComponents,
+    getUpdatedDecorateComponents,
+  } = useDecorateComponents();
 
   const {
     newDecorateComponent,
@@ -66,7 +61,6 @@ const DailryPage = () => {
     decorateComponents,
     pageRef,
     dispatchDecorateComponents,
-    addUpdatedDecorateComponent,
   );
 
   const {
@@ -77,13 +71,10 @@ const DailryPage = () => {
     setCanEditDecorateComponentTypeContent,
     setCanEditDecorateComponentCommonProperty,
     completeModifyDecorateComponent,
-  } = useEditDecorateComponent(
-    dispatchDecorateComponents,
-    modifyUpdatedDecorateComponent,
-  );
+  } = useEditDecorateComponent(dispatchDecorateComponents);
 
   const { appendPageDataToFormData, formData } = usePageData(
-    updatedDecorateComponents,
+    getUpdatedDecorateComponents(),
   );
 
   const isMoveable = () => target && editMode === EDIT_MODE.COMMON_PROPERTY;
@@ -110,14 +101,14 @@ const DailryPage = () => {
       pageImg.toBlob(async (pageImageBlob) => {
         appendPageDataToFormData(
           pageImageBlob,
-          updatedDecorateComponents,
+          getUpdatedDecorateComponents(),
           deletedDecorateComponentIds,
         );
 
         await patchPage(currentDailryPage.pageId, formData);
       });
 
-      setUpdatedDecorateComponents([]);
+      dispatchDecorateComponents({ type: 'setUpdateIsDone' });
     }, 100);
   };
 
@@ -133,11 +124,11 @@ const DailryPage = () => {
     }
 
     setTimeout(() => {
-      if (updatedDecorateComponents.length > 0) {
+      if (getUpdatedDecorateComponents().length > 0) {
         patchPageData();
       }
 
-      setUpdatedDecorateComponents([]);
+      dispatchDecorateComponents({ type: 'setUpdateIsDone' });
     }, 1000);
 
     // setPageId(
@@ -341,14 +332,14 @@ const DailryPage = () => {
                   return;
                 }
                 if (
-                  updatedDecorateComponents.length > 0 &&
+                  getUpdatedDecorateComponents().length > 0 &&
                   window.confirm(
                     '저장 하지 않은 꾸미기 컴포넌트가 존재합니다. 저장하시겠습니까?',
                   )
                 ) {
                   patchPageData();
                 }
-                setUpdatedDecorateComponents([]);
+                dispatchDecorateComponents({ type: 'setUpdateIsDone' });
                 const res = await postPage(dailryId);
                 if (res) {
                   const {

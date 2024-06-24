@@ -1,32 +1,7 @@
 import { useEffect, useReducer } from 'react';
 import { useDailryContext } from '../useDailryContext';
 import { getPage } from '../../apis/dailryApi';
-
-const decorateComponentReducer = (decorateComponents, action) => {
-  switch (action.type) {
-    case 'setAll': {
-      return [...decorateComponents].concat(action.decorateComponents);
-    }
-    case 'addNew': {
-      return [...decorateComponents, action.newDecorateComponent];
-    }
-    case 'modify': {
-      const toModifyDecorateComponent = decorateComponents.find(
-        (d) => d.id === action.toModifyDecorateComponent.id,
-      );
-      return [
-        ...decorateComponents,
-        toModifyDecorateComponent ?? action.toModifyDecorateComponent,
-      ];
-    }
-    case 'delete': {
-      return [...decorateComponents].filter((d) => d.id !== action.id);
-    }
-    default: {
-      throw Error(`Unknown action:${action.type}`);
-    }
-  }
-};
+import { decorateComponentReducer } from './decorateComponentsReducer';
 
 const useDecorateComponents = () => {
   const { currentDailry, currentDailryPage } = useDailryContext();
@@ -39,6 +14,13 @@ const useDecorateComponents = () => {
   useEffect(() => {
     console.log(decorateComponents);
   }, [decorateComponents]);
+
+  const getUpdatedDecorateComponents = () => {
+    const filteredDecorateComponents = decorateComponents.filter(
+      (component) => component.isUpdated === true,
+    );
+    return filteredDecorateComponents;
+  };
 
   useEffect(() => {
     (async () => {
@@ -72,6 +54,7 @@ const useDecorateComponents = () => {
   return {
     decorateComponents,
     dispatchDecorateComponents,
+    getUpdatedDecorateComponents,
   };
 };
 

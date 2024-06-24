@@ -6,7 +6,6 @@ const useNewDecorateComponent = (
   decorateComponents,
   pageRef,
   dispatchDecorateComponents,
-  addUpdatedDecorateComponent,
 ) => {
   const [newDecorateComponent, setNewDecorateComponent] = useState(null);
 
@@ -36,8 +35,11 @@ const useNewDecorateComponent = (
 
   const completeCreateNewDecorateComponent = () => {
     if (isCreationCompleted) {
-      dispatchDecorateComponents({ type: 'addNew', newDecorateComponent });
-      addUpdatedDecorateComponent(newDecorateComponent);
+      dispatchDecorateComponents({
+        type: 'addNew',
+        newDecorateComponent,
+        isUpdated: true,
+      });
     }
     removeNewDecorateComponent();
   };

@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { EDIT_MODE } from '../constants/decorateComponent';
 
-const useEditDecorateComponent = (
-  modifyDecorateComponent,
-  modifyUpdatedDecorateComponent,
-) => {
+const useEditDecorateComponent = (dispatchDecorateComponents) => {
   const [canEditDecorateComponent, setCanEditDecorateComponent] =
     useState(null);
 
@@ -41,8 +38,11 @@ const useEditDecorateComponent = (
   };
 
   const completeModifyDecorateComponent = () => {
-    modifyDecorateComponent(canEditDecorateComponent);
-    modifyUpdatedDecorateComponent(canEditDecorateComponent);
+    dispatchDecorateComponents({
+      type: 'modify',
+      toModifyDecorateComponent: canEditDecorateComponent,
+      isUpdated: true,
+    });
   };
 
   useEffect(() => {
