@@ -1,6 +1,6 @@
 import { commonDecorateComponentProperties } from './properties';
 
-const getRelativePosition = (e, pageRef) => {
+export const getRelativePosition = (e, pageRef) => {
   const parentX = pageRef?.current?.getBoundingClientRect().left.toFixed();
   const parentY = pageRef?.current?.getBoundingClientRect().top.toFixed();
 
@@ -9,14 +9,14 @@ const getRelativePosition = (e, pageRef) => {
   return { x: clientX - parentX, y: clientY - parentY };
 };
 
-export const getCommonDecorateComponentProperties = (e, pageRef) => {
+export const getCommonDecorateComponentProperties = (position) => {
   return {
     ...commonDecorateComponentProperties,
     id: `decorate-component-${new Date().toISOString()}`,
-    position: getRelativePosition(e, pageRef),
+    position,
     initialStyle: {
       ...commonDecorateComponentProperties.initialStyle,
-      position: getRelativePosition(e, pageRef),
+      position,
     },
   };
 };

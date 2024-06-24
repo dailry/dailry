@@ -4,7 +4,6 @@ import { getCommonDecorateComponentProperties } from './createNewDecorateCompone
 
 const useNewDecorateComponent = (
   decorateComponents,
-  pageRef,
   dispatchDecorateComponents,
 ) => {
   const [newDecorateComponent, setNewDecorateComponent] = useState(null);
@@ -13,9 +12,9 @@ const useNewDecorateComponent = (
     setNewDecorateComponent(null);
   };
 
-  const createNewDecorateComponent = (e, type) => {
+  const createNewDecorateComponent = (position, type) => {
     setNewDecorateComponent({
-      ...getCommonDecorateComponentProperties(e, pageRef),
+      ...getCommonDecorateComponentProperties(position),
       ...typedDecorateComponentProperties[type],
       type,
       order: decorateComponents.length,

@@ -29,6 +29,7 @@ import PageNavigator from '../../components/dailryPage/pageList/PageNavigator/Pa
 import { PATH_NAME } from '../../constants/routes';
 import { useDailryContext } from '../../hooks/useDailryContext';
 import useDecorateComponents from '../../hooks/decorateComponent/useDecorateComponents';
+import { getRelativePosition } from '../../hooks/useNewDecorateComponent/createNewDecorateComponent';
 // import { PATH_NAME } from '../../constants/routes';
 
 const DailryPage = () => {
@@ -57,11 +58,7 @@ const DailryPage = () => {
     createNewDecorateComponent,
     setNewDecorateComponentTypeContent,
     completeCreateNewDecorateComponent,
-  } = useNewDecorateComponent(
-    decorateComponents,
-    pageRef,
-    dispatchDecorateComponents,
-  );
+  } = useNewDecorateComponent(decorateComponents, dispatchDecorateComponents);
 
   const {
     editMode,
@@ -171,8 +168,9 @@ const DailryPage = () => {
       completeCreateNewDecorateComponent();
       return;
     }
+    const position = getRelativePosition(e, pageRef);
 
-    createNewDecorateComponent(e, selectedTool);
+    createNewDecorateComponent(position, selectedTool);
   };
 
   const handleClickDecorate = (e, index, element) => {
